@@ -1,18 +1,16 @@
 import {View, Text} from 'react-native';
 import React from 'react';
 import {SafeAreaView} from 'react-native-safe-area-context';
+import {BannerComponent, TopBarComponent} from '../../components';
+import {BannerContainer} from './HomeScreen.styles';
 
 const HomeScreen = () => {
   return (
     <SafeAreaView>
-      <Text>HomeScreetttttttttttttttttttttttttttn</Text>
-      <Text>HomeScreetttttttttttttttttttttttttttn</Text>
-      <Text>HomeScreetttttttttttttttttttttttttttn</Text>
-      <Text>HomeScreetttttttttttttttttttttttttttn</Text>
-      <Text>HomeScreetttttttttttttttttttttttttttn</Text>
-      <Text>HomeScreetttttttttttttttttttttttttttn</Text>
-      <Text>HomeScreetttttttttttttttttttttttttttn</Text>
-      <Text>HomeScreetttttttttttttttttttttttttttn</Text>
+      <TopBarComponent />
+      <BannerContainer>
+        <BannerComponent />
+      </BannerContainer>
     </SafeAreaView>
   );
 };
