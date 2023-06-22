@@ -11,6 +11,7 @@ import {
   WatchNowButton,
   WatchNowButtonText,
   WatchNowContainer,
+  WatchNowIcon,
   Wrapper,
 } from './BannerCard.styles';
 
@@ -38,6 +39,7 @@ const BannerCard = ({image, rating, title, screenSize}: Props) => {
           </TopContainer>
           <WatchNowContainer>
             <WatchNowButton>
+              <WatchNowIcon />
               <WatchNowButtonText>Watch now</WatchNowButtonText>
             </WatchNowButton>
           </WatchNowContainer>

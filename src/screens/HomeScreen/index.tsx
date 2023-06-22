@@ -1,16 +1,20 @@
-import {View, Text} from 'react-native';
+import {View, Text, Pressable} from 'react-native';
 import React from 'react';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {BannerComponent, TopBarComponent} from '../../components';
-import {BannerContainer} from './HomeScreen.styles';
+import {CWContainer, SectionContainer} from './HomeScreen.styles';
+import {ContuineWatchingContainer} from '../../containers';
 
 const HomeScreen = () => {
   return (
     <SafeAreaView>
       <TopBarComponent />
-      <BannerContainer>
+      <SectionContainer>
         <BannerComponent />
-      </BannerContainer>
+      </SectionContainer>
+      <CWContainer>
+        <ContuineWatchingContainer />
+      </CWContainer>
     </SafeAreaView>
   );
 };

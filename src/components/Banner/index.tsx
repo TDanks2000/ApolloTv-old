@@ -1,13 +1,22 @@
 import {View, useWindowDimensions} from 'react-native';
 import React from 'react';
-import {Container, Wrapper} from './Banner.styles';
+import {
+  Circle,
+  Circles,
+  Container,
+  SelectedCircle,
+  Wrapper,
+} from './Banner.styles';
 import {AnimeTrending} from '../../utils/TestData';
-import BannerCard from './BannerItem]';
+import BannerCard from './BannerItem';
+import {NativeSyntheticEvent} from 'react-native';
+import {NativeScrollEvent} from 'react-native';
 
 const BannerComponent = () => {
+  const [index, setCurrentIndex] = React.useState(0);
   const {results: data} = AnimeTrending;
   const {width} = useWindowDimensions();
-  const screenSize = width * 0.8;
+  const screenSize = width * 0.84;
 
   const renderItem: any = ({item}: any) => {
     return (
@@ -21,6 +30,13 @@ const BannerComponent = () => {
     );
   };
 
+  const onScroll = (e: NativeSyntheticEvent<NativeScrollEvent>) => {
+    const totalWidth = e.nativeEvent.layoutMeasurement.width;
+    const xPos = e.nativeEvent.contentOffset.x * 1.15;
+    const current = Math.floor(xPos / totalWidth);
+    setCurrentIndex(current <= 0 ? 0 : current);
+  };
+
   return (
     <Container>
       <Wrapper
@@ -28,12 +44,22 @@ const BannerComponent = () => {
         renderItem={renderItem}
         horizontal
         bounces={false}
+        pagingEnabled
         decelerationRate={'fast'}
         showsHorizontalScrollIndicator={false}
         scrollEventThrottle={16}
-        snapToInterval={screenSize}
-        ItemSeparatorComponent={() => <View style={{width: 20}} />}
+        // snapToInterval={screenSize}
+        snapToAlignment="center"
+        ItemSeparatorComponent={() => <View style={{width: 15}} />}
+        onScroll={onScroll}
       />
+      <Circles>
+        {data.map((item: any, dataIndex: number) => {
+          console.log('dataIndex', dataIndex);
+          if (dataIndex !== index) return <Circle />;
+          if (dataIndex === index) return <SelectedCircle />;
+        })}
+      </Circles>
     </Container>
   );
 };
