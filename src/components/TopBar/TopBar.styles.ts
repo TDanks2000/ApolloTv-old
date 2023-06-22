@@ -30,6 +30,7 @@ export const ProfileTextContainer = styled.View`
   flex-direction: column;
   justify-content: center;
   margin-left: 10px;
+  gap: -3px;
 `;
 
 export const ProfileText = styled.Text`

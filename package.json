@@ -13,6 +13,7 @@
     "@react-native-community/blur": "^4.3.2",
     "@react-navigation/native": "^6.1.6",
     "@react-navigation/native-stack": "^6.9.12",
+    "polished": "^4.2.2",
     "react": "18.2.0",
     "react-native": "0.71.8",
     "react-native-linear-gradient": "^2.7.3",

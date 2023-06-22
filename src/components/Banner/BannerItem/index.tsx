@@ -19,10 +19,12 @@ interface Props {
   image: string;
   title: string;
   rating: string;
-  screenSize: number;
 }
 
-const BannerCard = ({image, rating, title, screenSize}: Props) => {
+const BannerCard = ({image, rating, title}: Props) => {
+  const {width} = useWindowDimensions();
+  const screenSize = width * 0.84;
+
   return (
     <Container width={screenSize}>
       <ImageBackground

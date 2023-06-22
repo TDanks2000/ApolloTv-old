@@ -9,14 +9,12 @@ import {
 } from './Banner.styles';
 import {AnimeTrending} from '../../utils/TestData';
 import BannerCard from './BannerItem';
-import {NativeSyntheticEvent} from 'react-native';
-import {NativeScrollEvent} from 'react-native';
+import {NativeSyntheticEvent, NativeScrollEvent} from 'react-native';
 
 const BannerComponent = () => {
-  const [index, setCurrentIndex] = React.useState(0);
   const {results: data} = AnimeTrending;
-  const {width} = useWindowDimensions();
-  const screenSize = width * 0.84;
+
+  const [index, setCurrentIndex] = React.useState(0);
 
   const renderItem: any = ({item}: any) => {
     return (
@@ -25,7 +23,6 @@ const BannerComponent = () => {
         image={item.image}
         rating={item.rating}
         title={item.title?.english}
-        screenSize={screenSize}
       />
     );
   };
@@ -55,9 +52,10 @@ const BannerComponent = () => {
       />
       <Circles>
         {data.map((item: any, dataIndex: number) => {
-          console.log('dataIndex', dataIndex);
-          if (dataIndex !== index) return <Circle />;
-          if (dataIndex === index) return <SelectedCircle />;
+          if (dataIndex !== index)
+            return <Circle key={`paginate-circle${dataIndex}`} />;
+          if (dataIndex === index)
+            return <SelectedCircle key={`paginate-circle${dataIndex}`} />;
         })}
       </Circles>
     </Container>
