@@ -5,6 +5,10 @@ export const SectionContainer = styled.View`
   margin: 0 20px;
 `;
 
+export const SectionWrapper = styled.View`
+  margin-top: 15px;
+`;
+
 export const SectionTitleContainer = styled.View`
   width: 100%;
   display: flex;
@@ -16,6 +20,7 @@ export const SectionTitleContainer = styled.View`
 export const SectionTitle = styled.Text`
   font-size: 18px;
   color: white;
+  font-family: ${({theme}) => theme.text.fonts.openSans.regular};
 `;
 
 export const SectionTitleIcon = styled(Icon)`

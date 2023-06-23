@@ -1,3 +1,7 @@
-import {ContuineWatchingContainer} from './Sections';
+import {
+  ContuineWatchingContainer,
+  PopularContainer,
+  GenericSection,
+} from './Sections';
 
-export {ContuineWatchingContainer};
+export {ContuineWatchingContainer, PopularContainer, GenericSection};

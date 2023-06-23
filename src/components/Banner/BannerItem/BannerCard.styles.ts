@@ -6,7 +6,8 @@ interface ContainerProps {
   width: number;
 }
 
-export const Container = styled.View<ContainerProps>`
+export const Container = styled.TouchableOpacity<ContainerProps>`
+  background-color: ${({theme}) => theme.base.mainColor};
   width: ${({width}) => width}px;
   height: 250px;
   border-radius: 15px;
@@ -40,9 +41,11 @@ export const TopContainer = styled.View`
 
 export const Title = styled.Text`
   color: white;
-  font-weight: bold;
-  font-size: 20px;
+  /* font-weight: bold; */
+  font-size: 19px;
   width: 60%;
+
+  font-family: ${({theme}) => theme.text.fonts.openSans.bold};
 `;
 
 export const RatingContainer = styled(LinearGradient).attrs({
@@ -60,6 +63,7 @@ export const RatingContainer = styled(LinearGradient).attrs({
 
 export const RatingText = styled.Text`
   color: white;
+  font-family: ${({theme}) => theme.text.fonts.openSans.regular};
 `;
 
 export const RatingIcon = styled(Icon)`
@@ -89,6 +93,7 @@ export const WatchNowButton = styled.TouchableOpacity`
 export const WatchNowButtonText = styled.Text`
   color: white;
   font-size: 15px;
+  font-family: ${({theme}) => theme.text.fonts.openSans.regular};
 `;
 
 export const WatchNowIcon = styled(Icon).attrs({

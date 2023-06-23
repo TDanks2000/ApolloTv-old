@@ -6,7 +6,8 @@ interface ContainerProps {
   width: number;
 }
 
-export const Container = styled.View<ContainerProps>`
+export const Container = styled.TouchableOpacity<ContainerProps>`
+  background-color: ${({theme}) => theme.base.mainColor};
   width: ${({width}) => width - 150}px;
   height: 150px;
   border-radius: 15px;
@@ -44,12 +45,13 @@ export const BottomBannerText = styled.Text.attrs({
 })`
   color: white;
   padding: 0 15px;
+  font-family: ${({theme}) => theme.text.fonts.openSans.regular};
 `;
 
 export const PercentWatchedContainer = styled.View`
   width: 100%;
   background-color: ${({theme}) => rgba(theme.base.mainColor, 0.4)};
-  height: 2px;
+  height: 5px;
   position: absolute;
   top: 0;
   left: 0;

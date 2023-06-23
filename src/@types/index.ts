@@ -17,3 +17,8 @@ export interface CardProps {
   poster_image?: string;
   rating?: number;
 }
+
+export type RootStackParamList = {
+  Home: undefined;
+  Info: {id: string};
+};

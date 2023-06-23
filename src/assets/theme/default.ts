@@ -18,10 +18,21 @@ export const defaultTheme = {
     success: '#388e3c',
     confused: '#ab47bc',
     danger: '#eb2f06',
-    font: {
-      primary: 'OpenSans_400Regular',
-      secondary: 'OpenSans_800ExtraBold',
-      semiBold: 'OpenSans_600SemiBold',
+    fonts: {
+      openSans: {
+        light: 'OpenSans-Light',
+        regular: 'OpenSans-Regular',
+        semiBold: 'OpenSans-SemiBold',
+        bold: 'OpenSans-Bold',
+        extraBold: 'OpenSans-ExtraBold',
+      },
+      Inconsolata: {
+        light: 'Inconsolata-Light',
+        regular: 'Inconsolata-Regular',
+        medium: 'Inconsolata-Medium',
+        semiBold: 'Inconsolata-SemiBold',
+        bold: 'Inconsolata-Bold',
+      },
     },
   },
 };

@@ -1,0 +1,49 @@
+{
+  "migIndex": 1,
+  "data": [
+    {
+      "path": "assets/fonts/Inconsolata-Bold.ttf",
+      "sha1": "4cef458cf354b5c2480b9e47f0223791cf252aa7"
+    },
+    {
+      "path": "assets/fonts/Inconsolata-Light.ttf",
+      "sha1": "fd0d158d1038802214e7f090513d193a2762f194"
+    },
+    {
+      "path": "assets/fonts/Inconsolata-Medium.ttf",
+      "sha1": "7efb9f294ca8294329b86d9950573a8e955d31b0"
+    },
+    {
+      "path": "assets/fonts/Inconsolata-Regular.ttf",
+      "sha1": "38e2405163f86b864875c6cb7a52faa917b37f5d"
+    },
+    {
+      "path": "assets/fonts/Inconsolata-SemiBold.ttf",
+      "sha1": "464aae0fa237ec622349a36cf37a6ac34d907994"
+    },
+    {
+      "path": "assets/fonts/OpenSans-Bold.ttf",
+      "sha1": "b4dc84e68228806b968ebe82c7c5b5af77a06d89"
+    },
+    {
+      "path": "assets/fonts/OpenSans-ExtraBold.ttf",
+      "sha1": "851da594c96a09a23e62b6cfc181d690ecffd86c"
+    },
+    {
+      "path": "assets/fonts/OpenSans-Light.ttf",
+      "sha1": "e2459420803db88d57703181d6d3661012566304"
+    },
+    {
+      "path": "assets/fonts/OpenSans-Medium.ttf",
+      "sha1": "3469ccd39b964a970d4d2dccfc67abccd746b2b3"
+    },
+    {
+      "path": "assets/fonts/OpenSans-Regular.ttf",
+      "sha1": "4387c5a4c1a4c5bcb5b9b0c67b4a9cab7b3faf26"
+    },
+    {
+      "path": "assets/fonts/OpenSans-SemiBold.ttf",
+      "sha1": "a142399161a7475e288d43c7e559d6034100cde7"
+    }
+  ]
+}

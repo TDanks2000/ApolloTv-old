@@ -1,24 +1,25 @@
-import {View, Text, FlatList} from 'react-native';
+import {View, FlatList} from 'react-native';
 import React from 'react';
 import {
   SectionContainer,
   SectionTitle,
   SectionTitleContainer,
-  SectionTitleIcon,
   SectionWrapper,
 } from '../Sections.shared.styles';
-import {ContinueWatchingCard} from '../../../components';
 import {AnimeTrending} from '../../../utils/TestData';
+import {RectangleCard} from '../../../components';
 
-const ContuineWatchingContainer = () => {
+const PopularContainer = () => {
   const {results: data} = AnimeTrending;
+
   const renderItem = ({item}: any) => {
     return (
-      <ContinueWatchingCard
+      <RectangleCard
         key={item.id}
         title={item.title}
         poster_image={item.image}
         id={item.id}
+        rating={item.rating}
       />
     );
   };
@@ -26,7 +27,7 @@ const ContuineWatchingContainer = () => {
   return (
     <SectionContainer>
       <SectionTitleContainer>
-        <SectionTitle>Contuine Watching</SectionTitle>
+        <SectionTitle>Popular</SectionTitle>
       </SectionTitleContainer>
       <SectionWrapper>
         <FlatList
@@ -41,4 +42,4 @@ const ContuineWatchingContainer = () => {
   );
 };
 
-export default ContuineWatchingContainer;
+export default PopularContainer;

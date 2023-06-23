@@ -6,6 +6,7 @@ import {
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {
   HomeScreen,
+  InfoScreen,
   ListsScreen,
   SearchScreen,
   SettingsScreen,
@@ -37,6 +38,7 @@ const AppStack = ({setHiddenStatusBar}: {setHiddenStatusBar: boolean}) => {
       <Stack.Navigator
         initialRouteName="Home"
         screenOptions={{
+          animation: 'slide_from_left',
           headerShown: false,
           contentStyle: {
             backgroundColor: '#0f0f0f',
@@ -46,6 +48,7 @@ const AppStack = ({setHiddenStatusBar}: {setHiddenStatusBar: boolean}) => {
         <Stack.Screen name="Lists" component={ListsScreen} />
         <Stack.Screen name="Search" component={SearchScreen} />
         <Stack.Screen name="Settings" component={SettingsScreen} />
+        <Stack.Screen name="Info" component={InfoScreen} />
       </Stack.Navigator>
       <NavigationBar
         currentRoute={routeNameRef === undefined ? 'loading' : routeNameRef}
