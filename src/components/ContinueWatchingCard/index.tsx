@@ -11,14 +11,22 @@ import {
   PercentWatchedContainer,
   Wrapper,
 } from './ContinueWatchingCard.styles';
+import {useNavigation} from '@react-navigation/native';
 
-const ContinueWatchingCard = ({title, poster_image, rating}: CardProps) => {
+const ContinueWatchingCard = ({title, poster_image, rating, id}: CardProps) => {
+  const navigation: any = useNavigation();
+
   const {width} = useWindowDimensions();
   const screenSize = width * 0.84;
 
   const actualTitle = utils.getTitle(title, 'english');
+
+  const onPress = () => {
+    navigation.navigate('Info', {id});
+  };
+
   return (
-    <Container width={width}>
+    <Container width={width} onPress={onPress}>
       <ImageBackground
         source={{
           uri: poster_image,

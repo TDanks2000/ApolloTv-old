@@ -3,47 +3,41 @@ import React from 'react';
 import {
   Container,
   ImageBackground,
-  RatingContainer,
-  RatingIcon,
-  RatingText,
   Title,
   TopContainer,
-  WatchNowButton,
-  WatchNowButtonText,
   WatchNowContainer,
-  WatchNowIcon,
   Wrapper,
 } from './BannerCard.styles';
+import {useNavigation} from '@react-navigation/native';
+import {CardProps} from '../../../@types';
+import {utils} from '../../../utils';
+import {RatingComponent, WatchNowComponent} from '../../Shared';
 
-interface Props {
-  image: string;
-  title: string;
-  rating: string;
-}
+const BannerCard = ({poster_image, rating, title, id}: CardProps) => {
+  const actualTitle = utils.getTitle(title);
+  const navigation: any = useNavigation();
 
-const BannerCard = ({image, rating, title}: Props) => {
   const {width} = useWindowDimensions();
   const screenSize = width * 0.84;
 
+  const onPress = () => {
+    navigation.navigate('Info', {id});
+  };
+
   return (
-    <Container width={screenSize}>
+    <Container width={screenSize} onPress={onPress}>
       <ImageBackground
         source={{
-          uri: image,
+          uri: poster_image,
         }}>
         <Wrapper>
           <TopContainer>
-            <Title numberOfLines={2}>{title}</Title>
-            <RatingContainer>
-              <RatingText>7.1</RatingText>
-              <RatingIcon name="star" />
-            </RatingContainer>
+            <Title numberOfLines={2}>{actualTitle}</Title>
+
+            <RatingComponent rating={rating} />
           </TopContainer>
           <WatchNowContainer>
-            <WatchNowButton>
-              <WatchNowIcon />
-              <WatchNowButtonText>Watch now</WatchNowButtonText>
-            </WatchNowButton>
+            <WatchNowComponent />
           </WatchNowContainer>
         </Wrapper>
       </ImageBackground>

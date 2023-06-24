@@ -31,34 +31,11 @@ export const Wrapper = styled(LinearGradient).attrs({
   padding: 10px;
 `;
 
-export const RatingContainer = styled.View`
-  width: 100%;
-  height: 30px;
+export const RatingWrapper = styled.View`
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
-`;
-
-export const RatingWrapper = styled(LinearGradient).attrs({
-  colors: ['rgba(255, 255, 255, .3)', 'rgba(0, 0, 0, .5)'],
-  start: {x: 1.3, y: 0},
-  end: {x: 0, y: 1},
-})`
-  display: flex;
-  flex-direction: row;
-  gap: 10px;
-  align-items: center;
-  padding: 5px 10px;
-  border-radius: 10px;
-`;
-
-export const RatingText = styled.Text`
-  color: white;
-  font-family: ${({theme}) => theme.text.fonts.openSans.regular};
-`;
-
-export const RatingIcon = styled(Icon)`
-  color: ${({theme}) => theme.base.gold};
+  align-items: flex-start;
 `;
 
 export const Title = styled.Text.attrs({

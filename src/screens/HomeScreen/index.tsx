@@ -1,4 +1,3 @@
-import {View, Text, ScrollView} from 'react-native';
 import React from 'react';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {BannerComponent, TopBarComponent} from '../../components';
@@ -8,11 +7,12 @@ import {
   GenericSection,
   PopularContainer,
 } from '../../containers';
+import {ScrollView} from '../../styles/sharedStyles';
 
 const HomeScreen = () => {
   return (
     <SafeAreaView>
-      <ScrollView contentContainerStyle={{paddingBottom: 100}}>
+      <ScrollView>
         <TopBarComponent />
         <SectionContainer>
           <BannerComponent />

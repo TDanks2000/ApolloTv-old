@@ -20,7 +20,8 @@ const BannerComponent = () => {
     return (
       <BannerCard
         key={item.id}
-        image={item.image}
+        poster_image={item.image}
+        id={item.id}
         rating={item.rating}
         title={item.title?.english}
       />

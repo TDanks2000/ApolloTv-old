@@ -9,7 +9,7 @@ export const NavBarContainer = styled.View`
   bottom: 20px;
   left: 0;
   width: 100%;
-  height: 70px;
+  height: 60px;
 `;
 
 export const NavBarWrapper = styled.View`
@@ -37,7 +37,7 @@ export const NavBarItem = styled.TouchableOpacity<NavBarIconProps>`
   justify-content: center;
   background-color: ${({theme, isFocused}) =>
     !isFocused ? 'transparent' : theme.base.mainColor};
-  padding: ${({isFocused}) => (isFocused ? '10px 15px' : '0')};
+  padding: ${({isFocused}) => (isFocused ? '6px 15px' : '0')};
   border-radius: 20px;
 `;
 

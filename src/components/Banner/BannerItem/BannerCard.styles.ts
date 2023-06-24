@@ -76,29 +76,3 @@ export const WatchNowContainer = styled.View`
   justify-content: center;
   align-items: center;
 `;
-
-export const WatchNowButton = styled.TouchableOpacity`
-  position: relative;
-  background-color: rgba(0, 0, 0, 1);
-  padding: 10px 18px;
-  border-radius: 8px;
-  backdrop-filter: blur(100px);
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  gap: 10px;
-`;
-
-export const WatchNowButtonText = styled.Text`
-  color: white;
-  font-size: 15px;
-  font-family: ${({theme}) => theme.text.fonts.openSans.regular};
-`;
-
-export const WatchNowIcon = styled(Icon).attrs({
-  name: 'play-circle-o',
-})`
-  font-size: 18px;
-  color: white;
-`;

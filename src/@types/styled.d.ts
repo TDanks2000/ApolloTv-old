@@ -15,6 +15,13 @@ declare module 'styled-components/native' {
       gold: string;
     };
 
+    spacing: {
+      paddingLeft: string;
+      paddingRight: string;
+      paddingTop: string;
+      paddingBottom: string;
+    };
+
     text: {
       primary: string;
       secondary: string;

@@ -1,4 +1,6 @@
-export const defaultTheme = {
+import {DefaultTheme} from 'styled-components/native';
+
+export const defaultTheme: DefaultTheme = {
   base: {
     mainColor: '#7d5fff',
     SecondColor: '#fff',
@@ -8,6 +10,12 @@ export const defaultTheme = {
     darkBg: '#0f0f0f',
     offDarkBg: '#212121',
     gold: '#FFDF00',
+  },
+  spacing: {
+    paddingBottom: '25px',
+    paddingTop: '25px',
+    paddingRight: '25px',
+    paddingLeft: '25px',
   },
   text: {
     primary: '#fff',
