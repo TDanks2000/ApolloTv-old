@@ -8,7 +8,7 @@ export const Container = styled.View`
   position: relative;
 `;
 
-export const Wrapper = styled.View`
+export const Wrapper = styled.TouchableOpacity`
   position: relative;
   width: 100%;
   height: 45px;

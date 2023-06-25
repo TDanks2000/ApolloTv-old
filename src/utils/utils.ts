@@ -1,4 +1,5 @@
 import {ITitleLanguageOptions, TitleLanguageOptions} from '../@types';
+import sanitizer from 'sanitize-html';
 
 export const getTitle = (
   title: string | ITitleLanguageOptions,
@@ -21,4 +22,10 @@ export const getTitle = (
     title.userPreferred ??
     undefined
   );
+};
+
+export const textSanitizer = (textWithHTML: string): string => {
+  return sanitizer(textWithHTML, {
+    allowedTags: [],
+  });
 };

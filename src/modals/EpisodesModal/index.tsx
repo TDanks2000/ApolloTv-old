@@ -1,23 +1,16 @@
-import {Modal, Text} from 'react-native';
+import {Modal, ScrollView} from 'react-native';
 import React from 'react';
 import {ModalContainer} from '../../styles/sharedStyles';
 import {
   BackButton,
   BackButtonIcon,
-  BottomBanner,
-  BottomBannerTextContainer,
   Container,
-  EpisodeContainer,
-  EpisodeImageBackground,
-  EpisodeNumber,
-  EpisodeTitle,
-  PercentWatched,
-  PercentWatchedContainer,
+  EpisodesWrapper,
   Title,
   TopContainer,
-  Wrapper,
 } from './EpisodesModal.styles';
-import {useNavigation} from '@react-navigation/native';
+
+import EpisodeCard from '../../components/EpisodeCard';
 
 interface Props {
   episodes: any[];
@@ -25,42 +18,42 @@ interface Props {
   setVisible: (value: boolean) => void;
 }
 
-const EpisodesModal = ({setVisible, visible = false}: Props) => {
+const EpisodesModal = ({setVisible, visible = false, episodes}: Props) => {
   const goBack = () => {
     setVisible(false);
   };
 
+  React.useEffect(() => {
+    if (!episodes) return;
+
+    if (episodes[0].number !== 1) episodes.sort((a, b) => b.number - a.number);
+  }, []);
+
   return (
     <Modal visible={visible} transparent={true} animationType={'slide'}>
       <ModalContainer>
-        <Container>
-          <TopContainer>
-            <BackButton onPress={goBack}>
-              <BackButtonIcon name="arrow-left" />
-            </BackButton>
-            <Title numberOfLines={1}>Odd Taxi</Title>
-          </TopContainer>
-          <EpisodeContainer>
-            <EpisodeImageBackground
-              source={{
-                uri: 'https://img1.ak.crunchyroll.com/i/spire2-tmb/bd24d88798ae448ef2255d1d5462e6cd1644849187_full',
-              }}>
-              <Wrapper>
-                <BottomBanner>
-                  <PercentWatchedContainer>
-                    <PercentWatched />
-                  </PercentWatchedContainer>
-                  <BottomBannerTextContainer>
-                    <EpisodeNumber numberOfLines={1}>Episode 1</EpisodeNumber>
-                    <EpisodeTitle numberOfLines={1}>
-                      The Eccentric Driver
-                    </EpisodeTitle>
-                  </BottomBannerTextContainer>
-                </BottomBanner>
-              </Wrapper>
-            </EpisodeImageBackground>
-          </EpisodeContainer>
-        </Container>
+        <ScrollView showsVerticalScrollIndicator={false}>
+          <Container>
+            <TopContainer>
+              <BackButton onPress={goBack}>
+                <BackButtonIcon name="arrow-left" />
+              </BackButton>
+              <Title numberOfLines={1}>Odd Taxi</Title>
+            </TopContainer>
+            <EpisodesWrapper>
+              {episodes.map((episode, index) => (
+                <EpisodeCard
+                  key={`episode-${index}`}
+                  id={episode.id}
+                  title={episode.title}
+                  image={episode.image}
+                  episode_number={episode.number}
+                  watched_percentage={Math.floor(Math.random() * 100)}
+                />
+              ))}
+            </EpisodesWrapper>
+          </Container>
+        </ScrollView>
       </ModalContainer>
     </Modal>
   );

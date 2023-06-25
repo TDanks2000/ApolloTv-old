@@ -12,3 +12,13 @@ export const ModalContainer = styled.View`
   height: 100%;
   background-color: ${({theme}) => theme.base.darkBg};
 `;
+
+export const SharedContainer = styled.View`
+  margin: 20px ${({theme}) => theme.spacing.paddingLeft};
+`;
+
+export const Text = styled.Text`
+  color: white;
+  font-family: ${({theme}) => theme.text.fonts.openSans.regular};
+  font-size: 16px;
+`;

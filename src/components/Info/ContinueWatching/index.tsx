@@ -15,7 +15,7 @@ const ContinueWatching = () => {
         <PercentWatched />
         <TextContainer>
           <TextIcon name="play-circle-o" />
-          <Text>Resume episode 99999</Text>
+          <Text>Resume episode 1</Text>
         </TextContainer>
       </Wrapper>
     </Container>

@@ -16,6 +16,18 @@ export interface CardProps {
   id: string;
   poster_image?: string;
   rating?: number;
+  total_episodes?: number;
+  color?: string;
+  type?: string;
+  release_year?: number;
+}
+
+export interface EpisodeCardProps {
+  title: string | undefined;
+  id: string;
+  image?: string;
+  episode_number?: number;
+  watched_percentage?: number;
 }
 
 export type RootStackParamList = {
