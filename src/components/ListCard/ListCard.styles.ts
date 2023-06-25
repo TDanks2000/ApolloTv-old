@@ -39,8 +39,10 @@ export const Title = styled(Text).attrs({
   ellipsizeMode: 'tail',
 })`
   font-weight: bold;
-  color: ${({theme}) => theme.base.mainColor};
+  color: ${({theme}) => theme.text.primary};
   font-size: 17px;
 `;
 
-export const ExtraText = styled(Text)``;
+export const ExtraText = styled(Text)`
+  color: ${({theme}) => theme.text.secondary};
+`;
