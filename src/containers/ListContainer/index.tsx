@@ -23,6 +23,9 @@ const ListContainer = ({data}: any) => {
       showsVerticalScrollIndicator={false}
       ItemSeparatorComponent={() => <View style={{height: 25}} />}
       contentContainerStyle={{paddingBottom: 200, paddingTop: 20}}
+      pagingEnabled
+      decelerationRate={16}
+      snapToAlignment="center"
     />
   );
 };
