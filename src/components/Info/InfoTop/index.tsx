@@ -13,8 +13,18 @@ import {
 } from './InfoTop.styles';
 import {RatingComponent, WatchNowComponent} from '../../Shared';
 import {useNavigation} from '@react-navigation/native';
+import {ITitleLanguageOptions} from '../../../@types';
+import {utils} from '../../../utils';
 
-const Top = () => {
+interface Props {
+  rating: number;
+  title: string | ITitleLanguageOptions;
+  poster_image: string;
+}
+
+const Top = ({rating, title, poster_image}: Props) => {
+  const actualTitle = utils.getTitle(title);
+
   const navigation = useNavigation();
 
   const goBack = () => {
@@ -25,18 +35,18 @@ const Top = () => {
     <Container>
       <ImageBackground
         source={{
-          uri: 'https://s4.anilist.co/file/anilistcdn/media/anime/banner/128547-aVWJmZz9dwJJ.jpg',
+          uri: poster_image,
         }}>
         <Wrapper>
           <TopContainer>
             <BackButton onPress={goBack}>
               <BackButtonIcon name="arrow-left" />
             </BackButton>
-            <RatingComponent rating={81} />
+            <RatingComponent rating={rating} />
           </TopContainer>
           <BottomContainer>
             {/* <SeasonText>Season 1</SeasonText> */}
-            <TitleText numberOfLines={1}>Odd Taxi</TitleText>
+            <TitleText numberOfLines={1}>{actualTitle}</TitleText>
             <WatchNowComponent WatchText="Watch trailer" />
           </BottomContainer>
         </Wrapper>

@@ -8,9 +8,18 @@ import {
 } from '../Sections.shared.styles';
 import {AnimeTrending} from '../../../utils/TestData';
 import {RectangleCard} from '../../../components';
+import {useQuery} from '@tanstack/react-query';
+import {api} from '../../../utils';
 
 const PopularContainer = () => {
-  const {results: data} = AnimeTrending;
+  const getPopularAnime = async () => {
+    return await api.fetcher(api.getSectionUrl('popular'));
+  };
+
+  const {isPending, isError, data, error} = useQuery({
+    queryKey: ['popularAnime'],
+    queryFn: getPopularAnime,
+  });
 
   const renderItem = ({item}: any) => {
     return (
@@ -23,6 +32,8 @@ const PopularContainer = () => {
       />
     );
   };
+
+  if (isPending || isError) return null;
 
   return (
     <SectionContainer>

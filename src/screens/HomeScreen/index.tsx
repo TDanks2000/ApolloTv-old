@@ -17,14 +17,14 @@ const HomeScreen = () => {
         <SectionContainer>
           <BannerComponent />
         </SectionContainer>
-        <CWContainer>
+        {/* <CWContainer>
           <ContuineWatchingContainer />
+        </CWContainer> */}
+        <CWContainer>
+          <GenericSection sectionTitle="Top Rated" sectionType={'top_rated'} />
         </CWContainer>
         <CWContainer>
-          <GenericSection sectionTitle="Popular" />
-        </CWContainer>
-        <CWContainer>
-          <GenericSection sectionTitle="Trending" />
+          <GenericSection sectionTitle="Trending" sectionType={'trending'} />
         </CWContainer>
       </ScrollView>
     </SafeAreaView>

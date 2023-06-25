@@ -8,13 +8,24 @@ import {
 } from '../Sections.shared.styles';
 import {AnimeTrending} from '../../../utils/TestData';
 import {RectangleCard} from '../../../components';
+import {api} from '../../../utils';
+import {useQuery} from '@tanstack/react-query';
+import {SectionTypes} from '../../../@types';
 
 interface Props {
   sectionTitle: string;
+  sectionType: SectionTypes;
 }
 
-const GenericSection = ({sectionTitle}: Props) => {
-  const {results: data} = AnimeTrending;
+const GenericSection = ({sectionTitle, sectionType}: Props) => {
+  const fetcher = async () => {
+    return await api.fetcher(api.getSectionUrl(sectionType));
+  };
+
+  const {isPending, isError, data, error} = useQuery({
+    queryKey: ['section', sectionType],
+    queryFn: fetcher,
+  });
 
   const renderItem = ({item}: any) => {
     return (
@@ -28,6 +39,8 @@ const GenericSection = ({sectionTitle}: Props) => {
     );
   };
 
+  if (isPending || isError) return null;
+
   return (
     <SectionContainer>
       <SectionTitleContainer>
@@ -37,7 +50,7 @@ const GenericSection = ({sectionTitle}: Props) => {
         <FlatList
           horizontal
           showsHorizontalScrollIndicator={false}
-          data={data}
+          data={data?.results}
           ItemSeparatorComponent={() => <View style={{width: 20}} />}
           renderItem={renderItem}
         />

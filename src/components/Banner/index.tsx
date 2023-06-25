@@ -10,9 +10,18 @@ import {
 import {AnimeTrending} from '../../utils/TestData';
 import BannerCard from './BannerItem';
 import {NativeSyntheticEvent, NativeScrollEvent} from 'react-native';
+import {api} from '../../utils';
+import {useQuery} from '@tanstack/react-query';
 
 const BannerComponent = () => {
-  const {results: data} = AnimeTrending;
+  const fetcher = async () => {
+    return await api.fetcher(api.getSectionUrl('trending'));
+  };
+
+  const {isPending, isError, data, error} = useQuery({
+    queryKey: ['Banner', 'trending'],
+    queryFn: fetcher,
+  });
 
   const [index, setCurrentIndex] = React.useState(0);
 
@@ -20,17 +29,19 @@ const BannerComponent = () => {
     return (
       <BannerCard
         key={item.id}
+        title={item.title}
         poster_image={item.image}
         id={item.id}
         rating={item.rating}
-        title={item.title?.english}
       />
     );
   };
 
+  if (isPending || isError) return null;
+
   const onScroll = (e: NativeSyntheticEvent<NativeScrollEvent>) => {
     const totalWidth = e.nativeEvent.layoutMeasurement.width;
-    const xPos = e.nativeEvent.contentOffset.x * 1.15;
+    const xPos = e.nativeEvent.contentOffset.x * 1.1;
     const current = Math.floor(xPos / totalWidth);
     setCurrentIndex(current <= 0 ? 0 : current);
   };
@@ -38,7 +49,7 @@ const BannerComponent = () => {
   return (
     <Container>
       <Wrapper
-        data={data}
+        data={data?.results}
         renderItem={renderItem}
         horizontal
         bounces={false}
@@ -52,7 +63,7 @@ const BannerComponent = () => {
         onScroll={onScroll}
       />
       <Circles>
-        {data.map((item: any, dataIndex: number) => {
+        {data?.results?.map((item: any, dataIndex: number) => {
           if (dataIndex !== index)
             return <Circle key={`paginate-circle${dataIndex}`} />;
           if (dataIndex === index)

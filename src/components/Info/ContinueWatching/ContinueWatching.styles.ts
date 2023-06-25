@@ -49,6 +49,6 @@ export const TextIcon = styled(Icon)`
 export const Text = styled.Text`
   font-size: 15px;
   color: white;
-  font-family: ${({theme}) => theme.text.fonts.openSans.regular};
+  font-family: ${({theme}) => theme.text.fonts.NunitoSans};
   text-transform: capitalize;
 `;

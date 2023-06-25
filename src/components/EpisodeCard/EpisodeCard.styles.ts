@@ -62,12 +62,12 @@ export const BottomBannerTextContainer = styled.View`
 
 export const EpisodeNumber = styled.Text`
   color: ${({theme}) => theme.text.offWhite};
-  font-family: ${({theme}) => theme.text.fonts.openSans.regular};
+  font-family: ${({theme}) => theme.text.fonts.NunitoSans};
 `;
 
 export const EpisodeTitle = styled.Text`
   color: white;
-  font-family: ${({theme}) => theme.text.fonts.openSans.regular};
+  font-family: ${({theme}) => theme.text.fonts.NunitoSans};
 `;
 
 export const PercentWatchedContainer = styled.View`

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {
   BottomMetaInfo,
   BottomMetaInfoItem,
@@ -10,26 +10,47 @@ import {
   AltText,
   Wrapper,
 } from './MetaInfo.styles';
+import {ITitleLanguageOptions} from '../../../@types';
+import {utils} from '../../../utils';
 
-const MetaInfo = () => {
+interface Props {
+  release_year: string;
+  total_episodes: string;
+  genres: string[];
+  rating: string;
+  title: string | ITitleLanguageOptions;
+
+  isAdult?: boolean;
+}
+
+const MetaInfo = ({
+  release_year,
+  total_episodes,
+  genres,
+  rating,
+  title,
+  isAdult,
+}: Props) => {
+  const actualTitle = utils.getTitle(title);
+  const actualGenres = genres?.slice(0, 2);
+
   return (
     <Container>
       <Wrapper>
         <TopMetaInfo>
-          <Text>2021</Text>
+          <Text>{release_year ?? '??'}</Text>
           <Seperator />
-          <Text>13 Episodes</Text>
+          <Text>{total_episodes ?? 0} Episodes</Text>
         </TopMetaInfo>
-        <Title>Odd Taxi</Title>
+        <Title numberOfLines={1}>{actualTitle}</Title>
         <BottomMetaInfo>
+          {actualGenres?.map((genre, index) => (
+            <BottomMetaInfoItem key={`genre-meta-info-${index + 1}`}>
+              <AltText>{genre}</AltText>
+            </BottomMetaInfoItem>
+          ))}
           <BottomMetaInfoItem>
-            <AltText>Drama</AltText>
-          </BottomMetaInfoItem>
-          <BottomMetaInfoItem>
-            <AltText>Mystery</AltText>
-          </BottomMetaInfoItem>
-          <BottomMetaInfoItem>
-            <AltText bold={true}>13+</AltText>
+            <AltText bold={true}>{isAdult ? '18+' : '13+'}</AltText>
           </BottomMetaInfoItem>
         </BottomMetaInfo>
       </Wrapper>

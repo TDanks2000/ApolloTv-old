@@ -17,7 +17,7 @@ export const RatingContainer = styled(LinearGradient).attrs({
 
 export const RatingText = styled.Text`
   color: white;
-  font-family: ${({theme}) => theme.text.fonts.openSans.regular};
+  font-family: ${({theme}) => theme.text.fonts.NunitoSans};
 `;
 
 export const RatingIcon = styled(Icon)`

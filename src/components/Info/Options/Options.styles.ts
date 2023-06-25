@@ -39,6 +39,6 @@ export const OptionIcon = styled(Icon)`
 
 export const OptionText = styled.Text`
   color: white;
-  font-family: ${({theme}) => theme.text.fonts.openSans.regular};
+  font-family: ${({theme}) => theme.text.fonts.NunitoSans};
   font-size: 14px;
 `;

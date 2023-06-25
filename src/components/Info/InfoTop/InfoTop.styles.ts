@@ -1,3 +1,4 @@
+import LinearGradient from 'react-native-linear-gradient';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import {styled} from 'styled-components/native';
 
@@ -19,7 +20,11 @@ export const ImageBackground = styled.ImageBackground.attrs({
   object-fit: cover;
 `;
 
-export const Wrapper = styled.View`
+export const Wrapper = styled(LinearGradient).attrs({
+  colors: ['rgba(0, 0, 0, 0)', 'rgba(0, 0, 0, 0.45)'],
+  start: {x: 0, y: 0},
+  end: {x: 0, y: 1},
+})`
   width: 100%;
   height: 100%;
   padding: 15px 20px 25px 20px;
@@ -64,12 +69,15 @@ export const BottomContainer = styled.View`
 export const SeasonText = styled.Text`
   font-size: 15px;
   color: ${({theme}) => theme.text.offWhite};
-  font-family: ${({theme}) => theme.text.fonts.openSans.regular};
+
+  font-family: ${({theme}) => theme.text.fonts.NunitoSans};
 `;
 
 export const TitleText = styled.Text`
   font-size: 23px;
   color: ${({theme}) => theme.text.primary};
   margin-bottom: 5px;
-  font-family: ${({theme}) => theme.text.fonts.openSans.bold};
+
+  font-weight: bold;
+  font-family: ${({theme}) => theme.text.fonts.NunitoSans};
 `;

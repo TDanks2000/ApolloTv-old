@@ -14,6 +14,6 @@ export const TextInput = styled.TextInput.attrs(({theme}) => ({
 }))`
   width: 100%;
   height: 100%;
-  font-family: ${({theme}) => theme.text.fonts.openSans.regular};
+  font-family: ${({theme}) => theme.text.fonts.NunitoSans};
   color: white;
 `;

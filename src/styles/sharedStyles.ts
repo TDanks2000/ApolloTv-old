@@ -20,6 +20,6 @@ export const SharedContainer = styled.View`
 
 export const Text = styled.Text`
   color: white;
-  font-family: ${({theme}) => theme.text.fonts.openSans.regular};
+  font-family: ${({theme}) => theme.text.fonts.NunitoSans};
   font-size: 16px;
 `;

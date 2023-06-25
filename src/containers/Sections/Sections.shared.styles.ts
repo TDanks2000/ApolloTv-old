@@ -20,7 +20,7 @@ export const SectionTitleContainer = styled.View`
 export const SectionTitle = styled.Text`
   font-size: 18px;
   color: white;
-  font-family: ${({theme}) => theme.text.fonts.openSans.regular};
+  font-family: ${({theme}) => theme.text.fonts.NunitoSans};
 `;
 
 export const SectionTitleIcon = styled(Icon)`

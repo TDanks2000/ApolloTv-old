@@ -11,6 +11,6 @@ export const Container = styled.TouchableOpacity<IDescriptionProps>`
 
 export const Text = styled.Text`
   font-size: 15px;
-  font-family: ${({theme}) => theme.text.fonts.openSans.regular};
+  font-family: ${({theme}) => theme.text.fonts.NunitoSans};
   color: ${({theme}) => theme.text.offWhite};
 `;

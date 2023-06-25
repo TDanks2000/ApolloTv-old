@@ -32,20 +32,7 @@ declare module 'styled-components/native' {
       confused: string;
       danger: string;
       fonts: {
-        openSans: {
-          light: string;
-          regular: string;
-          semiBold: string;
-          bold: string;
-          extraBold: string;
-        };
-        Inconsolata: {
-          light: string;
-          regular: string;
-          medium: string;
-          semiBold: string;
-          bold: string;
-        };
+        NunitoSans: string;
       };
     };
   }

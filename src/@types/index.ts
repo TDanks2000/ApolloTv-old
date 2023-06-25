@@ -34,3 +34,5 @@ export type RootStackParamList = {
   Home: undefined;
   Info: {id: string};
 };
+
+export type SectionTypes = 'trending' | 'popular' | 'top_rated';

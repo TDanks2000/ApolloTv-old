@@ -50,6 +50,7 @@ export const NavBarIcon = styled(Icon)<NavBarIconProps>`
 export const NavBarText = styled.Text`
   font-size: 15px;
   color: black;
-  /* font-weight: bold; */
-  font-family: ${({theme}) => theme.text.fonts.openSans.bold};
+
+  font-weight: bold;
+  font-family: ${({theme}) => theme.text.fonts.NunitoSans};
 `;

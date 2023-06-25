@@ -18,7 +18,7 @@ export const WatchNowButton = styled.TouchableOpacity`
 export const WatchNowButtonText = styled.Text`
   color: white;
   font-size: 15px;
-  font-family: ${({theme}) => theme.text.fonts.openSans.regular};
+  font-family: ${({theme}) => theme.text.fonts.NunitoSans};
 `;
 
 export const WatchNowIcon = styled(Icon).attrs({

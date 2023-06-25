@@ -41,11 +41,11 @@ export const TopContainer = styled.View`
 
 export const Title = styled.Text`
   color: white;
-  /* font-weight: bold; */
+  font-weight: bold;
   font-size: 19px;
   width: 60%;
 
-  font-family: ${({theme}) => theme.text.fonts.openSans.bold};
+  font-family: ${({theme}) => theme.text.fonts.NunitoSans};
 `;
 
 export const RatingContainer = styled(LinearGradient).attrs({
@@ -63,7 +63,7 @@ export const RatingContainer = styled(LinearGradient).attrs({
 
 export const RatingText = styled.Text`
   color: white;
-  font-family: ${({theme}) => theme.text.fonts.openSans.regular};
+  font-family: ${({theme}) => theme.text.fonts.NunitoSans};
 `;
 
 export const RatingIcon = styled(Icon)`

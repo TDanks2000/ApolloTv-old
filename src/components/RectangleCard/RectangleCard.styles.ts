@@ -43,5 +43,5 @@ export const Title = styled.Text.attrs({
 })`
   color: white;
   text-align: center;
-  font-family: ${({theme}) => theme.text.fonts.openSans.regular};
+  font-family: ${({theme}) => theme.text.fonts.NunitoSans};
 `;

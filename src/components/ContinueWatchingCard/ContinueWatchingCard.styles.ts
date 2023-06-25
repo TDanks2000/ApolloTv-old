@@ -45,7 +45,7 @@ export const BottomBannerText = styled.Text.attrs({
 })`
   color: white;
   padding: 0 15px;
-  font-family: ${({theme}) => theme.text.fonts.openSans.regular};
+  font-family: ${({theme}) => theme.text.fonts.NunitoSans};
 `;
 
 export const PercentWatchedContainer = styled.View`

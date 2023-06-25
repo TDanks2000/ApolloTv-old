@@ -28,13 +28,15 @@ export const Seperator = styled.View`
 export const Text = styled.Text`
   font-size: 13px;
   color: ${({theme}) => theme.text.secondary};
-  font-family: ${({theme}) => theme.text.fonts.openSans.regular};
+  font-family: ${({theme}) => theme.text.fonts.NunitoSans};
 `;
 
 export const Title = styled.Text`
   font-size: 23px;
   color: ${({theme}) => theme.text.primary};
-  font-family: ${({theme}) => theme.text.fonts.openSans.bold};
+
+  font-weight: bold;
+  font-family: ${({theme}) => theme.text.fonts.NunitoSans};
 `;
 
 export const BottomMetaInfo = styled.View`

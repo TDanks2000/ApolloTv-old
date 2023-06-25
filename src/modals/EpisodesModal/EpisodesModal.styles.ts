@@ -38,7 +38,9 @@ export const Title = styled.Text`
   padding-right: ${({theme}) => theme.spacing.paddingRight};
   color: white;
   font-size: 20px;
-  font-family: ${({theme}) => theme.text.fonts.openSans.bold};
+
+  font-weight: bold;
+  font-family: ${({theme}) => theme.text.fonts.NunitoSans};
 `;
 
 export const EpisodesWrapper = styled.View`

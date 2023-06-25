@@ -53,17 +53,14 @@
 	<false/>
 	<key>UIAppFonts</key>
 	<array>
-		<string>Inconsolata-Bold.ttf</string>
-		<string>Inconsolata-Light.ttf</string>
-		<string>Inconsolata-Medium.ttf</string>
-		<string>Inconsolata-Regular.ttf</string>
-		<string>Inconsolata-SemiBold.ttf</string>
-		<string>OpenSans-Bold.ttf</string>
-		<string>OpenSans-ExtraBold.ttf</string>
-		<string>OpenSans-Light.ttf</string>
-		<string>OpenSans-Medium.ttf</string>
-		<string>OpenSans-Regular.ttf</string>
-		<string>OpenSans-SemiBold.ttf</string>
+		<string>NunitoSans_10pt-Black.ttf</string>
+		<string>NunitoSans_10pt-Bold.ttf</string>
+		<string>NunitoSans_10pt-ExtraBold.ttf</string>
+		<string>NunitoSans_10pt-ExtraLight.ttf</string>
+		<string>NunitoSans_10pt-Light.ttf</string>
+		<string>NunitoSans_10pt-Medium.ttf</string>
+		<string>NunitoSans_10pt-Regular.ttf</string>
+		<string>NunitoSans_10pt-SemiBold.ttf</string>
 	</array>
 </dict>
 </plist>

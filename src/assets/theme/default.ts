@@ -27,20 +27,7 @@ export const defaultTheme: DefaultTheme = {
     confused: '#ab47bc',
     danger: '#eb2f06',
     fonts: {
-      openSans: {
-        light: 'OpenSans-Light',
-        regular: 'OpenSans-Regular',
-        semiBold: 'OpenSans-SemiBold',
-        bold: 'OpenSans-Bold',
-        extraBold: 'OpenSans-ExtraBold',
-      },
-      Inconsolata: {
-        light: 'Inconsolata-Light',
-        regular: 'Inconsolata-Regular',
-        medium: 'Inconsolata-Medium',
-        semiBold: 'Inconsolata-SemiBold',
-        bold: 'Inconsolata-Bold',
-      },
+      NunitoSans: 'NunitoSans_10pt-Regular',
     },
   },
 };
