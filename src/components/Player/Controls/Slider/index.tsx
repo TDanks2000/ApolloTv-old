@@ -22,8 +22,6 @@ const ControlsSlider = ({
   setPaused,
   videoRef,
 }: Props) => {
-  console.log(currentTime, duration);
-
   const durationTimeFormatted = dayjs(duration * 1000).format(
     duration > 3600000 ? 'HH:mm:ss' : 'mm:ss',
   );
@@ -34,6 +32,7 @@ const ControlsSlider = ({
   const onSlidingStart = () => {
     setPaused(true);
   };
+
   const onSlidingComplete = (value: number) => {
     videoRef.current.seek(value);
     setPaused(false);
