@@ -3,6 +3,7 @@ import AppStack from './src/navigation/AppStack';
 import {ThemeProvider} from 'styled-components/native';
 import {defaultTheme} from './src/assets/theme/default';
 import {QueryClient, QueryClientProvider} from '@tanstack/react-query';
+import {PlayerModal} from './src/modals';
 
 const queryClient = new QueryClient();
 

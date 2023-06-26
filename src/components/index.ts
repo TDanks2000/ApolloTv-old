@@ -7,6 +7,7 @@ import {RatingComponent, WatchNowComponent} from './Shared';
 
 import * as Info from './Info';
 import * as Search from './Search';
+import * as Player from './Player';
 
 export {
   NavigationBar,
@@ -17,5 +18,6 @@ export {
   RatingComponent,
   WatchNowComponent,
   Info,
+  Player,
   Search,
 };

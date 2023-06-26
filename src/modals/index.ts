@@ -1,3 +1,4 @@
 import EpisodesModal from './EpisodesModal';
+import PlayerModal from './PlayerModal';
 
-export {EpisodesModal};
+export {EpisodesModal, PlayerModal};

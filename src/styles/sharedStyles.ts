@@ -8,6 +8,7 @@ export const ScrollView = styled.ScrollView.attrs({
 })``;
 
 export const ModalContainer = styled.View`
+  position: relative;
   width: 100%;
   height: 100%;
   background-color: ${({theme}) => theme.base.darkBg};

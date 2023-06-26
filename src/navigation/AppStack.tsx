@@ -12,6 +12,7 @@ import {
   SettingsScreen,
 } from '../screens';
 import {NavigationBar} from '../components';
+import {PlayerModal} from '../modals';
 
 const Stack = createNativeStackNavigator();
 
@@ -35,6 +36,8 @@ const AppStack = ({setHiddenStatusBar}: {setHiddenStatusBar: boolean}) => {
           setRouteNameRef(currentRouteName);
         }
       }}>
+      <PlayerModal />
+
       <Stack.Navigator
         initialRouteName="Home"
         screenOptions={{
