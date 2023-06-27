@@ -1,6 +1,6 @@
 import {View, Text} from 'react-native';
 import React from 'react';
-import {CardProps} from '../../@types';
+import {CardProps, StackNavigation} from '../../@types';
 import {utils} from '../../utils';
 import {
   Container,
@@ -11,6 +11,7 @@ import {
   Title,
   Wrapper,
 } from './ListCard.styles';
+import {useNavigation} from '@react-navigation/native';
 
 const ListCard = ({
   id,
@@ -22,10 +23,17 @@ const ListCard = ({
   type,
   release_year,
 }: CardProps) => {
+  const navigation = useNavigation<StackNavigation>();
   const actualTitle = utils.getTitle(title);
 
+  const onPress = () => {
+    navigation.navigate('Info', {
+      id,
+    });
+  };
+
   return (
-    <Container>
+    <Container onPress={onPress}>
       <Wrapper>
         <Left>
           <Image source={{uri: poster_image}} />

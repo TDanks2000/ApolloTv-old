@@ -8,7 +8,7 @@ import {DescriptionComponent} from '../../components/Shared';
 import {ScrollView} from '../../styles/sharedStyles';
 import {EpisodesModal} from '../../modals';
 import {API_BASE} from '@env';
-import {api} from '../../utils';
+import {api, helpers} from '../../utils';
 import {useQuery} from '@tanstack/react-query';
 import {InfoPageSkeleton} from '../../components/Skeletons';
 
@@ -18,7 +18,13 @@ const InfoScreen = ({route}: Props) => {
   const navigate: any = useNavigation();
   const {id} = route.params;
   const [showEpisodesModal, setShowEpisodesModal] = React.useState(false);
-  const [dubOrSub, setDubOrSub] = React.useState<SubOrDub>('sub');
+  const [dubOrSub, setDubOrSub] = React.useState<SubOrDub>();
+
+  useEffect(() => {
+    if (!id) return navigate.navigate('Home');
+
+    setDubOrSub(helpers.getSubOrDub());
+  }, []);
 
   const fetcher = async () => {
     return await api.fetcher(
@@ -31,10 +37,6 @@ const InfoScreen = ({route}: Props) => {
     queryFn: fetcher,
   });
 
-  useEffect(() => {
-    if (!id) return navigate.navigate('Home');
-  }, []);
-
   if (isPending) return <InfoPageSkeleton />;
 
   return (
@@ -45,7 +47,7 @@ const InfoScreen = ({route}: Props) => {
           rating={data.rating}
           poster_image={data.cover}
           key={`info-top-${data.id}`}
-          dubOrSub={dubOrSub}
+          dubOrSub={dubOrSub ?? 'sub'}
           setDubOrSub={setDubOrSub}
         />
         {/* <Info.ContinueWatching /> */}

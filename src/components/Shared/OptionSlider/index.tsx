@@ -9,7 +9,7 @@ interface Props {
   }[];
   setOption: (value: string) => void;
   option: string;
-  onPress?: (value: unknown) => void;
+  onPress?: (value: any) => void;
 }
 
 const Option = ({options, setOption, option, onPress}: Props) => {

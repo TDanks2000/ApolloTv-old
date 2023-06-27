@@ -1,4 +1,7 @@
 import * as utils from './utils';
 import * as api from './api';
+import * as helpers from './helpers';
 
-export {utils, api};
+import {storage} from './storage/cleint';
+
+export {utils, api, storage, helpers};

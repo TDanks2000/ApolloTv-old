@@ -1,7 +1,7 @@
 import {styled} from 'styled-components/native';
 import {Text} from '../../styles/sharedStyles';
 
-export const Container = styled.View`
+export const Container = styled.TouchableOpacity`
   width: 100%;
   height: 100px;
 `;

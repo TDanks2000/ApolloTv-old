@@ -13,6 +13,7 @@ import {
 import EpisodeCard from '../../components/EpisodeCard';
 import {AnimeInfo} from '../../@types';
 import {utils} from '../../utils';
+import {Paginate} from '../../components';
 
 interface Props {
   episodes: any[];
@@ -27,13 +28,17 @@ const EpisodesModal = ({
   episodes,
   anime_info,
 }: Props) => {
+  const [selectedPage, setSelectedPage] = React.useState<number>(1);
+
+  const pageSize = 50;
+
   const animeTitle = utils.getTitle(anime_info.title);
   const goBack = () => {
     setVisible(false);
   };
 
   React.useEffect(() => {
-    if (!episodes) return;
+    if (!episodes || !episodes?.length) return;
 
     if (episodes[0].number !== 1) episodes.sort((a, b) => a.number - b.number);
   }, [episodes]);
@@ -50,20 +55,31 @@ const EpisodesModal = ({
               <Title numberOfLines={1}>{animeTitle}</Title>
             </TopContainer>
             <EpisodesWrapper>
-              {episodes.map((episode, index) => (
-                <EpisodeCard
-                  key={`episode-${index}`}
-                  id={episode.id}
-                  title={episode.title}
-                  image={episode.image}
-                  episode_number={episode.number}
-                  setEpisodeModalVisible={setVisible}
-                  anime_info={{
-                    id: anime_info.id,
-                    title: anime_info.title,
-                  }}
-                />
-              ))}
+              <Paginate
+                results={episodes}
+                pageSize={pageSize}
+                selectedPage={selectedPage}
+                setSelectedPage={setSelectedPage}
+              />
+              {episodes
+                .slice(
+                  selectedPage === 1 ? 0 : (selectedPage - 1) * pageSize,
+                  selectedPage === 1 ? pageSize : pageSize * selectedPage + 1,
+                )
+                .map((episode, index) => (
+                  <EpisodeCard
+                    key={`episode-${index}`}
+                    id={episode.id}
+                    title={episode.title}
+                    image={episode.image}
+                    episode_number={episode.number}
+                    setEpisodeModalVisible={setVisible}
+                    anime_info={{
+                      id: anime_info.id,
+                      title: anime_info.title,
+                    }}
+                  />
+                ))}
             </EpisodesWrapper>
           </Container>
         </ScrollView>

@@ -15,7 +15,7 @@ import {
 import {Option, RatingComponent, WatchNowComponent} from '../../Shared';
 import {useNavigation} from '@react-navigation/native';
 import {ITitleLanguageOptions, SubOrDub} from '../../../@types';
-import {utils} from '../../../utils';
+import {helpers, utils} from '../../../utils';
 
 interface Props {
   rating: number;
@@ -60,6 +60,9 @@ const Top = ({rating, title, poster_image, setDubOrSub, dubOrSub}: Props) => {
                   {label: 'DUB', value: 'dub'},
                 ]}
                 setOption={(value: string) => setDubOrSub(value as SubOrDub)}
+                onPress={(value: string) =>
+                  helpers.setSubOrDub(value === 'sub' ? 'sub' : 'dub')
+                }
               />
             </BottomBottomContainer>
           </BottomContainer>

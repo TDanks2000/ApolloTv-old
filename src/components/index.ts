@@ -4,12 +4,14 @@ import NavigationBar from './NavigationBar';
 import RectangleCard from './RectangleCard';
 import TopBarComponent from './TopBar';
 import {RatingComponent, WatchNowComponent, Option} from './Shared';
+import Paginate from './Paginate';
 
 import * as Info from './Info';
 import * as Search from './Search';
 import * as Player from './Player';
 
 export {
+  Paginate,
   NavigationBar,
   TopBarComponent,
   BannerComponent,
