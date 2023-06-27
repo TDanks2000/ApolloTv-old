@@ -12,6 +12,8 @@ import PlayPause from './PlayPause';
 import SkipTo from './SkipTo';
 import {BackButtonComponent} from '../../Shared';
 import ControlsSlider from './Slider';
+import {AnimeInfo, EpisodeInfo} from '../../../@types';
+import {utils} from '../../../utils';
 
 interface Props {
   paused: boolean;
@@ -19,6 +21,9 @@ interface Props {
   videoRef: any;
   currentTime: number;
   duration: number;
+
+  episode_info: EpisodeInfo;
+  anime_info: AnimeInfo;
 }
 
 const PlayerControls = ({
@@ -27,18 +32,22 @@ const PlayerControls = ({
   videoRef,
   currentTime,
   duration,
+  episode_info,
+  anime_info,
 }: Props) => {
+  const actualTitle = utils.getTitle(anime_info.title);
+
   return (
     <Container>
       {/* @ts-ignore */}
       <Top>
-        <BackButtonComponent isModal={true} />
+        <BackButtonComponent isModal={false} />
         <TopTextContainer>
           <TopText numberOfLines={1} weight="bold">
-            One Piece
+            {actualTitle}
           </TopText>
           <TopText numberOfLines={1}>
-            01 - I'm Luffy! The Man Who Will Become the Pirate King!
+            {episode_info.episode_number} - {episode_info.title}
           </TopText>
         </TopTextContainer>
       </Top>

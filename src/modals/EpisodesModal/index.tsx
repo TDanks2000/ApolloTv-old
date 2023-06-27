@@ -11,14 +11,23 @@ import {
 } from './EpisodesModal.styles';
 
 import EpisodeCard from '../../components/EpisodeCard';
+import {AnimeInfo} from '../../@types';
+import {utils} from '../../utils';
 
 interface Props {
   episodes: any[];
   visible: boolean;
   setVisible: (value: boolean) => void;
+  anime_info: AnimeInfo;
 }
 
-const EpisodesModal = ({setVisible, visible = false, episodes}: Props) => {
+const EpisodesModal = ({
+  setVisible,
+  visible = false,
+  episodes,
+  anime_info,
+}: Props) => {
+  const animeTitle = utils.getTitle(anime_info.title);
   const goBack = () => {
     setVisible(false);
   };
@@ -26,8 +35,8 @@ const EpisodesModal = ({setVisible, visible = false, episodes}: Props) => {
   React.useEffect(() => {
     if (!episodes) return;
 
-    if (episodes[0].number !== 1) episodes.sort((a, b) => b.number - a.number);
-  }, []);
+    if (episodes[0].number !== 1) episodes.sort((a, b) => a.number - b.number);
+  }, [episodes]);
 
   return (
     <Modal visible={visible} transparent={true} animationType={'slide'}>
@@ -38,7 +47,7 @@ const EpisodesModal = ({setVisible, visible = false, episodes}: Props) => {
               <BackButton onPress={goBack}>
                 <BackButtonIcon name="arrow-left" />
               </BackButton>
-              <Title numberOfLines={1}>Odd Taxi</Title>
+              <Title numberOfLines={1}>{animeTitle}</Title>
             </TopContainer>
             <EpisodesWrapper>
               {episodes.map((episode, index) => (
@@ -48,7 +57,11 @@ const EpisodesModal = ({setVisible, visible = false, episodes}: Props) => {
                   title={episode.title}
                   image={episode.image}
                   episode_number={episode.number}
-                  watched_percentage={Math.floor(Math.random() * 100)}
+                  setEpisodeModalVisible={setVisible}
+                  anime_info={{
+                    id: anime_info.id,
+                    title: anime_info.title,
+                  }}
                 />
               ))}
             </EpisodesWrapper>

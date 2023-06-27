@@ -14,6 +14,7 @@ interface Props {
 const WatchNowComponent = ({WatchText, onPress}: Props) => {
   return (
     <WatchNowButton onPress={onPress}>
+      {/* @ts-ignore */}
       <WatchNowIcon />
       <WatchNowButtonText>
         {WatchText ? WatchText : ' Watch now'}

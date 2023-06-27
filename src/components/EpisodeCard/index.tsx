@@ -11,7 +11,14 @@ import {
   PercentWatchedContainer,
   Wrapper,
 } from './EpisodeCard.styles';
-import {EpisodeCardProps} from '../../@types';
+import {
+  EpisodeCardProps,
+  EpisodeInfo,
+  RootStackParamList,
+  StackNavigation,
+} from '../../@types';
+import {NavigationProp, useNavigation} from '@react-navigation/native';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
 
 const EpisodeCard = ({
   image,
@@ -19,13 +26,37 @@ const EpisodeCard = ({
   title,
   episode_number,
   watched_percentage,
+  setEpisodeModalVisible,
+
+  anime_info,
 }: EpisodeCardProps) => {
+  const navigation = useNavigation<StackNavigation>();
+
+  const onPress = () => {
+    navigation.navigate('VideoPlayer', {
+      episode_id: id,
+      source_provider: 'gogoanime',
+      episode_info: {
+        title: title ?? `Episode ${episode_number ?? 1}`,
+        id,
+        episode_number: episode_number,
+        image: image,
+      },
+      anime_info: {
+        id: anime_info.id,
+        title: anime_info.title,
+      },
+    });
+    setEpisodeModalVisible(false);
+  };
+
   return (
-    <EpisodeContainer>
+    <EpisodeContainer onPress={onPress}>
       <EpisodeImageBackground
         source={{
           uri: image,
         }}>
+        {/* @ts-ignore */}
         <Wrapper>
           <BottomBanner>
             {watched_percentage && watched_percentage > 0 ? (

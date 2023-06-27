@@ -7,17 +7,21 @@ import {
   NavBarItem,
   NavBarText,
 } from './NavigationBar.styles';
+import {NavigationContext} from '../../contexts';
 
 interface Props {
   currentRoute: string;
 }
 
 const NavigationBar = ({currentRoute}: Props) => {
+  const {showNavBar}: any = React.useContext(NavigationContext);
   const navigation: any = useNavigation();
 
   const handleStackChange = (stackName: any) => {
     navigation.navigate(stackName);
   };
+
+  if (!showNavBar) return null;
 
   return (
     <NavBarContainer>

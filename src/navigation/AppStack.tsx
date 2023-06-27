@@ -10,11 +10,12 @@ import {
   ListsScreen,
   SearchScreen,
   SettingsScreen,
+  VideoPlayerScreen,
 } from '../screens';
 import {NavigationBar} from '../components';
-import {PlayerModal} from '../modals';
+import {RootStackParamList} from '../@types';
 
-const Stack = createNativeStackNavigator();
+const Stack = createNativeStackNavigator<RootStackParamList>();
 
 const AppStack = ({setHiddenStatusBar}: {setHiddenStatusBar: boolean}) => {
   const navigationRef: any = useNavigationContainerRef();
@@ -36,8 +37,6 @@ const AppStack = ({setHiddenStatusBar}: {setHiddenStatusBar: boolean}) => {
           setRouteNameRef(currentRouteName);
         }
       }}>
-      <PlayerModal />
-
       <Stack.Navigator
         initialRouteName="Home"
         screenOptions={{
@@ -52,6 +51,7 @@ const AppStack = ({setHiddenStatusBar}: {setHiddenStatusBar: boolean}) => {
         <Stack.Screen name="Search" component={SearchScreen} />
         <Stack.Screen name="Settings" component={SettingsScreen} />
         <Stack.Screen name="Info" component={InfoScreen} />
+        <Stack.Screen name="VideoPlayer" component={VideoPlayerScreen} />
       </Stack.Navigator>
       <NavigationBar
         currentRoute={routeNameRef === undefined ? 'loading' : routeNameRef}

@@ -6,7 +6,6 @@ export const WatchNowButton = styled.TouchableOpacity`
   background-color: rgba(0, 0, 0, 1);
   padding: 10px 18px;
   border-radius: 8px;
-  backdrop-filter: blur(100px);
   display: flex;
   flex-direction: row;
   justify-content: center;

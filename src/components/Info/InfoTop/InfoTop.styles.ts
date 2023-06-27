@@ -63,7 +63,7 @@ export const BottomContainer = styled.View`
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  gap: 3px;
+  gap: 5px;
 `;
 
 export const SeasonText = styled.Text`
@@ -80,4 +80,10 @@ export const TitleText = styled.Text`
 
   font-weight: bold;
   font-family: ${({theme}) => theme.text.fonts.NunitoSans};
+`;
+
+export const BottomBottomContainer = styled.View`
+  flex-direction: row;
+  gap: 10px;
+  align-items: center;
 `;

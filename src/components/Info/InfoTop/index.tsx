@@ -3,6 +3,7 @@ import React from 'react';
 import {
   BackButton,
   BackButtonIcon,
+  BottomBottomContainer,
   BottomContainer,
   Container,
   ImageBackground,
@@ -11,18 +12,20 @@ import {
   TopContainer,
   Wrapper,
 } from './InfoTop.styles';
-import {RatingComponent, WatchNowComponent} from '../../Shared';
+import {Option, RatingComponent, WatchNowComponent} from '../../Shared';
 import {useNavigation} from '@react-navigation/native';
-import {ITitleLanguageOptions} from '../../../@types';
+import {ITitleLanguageOptions, SubOrDub} from '../../../@types';
 import {utils} from '../../../utils';
 
 interface Props {
   rating: number;
   title: string | ITitleLanguageOptions;
   poster_image: string;
+  dubOrSub: string;
+  setDubOrSub: (dubOrSub: SubOrDub) => void;
 }
 
-const Top = ({rating, title, poster_image}: Props) => {
+const Top = ({rating, title, poster_image, setDubOrSub, dubOrSub}: Props) => {
   const actualTitle = utils.getTitle(title);
 
   const navigation = useNavigation();
@@ -37,6 +40,7 @@ const Top = ({rating, title, poster_image}: Props) => {
         source={{
           uri: poster_image,
         }}>
+        {/* @ts-ignore */}
         <Wrapper>
           <TopContainer>
             <BackButton onPress={goBack}>
@@ -47,7 +51,17 @@ const Top = ({rating, title, poster_image}: Props) => {
           <BottomContainer>
             {/* <SeasonText>Season 1</SeasonText> */}
             <TitleText numberOfLines={1}>{actualTitle}</TitleText>
-            <WatchNowComponent WatchText="Watch trailer" />
+            <BottomBottomContainer>
+              <WatchNowComponent WatchText="Watch trailer" />
+              <Option
+                option={dubOrSub}
+                options={[
+                  {label: 'SUB', value: 'sub'},
+                  {label: 'DUB', value: 'dub'},
+                ]}
+                setOption={(value: string) => setDubOrSub(value as SubOrDub)}
+              />
+            </BottomBottomContainer>
           </BottomContainer>
         </Wrapper>
       </ImageBackground>

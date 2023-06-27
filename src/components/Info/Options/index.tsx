@@ -11,34 +11,37 @@ import {
 
 interface Props {
   openEpisodesModal: () => void;
+  episodeLegth: number;
 }
 
-const Options = ({openEpisodesModal}: Props) => {
+const Options = ({openEpisodesModal, episodeLegth}: Props) => {
   return (
     <Container>
       <Wrapper>
-        <OptionContainer onPress={openEpisodesModal}>
+        <OptionContainer
+          onPress={openEpisodesModal}
+          disabled={episodeLegth === 0}>
           <OptionIconContainer>
             <OptionIcon name="arrow-circle-o-down" />
           </OptionIconContainer>
           <OptionText>Episodes</OptionText>
         </OptionContainer>
 
-        <OptionContainer>
+        <OptionContainer disabled>
           <OptionIconContainer>
             <OptionIcon name="list-ul" />
           </OptionIconContainer>
           <OptionText>Collections</OptionText>
         </OptionContainer>
 
-        <OptionContainer>
+        <OptionContainer disabled>
           <OptionIconContainer>
             <OptionIcon name="download" />
           </OptionIconContainer>
           <OptionText>Download</OptionText>
         </OptionContainer>
 
-        <OptionContainer>
+        <OptionContainer disabled>
           <OptionIconContainer>
             <OptionIcon name="ellipsis-v" />
           </OptionIconContainer>

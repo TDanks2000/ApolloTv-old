@@ -1,5 +1,6 @@
 import BackButtonComponent from './BackButton';
 import DescriptionComponent from './Description';
+import Option from './OptionSlider';
 import RatingComponent from './Rating';
 import WatchNowComponent from './WatchNow';
 
@@ -8,4 +9,5 @@ export {
   WatchNowComponent,
   DescriptionComponent,
   BackButtonComponent,
+  Option,
 };
