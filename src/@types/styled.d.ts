@@ -1,5 +1,5 @@
 import 'styled-components/native';
-import {defaultTheme} from '../assets/theme/default';
+import {defaultTheme} from '../../assets/theme/default';
 type CustomTheme = typeof defaultTheme;
 
 declare module 'styled-components/native' {

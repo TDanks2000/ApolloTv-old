@@ -30,6 +30,7 @@ const BannerCard = ({poster_image, rating, title, id}: CardProps) => {
         source={{
           uri: poster_image,
         }}>
+        {/* @ts-ignore */}
         <Wrapper>
           <TopContainer>
             <Title numberOfLines={2}>{actualTitle}</Title>
@@ -37,7 +38,7 @@ const BannerCard = ({poster_image, rating, title, id}: CardProps) => {
             <RatingComponent rating={rating} />
           </TopContainer>
           <WatchNowContainer>
-            <WatchNowComponent />
+            <WatchNowComponent onPress={onPress} />
           </WatchNowContainer>
         </Wrapper>
       </ImageBackground>

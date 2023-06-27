@@ -8,6 +8,7 @@ import {useQuery} from '@tanstack/react-query';
 import {api} from '../../utils';
 import {API_BASE} from '@env';
 import {NavigationContext} from '../../contexts';
+import Orientation from 'react-native-orientation-locker';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'VideoPlayer'>;
 
@@ -15,6 +16,14 @@ const VideoPlayerScreen = ({route}: Props) => {
   const {episode_id, episode_info, source_provider, anime_info} = route.params;
 
   const {setShowNavBar}: any = React.useContext(NavigationContext);
+
+  React.useEffect(() => {
+    Orientation.lockToLandscape();
+
+    return () => {
+      Orientation.unlockAllOrientations();
+    };
+  }, [episode_id]);
 
   React.useEffect(() => {
     setShowNavBar(false);

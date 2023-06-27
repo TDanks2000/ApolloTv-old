@@ -10,8 +10,12 @@ import {
   ProfileText,
   ProfileTextContainer,
 } from './TopBar.styles';
+import {useNavigation} from '@react-navigation/native';
+import {StackNavigation} from '../../@types';
 
 const TopBarComponent = () => {
+  const navigation = useNavigation<StackNavigation>();
+
   return (
     <Container>
       <ProfileContainer>
@@ -22,15 +26,15 @@ const TopBarComponent = () => {
         />
         <ProfileTextContainer>
           <ProfileText>Hello</ProfileText>
-          <ProfileText numberOfLines={1}>Tommy</ProfileText>
+          <ProfileText numberOfLines={1}>Tester</ProfileText>
         </ProfileTextContainer>
       </ProfileContainer>
 
       <IconContainer>
-        <IconItemContainer>
+        <IconItemContainer onPress={() => navigation.navigate('Search')}>
           <IconItem name="search" />
         </IconItemContainer>
-        <IconItemContainer>
+        <IconItemContainer disabled>
           <IconItem name="bell" />
         </IconItemContainer>
       </IconContainer>

@@ -79,3 +79,21 @@ export interface AnimeInfo {
 }
 
 export type SubOrDub = 'sub' | 'dub';
+
+export interface ContinueWatching {
+  watched_percentage: number;
+  episode_length: number;
+
+  episode_id: string;
+  anime_info: AnimeInfo;
+  episode_info: EpisodeInfo;
+  source_provider: sourceProviders;
+  title: string | undefined;
+  image?: string;
+}
+
+export type RecentSearch = string;
+
+export interface RecentSearchs {
+  SearchText: RecentSearch;
+}

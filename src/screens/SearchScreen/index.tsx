@@ -5,7 +5,7 @@ import {SharedContainer} from '../../styles/sharedStyles';
 import {Search} from '../../components';
 import {AnimeTrending} from '../../utils/TestData';
 import {useDebounce} from '../../hooks';
-import {api} from '../../utils';
+import {api, helpers} from '../../utils';
 import {API_BASE} from '@env';
 import {useQuery} from '@tanstack/react-query';
 
@@ -37,7 +37,10 @@ const SearchScreen = () => {
           search_text={searchText}
           setSearchText={setSearchText}
         />
-        {/* <Search.RecentSearches /> */}
+        <Search.RecentSearches
+          searchText={debouncedSearchTerm}
+          setSearchText={setSearchText}
+        />
         <Search.SearchResults data={data} />
       </SharedContainer>
     </SafeAreaView>

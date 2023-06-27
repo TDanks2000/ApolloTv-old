@@ -29,7 +29,7 @@ const Paginate = ({
       <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
         <PaginateWrapper>
           {pages.map((_, i) => {
-            const currentPageAmount = i + 1 === 1 ? 0 : i * pageSize + 1;
+            const currentPageAmount = i + 1 === 1 ? 1 : i * pageSize + 1;
             let currentPageMaxAmount =
               i + 1 === 1 ? pageSize : pageSize * (i + 1) + 1;
 
