@@ -1,4 +1,4 @@
-import {View, Text} from 'react-native';
+import {View, Text, StatusBar} from 'react-native';
 import React from 'react';
 import {Player} from '../../components';
 import Video, {OnLoadData, OnProgressData} from 'react-native-video';
@@ -19,9 +19,12 @@ const VideoPlayerScreen = ({route}: Props) => {
 
   React.useEffect(() => {
     Orientation.lockToLandscape();
+    StatusBar.setHidden(true);
 
     return () => {
-      Orientation.unlockAllOrientations();
+      // lock to vertical
+      Orientation.lockToPortrait();
+      StatusBar.setHidden(false, 'slide');
     };
   }, [episode_id]);
 

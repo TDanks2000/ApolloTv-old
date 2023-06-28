@@ -5,11 +5,13 @@ import {Button, ButtonIcon} from '../Controls.styles';
 interface Props {
   paused: boolean;
   setPaused: (paused: boolean) => void;
+  handleInactive: () => void;
 }
 
-const PlayPause = ({paused, setPaused}: Props) => {
+const PlayPause = ({paused, setPaused, handleInactive}: Props) => {
   const onPress = () => {
     setPaused(!paused);
+    if (paused) handleInactive();
   };
 
   return (

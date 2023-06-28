@@ -3,7 +3,12 @@ import {styled} from 'styled-components/native';
 import {Text} from '../../../styles/sharedStyles';
 import LinearGradient from 'react-native-linear-gradient';
 
-export const Container = styled.View`
+interface Props {
+  shouldShow: boolean;
+}
+
+export const Container = styled.View<Props>`
+  opacity: ${({shouldShow}) => (!shouldShow ? 1 : 0)};
   position: absolute;
   inset: 0;
   flex: 1;
@@ -11,7 +16,7 @@ export const Container = styled.View`
   height: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   z-index: 100;
 `;
@@ -37,7 +42,7 @@ export const Top = styled(LinearGradient).attrs({
   end: {x: 0, y: 0},
 })`
   position: absolute;
-  z-index: 1;
+  z-index: 2;
   left: 0;
   right: 0;
   top: 0;
@@ -63,7 +68,9 @@ export const TopText = styled(Text)<TopTextProps>`
 `;
 
 export const Middle = styled.View`
-  flex: 1;
+  position: relative;
+  z-index: 2;
+  /* flex: 1; */
   width: 100%;
   flex-direction: row;
   justify-content: center;
@@ -82,4 +89,13 @@ export const Bottom = styled(LinearGradient).attrs({
   right: 0;
   z-index: 1;
   padding: 30px 15px;
+`;
+
+export const ClickToDismiss = styled.Pressable`
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
 `;

@@ -1,16 +1,18 @@
 import React, {useEffect} from 'react';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import {RootStackParamList, SubOrDub} from '../../@types';
+import {QueryAnime, RootStackParamList, SubOrDub} from '../../@types';
 import {useNavigation} from '@react-navigation/native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {Info} from '../../components';
 import {DescriptionComponent} from '../../components/Shared';
-import {ScrollView} from '../../styles/sharedStyles';
+import {ScrollView, SharedContainer} from '../../styles/sharedStyles';
 import {EpisodesModal} from '../../modals';
 import {API_BASE} from '@env';
 import {api, helpers} from '../../utils';
 import {useQuery} from '@tanstack/react-query';
 import {InfoPageSkeleton} from '../../components/Skeletons';
+import CharacterContainer from '../../containers/CastContainer';
+import {Wrapper} from './InfoScreen.styles';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Info'>;
 
@@ -32,12 +34,13 @@ const InfoScreen = ({route}: Props) => {
     );
   };
 
-  const {isPending, isError, data, error} = useQuery({
+  const {isPending, isError, data, error}: QueryAnime = useQuery({
     queryKey: ['info', id, dubOrSub],
     queryFn: fetcher,
   });
 
   if (isPending) return <InfoPageSkeleton />;
+  if (!data) return <InfoPageSkeleton />;
 
   return (
     <SafeAreaView>
@@ -57,13 +60,16 @@ const InfoScreen = ({route}: Props) => {
         />
         <Info.MetaInfo
           title={data.title}
-          rating={data.rating}
+          rating={data.rating.toString()}
           genres={data.genres}
-          total_episodes={data?.episodes?.length ?? 0}
-          release_year={data.releaseDate}
+          total_episodes={data?.episodes?.length.toString() ?? 0}
+          release_year={data.releaseDate.toString()}
           key={`info-meta-info-${data.id}`}
         />
         <DescriptionComponent description={data.description} />
+        <Wrapper>
+          <CharacterContainer characters={data.characters} />
+        </Wrapper>
       </ScrollView>
       <EpisodesModal
         episodes={data.episodes}

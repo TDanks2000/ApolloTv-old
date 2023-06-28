@@ -23,6 +23,7 @@ const RectangleCard = ({title, id, poster_image, rating}: CardProps) => {
   return (
     <Container onPress={onPress}>
       <ImageBackground source={{uri: poster_image}}>
+        {/* @ts-ignore */}
         <Wrapper>
           <RatingWrapper>
             <RatingComponent rating={rating} />

@@ -9,14 +9,16 @@ export type TitleLanguageOptions =
 export type sourceProviders = 'gogoanime';
 
 export interface ITitleLanguageOptions {
-  english: string;
+  romaji: string;
+  english?: string;
   native: string;
-  romanji: string;
   userPreferred: string;
 }
 
+export type TitleType = string | ITitleLanguageOptions;
+
 export interface CardProps {
-  title: string | ITitleLanguageOptions;
+  title: TitleType;
   id: string;
   poster_image?: string;
   rating?: number;
@@ -68,7 +70,7 @@ export interface EpisodeInfo {
 
 export interface AnimeInfo {
   id: string;
-  title: string | ITitleLanguageOptions;
+  title: TitleType;
   image?: string;
   rating?: number;
   total_episodes?: number;
@@ -96,4 +98,139 @@ export type RecentSearch = string;
 
 export interface RecentSearchs {
   SearchText: RecentSearch;
+}
+
+export interface FullAnimeInfo {
+  id: string;
+  title: TitleType;
+  malId: number;
+  synonyms: string[];
+  isLicensed: boolean;
+  isAdult: boolean;
+  countryOfOrigin: string;
+  image: string;
+  popularity: number;
+  color: string;
+  cover: string;
+  description: string;
+  status: string;
+  releaseDate: number;
+  startDate: StartDate;
+  endDate: EndDate;
+  nextAiringEpisode: NextAiringEpisode;
+  totalEpisodes: number;
+  currentEpisode: number;
+  rating: number;
+  duration: number;
+  genres: string[];
+  season: string;
+  studios: string[];
+  subOrDub: string;
+  type: string;
+  recommendations: Recommendation[];
+  characters: Character[];
+  relations: Relation[];
+  mappings: Mappings;
+  episodes: Episode[];
+}
+
+export interface StartDate {
+  year: number;
+  month: number;
+  day: number;
+}
+
+export interface EndDate {
+  year: any;
+  month: any;
+  day: any;
+}
+
+export interface NextAiringEpisode {
+  airingTime: number;
+  timeUntilAiring: number;
+  episode: number;
+}
+
+export interface Recommendation {
+  id: number;
+  malId: number;
+  title: TitleType;
+  status: string;
+  episodes: number;
+  image: string;
+  cover: string;
+  rating: number;
+  type: string;
+}
+
+export interface Character {
+  id: number;
+  role: string;
+  name: Name;
+  image: string;
+  voiceActors: VoiceActor[];
+}
+
+export interface Name {
+  first: string;
+  last?: string;
+  full: string;
+  native?: string;
+  userPreferred: string;
+}
+
+export interface VoiceActor {
+  id: number;
+  language: string;
+  name: Name;
+  image: string;
+}
+
+export interface Relation {
+  id: number;
+  relationType: string;
+  malId?: number;
+  title: TitleType;
+  status: string;
+  episodes?: number;
+  image: string;
+  color: string;
+  type: string;
+  cover: string;
+  rating: number;
+}
+
+export interface Mappings {
+  mal: number;
+  anidb: number;
+  kitsu: number;
+  anilist: number;
+  thetvdb: number;
+  anisearch: number;
+  livechart: number;
+  'notify.moe': string;
+  'anime-planet': string;
+}
+
+export interface Episode {
+  id: string;
+  title: string;
+  description: string;
+  number: number;
+  image: string;
+  airDate: string;
+}
+
+export interface QueryAnime {
+  isPending: boolean;
+  isError: boolean;
+  data: FullAnimeInfo | undefined;
+  error: Error | null;
+}
+
+export interface IUseAcessToken {
+  accessToken: string | undefined;
+  setAccessToken: (value: string) => void;
+  checkedForToken: boolean;
 }

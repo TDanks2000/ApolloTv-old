@@ -21,12 +21,12 @@ const TopBarComponent = () => {
       <ProfileContainer>
         <ProfileImage
           source={{
-            uri: 'https://i.pinimg.com/originals/57/3f/22/573f22a1aa17b366f5489745dc4704e1.jpg',
+            uri: 'https://avatars.githubusercontent.com/u/107899019?v=4',
           }}
         />
         <ProfileTextContainer>
           <ProfileText>Hello</ProfileText>
-          <ProfileText numberOfLines={1}>Tester</ProfileText>
+          <ProfileText numberOfLines={1}>Big Boi</ProfileText>
         </ProfileTextContainer>
       </ProfileContainer>
 

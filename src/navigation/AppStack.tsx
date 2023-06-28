@@ -17,12 +17,25 @@ import {RootStackParamList} from '../@types';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
+const config = {
+  screens: {
+    Home: '',
+    Search: 'search',
+  },
+};
+
+const linking = {
+  prefixes: ['apolloTv://'],
+  config,
+};
+
 const AppStack = ({setHiddenStatusBar}: {setHiddenStatusBar: boolean}) => {
   const navigationRef: any = useNavigationContainerRef();
   const [routeNameRef, setRouteNameRef] = useState<any>();
 
   return (
     <NavigationContainer
+      linking={linking}
       ref={navigationRef}
       onReady={() => {
         setRouteNameRef(navigationRef.getCurrentRoute().name);
