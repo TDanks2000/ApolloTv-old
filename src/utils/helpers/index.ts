@@ -39,3 +39,16 @@ export const recentSearchs = (recentSearch?: string): string[] => {
 
   return recentSearchs as string[];
 };
+
+export const parseDeepLinks = (urlFragment: string) => {
+  const tokenKey = '#access_token=';
+  const tokenEndIndex = urlFragment.indexOf('&');
+
+  if (urlFragment.includes(tokenKey) && tokenEndIndex !== -1) {
+    const tokenStartIndex = urlFragment.indexOf(tokenKey) + tokenKey.length;
+    const accessToken = urlFragment.substring(tokenStartIndex, tokenEndIndex);
+    return accessToken;
+  }
+
+  return null; // Access token not found in the URL fragment
+};

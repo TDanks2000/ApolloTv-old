@@ -4,6 +4,7 @@ import SearchScreen from './SearchScreen';
 import SettingsScreen from './SettingsScreen';
 import InfoScreen from './InfoScreen';
 import VideoPlayerScreen from './VideoPlayerScreen';
+import LoggingInScreen from './LoggingInScreen';
 
 export {
   HomeScreen,
@@ -12,4 +13,5 @@ export {
   SettingsScreen,
   InfoScreen,
   VideoPlayerScreen,
+  LoggingInScreen,
 };

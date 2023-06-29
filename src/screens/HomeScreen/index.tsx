@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {BannerComponent, TopBarComponent} from '../../components';
 import {CWContainer, SectionContainer} from './HomeScreen.styles';

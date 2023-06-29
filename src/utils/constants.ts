@@ -1,17 +1,11 @@
 import {PlatformConstants} from 'react-native';
 
 const AniListClientID = {
-  DEV: 10273, // exp://localhost:19000/--/*
-  EXPO_GO: 10274, // exp://exp.host/@tdanks2000/streamable
-  PROD: 10189, // streamable://redirect
+  PROD: 13303, // apolloTv://login/:token
 };
 
 export const CLIENT_ID = (() => {
-  if (__DEV__) {
-    return AniListClientID.DEV;
-  }
-
-  return AniListClientID.EXPO_GO;
+  return AniListClientID.PROD;
 })();
 
 export const ANILIST_ACCESS_TOKEN_STORAGE = `@anilist:access_token`;

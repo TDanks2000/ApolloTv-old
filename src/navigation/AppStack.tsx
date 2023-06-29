@@ -11,6 +11,7 @@ import {
   SearchScreen,
   SettingsScreen,
   VideoPlayerScreen,
+  LoggingInScreen,
 } from '../screens';
 import {NavigationBar} from '../components';
 import {RootStackParamList} from '../@types';
@@ -19,13 +20,14 @@ const Stack = createNativeStackNavigator<RootStackParamList>();
 
 const config = {
   screens: {
+    LoggingIn: 'logMeIn/:access_code',
     Home: '',
     Search: 'search',
   },
 };
 
 const linking = {
-  prefixes: ['apolloTv://'],
+  prefixes: ['apollotv://'],
   config,
 };
 
@@ -65,6 +67,7 @@ const AppStack = ({setHiddenStatusBar}: {setHiddenStatusBar: boolean}) => {
         <Stack.Screen name="Settings" component={SettingsScreen} />
         <Stack.Screen name="Info" component={InfoScreen} />
         <Stack.Screen name="VideoPlayer" component={VideoPlayerScreen} />
+        <Stack.Screen name="LoggingIn" component={LoggingInScreen} />
       </Stack.Navigator>
       <NavigationBar
         currentRoute={routeNameRef === undefined ? 'loading' : routeNameRef}

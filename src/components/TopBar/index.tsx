@@ -34,7 +34,10 @@ const TopBarComponent = () => {
         <IconItemContainer onPress={() => navigation.navigate('Search')}>
           <IconItem name="search" />
         </IconItemContainer>
-        <IconItemContainer disabled>
+        <IconItemContainer
+          onPress={() =>
+            navigation.navigate('LoggingIn', {access_code: undefined})
+          }>
           <IconItem name="bell" />
         </IconItemContainer>
       </IconContainer>

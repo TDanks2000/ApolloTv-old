@@ -47,6 +47,9 @@ export type RootStackParamList = {
   Lists: undefined;
   Search: undefined;
   Settings: undefined;
+  LoggingIn: {
+    access_code?: string;
+  };
   VideoPlayer: {
     episode_id: string;
     source_provider: sourceProviders;
