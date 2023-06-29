@@ -8,6 +8,7 @@ import {
   PopularContainer,
 } from '../../containers';
 import {ScrollView} from '../../styles/sharedStyles';
+import {storage} from '../../utils';
 
 const HomeScreen = () => {
   return (

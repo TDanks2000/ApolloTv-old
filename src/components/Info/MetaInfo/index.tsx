@@ -17,7 +17,7 @@ interface Props {
   release_year: string;
   total_episodes: string;
   genres: string[];
-  rating: string;
+  rating: number;
   title: string | ITitleLanguageOptions;
 
   isAdult?: boolean;

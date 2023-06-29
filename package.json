@@ -1,5 +1,5 @@
 {
-  "name": "ApolloTv",
+  "name": "apollotv",
   "version": "0.0.1",
   "private": true,
   "scripts": {
@@ -7,7 +7,9 @@
     "ios": "react-native run-ios",
     "lint": "eslint .",
     "start": "react-native start",
-    "test": "jest"
+    "test": "jest",
+    "postversion": "cd android && ./gradlew bundleRelease",
+    "build": "cd android && ./gradlew bundleRelease"
   },
   "dependencies": {
     "@react-native-community/blur": "^4.3.2",
@@ -20,6 +22,7 @@
     "polished": "^4.2.2",
     "react": "18.2.0",
     "react-native": "0.71.8",
+    "react-native-config": "^1.5.1",
     "react-native-eject": "^0.2.0",
     "react-native-linear-gradient": "^2.7.3",
     "react-native-mmkv": "^2.10.0",

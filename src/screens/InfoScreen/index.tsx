@@ -60,15 +60,18 @@ const InfoScreen = ({route}: Props) => {
         />
         <Info.MetaInfo
           title={data.title}
-          rating={data.rating.toString()}
+          rating={data.rating}
           genres={data.genres}
           total_episodes={data?.episodes?.length.toString() ?? 0}
-          release_year={data.releaseDate.toString()}
+          release_year={data.releaseDate?.toString() ?? '??'}
           key={`info-meta-info-${data.id}`}
         />
         <DescriptionComponent description={data.description} />
         <Wrapper>
-          <CharacterContainer characters={data.characters} />
+          <CharacterContainer
+            characters={data.characters}
+            subOrDub={dubOrSub}
+          />
         </Wrapper>
       </ScrollView>
       <EpisodesModal

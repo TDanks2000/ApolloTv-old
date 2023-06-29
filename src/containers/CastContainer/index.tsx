@@ -1,6 +1,6 @@
 import {FlatList, View} from 'react-native';
 import React from 'react';
-import {Character} from '../../@types';
+import {Character, SubOrDub} from '../../@types';
 import {CharacterCard} from '../../components';
 import {
   SectionTitle,
@@ -9,11 +9,18 @@ import {
 
 interface Props {
   characters: Character[];
+  subOrDub: SubOrDub | undefined;
 }
 
-const CharacterContainer = ({characters}: Props) => {
+const CharacterContainer = ({characters, subOrDub}: Props) => {
   const renderItem = ({item}: {item: Character}) => {
-    return <CharacterCard {...item} key={`character-${item.id}`} />;
+    return (
+      <CharacterCard
+        {...item}
+        key={`character-${item.id}`}
+        subOrDub={subOrDub}
+      />
+    );
   };
 
   return (

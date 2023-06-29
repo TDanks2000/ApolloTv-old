@@ -6,7 +6,7 @@ interface IDescriptionProps {
 
 export const Container = styled.TouchableOpacity<IDescriptionProps>`
   padding: 0 ${({theme}) => theme.spacing.paddingLeft};
-  height: ${({showMore}) => (showMore ? 'auto' : '100px')};
+  height: ${({showMore}) => (showMore ? 'auto' : '110px')};
 `;
 
 export const Text = styled.Text`

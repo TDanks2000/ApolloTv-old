@@ -3,6 +3,7 @@ import React from 'react';
 import {Container, PillContainer, PillTitle} from './RecentSearches.styles';
 import {RecentSearchs} from '../../../@types';
 import {helpers} from '../../../utils';
+import {useNavigation} from '@react-navigation/native';
 
 interface Props {
   searchText: string;
@@ -10,21 +11,40 @@ interface Props {
 }
 
 const RecentSearches = ({searchText, setSearchText}: Props) => {
+  const [forceRefresh, setForceRefresh] = React.useState(false);
   const [data, setData] = React.useState<string[]>();
 
-  React.useEffect(() => {
+  const setTheData = () => {
     const recentSearchs = helpers.recentSearchs(searchText);
 
     setData(recentSearchs);
+  };
+
+  React.useEffect(() => {
+    setTheData();
   }, [searchText]);
 
+  React.useEffect(() => {
+    if (!forceRefresh) return;
+    setTheData();
+    setForceRefresh(false);
+  }, [forceRefresh]);
+
+  const deleteSearch = (item: string) => {
+    helpers.RemoveFromRecentSearches(item);
+    setForceRefresh(!forceRefresh);
+  };
+
   const renderItem = (item: any) => (
-    <PillContainer onPress={() => setSearchText(item.item)}>
+    <PillContainer
+      onPress={() => setSearchText(item.item)}
+      onLongPress={() => deleteSearch(item.item)}>
       <PillTitle>{item.item}</PillTitle>
     </PillContainer>
   );
 
   if (!data) return null;
+  console.log(data);
   return (
     <Container
       data={data}

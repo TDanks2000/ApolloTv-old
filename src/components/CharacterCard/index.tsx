@@ -1,6 +1,6 @@
 import {View, Text} from 'react-native';
 import React from 'react';
-import {Character} from '../../@types';
+import {Character, SubOrDub, VoiceActor} from '../../@types';
 import {
   ActorName,
   BottomContainer,
@@ -12,7 +12,18 @@ import {
   Wrapper,
 } from './CharacterCard.styles';
 
-const PersonCard = ({id, image, name, role, voiceActors}: Character) => {
+interface Props extends Character {
+  subOrDub: SubOrDub | undefined;
+}
+
+const PersonCard = ({id, image, name, role, voiceActors, subOrDub}: Props) => {
+  const findVoiceActor = (): VoiceActor | undefined => {
+    const language = subOrDub === 'dub' ? 'english' : 'japanese';
+    return voiceActors.find(
+      actor => actor.language?.toLowerCase() === language,
+    );
+  };
+
   return (
     <Container disabled>
       <ImageBackground
@@ -27,14 +38,14 @@ const PersonCard = ({id, image, name, role, voiceActors}: Character) => {
             <VoiceActorImage
               source={{
                 uri:
-                  voiceActors[0]?.image ??
+                  findVoiceActor()?.image ??
                   'https://w7.pngwing.com/pngs/765/178/png-transparent-no-matter-how-i-look-at-it-it-s-you-guys-fault-i-m-not-popular-slice-of-life-anime-comedy-others-miscellaneous-black-hair-computer-wallpaper.png',
               }}
             />
           </TopContainer>
           <BottomContainer>
             <CharacterName>{name.full ?? '??'}</CharacterName>
-            <ActorName>{voiceActors[0]?.name.full ?? '??'}</ActorName>
+            <ActorName>{findVoiceActor()?.name.full ?? '??'}</ActorName>
           </BottomContainer>
         </Wrapper>
       </ImageBackground>

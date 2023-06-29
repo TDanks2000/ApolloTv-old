@@ -1,4 +1,3 @@
-import {View, Text} from 'react-native';
 import React from 'react';
 import {
   Container,
@@ -12,22 +11,31 @@ import {
 } from './TopBar.styles';
 import {useNavigation} from '@react-navigation/native';
 import {StackNavigation} from '../../@types';
+import {useAccessToken} from '../../contexts';
+import NotLoggedInComponent from './NotLoggedIn';
 
 const TopBarComponent = () => {
+  const {accessToken} = useAccessToken();
   const navigation = useNavigation<StackNavigation>();
 
   return (
     <Container>
       <ProfileContainer>
-        <ProfileImage
-          source={{
-            uri: 'https://avatars.githubusercontent.com/u/107899019?v=4',
-          }}
-        />
-        <ProfileTextContainer>
-          <ProfileText>Hello</ProfileText>
-          <ProfileText numberOfLines={1}>Big Boi</ProfileText>
-        </ProfileTextContainer>
+        {accessToken ? (
+          <>
+            <ProfileImage
+              source={{
+                uri: 'https://avatars.githubusercontent.com/u/107899019?v=4',
+              }}
+            />
+            <ProfileTextContainer>
+              <ProfileText>Hello</ProfileText>
+              <ProfileText numberOfLines={1}>Big Boi</ProfileText>
+            </ProfileTextContainer>
+          </>
+        ) : (
+          <NotLoggedInComponent />
+        )}
       </ProfileContainer>
 
       <IconContainer>

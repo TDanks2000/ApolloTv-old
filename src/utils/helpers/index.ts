@@ -22,22 +22,39 @@ export const getSubOrDub = (): SubOrDub => {
 
 export const recentSearchs = (recentSearch?: string): string[] => {
   const maxItems = 5;
-  // set 5 max recent searches if 5 already exists remove first item in array and push the new search to the front of the array
   const recentSearchs = storage.getString('recentSearchs')?.split(',') ?? [];
 
   if (recentSearch && !recentSearchs?.includes(recentSearch)) {
-    if (recentSearch && recentSearchs.length === maxItems) {
-      recentSearchs.pop();
-      recentSearchs.unshift(recentSearch);
+    // check if string is just empty spaces using regex to covert all empty space to 1 space
+    if (recentSearch?.replace(/\s/g, '').length !== 0) {
+      if (recentSearch && recentSearchs.length === maxItems) {
+        recentSearchs.pop();
+        recentSearchs.unshift(recentSearch);
 
-      storage.set('recentSearchs', recentSearchs.join(','));
-    } else if (recentSearch && recentSearchs.length < maxItems) {
-      recentSearchs.unshift(recentSearch);
-      storage.set('recentSearchs', recentSearchs.join(','));
+        storage.set('recentSearchs', recentSearchs.join(','));
+      } else if (recentSearch && recentSearchs.length < maxItems) {
+        recentSearchs.unshift(recentSearch);
+        storage.set('recentSearchs', recentSearchs.join(','));
+      }
     }
   }
 
   return recentSearchs as string[];
+};
+
+export const RemoveFromRecentSearches = (recentSearch: string): string[] => {
+  // find recentSearch in recentSearchs
+  const recentSearchs = storage.getString('recentSearchs')?.split(',') ?? [];
+
+  // remove recentSearch from recentSearchs
+  const index = recentSearchs.indexOf(recentSearch);
+  if (index !== -1) recentSearchs.splice(index, 1);
+
+  // dont add empty string
+  if (recentSearchs.length === 0) storage.delete('recentSearchs');
+  else storage.set('recentSearchs', recentSearchs.join(','));
+
+  return recentSearchs;
 };
 
 export const parseDeepLinks = (urlFragment: string) => {
