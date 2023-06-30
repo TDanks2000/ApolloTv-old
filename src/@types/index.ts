@@ -237,3 +237,14 @@ export interface IUseAcessToken {
   setAccessToken: (value: string) => void;
   checkedForToken: boolean;
 }
+
+export interface SQLEpisodeData {
+  id: string;
+  title: string;
+  anime_id: number;
+  image: string;
+  episode_number: number;
+  next_episode_id: string;
+  watched: boolean;
+  watched_percentage: number;
+}
