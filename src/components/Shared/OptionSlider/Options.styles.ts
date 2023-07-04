@@ -6,9 +6,6 @@ export const Container = styled.View`
   flex-wrap: nowrap;
   justify-content: center;
   align-items: center;
-  border-radius: 8px;
-
-  overflow: hidden;
 `;
 
 interface Props {
@@ -19,6 +16,8 @@ export const Item = styled.TouchableOpacity<Props>`
   padding: 7px 15px;
   background-color: ${({isActive, theme}) =>
     isActive ? 'black' : theme.text.secondary};
+  border: ${({isActive, theme}) =>
+    isActive ? `1.5px solid ${theme.base.mainColor}` : 'none'};
 `;
 
 export const ItemText = styled.Text<Props>`

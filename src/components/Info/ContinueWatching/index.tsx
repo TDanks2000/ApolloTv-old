@@ -8,21 +8,27 @@ import {
   Wrapper,
 } from './ContinueWatching.styles';
 import {StackNavigation} from '../../../@types';
-import {useNavigation} from '@react-navigation/native';
+import {useFocusEffect, useNavigation} from '@react-navigation/native';
+import {episodeSQLHelper} from '../../../utils/database';
 
 interface Props {
   animeId: number;
   currentEpisode: number;
   currentEpisodeData: any;
   animeData: any;
+  nextEpisodeData: any;
+  nextEpisodeNumber: number;
 }
 
 const ContinueWatching = ({
   animeId,
   currentEpisode,
   currentEpisodeData,
+  nextEpisodeData,
+  nextEpisodeNumber,
   animeData,
 }: Props) => {
+  const [watchedPercentage, setWatchedPercentage] = React.useState<number>(0);
   const navigation = useNavigation<StackNavigation>();
 
   const onPress = () => {
@@ -39,13 +45,38 @@ const ContinueWatching = ({
         id: animeId.toString(),
         title: animeData.title,
       },
+      next_episode_id: nextEpisodeData.id,
+      watched_percentage: watchedPercentage,
     });
   };
+
+  const getContuineWatchingAmount = async () => {
+    const data: any = await episodeSQLHelper.selectFromAnimeId(animeData.id);
+    const findEpisode = data.find(
+      (item: any) => item.episode_number === currentEpisode,
+    );
+
+    return setWatchedPercentage(findEpisode.watched_percentage);
+  };
+
+  useFocusEffect(
+    React.useCallback(() => {
+      getContuineWatchingAmount();
+    }, [animeId, currentEpisode]),
+  );
 
   return (
     <Container>
       <Wrapper onPress={onPress}>
-        <PercentWatched watched_amount={currentEpisode <= 1 ? 100 : 100} />
+        <PercentWatched
+          watched_amount={
+            currentEpisode <= 1
+              ? 100
+              : watchedPercentage
+              ? Math.floor(watchedPercentage)
+              : 100
+          }
+        />
         <TextContainer>
           <TextIcon name="play-circle-o" />
           <Text>

@@ -27,6 +27,7 @@ const Option = ({options, setOption, option, onPress}: Props) => {
           <Item
             key={o.value}
             onPress={() => handlePress(o.value)}
+            activeOpacity={0.7}
             // @ts-ignore
             isActive={active}
             disabled={active}>

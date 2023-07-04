@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {QueryAnime, RootStackParamList, SubOrDub} from '../../@types';
-import {useNavigation} from '@react-navigation/native';
+import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {Info} from '../../components';
 import {DescriptionComponent} from '../../components/Shared';
@@ -26,11 +26,13 @@ const InfoScreen = ({route}: Props) => {
   const [showEpisodesModal, setShowEpisodesModal] = React.useState(false);
   const [dubOrSub, setDubOrSub] = React.useState<SubOrDub>();
 
-  useEffect(() => {
-    if (!id) return navigate.navigate('Home');
+  useFocusEffect(
+    React.useCallback(() => {
+      if (!id) return navigate.navigate('Home');
 
-    setDubOrSub(helpers.getSubOrDub());
-  }, []);
+      setDubOrSub(helpers.getSubOrDub());
+    }, []),
+  );
 
   const fetcher = async () => {
     const mediaStatus = (await anilist.media.anime(Number(id))) as any;
@@ -66,12 +68,20 @@ const InfoScreen = ({route}: Props) => {
 
   if (!data) return <InfoPageSkeleton />;
 
-  const findNextEpisode = (episodes: any[]) => {
-    const nextEpisodeNumber = mediaListStatus?.progress + 1;
+  const findNextEpisode = (
+    episodes: any[],
+    howManyEpisodesForward: number,
+    returnLastEpisodeIfFin?: boolean,
+  ) => {
+    const nextEpisodeNumber =
+      mediaListStatus?.progress + howManyEpisodesForward;
 
     if (mediaListStatus.status === 'COMPLETED') return undefined;
-    if (nextEpisodeNumber >= episodes.length)
+    if (nextEpisodeNumber >= episodes.length && returnLastEpisodeIfFin)
       return episodes[episodes.length - 1];
+
+    if (!returnLastEpisodeIfFin && nextEpisodeNumber > episodes.length)
+      return undefined;
 
     const find =
       episodes.find((episode: any) => episode.number === nextEpisodeNumber) ||
@@ -80,7 +90,8 @@ const InfoScreen = ({route}: Props) => {
     return find;
   };
 
-  const nextEpisode = findNextEpisode(data.episodes);
+  const nextEpisode = findNextEpisode(data.episodes, 1, true);
+  const nextNextEpisode = findNextEpisode(data.episodes, 2, false);
 
   return (
     <SafeAreaView>
@@ -99,6 +110,8 @@ const InfoScreen = ({route}: Props) => {
             animeId={Number(data.id)}
             currentEpisode={nextEpisode?.number ?? 1}
             currentEpisodeData={nextEpisode ?? {}}
+            nextEpisodeData={nextNextEpisode ?? {}}
+            nextEpisodeNumber={nextNextEpisode?.number ?? 1}
           />
         )}
         <Info.Options

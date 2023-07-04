@@ -1,4 +1,4 @@
-import {SQLEpisodeData} from '../../@types';
+import {SQLEpisodeData, SQLUpdateEpisodeData} from '../../@types';
 import {sqlDB} from './client';
 
 export const createTable = async () => {
@@ -28,23 +28,40 @@ export const createTable = async () => {
 
 export const insertEpisode = async (episode: SQLEpisodeData) => {
   // Update the episode data
-  const query = `INSERT INTO episodes (id, title, anime_id, image, episode_number, next_episode_id, watched, watched_percentage) VALUES (?, ?, ?, ?, ?, ?, ?)`;
+  const searchQuery = `SELECT * FROM episodes WHERE id = ?`;
+
+  const searchPromise: any[] = await new Promise((resolve, reject) => {
+    sqlDB.transaction(tx => {
+      tx.executeSql(
+        searchQuery,
+        [episode.id],
+        (_, {rows: {raw}}) => {
+          resolve(raw());
+        },
+        (_, error) => reject(error),
+      );
+    });
+  });
+
+  if (searchPromise.length > 0) return;
+
+  const query = `INSERT INTO episodes (id, title, anime_id, image, episode_number, next_episode_id, watched, watched_percentage) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`;
 
   return await sqlDB.transaction(tx => {
     return tx.executeSql(query, [
-      episode.id,
-      episode.title,
-      episode.anime_id,
-      episode.image,
-      episode.episode_number,
-      episode.next_episode_id,
-      episode.watched,
-      episode.watched_percentage,
+      String(episode.id),
+      String(episode.title),
+      Number(episode.anime_id),
+      String(episode.image),
+      Number(episode.episode_number),
+      String(episode.next_episode_id),
+      Number(episode.watched),
+      Number(episode.watched_percentage),
     ]);
   });
 };
 
-export const updateTable = async (episode: SQLEpisodeData) => {
+export const updateTable = async (episode: SQLUpdateEpisodeData) => {
   const query = `UPDATE episodes SET watched = ?, watched_percentage = ?, watchedAt = CURRENT_TIMESTAMP WHERE id = ?`;
 
   return await sqlDB.transaction(tx => {
@@ -58,48 +75,77 @@ export const updateTable = async (episode: SQLEpisodeData) => {
 
 export const selectFromAnimeId = async (id: string) => {
   const query =
-    'SELECT * FROM episodes WHERE anime_id = ? ORDER by episode DESC';
+    'SELECT * FROM episodes WHERE anime_id = ? ORDER by episode_number DESC';
 
-  return await sqlDB.transaction(tx => {
-    return tx.executeSql(
-      query,
-      [id],
-      (_, {rows}) => {
-        return rows;
-      },
-      (_, error) => console.log(error),
-    );
+  const promise = new Promise((resolve, reject) => {
+    sqlDB.transaction(tx => {
+      tx.executeSql(
+        query,
+        [id],
+        (_, {rows: {raw}}) => {
+          resolve(raw());
+        },
+        (_, error) => reject(error),
+      );
+    });
+  });
+
+  return promise;
+};
+
+export const selectFromEpisodeId = async (id: string) => {
+  const query = `SELECT * FROM episodes WHERE id = ?`;
+
+  const promise = new Promise((resolve, reject) => {
+    sqlDB.transaction(tx => {
+      tx.executeSql(
+        query,
+        [id],
+        (_, {rows: {raw}}) => {
+          resolve(raw());
+        },
+        (_, error) => reject(error),
+      );
+    });
   });
 };
 
 export const selectAllWatched = async (id: string) => {
   const query = `SELECT * FROM episodes WHERE anime_id = ? AND watched = 1`;
 
-  return await sqlDB.transaction(tx => {
-    return tx.executeSql(
-      query,
-      [id],
-      (_, {rows}) => {
-        return rows;
-      },
-      (_, error) => console.log(error),
-    );
+  const promise = new Promise((resolve, reject) => {
+    sqlDB.transaction(tx => {
+      return tx.executeSql(
+        query,
+        [id],
+        (_, {rows: {raw}}) => {
+          resolve(raw());
+        },
+        (_, error) => reject(error),
+      );
+    });
   });
+
+  return promise;
 };
 
 export const SelectAll = async () => {
   const query = 'SELECT * FROM episodes';
 
-  return await sqlDB.transaction(tx => {
-    return tx.executeSql(
-      query,
-      [],
-      (_, {rows}) => {
-        return rows;
-      },
-      (_, error) => console.log(error),
-    );
+  const promise = new Promise((resolve, reject) => {
+    sqlDB.transaction(tx => {
+      tx.executeSql(
+        query,
+        [],
+        (_, {rows: {raw}}) => {
+          resolve(raw());
+        },
+        (_, error) => reject(error),
+      );
+    });
   });
+
+  return promise;
 };
 
 export const deleteEpisode = async (id: string) => {

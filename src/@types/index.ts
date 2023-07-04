@@ -61,9 +61,10 @@ export type RootStackParamList = {
   VideoPlayer: {
     episode_id: string;
     source_provider: sourceProviders;
-
+    next_episode_id?: string;
     episode_info: EpisodeInfo;
     anime_info: AnimeInfo;
+    watched_percentage?: number;
   };
 };
 
@@ -256,8 +257,14 @@ export interface SQLEpisodeData {
   title: string;
   anime_id: number;
   image: string;
-  episode_number: number;
-  next_episode_id: string;
+  episode_number: number | undefined;
+  next_episode_id: string | undefined;
+  watched: boolean;
+  watched_percentage: number;
+}
+
+export interface SQLUpdateEpisodeData {
+  id: string;
   watched: boolean;
   watched_percentage: number;
 }

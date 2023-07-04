@@ -14,6 +14,8 @@ interface Props {
   duration: number;
   setPaused: (paused: boolean) => void;
   videoRef: any;
+
+  updateDB: () => void;
 }
 
 const ControlsSlider = ({
@@ -21,6 +23,7 @@ const ControlsSlider = ({
   duration,
   setPaused,
   videoRef,
+  updateDB,
 }: Props) => {
   const durationTimeFormatted = dayjs(duration * 1000).format(
     duration > 3600000 ? 'HH:mm:ss' : 'mm:ss',
@@ -36,6 +39,7 @@ const ControlsSlider = ({
   const onSlidingComplete = (value: number) => {
     videoRef.current.seek(value);
     setPaused(false);
+    updateDB();
   };
 
   return (

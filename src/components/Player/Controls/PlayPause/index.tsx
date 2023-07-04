@@ -1,6 +1,7 @@
 import {View, Text} from 'react-native';
 import React from 'react';
 import {Button, ButtonIcon} from '../Controls.styles';
+import {episodeSQLHelper} from '../../../../utils/database';
 
 interface Props {
   paused: boolean;

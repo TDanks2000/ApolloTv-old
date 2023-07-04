@@ -15,6 +15,7 @@ import {BackButtonComponent} from '../../Shared';
 import ControlsSlider from './Slider';
 import {AnimeInfo, EpisodeInfo} from '../../../@types';
 import {utils} from '../../../utils';
+import {episodeSQLHelper} from '../../../utils/database';
 
 interface Props {
   paused: boolean;
@@ -25,6 +26,8 @@ interface Props {
 
   episode_info: EpisodeInfo;
   anime_info: AnimeInfo;
+
+  updateDB: () => void;
 }
 
 const PlayerControls = ({
@@ -35,13 +38,15 @@ const PlayerControls = ({
   duration,
   episode_info,
   anime_info,
+  updateDB,
 }: Props) => {
   const [hideControls, setHideControls] = React.useState<boolean>(false);
   const actualTitle = utils.getTitle(anime_info.title);
 
   let hideControlsDuration: number = 5000;
   let hideControlsTimeout: number;
-  const handleInactive = () => {
+  const handleInactive = async () => {
+    await updateDB();
     setHideControls((prev: boolean) => !prev);
 
     clearTimeout(hideControlsTimeout);
@@ -83,6 +88,7 @@ const PlayerControls = ({
             duration={duration}
             setPaused={setPaused}
             videoRef={videoRef}
+            updateDB={updateDB}
           />
         </Bottom>
       </Container>
