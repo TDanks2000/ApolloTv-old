@@ -11,7 +11,7 @@ export const Container = styled.View`
   padding: 0 20px;
 `;
 
-export const ProfileContainer = styled.View`
+export const ProfileContainer = styled.TouchableOpacity`
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
@@ -33,10 +33,16 @@ export const ProfileTextContainer = styled.View`
   gap: -3px;
 `;
 
-export const ProfileText = styled.Text`
-  color: white;
+interface TextProps {
+  color?: string;
+  isProfileName?: boolean;
+}
+
+export const ProfileText = styled.Text<TextProps>`
+  color: ${({color}) => color ?? 'white'};
   font-size: 15px;
   font-family: ${({theme}) => theme.text.fonts.NunitoSans};
+  font-weight: ${({isProfileName}) => (isProfileName ? 'bold' : 'normal')};
 `;
 
 export const IconContainer = styled.View`

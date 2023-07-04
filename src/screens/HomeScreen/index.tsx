@@ -1,8 +1,9 @@
 import React, {useEffect} from 'react';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {BannerComponent, TopBarComponent} from '../../components';
-import {CWContainer, SectionContainer} from './HomeScreen.styles';
+import {GenericContainer, SectionContainer} from './HomeScreen.styles';
 import {
+  AiringScheduleContainer,
   ContuineWatchingContainer,
   GenericSection,
   PopularContainer,
@@ -18,15 +19,18 @@ const HomeScreen = () => {
         <SectionContainer>
           <BannerComponent />
         </SectionContainer>
-        {/* <CWContainer>
+        {/* <GenericContainer>
           <ContuineWatchingContainer />
-        </CWContainer> */}
-        <CWContainer>
+        </GenericContainer> */}
+        <GenericContainer>
           <GenericSection sectionTitle="Top Rated" sectionType={'top_rated'} />
-        </CWContainer>
-        <CWContainer>
+        </GenericContainer>
+        <GenericContainer>
           <GenericSection sectionTitle="Trending" sectionType={'trending'} />
-        </CWContainer>
+        </GenericContainer>
+        {/* <GenericContainer> */}
+        {/* <AiringScheduleContainer /> */}
+        {/* </GenericContainer> */}
       </ScrollView>
     </SafeAreaView>
   );

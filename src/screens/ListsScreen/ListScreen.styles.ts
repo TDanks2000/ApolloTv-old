@@ -8,3 +8,23 @@ export const Title = styled(Text)`
 `;
 
 export const Wrapper = styled.View``;
+
+export const SelectorContainer = styled.View`
+  padding-bottom: 15px;
+`;
+
+export const NoDataTextWrapper = styled.View`
+  pointer-events: none;
+  width: 100%;
+  height: 93%;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+`;
+
+export const NoDataText = styled(Text)`
+  font-weight: bold;
+  text-transform: uppercase;
+
+  font-size: 22px;
+`;

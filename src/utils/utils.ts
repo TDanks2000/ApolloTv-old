@@ -18,7 +18,7 @@ export const getTitle = (
   return (
     title.english ??
     title.native ??
-    title?.romanji ??
+    title?.romaji ??
     title.userPreferred ??
     undefined
   );
@@ -28,4 +28,22 @@ export const textSanitizer = (textWithHTML: string): string => {
   return sanitizer(textWithHTML, {
     allowedTags: [],
   });
+};
+
+export const epochTime = (time: number) => {
+  let options: Intl.DateTimeFormatOptions = {
+    year: 'numeric',
+    month: 'numeric',
+    day: 'numeric',
+  };
+
+  return new Intl.DateTimeFormat('en-GB', options).format(new Date(time)); // returns DD/MM/YYYY
+};
+
+// returns a new object with the values at each key mapped using mapFn(value)
+export const objectMap = (object: any, mapFn: Function) => {
+  return Object.keys(object).reduce(function (result: any, key: string) {
+    result[key] = mapFn(object[key]);
+    return result;
+  }, {});
 };

@@ -19,6 +19,10 @@ export const SharedContainer = styled.View`
   overflow: hidden;
 `;
 
+export const SharedContainerRel = styled(SharedContainer)`
+  position: relative;
+`;
+
 export const Text = styled.Text`
   color: white;
   font-family: ${({theme}) => theme.text.fonts.NunitoSans};

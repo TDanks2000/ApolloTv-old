@@ -44,7 +44,6 @@ const RecentSearches = ({searchText, setSearchText}: Props) => {
   );
 
   if (!data) return null;
-  console.log(data);
   return (
     <Container
       data={data}

@@ -4,6 +4,6 @@ export const SectionContainer = styled.View`
   margin-top: 15px;
 `;
 
-export const CWContainer = styled(SectionContainer)`
+export const GenericContainer = styled(SectionContainer)`
   margin-top: 25px;
 `;

@@ -44,12 +44,12 @@ export const NavBarItem = styled.TouchableOpacity<NavBarIconProps>`
 
 export const NavBarIcon = styled(Icon)<NavBarIconProps>`
   font-size: 23px;
-  color: ${({theme, isFocused}) => (!isFocused ? theme.text.primary : 'black')};
+  color: ${({theme}) => theme.text.primary};
 `;
 
 export const NavBarText = styled.Text`
   font-size: 15px;
-  color: black;
+  color: white;
 
   font-weight: bold;
   font-family: ${({theme}) => theme.text.fonts.NunitoSans};

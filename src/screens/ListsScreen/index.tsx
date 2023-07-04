@@ -1,23 +1,66 @@
 import {FlatList} from 'react-native';
 import React from 'react';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import {ScrollView, SharedContainer} from '../../styles/sharedStyles';
+import {ScrollView, SharedContainerRel} from '../../styles/sharedStyles';
 import {AnimeTrending} from '../../utils/TestData';
-import {Title, Wrapper} from './ListScreen.styles';
+import {
+  NoDataText,
+  NoDataTextWrapper,
+  SelectorContainer,
+  Title,
+  Wrapper,
+} from './ListScreen.styles';
 import ListCard from '../../components/ListCard';
 import {ListContainer} from '../../containers';
+import {useQuery} from '@tanstack/react-query';
+import {useAccessToken} from '../../contexts';
+import {Anilist} from '@tdanks2000/anilist-wrapper';
+import {Lists} from '../../components';
+import {MediaListStatus} from '../../@types';
+import {api} from '../../utils';
 
 const ListsScreen = () => {
+  const [selectedList, setSelectedList] =
+    React.useState<MediaListStatus>('CURRENT');
+  const {accessToken} = useAccessToken();
+  const anilist = new Anilist(accessToken);
   const {results: data} = AnimeTrending;
+
+  const {
+    isPending,
+    isError,
+    data: newData,
+    error,
+  } = useQuery({
+    queryKey: ['user-lists'],
+    queryFn: () => api.fetchAnilistLists(accessToken, anilist),
+  });
+
+  if (isPending) return null;
+  if (!newData) return null;
+
+  const selectedLisData = newData[selectedList?.toLowerCase()];
 
   return (
     <SafeAreaView>
-      <SharedContainer>
-        <Title>WatchList</Title>
+      <SharedContainerRel>
+        <SelectorContainer>
+          <Lists.Selector
+            selectedList={selectedList}
+            setSelectedList={setSelectedList}
+            selectedColor={newData.color}
+          />
+        </SelectorContainer>
         <Wrapper>
-          <ListContainer data={data} />
+          {selectedLisData?.length === 0 ? (
+            <NoDataTextWrapper>
+              <NoDataText>This list is empty!</NoDataText>
+            </NoDataTextWrapper>
+          ) : (
+            <ListContainer data={selectedLisData} />
+          )}
         </Wrapper>
-      </SharedContainer>
+      </SharedContainerRel>
     </SafeAreaView>
   );
 };

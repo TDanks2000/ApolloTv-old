@@ -2,7 +2,6 @@ import {Animated} from 'react-native';
 import React from 'react';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {
-  BackButton,
   BottomContainer,
   InfoTopContainer,
   RatingContainer,
@@ -12,6 +11,7 @@ import {
   Wrapper,
   Button,
 } from './InfoPage.styles';
+import {BackButtonComponent} from '../../Shared';
 
 const InfoPageSkeleton = () => {
   const [opacity, setOpacity] = React.useState(new Animated.Value(0.5));
@@ -38,7 +38,7 @@ const InfoPageSkeleton = () => {
       <InfoTopContainer style={{opacity}}>
         <Wrapper>
           <TopContainer>
-            <BackButton />
+            <BackButtonComponent isModal={false} />
             <RatingContainer />
           </TopContainer>
           <BottomContainer>

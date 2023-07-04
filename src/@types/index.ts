@@ -8,9 +8,17 @@ export type TitleLanguageOptions =
 
 export type sourceProviders = 'gogoanime';
 
+export type MediaListStatus =
+  | 'CURRENT'
+  | 'PLANNING'
+  | 'COMPLETED'
+  | 'DROPPED'
+  | 'PAUSED'
+  | 'REPEATING';
+
 export interface ITitleLanguageOptions {
-  romaji: string;
   english?: string;
+  romaji: string;
   native: string;
   userPreferred: string;
 }
