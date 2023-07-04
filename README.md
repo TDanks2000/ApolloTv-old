@@ -13,6 +13,7 @@
 <div align="center">
     <p align="center">
     <img src="https://img.shields.io/badge/platforms-android-blueviolet?style=for-the-badge"/>
+    <img src="https://img.shields.io/github/license/tdanks2000/apollotvrn?style=for-the-badge" />
   </p>
 </div>
 
@@ -50,10 +51,6 @@ The app is still in alpha, so it may not work as expected. If you find any bugs,
 </details>
 
 <br />
-
-## License
-
-[![Licence](https://img.shields.io/github/license/tdanks2000/apollotvrn?style=for-the-badge)](./LICENSE)
 
 <br />
 <br />
