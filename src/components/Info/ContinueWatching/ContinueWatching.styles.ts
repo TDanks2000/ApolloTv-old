@@ -23,8 +23,12 @@ export const Wrapper = styled.TouchableOpacity`
   max-width: 400px;
 `;
 
-export const PercentWatched = styled.View`
-  width: 50%;
+interface Props {
+  watched_amount: number;
+}
+
+export const PercentWatched = styled.View<Props>`
+  width: ${({watched_amount}) => watched_amount}%;
   height: 100%;
   position: absolute;
   bottom: 0;

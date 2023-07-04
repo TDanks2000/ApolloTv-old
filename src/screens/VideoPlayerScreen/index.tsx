@@ -42,14 +42,6 @@ const VideoPlayerScreen = ({route}: Props) => {
   const [duration, setDuration] = React.useState(0);
   const [currentTime, setCurrentTime] = React.useState(0);
 
-  const onProgress = (data: OnProgressData) => {
-    setCurrentTime(data.currentTime);
-  };
-
-  const onLoad = (data: OnLoadData) => {
-    setDuration(data.duration);
-  };
-
   const fetcher = async () => {
     return await api.fetcher(`${API_BASE}/anilist/watch/${episode_id}`);
   };
@@ -62,15 +54,31 @@ const VideoPlayerScreen = ({route}: Props) => {
   if (isPending) return <Text>Loading...</Text>;
   if (isError) return <Text>{error.message}</Text>;
 
-  const findHighestQuality = (): {url: string; quality: string} => {
-    const sources = data.sources;
+  const onProgress = (data: OnProgressData) => {
+    setCurrentTime(data?.currentTime ?? 0);
+  };
 
-    const highest = sources.find((source: any) => {
-      if (source.quality.includes('1080p')) return source;
-      if (source.quality.includes('720p')) return source;
-      if (source.quality.includes('480p')) return source;
-      if (source.quality.includes('360p')) return source;
-      return source[0];
+  const onLoad = (data: OnLoadData) => {
+    setDuration(data.duration);
+  };
+
+  const findHighestQuality = (): {url: string; quality: string} => {
+    const sources = data?.sources;
+
+    if (!sources)
+      return {
+        url: '',
+        quality: '',
+      };
+    if (sources?.length < 1) return sources[0];
+
+    const highest = sources.reduce((prevSource: any, currentSource: any) => {
+      const prevQuality = prevSource.quality.split('p')[0];
+      const currentQuality = currentSource.quality.split('p')[0];
+
+      if (parseInt(currentQuality) > parseInt(prevQuality))
+        return currentSource;
+      else return prevSource;
     });
     return highest;
   };
@@ -94,7 +102,8 @@ const VideoPlayerScreen = ({route}: Props) => {
         source={{
           uri: findHighestQuality().url,
         }}
-        muted
+        muted={false}
+        volume={1}
         paused={paused}
         style={{
           width: '100%',
