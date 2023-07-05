@@ -7,13 +7,21 @@ import {RootStackParamList} from '../../@types';
 import {useQuery} from '@tanstack/react-query';
 import {api} from '../../utils';
 import {API_BASE} from '@env';
-import {NavigationContext} from '../../contexts';
+import {NavigationContext, useAccessToken} from '../../contexts';
 import Orientation from 'react-native-orientation-locker';
 import {episodeSQLHelper} from '../../utils/database';
+import {Anilist} from '@tdanks2000/anilist-wrapper';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'VideoPlayer'>;
 
 const VideoPlayerScreen = ({route}: Props) => {
+  const {accessToken} = useAccessToken();
+  const anilist = new Anilist(accessToken);
+
+  const watchTimeBeforeSync = 80;
+  const [watched, setWatched] = React.useState<boolean>(false);
+  const [watchedAnilist, setWatchedAnilist] = React.useState<boolean>(false);
+
   const {
     episode_id,
     episode_info,
@@ -52,15 +60,6 @@ const VideoPlayerScreen = ({route}: Props) => {
 
   const videoRef: any = React.useRef(null);
 
-  React.useEffect(() => {
-    createAndUpdateDB();
-    setShowNavBar(false);
-
-    return () => {
-      setShowNavBar(true);
-    };
-  }, []);
-
   const [paused, setPaused] = React.useState(true);
   const [duration, setDuration] = React.useState(0);
   const [currentTime, setCurrentTime] = React.useState(0);
@@ -78,7 +77,7 @@ const VideoPlayerScreen = ({route}: Props) => {
     if (findEpisode) {
       const watchedSeekTo = (findEpisode.watched_percentage * duration) / 100;
       videoRef.current?.seek(watchedSeekTo);
-    } else if (watched_percentage) {
+    } else if (watched_percentage && watched_percentage > 0) {
       const watchedSeekTo = (watched_percentage * duration) / 100;
       videoRef.current?.seek(watchedSeekTo);
     }
@@ -87,6 +86,75 @@ const VideoPlayerScreen = ({route}: Props) => {
   React.useEffect(() => {
     checkIfWatched();
   }, [watched_percentage, duration]);
+
+  // Update sql progress
+  const updateDB = async () => {
+    if (watched) return;
+    const watchedAnount = Math.floor((currentTime / duration) * 100);
+    console.log('watched', watchedAnount);
+
+    await episodeSQLHelper.updateTable({
+      id: episode_info.id,
+      watched: watchedAnount > watchTimeBeforeSync ? true : false,
+      watched_percentage:
+        watchedAnount > 0 && watchedAnount > watchTimeBeforeSync
+          ? 100
+          : watchedAnount,
+    });
+  };
+
+  // check if episode is wathced from the sql db
+  const checkIfWatchedFromDB = async () => {
+    const checkInDb: any = await episodeSQLHelper.selectFromAnimeId(
+      anime_info.id,
+    );
+
+    if (!checkInDb) return setWatched(false);
+    const find = checkInDb.find((item: any) => item.id === episode_info.id);
+    if (find?.watched) setWatched(true);
+    return setWatched(false);
+  };
+
+  // Update anilist progress
+  const updateAnilist = async () => {
+    if (!accessToken || watchedAnilist) return false;
+    const didUpdate = await anilist.user.updateShow({
+      mediaId: parseInt(anime_info.id),
+      progress: episode_info.episode_number,
+    });
+
+    if (didUpdate) setWatchedAnilist(true);
+  };
+
+  const onProgress = (data: OnProgressData) => {
+    setCurrentTime(data?.currentTime ?? 0);
+
+    if (duration) {
+      const watched = (data?.currentTime / duration) * 100;
+      if (watched > watchTimeBeforeSync) {
+        // update anilist progress
+        updateAnilist();
+
+        // update the progress in the sql db
+        updateDB();
+        setWatched(true);
+      }
+    }
+  };
+
+  const onLoad = (data: OnLoadData) => {
+    setDuration(data.duration);
+  };
+
+  React.useEffect(() => {
+    createAndUpdateDB();
+    checkIfWatchedFromDB();
+    setShowNavBar(false);
+
+    return () => {
+      setShowNavBar(true);
+    };
+  }, []);
 
   const fetcher = async () => {
     return await api.fetcher(`${API_BASE}/anilist/watch/${episode_id}`);
@@ -99,24 +167,6 @@ const VideoPlayerScreen = ({route}: Props) => {
 
   if (isPending) return <Text>Loading...</Text>;
   if (isError) return <Text>{error.message}</Text>;
-
-  const onProgress = (data: OnProgressData) => {
-    setCurrentTime(data?.currentTime ?? 0);
-  };
-
-  const onLoad = (data: OnLoadData) => {
-    setDuration(data.duration);
-  };
-
-  const updateDB = async () => {
-    const watched = (currentTime / duration) * 100;
-
-    await episodeSQLHelper.updateTable({
-      id: episode_info.id,
-      watched: false,
-      watched_percentage: watched,
-    });
-  };
 
   const findHighestQuality = (): {url: string; quality: string} => {
     const sources = data?.sources;

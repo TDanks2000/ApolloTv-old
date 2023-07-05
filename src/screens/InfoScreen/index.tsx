@@ -76,7 +76,8 @@ const InfoScreen = ({route}: Props) => {
     const nextEpisodeNumber =
       mediaListStatus?.progress + howManyEpisodesForward;
 
-    if (mediaListStatus.status === 'COMPLETED') return undefined;
+    if (mediaListStatus && mediaListStatus.status === 'COMPLETED')
+      return undefined;
     if (nextEpisodeNumber >= episodes.length && returnLastEpisodeIfFin)
       return episodes[episodes.length - 1];
 
