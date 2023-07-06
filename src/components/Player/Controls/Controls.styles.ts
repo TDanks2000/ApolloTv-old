@@ -23,8 +23,8 @@ export const Container = styled.View<Props>`
 
 export const Button = styled.TouchableOpacity`
   background-color: rgba(255, 255, 255, 0.2);
-  width: 50px;
-  height: 50px;
+  width: 55px;
+  height: 55px;
   border-radius: 9999px;
 
   justify-content: center;
@@ -33,7 +33,7 @@ export const Button = styled.TouchableOpacity`
 
 export const ButtonIcon = styled(Icon)`
   color: white;
-  font-size: 18px;
+  font-size: 23px;
 `;
 
 export const Top = styled(LinearGradient).attrs({
@@ -58,9 +58,9 @@ export const TopTextContainer = styled.View`
   flex: 1;
 `;
 
-interface TopTextProps {
+type TopTextProps = {
   weight?: 'bold' | 'normal' | 'light';
-}
+};
 
 export const TopText = styled(Text)<TopTextProps>`
   font-weight: ${({weight}) => weight ?? 'normal'};
@@ -98,4 +98,13 @@ export const ClickToDismiss = styled.Pressable`
   width: 100%;
   height: 100%;
   z-index: 1;
+`;
+
+export const TopRight = styled.View`
+  position: relative;
+`;
+
+export const SettingsCog = styled(Icon)`
+  color: white;
+  font-size: 20px;
 `;

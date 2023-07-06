@@ -30,7 +30,7 @@ const TopBarComponent = () => {
   };
 
   const {isPending, isError, data, error} = useQuery({
-    queryKey: ['Top-Bar'],
+    queryKey: ['Top-Bar', accessToken],
     queryFn: fetcher,
   });
 
@@ -38,7 +38,7 @@ const TopBarComponent = () => {
 
   return (
     <Container>
-      {(data as any) ? (
+      {accessToken && (data as any)?.Viewer ? (
         <ProfileContainer
           onPress={() => Linking.openURL(data?.Viewer?.siteUrl)}>
           <ProfileImage

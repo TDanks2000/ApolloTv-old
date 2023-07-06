@@ -21,7 +21,7 @@ const Stack = createNativeStackNavigator<RootStackParamList>();
 const config = {
   screens: {
     LoggingIn: 'logMeIn/:access_code',
-    Home: '',
+    Home: '/',
     Search: 'search',
   },
 };

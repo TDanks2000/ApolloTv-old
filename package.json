@@ -9,7 +9,9 @@
     "start": "react-native start",
     "test": "jest",
     "postversion": "cd android && ./gradlew bundleRelease",
-    "build": "cd android && ./gradlew bundleRelease"
+    "build": "cd android && ./gradlew bundleRelease",
+    "buildApk": "cd android && ./gradlew assemble",
+    "buildDevApk": "cd android && ./gradlew assembleDebug"
   },
   "dependencies": {
     "@react-native-community/blur": "^4.3.2",
@@ -31,6 +33,7 @@
     "react-native-safe-area-context": "^4.6.3",
     "react-native-screens": "^3.22.0",
     "react-native-sqlite-storage": "^6.0.1",
+    "react-native-toast-message": "^2.1.6",
     "react-native-vector-icons": "^9.2.0",
     "react-native-video": "^6.0.0-alpha.6",
     "sanitize-html": "^2.11.0",

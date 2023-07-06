@@ -10,6 +10,8 @@ import {
   NavigationProvixer,
   useAccessToken,
 } from './src/contexts';
+import {Toast} from 'react-native-toast-message/lib/src/Toast';
+import {toastConfig} from './src/styles/toastconfig';
 
 const queryClient = new QueryClient();
 
@@ -32,6 +34,7 @@ const InnerApp = () => {
           <AppStack setHiddenStatusBar={false} />
         </NavigationProvixer>
       </QueryClientProvider>
+      <Toast autoHide={true} config={toastConfig} />
     </ThemeProvider>
   );
 };

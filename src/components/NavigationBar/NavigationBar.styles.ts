@@ -10,7 +10,7 @@ export const NavBarContainer = styled.View`
   left: 0;
   width: 100%;
   height: 60px;
-  z-index: 100000000;
+  z-index: 10000;
 `;
 
 export const NavBarWrapper = styled.View`

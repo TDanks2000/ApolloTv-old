@@ -6,14 +6,26 @@ import {helpers, storage} from '../../utils';
 import {ANILIST_ACCESS_TOKEN_STORAGE} from '../../utils/constants';
 import {useAccessToken} from '../../contexts';
 
+import Toast from 'react-native-toast-message';
+
 type Props = NativeStackScreenProps<RootStackParamList, 'LoggingIn'>;
 
 const LoggingInScreen = ({route, navigation}: Props) => {
   const {accessToken} = useAccessToken();
   const {params} = route;
 
+  const dismessTime = 3000;
   React.useEffect(() => {
-    if (accessToken) navigation.navigate('Home');
+    if (accessToken) {
+      Toast.show({
+        type: 'info',
+        text1: 'Well done you just tried to log in again 😵',
+        text2: 'You seem to be already logged in',
+        position: 'top',
+        visibilityTime: dismessTime,
+      });
+      navigation.navigate('Home');
+    }
     if (!params?.access_code) return;
     const token = helpers.parseDeepLinks(params?.access_code);
 
@@ -21,8 +33,17 @@ const LoggingInScreen = ({route, navigation}: Props) => {
 
     try {
       storage.set(ANILIST_ACCESS_TOKEN_STORAGE, token);
+    } catch (error) {
+    } finally {
+      Toast.show({
+        type: 'success',
+        text1: '🎉🎊🍾',
+        text2: 'You have been successfully logged in',
+        position: 'top',
+        visibilityTime: dismessTime,
+      });
       navigation.navigate('Home');
-    } catch (error) {}
+    }
   }, [params?.access_code]);
 
   if (!params?.access_code)
