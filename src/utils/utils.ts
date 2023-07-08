@@ -1,4 +1,8 @@
-import {ITitleLanguageOptions, TitleLanguageOptions} from '../@types';
+import {
+  ITitleLanguageOptions,
+  SourceVideoOptions,
+  TitleLanguageOptions,
+} from '../@types';
 import sanitizer from 'sanitize-html';
 
 export const getTitle = (
@@ -46,4 +50,19 @@ export const objectMap = (object: any, mapFn: Function) => {
     result[key] = mapFn(object[key]);
     return result;
   }, {});
+};
+
+export const sortQualities = (
+  qualities: SourceVideoOptions[],
+): SourceVideoOptions[] => {
+  qualities.sort((a, b) => {
+    const qualityPattern = /(\d+)p/;
+    const qualityA = parseInt(qualityPattern.exec(a.quality)?.[1] || '0');
+    const qualityB = parseInt(qualityPattern.exec(b.quality)?.[1] || '0');
+
+    // Compare the qualities in descending order
+    return qualityB - qualityA;
+  });
+
+  return qualities;
 };

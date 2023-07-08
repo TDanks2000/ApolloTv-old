@@ -15,10 +15,16 @@ import PlayPause from './PlayPause';
 import SkipTo from './SkipTo';
 import {BackButtonComponent} from '../../Shared';
 import ControlsSlider from './Slider';
-import {AnimeInfo, EpisodeInfo} from '../../../@types';
+import {
+  AnimeInfo,
+  EpisodeInfo,
+  SettingsOptionsGroup,
+  SourceVideoOptions,
+} from '../../../@types';
 import {utils} from '../../../utils';
 import {episodeSQLHelper} from '../../../utils/database';
-import Settings from './Settings';
+
+import {VideoSettingsModal} from '../../../modals';
 
 interface Props {
   paused: boolean;
@@ -31,6 +37,11 @@ interface Props {
   anime_info: AnimeInfo;
 
   updateDB: () => void;
+
+  selectedQuality: SourceVideoOptions;
+  setSelectedQuality: (quality: SourceVideoOptions) => void;
+  sources: SourceVideoOptions[];
+  checkIfWatched: () => void;
 }
 
 const PlayerControls = ({
@@ -42,14 +53,21 @@ const PlayerControls = ({
   episode_info,
   anime_info,
   updateDB,
+  selectedQuality,
+  sources,
+  setSelectedQuality,
+  checkIfWatched,
 }: Props) => {
   const [hideControls, setHideControls] = React.useState<boolean>(false);
   const actualTitle = utils.getTitle(anime_info.title);
-  const [spinState, setSpillegalnState] = React.useState<boolean>(false);
+  const [spinState, setSpinState] = React.useState<boolean>(false);
   const spinValue = React.useRef(new Animated.Value(0)).current;
 
+  const [openSettings, setOpenSettings] = React.useState<boolean>(false);
+
   const startSpinAnimation = () => {
-    setSpillegalnState((prev: boolean) => !prev);
+    setSpinState((prev: boolean) => !prev);
+    setOpenSettings((prev: boolean) => !prev);
 
     Animated.timing(spinValue, {
       toValue: 1,
@@ -68,8 +86,8 @@ const PlayerControls = ({
 
   let hideControlsDuration: number = 7000;
   let hideControlsTimeout: number;
-  const handleInactive = async () => {
-    await updateDB();
+  const handleInactive = (wantUpdate: boolean = true) => {
+    if (wantUpdate) updateDB();
     setHideControls((prev: boolean) => !prev);
 
     clearTimeout(hideControlsTimeout);
@@ -77,12 +95,31 @@ const PlayerControls = ({
       if (paused) return;
       setHideControls(true);
     }, hideControlsDuration);
+
+    if (spinState) startSpinAnimation();
+  };
+
+  const sourcesSorted = utils.sortQualities(sources as any);
+  const qualityOptions: SettingsOptionsGroup = {
+    title: 'Quality',
+    options: sourcesSorted.map((source: SourceVideoOptions) => ({
+      title: source.quality ?? undefined,
+      value: source.quality?.toLowerCase(),
+      onPress: () => {
+        if (source.quality !== selectedQuality.quality)
+          setSelectedQuality(source);
+        handleInactive(false);
+        setTimeout(() => {
+          checkIfWatched();
+        }, 500);
+      },
+    })),
   };
 
   return (
     <>
       <Container shouldShow={hideControls}>
-        <ClickToDismiss onPress={handleInactive} />
+        <ClickToDismiss onPress={() => handleInactive()} />
         {/* @ts-ignore */}
         <Top>
           <BackButtonComponent isModal={false} />
@@ -100,7 +137,12 @@ const PlayerControls = ({
                 <SettingsCog name="cog" />
               </Animated.View>
             </TouchableOpacity>
-            <Settings shouldOpen={spinState} />
+            <VideoSettingsModal
+              shouldOpen={openSettings}
+              closeFunction={startSpinAnimation}
+              selectedQuality={selectedQuality}
+              options={[qualityOptions]}
+            />
           </TopRight>
         </Top>
         <Middle>

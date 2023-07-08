@@ -8,6 +8,7 @@ import {
   WatchTimeText,
 } from './Slider.styles';
 import dayjs from 'dayjs';
+import {TouchableOpacity} from 'react-native';
 
 interface Props {
   currentTime: number;
@@ -25,11 +26,19 @@ const ControlsSlider = ({
   videoRef,
   updateDB,
 }: Props) => {
+  const [timeLeft, toggleTimeLeft] = React.useReducer(
+    showTimeLeft => !showTimeLeft,
+    false,
+  );
   const durationTimeFormatted = dayjs(duration * 1000).format(
     duration > 3600000 ? 'HH:mm:ss' : 'mm:ss',
   );
   const currentTimeFormatted = dayjs(currentTime * 1000).format(
     currentTime > 3600000 ? 'HH:mm:ss' : 'mm:ss',
+  );
+
+  const timeLeftFormatted = dayjs(duration * 1000 - currentTime * 1000).format(
+    duration > 3600000 ? 'HH:mm:ss' : 'mm:ss',
   );
 
   const onSlidingStart = () => {
@@ -41,6 +50,10 @@ const ControlsSlider = ({
     setPaused(false);
     updateDB();
   };
+
+  React.useEffect(() => {
+    console.log(timeLeft);
+  }, [timeLeft]);
 
   return (
     <Container>
@@ -54,7 +67,11 @@ const ControlsSlider = ({
       <TextContainer>
         <WatchTimeText>{currentTimeFormatted}</WatchTimeText>
         <TimeSeperator>/</TimeSeperator>
-        <TotalTimeText>{durationTimeFormatted}</TotalTimeText>
+        <TouchableOpacity onPress={() => toggleTimeLeft()}>
+          <TotalTimeText>
+            {timeLeft ? timeLeftFormatted : durationTimeFormatted}
+          </TotalTimeText>
+        </TouchableOpacity>
       </TextContainer>
     </Container>
   );

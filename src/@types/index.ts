@@ -268,3 +268,28 @@ export interface SQLUpdateEpisodeData {
   watched: boolean;
   watched_percentage: number;
 }
+
+export type Quality = '1080p' | '720p' | '480p' | '360p';
+
+export type SourceVideoOptions = {
+  url?: string;
+  quality: Quality | string;
+};
+
+export type SettingsOptions = {
+  title: string;
+  value: string;
+  onPress: () => void;
+};
+
+export type SettingsOptionsGroup = {
+  title: string;
+  options: SettingsOptions[];
+};
+
+export type SettingsSectionsType = {
+  name: string;
+  value: string;
+  iconName?: string;
+  selectedOption: string;
+};

@@ -69,7 +69,7 @@ export const TopText = styled(Text)<TopTextProps>`
 
 export const Middle = styled.View`
   position: relative;
-  z-index: 2;
+  z-index: 1;
   /* flex: 1; */
   width: 100%;
   flex-direction: row;
@@ -79,7 +79,7 @@ export const Middle = styled.View`
 `;
 
 export const Bottom = styled(LinearGradient).attrs({
-  colors: ['rgba(0, 0, 0, 0)', 'rgba(0, 0, 0, 0.45)'],
+  colors: ['rgba(0, 0, 0, 0)', 'rgba(0, 0, 0, .5)'],
   start: {x: 0, y: 0},
   end: {x: 0, y: 1},
 })`
@@ -89,6 +89,8 @@ export const Bottom = styled(LinearGradient).attrs({
   right: 0;
   z-index: 1;
   padding: 30px 15px;
+  height: 150px;
+  justify-content: flex-end;
 `;
 
 export const ClickToDismiss = styled.Pressable`
