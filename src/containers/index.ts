@@ -1,5 +1,6 @@
 import AiringScheduleContainer from './AiringSchedule';
 import ListContainer from './ListContainer';
+import CardContainer from './CardContainer';
 import {
   ContuineWatchingContainer,
   PopularContainer,
@@ -11,5 +12,5 @@ export {
   PopularContainer,
   GenericSection,
   ListContainer,
-  AiringScheduleContainer,
+  AiringScheduleContainer,CardContainer
 };

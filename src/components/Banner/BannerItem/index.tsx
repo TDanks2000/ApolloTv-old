@@ -12,20 +12,22 @@ import {useNavigation} from '@react-navigation/native';
 import {CardProps} from '../../../@types';
 import {utils} from '../../../utils';
 import {RatingComponent, WatchNowComponent} from '../../Shared';
+import { useBreakpoints } from '../../../hooks';
 
 const BannerCard = ({poster_image, rating, title, id}: CardProps) => {
+  const {isMobile} = useBreakpoints();
   const actualTitle = utils.getTitle(title);
   const navigation: any = useNavigation();
 
   const {width} = useWindowDimensions();
-  const screenSize = width * 0.84;
+  const screenSize = width * (isMobile ? 0.84 : 0.45);
 
   const onPress = () => {
     navigation.navigate('Info', {id});
   };
 
   return (
-    <Container width={screenSize} onPress={onPress}>
+    <Container isMobile={isMobile} width={screenSize} onPress={onPress}>
       <ImageBackground
         source={{
           uri: poster_image,

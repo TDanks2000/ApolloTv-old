@@ -1,4 +1,4 @@
 import useDebounce from './useDebounce';
-import {useAnilist} from './useAnilist';
+import {useBreakpoints} from './useBreakpoints';
 
-export {useDebounce, useAnilist};
+export {useDebounce, useBreakpoints};

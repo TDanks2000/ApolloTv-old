@@ -51,10 +51,6 @@ const ControlsSlider = ({
     updateDB();
   };
 
-  React.useEffect(() => {
-    console.log(timeLeft);
-  }, [timeLeft]);
-
   return (
     <Container>
       <SliderBar

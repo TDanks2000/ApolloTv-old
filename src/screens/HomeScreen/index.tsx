@@ -14,7 +14,7 @@ import {storage} from '../../utils';
 const HomeScreen = () => {
   return (
     <SafeAreaView>
-      <ScrollView>
+      <ScrollView style={{marginTop: 15}}>
         <TopBarComponent />
         <SectionContainer>
           <BannerComponent />

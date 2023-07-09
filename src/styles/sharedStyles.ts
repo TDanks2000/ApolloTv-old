@@ -15,7 +15,7 @@ export const ModalContainer = styled.View`
 `;
 
 export const SharedContainer = styled.View`
-  margin: 20px ${({theme}) => theme.spacing.paddingLeft};
+  margin: 25px ${({theme}) => theme.spacing.paddingLeft};
   overflow: hidden;
 `;
 

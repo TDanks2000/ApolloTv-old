@@ -6,13 +6,14 @@ import {
   Container,
   ImageBackground,
   RatingWrapper,
+  SubTitle,
   Title,
   Wrapper,
 } from './RectangleCard.styles';
 import {useNavigation} from '@react-navigation/native';
 import {RatingComponent} from '../Shared';
 
-const RectangleCard = ({title, id, poster_image, rating}: CardProps) => {
+const RectangleCard = ({title, id, poster_image, rating, relation_type}: CardProps) => {
   const navigation: any = useNavigation();
   const actualTitle = utils.getTitle(title);
 
@@ -28,7 +29,10 @@ const RectangleCard = ({title, id, poster_image, rating}: CardProps) => {
           <RatingWrapper>
             <RatingComponent rating={rating} />
           </RatingWrapper>
-          <Title>{actualTitle}</Title>
+          <View>
+            <Title>{actualTitle}</Title>
+            {relation_type ? <SubTitle>{relation_type.replaceAll("_", " ")}</SubTitle> : null}
+          </View>
         </Wrapper>
       </ImageBackground>
     </Container>

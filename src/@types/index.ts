@@ -34,6 +34,7 @@ export interface CardProps {
   color?: string;
   type?: string;
   release_year?: number;
+  relation_type?: string;
 }
 
 export interface EpisodeCardProps {

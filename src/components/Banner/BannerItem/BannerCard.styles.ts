@@ -4,12 +4,12 @@ import {styled} from 'styled-components/native';
 
 interface ContainerProps {
   width: number;
+  isMobile: boolean;
 }
 
 export const Container = styled.TouchableOpacity<ContainerProps>`
-  background-color: ${({theme}) => theme.base.mainColor};
   width: ${({width}) => width}px;
-  height: 250px;
+  height:${({isMobile}) => (isMobile ? ' 250px' : '300px')};;
   border-radius: 15px;
   overflow: hidden;
 `;
