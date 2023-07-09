@@ -21,7 +21,7 @@ const Option = ({options, setOption, option, onPress}: Props) => {
   return (
     <Container>
       {options.map(o => {
-        const active = o.value === option;
+        const active: boolean = o.value === option;
 
         return (
           <Item

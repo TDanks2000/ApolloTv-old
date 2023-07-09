@@ -1,4 +1,9 @@
+import { rgba } from 'polished';
 import styled from 'styled-components/native';
+
+interface Props {
+  isActive: string;
+}
 
 export const Container = styled.View`
   display: flex;
@@ -6,18 +11,20 @@ export const Container = styled.View`
   flex-wrap: nowrap;
   justify-content: center;
   align-items: center;
+  border-radius: 8px;
+  overflow: hidden; 
 `;
 
-interface Props {
-  isActive: string;
-}
+
 
 export const Item = styled.TouchableOpacity<Props>`
   padding: 7px 15px;
   background-color: ${({isActive, theme}) =>
     isActive ? 'black' : theme.text.secondary};
-  border: ${({isActive, theme}) =>
-    isActive ? `1.5px solid ${theme.base.mainColor}` : 'none'};
+   /* border-bottom: ${({isActive, theme}) =>
+    isActive ? `1.5px solid ${theme.base.mainColor}` : 'none'};  */
+    border-top-width: ${({isActive}) => (isActive ? '2px' : '0px')};
+    border-color: ${({theme}) => rgba(theme.base.mainColor, 0.8)};
 `;
 
 export const ItemText = styled.Text<Props>`
