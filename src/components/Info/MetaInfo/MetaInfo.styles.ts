@@ -20,8 +20,8 @@ export const TopMetaInfo = styled.View`
 `;
 
 export const Seperator = styled.View`
-  width: 0.2px;
-  height: 70%;
+  width: 0.3px;
+  height: 100%;
   background-color: ${({theme}) => theme.text.secondary};
 `;
 

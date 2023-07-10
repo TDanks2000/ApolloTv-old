@@ -1,4 +1,4 @@
-import useDebounce from './useDebounce';
+import useDebounceSearch from './useDebounceSearch';
 import {useBreakpoints} from './useBreakpoints';
 
-export {useDebounce, useBreakpoints};
+export {useDebounceSearch, useBreakpoints};

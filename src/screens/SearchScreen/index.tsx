@@ -4,7 +4,7 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import {SharedContainer} from '../../styles/sharedStyles';
 import {Search} from '../../components';
 import {AnimeTrending} from '../../utils/TestData';
-import {useDebounce} from '../../hooks';
+import {useDebounceSearch} from '../../hooks';
 import {api, helpers} from '../../utils';
 import {API_BASE} from '@env';
 import {useQuery} from '@tanstack/react-query';
@@ -13,7 +13,7 @@ const SearchScreen = () => {
   const [data, setData] = React.useState();
   const [searchText, setSearchText] = React.useState('');
 
-  const debouncedSearchTerm = useDebounce(searchText, 500);
+  const debouncedSearchTerm = useDebounceSearch(searchText, 500);
 
   const fetcher = async () => {
     const getData = await api.fetcher(

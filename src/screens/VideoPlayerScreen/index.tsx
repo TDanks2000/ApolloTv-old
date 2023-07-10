@@ -68,6 +68,7 @@ const VideoPlayerScreen = ({route}: Props) => {
   const [paused, setPaused] = React.useState(true);
   const [duration, setDuration] = React.useState(0);
   const [currentTime, setCurrentTime] = React.useState(0);
+  const [isBuffering, setIsBuffering] = React.useState<boolean>(false);
 
   const checkIfWatched = async () => {
     if (!duration) return;
@@ -233,12 +234,13 @@ const VideoPlayerScreen = ({route}: Props) => {
         sources={sources}
         setSelectedQuality={setSelectedSource}
         checkIfWatched={checkIfWatched}
+        isBuffering={isBuffering}
       />
       <Video
         ref={videoRef}
         onLoad={onLoad}
         onProgress={onProgress}
-        onBuffer={() => console.log('buffering')}
+        onBuffer={data => setIsBuffering(data.isBuffering)}
         source={{
           uri: selectedSource.url,
           headers: {

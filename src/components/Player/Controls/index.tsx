@@ -32,6 +32,7 @@ interface Props {
   videoRef: any;
   currentTime: number;
   duration: number;
+  isBuffering: boolean;
 
   episode_info: EpisodeInfo;
   anime_info: AnimeInfo;
@@ -57,6 +58,7 @@ const PlayerControls = ({
   sources,
   setSelectedQuality,
   checkIfWatched,
+  isBuffering,
 }: Props) => {
   const [hideControls, setHideControls] = React.useState<boolean>(false);
   const actualTitle = utils.getTitle(anime_info.title);
@@ -85,7 +87,7 @@ const PlayerControls = ({
   });
 
   let hideControlsDuration: number = 7000;
-  let hideControlsTimeout: number;
+  let hideControlsTimeout: any;
   const handleInactive = (wantUpdate: boolean = true) => {
     if (wantUpdate) updateDB();
     setHideControls((prev: boolean) => !prev);
@@ -146,13 +148,28 @@ const PlayerControls = ({
           </TopRight>
         </Top>
         <Middle>
-          <SkipTo icon="backward" duration={30} />
+          <SkipTo
+            icon="backward"
+            duration={-30}
+            videoRef={videoRef}
+            currentTime={currentTime}
+            updateDb={updateDB}
+            isBuffering={isBuffering}
+          />
           <PlayPause
             paused={paused}
             setPaused={setPaused}
             handleInactive={handleInactive}
+            isBuffering={isBuffering}
           />
-          <SkipTo icon="forward" duration={30} />
+          <SkipTo
+            icon="forward"
+            duration={30}
+            videoRef={videoRef}
+            currentTime={currentTime}
+            updateDb={updateDB}
+            isBuffering={isBuffering}
+          />
         </Middle>
         {/* @ts-ignore */}
         <Bottom>

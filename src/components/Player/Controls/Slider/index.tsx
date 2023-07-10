@@ -8,7 +8,7 @@ import {
   WatchTimeText,
 } from './Slider.styles';
 import dayjs from 'dayjs';
-import {TouchableOpacity} from 'react-native';
+import {GestureResponderEvent, TouchableOpacity} from 'react-native';
 
 interface Props {
   currentTime: number;
@@ -59,6 +59,7 @@ const ControlsSlider = ({
         minimumValue={0}
         onSlidingStart={onSlidingStart}
         onSlidingComplete={onSlidingComplete}
+        slideOnTap={true}
       />
       <TextContainer>
         <WatchTimeText>{currentTimeFormatted}</WatchTimeText>

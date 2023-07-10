@@ -13,7 +13,13 @@ import {
 import {useNavigation} from '@react-navigation/native';
 import {RatingComponent} from '../Shared';
 
-const RectangleCard = ({title, id, poster_image, rating, relation_type}: CardProps) => {
+const RectangleCard = ({
+  title,
+  id,
+  poster_image,
+  rating,
+  relation_type,
+}: CardProps) => {
   const navigation: any = useNavigation();
   const actualTitle = utils.getTitle(title);
 
@@ -31,7 +37,9 @@ const RectangleCard = ({title, id, poster_image, rating, relation_type}: CardPro
           </RatingWrapper>
           <View>
             <Title>{actualTitle}</Title>
-            {relation_type ? <SubTitle>{relation_type.replaceAll("_", " ")}</SubTitle> : null}
+            {relation_type ? (
+              <SubTitle>{relation_type.replaceAll('_', ' ')}</SubTitle>
+            ) : null}
           </View>
         </Wrapper>
       </ImageBackground>

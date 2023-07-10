@@ -1,11 +1,11 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import {FullAnimeInfo, QueryAnime, RootStackParamList, SubOrDub} from '../../@types';
+import {QueryAnime, RootStackParamList, SubOrDub} from '../../@types';
 import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {Info} from '../../components';
 import {DescriptionComponent} from '../../components/Shared';
-import {ScrollView, SharedContainer} from '../../styles/sharedStyles';
+import {ScrollView} from '../../styles/sharedStyles';
 import {EpisodesModal} from '../../modals';
 import {API_BASE} from '@env';
 import {api, helpers} from '../../utils';
@@ -15,7 +15,7 @@ import CharacterContainer from '../../containers/CastContainer';
 import {Wrapper} from './InfoScreen.styles';
 import {useAccessToken} from '../../contexts';
 import {Anilist} from '@tdanks2000/anilist-wrapper';
-import { CardContainer } from '../../containers';
+import {CardContainer} from '../../containers';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Info'>;
 
@@ -24,7 +24,10 @@ const InfoScreen = ({route}: Props) => {
   const anilist = new Anilist(accessToken);
   const navigate: any = useNavigation();
   const {id} = route.params;
+
   const [showEpisodesModal, setShowEpisodesModal] = React.useState(false);
+  const [showTrailerModal, setShowTrailerModal] = React.useState(false);
+
   const [dubOrSub, setDubOrSub] = React.useState<SubOrDub>();
 
   useFocusEffect(
@@ -94,7 +97,6 @@ const InfoScreen = ({route}: Props) => {
 
   const nextEpisode = findNextEpisode(data.episodes, 1, true);
   const nextNextEpisode = findNextEpisode(data.episodes, 2, false);
-  
 
   return (
     <SafeAreaView>
@@ -121,36 +123,32 @@ const InfoScreen = ({route}: Props) => {
           openEpisodesModal={() => setShowEpisodesModal(true)}
           episodeLegth={data?.episodes?.length ?? 0}
         />
-        <Info.MetaInfo
-          title={data.title}
-          rating={data.rating}
-          genres={data.genres}
-          total_episodes={data?.episodes?.length.toString() ?? 0}
-          release_year={data.releaseDate?.toString() ?? '??'}
-          key={`info-meta-info-${data.id}`}
-        />
-        <DescriptionComponent description={data.description} />      
+        <Info.MetaInfo data={data} key={`info-meta-info-${data.id}`} />
+        <DescriptionComponent description={data.description} />
         <Wrapper>
           <CharacterContainer
             characters={data.characters}
             subOrDub={dubOrSub}
           />
-        </Wrapper>       
-        {data?.relations.length > 0 ?  <Wrapper>
-          <CardContainer
-            title="Related"
-            data={data?.relations.filter(item => item.type.toLowerCase() === "manga" ? false : true)}
-          />
-        </Wrapper> : null}
-        {data?.recommendations.length > 0 ? <Wrapper>
-          <CardContainer
-            title="You may also like"
-            data={data?.recommendations}
-          />
-        </Wrapper> : null}
-        
-  
-        
+        </Wrapper>
+        {data?.relations.length > 0 ? (
+          <Wrapper>
+            <CardContainer
+              title="Related"
+              data={data?.relations.filter(item =>
+                item.type.toLowerCase() === 'manga' ? false : true,
+              )}
+            />
+          </Wrapper>
+        ) : null}
+        {data?.recommendations.length > 0 ? (
+          <Wrapper>
+            <CardContainer
+              title="You may also like"
+              data={data?.recommendations}
+            />
+          </Wrapper>
+        ) : null}
       </ScrollView>
       <EpisodesModal
         episodes={data.episodes}

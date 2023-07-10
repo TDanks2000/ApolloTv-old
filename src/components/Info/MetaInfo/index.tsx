@@ -10,37 +10,35 @@ import {
   AltText,
   Wrapper,
 } from './MetaInfo.styles';
-import {ITitleLanguageOptions} from '../../../@types';
+import {FullAnimeInfo, ITitleLanguageOptions} from '../../../@types';
 import {utils} from '../../../utils';
 
 interface Props {
-  release_year: string;
-  total_episodes: string;
-  genres: string[];
-  rating: number;
-  title: string | ITitleLanguageOptions;
-
-  isAdult?: boolean;
+  data: FullAnimeInfo;
 }
 
-const MetaInfo = ({
-  release_year,
-  total_episodes,
-  genres,
-  rating,
-  title,
-  isAdult,
-}: Props) => {
-  const actualTitle = utils.getTitle(title);
-  const actualGenres = genres?.slice(0, 2);
+const MetaInfo = ({data}: Props) => {
+  const now = new Date();
+  const actualTitle = utils.getTitle(data.title);
+  const actualGenres = data.genres?.slice(0, 2);
 
   return (
     <Container>
       <Wrapper>
         <TopMetaInfo>
-          <Text>{release_year ?? '??'}</Text>
+          <Text style={{textTransform: 'uppercase'}}>
+            {data.startDate.year ?? '??'} -{' '}
+            {data.status.toLowerCase() === 'ongoing'
+              ? 'Present'
+              : data.endDate.year ?? '??'}
+          </Text>
           <Seperator />
-          <Text>{total_episodes ?? 0} Episodes</Text>
+          <Text>
+            {data.episodes.length ?? 0}{' '}
+            {data.subOrDub.toUpperCase() === 'SUB' ? 'Subbed' : 'Dubbed'}{' '}
+            Episodes
+          </Text>
+          <Seperator />
         </TopMetaInfo>
         <Title numberOfLines={1}>{actualTitle}</Title>
         <BottomMetaInfo>
@@ -50,7 +48,7 @@ const MetaInfo = ({
             </BottomMetaInfoItem>
           ))}
           <BottomMetaInfoItem>
-            <AltText bold={true}>{isAdult ? '18+' : '13+'}</AltText>
+            <AltText bold={true}>{data.isAdult ? '18+' : '13+'}</AltText>
           </BottomMetaInfoItem>
         </BottomMetaInfo>
       </Wrapper>

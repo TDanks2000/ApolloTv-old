@@ -17,6 +17,7 @@ const queryClient = new QueryClient();
 
 const App = (): JSX.Element => {
   LogBox.ignoreAllLogs();
+
   return (
     <AccessTokenProvider>
       <InnerApp />
