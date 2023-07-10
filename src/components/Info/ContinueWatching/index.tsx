@@ -7,7 +7,7 @@ import {
   TextIcon,
   Wrapper,
 } from './ContinueWatching.styles';
-import {StackNavigation} from '../../../@types';
+import {FullAnimeInfo, StackNavigation} from '../../../@types';
 import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import {episodeSQLHelper} from '../../../utils/database';
 
@@ -15,7 +15,7 @@ interface Props {
   animeId: number;
   currentEpisode: number;
   currentEpisodeData: any;
-  animeData: any;
+  animeData: FullAnimeInfo;
   nextEpisodeData: any;
   nextEpisodeNumber: number;
 }
@@ -44,6 +44,7 @@ const ContinueWatching = ({
       anime_info: {
         id: animeId.toString(),
         title: animeData.title,
+        malId: animeData.malId,
       },
       next_episode_id: nextEpisodeData.id,
       watched_percentage: watchedPercentage,

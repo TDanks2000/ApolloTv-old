@@ -3,7 +3,11 @@ import React from 'react';
 import {Player} from '../../components';
 import Video, {OnLoadData, OnProgressData} from 'react-native-video';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import {RootStackParamList, SourceVideoOptions} from '../../@types';
+import {
+  AniskipData,
+  RootStackParamList,
+  SourceVideoOptions,
+} from '../../@types';
 import {useQuery} from '@tanstack/react-query';
 import {api} from '../../utils';
 import {API_BASE} from '@env';
@@ -27,6 +31,15 @@ const VideoPlayerScreen = ({route}: Props) => {
     SourceVideoOptions | undefined
   >(undefined);
 
+  const [hasSkipedIntro, toggleHasSkippedIntro] = React.useReducer(
+    s => !s,
+    false,
+  );
+  const [hasSkipedEnding, toggleHasSkippedEnding] = React.useReducer(
+    s => !s,
+    false,
+  );
+
   const {
     episode_id,
     episode_info,
@@ -35,6 +48,32 @@ const VideoPlayerScreen = ({route}: Props) => {
     next_episode_id,
     watched_percentage,
   } = route.params;
+
+  const fetchAniskip = async () => {
+    const skipTimes: AniskipData = await api.fetcher(
+      `${API_BASE}/aniskip/${anime_info.malId}/${episode_info.episode_number}`,
+    );
+
+    const ending = skipTimes.find(item => item.skipType === 'ed');
+    const opening = skipTimes.find(item => item.skipType === 'op');
+
+    const returnData = {
+      ending,
+      opening,
+    };
+
+    return returnData;
+  };
+
+  const {
+    isPending: skipDataPending,
+    isError: isSkipDataErro,
+    data: skipData,
+    error: skipDataError,
+  } = useQuery({
+    queryKey: ['aniskip', episode_id],
+    queryFn: fetchAniskip,
+  });
 
   const {setShowNavBar}: any = React.useContext(NavigationContext);
 
@@ -92,6 +131,37 @@ const VideoPlayerScreen = ({route}: Props) => {
   React.useEffect(() => {
     checkIfWatched();
   }, [watched_percentage, duration]);
+
+  // Skip intro / outro
+  React.useEffect(() => {
+    if (!videoRef?.current) return;
+    if (skipDataPending) return;
+    if (!currentTime || !duration) return;
+
+    if (skipData?.opening?.interval) {
+      const openingStartTime = skipData.opening.interval.startTime;
+      const isCurrentPosAtOpening = currentTime >= openingStartTime;
+
+      const openingEndTime = skipData.opening.interval.endTime;
+
+      if (isCurrentPosAtOpening && !hasSkipedIntro) {
+        toggleHasSkippedIntro();
+        videoRef.current.seek(openingEndTime);
+      }
+    }
+
+    if (skipData?.ending?.interval) {
+      const endingStartTime = skipData.ending.interval.startTime;
+      const isCurrentPosAtEnding = currentTime >= endingStartTime;
+
+      const endingEndTime = skipData.ending.interval.endTime;
+
+      if (isCurrentPosAtEnding && !hasSkipedEnding) {
+        toggleHasSkippedEnding();
+        videoRef.current.seek(endingEndTime);
+      }
+    }
+  }, [currentTime, duration]);
 
   // Update sql progress
   const updateDB = async () => {

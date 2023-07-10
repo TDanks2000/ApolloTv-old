@@ -77,6 +77,7 @@ const EpisodesModal = ({
                     anime_info={{
                       id: anime_info.id,
                       title: anime_info.title,
+                      malId: anime_info.malId,
                     }}
                   />
                 ))}

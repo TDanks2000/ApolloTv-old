@@ -83,6 +83,7 @@ export interface EpisodeInfo {
 
 export interface AnimeInfo {
   id: string;
+  malId: number;
   title: TitleType;
   image?: string;
   rating?: number;
@@ -90,6 +91,7 @@ export interface AnimeInfo {
   color?: string;
   type?: string;
   release_year?: number;
+
   [x: string]: any;
 }
 
@@ -294,3 +296,17 @@ export type SettingsSectionsType = {
   iconName?: string;
   selectedOption: string;
 };
+
+export type AniskipData = Aniskip[];
+
+export interface Aniskip {
+  episodeLength: number;
+  interval: AniskipInterval;
+  skipId: string;
+  skipType: 'op' | 'ed';
+}
+
+export interface AniskipInterval {
+  endTime: number;
+  startTime: number;
+}

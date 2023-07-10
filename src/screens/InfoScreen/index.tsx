@@ -157,6 +157,7 @@ const InfoScreen = ({route}: Props) => {
         anime_info={{
           id: data.id,
           title: data.title,
+          malId: data.malId,
         }}
       />
     </SafeAreaView>
