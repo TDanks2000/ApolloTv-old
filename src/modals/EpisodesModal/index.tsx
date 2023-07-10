@@ -14,6 +14,7 @@ import EpisodeCard from '../../components/EpisodeCard';
 import {AnimeInfo} from '../../@types';
 import {utils} from '../../utils';
 import {Paginate} from '../../components';
+import {episodeSQLHelper} from '../../utils/database';
 
 interface Props {
   episodes: any[];
@@ -29,6 +30,7 @@ const EpisodesModal = ({
   anime_info,
 }: Props) => {
   const [selectedPage, setSelectedPage] = React.useState<number>(1);
+  const [episodesFromDB, setEpisodesFromDB] = React.useState<any[]>([]);
 
   const pageSize = 50;
 
@@ -37,8 +39,15 @@ const EpisodesModal = ({
     setVisible(false);
   };
 
+  const getEpisodesFromSQLDB = async () => {
+    const data: any = await episodeSQLHelper.selectFromAnimeId(anime_info.id);
+
+    setEpisodesFromDB(data);
+  };
+
   React.useEffect(() => {
     if (!episodes || !episodes?.length) return;
+    getEpisodesFromSQLDB();
 
     if (episodes[0].number !== 1) episodes.sort((a, b) => a.number - b.number);
   }, [episodes]);
@@ -66,21 +75,28 @@ const EpisodesModal = ({
                   selectedPage === 1 ? 0 : (selectedPage - 1) * pageSize,
                   selectedPage === 1 ? pageSize : pageSize * selectedPage + 1,
                 )
-                .map((episode, index) => (
-                  <EpisodeCard
-                    key={`episode-${index}`}
-                    id={episode.id}
-                    title={episode.title}
-                    image={episode.image}
-                    episode_number={episode.number}
-                    setEpisodeModalVisible={setVisible}
-                    anime_info={{
-                      id: anime_info.id,
-                      title: anime_info.title,
-                      malId: anime_info.malId,
-                    }}
-                  />
-                ))}
+                .map((episode, index) => {
+                  const episodeFromDb = episodesFromDB.find(
+                    item => item.episode_number === episode.number,
+                  );
+
+                  return (
+                    <EpisodeCard
+                      key={`episode-${index}`}
+                      id={episode.id}
+                      title={episode.title}
+                      image={episode.image}
+                      episode_number={episode.number}
+                      setEpisodeModalVisible={setVisible}
+                      episodeDBEntry={episodeFromDb}
+                      anime_info={{
+                        id: anime_info.id,
+                        title: anime_info.title,
+                        malId: anime_info.malId,
+                      }}
+                    />
+                  );
+                })}
             </EpisodesWrapper>
           </Container>
         </ScrollView>

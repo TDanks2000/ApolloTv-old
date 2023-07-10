@@ -6,6 +6,9 @@ export const Container = styled.View`
   margin: 0 ${({theme}) => theme.spacing.paddingLeft};
   margin-top: ${({theme}) => theme.spacing.paddingTop};
   position: relative;
+
+  flex-direction: row;
+  justify-content: flex-start;
 `;
 
 export const Wrapper = styled.TouchableOpacity`

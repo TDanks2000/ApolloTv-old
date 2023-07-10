@@ -20,16 +20,21 @@ import {
 import {NavigationProp, useNavigation} from '@react-navigation/native';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 
-const EpisodeCard = ({
-  image,
-  id,
-  title,
-  episode_number,
-  watched_percentage,
-  setEpisodeModalVisible,
+const EpisodeCard = (props: EpisodeCardProps) => {
+  let {
+    anime_info,
+    episodeDBEntry,
+    id,
+    setEpisodeModalVisible,
+    title,
+    episode_number,
+    image,
+    watched_percentage,
+  } = props;
+  const [actualWatchedPercent, setActualWatchedPercent] = React.useState<
+    number | undefined
+  >(watched_percentage);
 
-  anime_info,
-}: EpisodeCardProps) => {
   const navigation = useNavigation<StackNavigation>();
 
   const onPress = () => {
@@ -51,6 +56,11 @@ const EpisodeCard = ({
     setEpisodeModalVisible(false);
   };
 
+  React.useEffect(() => {
+    if (episodeDBEntry?.watched_percentage && !watched_percentage)
+      setActualWatchedPercent(episodeDBEntry.watched_percentage);
+  }, []);
+
   return (
     <EpisodeContainer onPress={onPress}>
       <EpisodeImageBackground
@@ -60,9 +70,17 @@ const EpisodeCard = ({
         {/* @ts-ignore */}
         <Wrapper>
           <BottomBanner>
-            {watched_percentage && watched_percentage > 0 ? (
+            {actualWatchedPercent && actualWatchedPercent > 0 ? (
               <PercentWatchedContainer>
-                <PercentWatched watchedPercent={watched_percentage ?? 0} />
+                <PercentWatched
+                  watchedPercent={
+                    actualWatchedPercent
+                      ? actualWatchedPercent
+                      : Boolean(episodeDBEntry?.watched) === true
+                      ? 100
+                      : 0
+                  }
+                />
               </PercentWatchedContainer>
             ) : null}
             <BottomBannerTextContainer>

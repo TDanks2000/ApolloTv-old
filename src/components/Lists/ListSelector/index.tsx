@@ -23,20 +23,20 @@ const Selector = ({
       value: 'CURRENT',
     },
     {
-      name: 'Completed',
-      value: 'COMPLETED',
-    },
-    {
-      name: 'Dropped',
-      value: 'DROPPED',
-    },
-    {
       name: 'Plan to Watch',
       value: 'PLANNING',
     },
     {
       name: 'Re Watching',
       value: 'REPEATING',
+    },
+    {
+      name: 'Completed',
+      value: 'COMPLETED',
+    },
+    {
+      name: 'Dropped',
+      value: 'DROPPED',
     },
   ];
 

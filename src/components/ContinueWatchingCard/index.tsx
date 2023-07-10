@@ -31,6 +31,7 @@ const ContinueWatchingCard = ({title, poster_image, rating, id}: CardProps) => {
         source={{
           uri: poster_image,
         }}>
+        {/* @ts-ignore */}
         <Wrapper>
           <BottomBanner>
             <PercentWatchedContainer>

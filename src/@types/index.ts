@@ -45,6 +45,8 @@ export interface EpisodeCardProps {
   watched_percentage?: number;
   setEpisodeModalVisible: (value: boolean) => void;
 
+  episodeDBEntry: any;
+
   anime_info: AnimeInfo;
 }
 

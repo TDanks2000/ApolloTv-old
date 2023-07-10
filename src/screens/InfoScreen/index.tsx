@@ -12,14 +12,16 @@ import {api, helpers} from '../../utils';
 import {useQuery} from '@tanstack/react-query';
 import {InfoPageSkeleton} from '../../components/Skeletons';
 import CharacterContainer from '../../containers/CastContainer';
-import {Wrapper} from './InfoScreen.styles';
+import {CWWrapper, Wrapper} from './InfoScreen.styles';
 import {useAccessToken} from '../../contexts';
 import {Anilist} from '@tdanks2000/anilist-wrapper';
 import {CardContainer} from '../../containers';
+import {useBreakpoints} from '../../hooks';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Info'>;
 
 const InfoScreen = ({route}: Props) => {
+  const {isMobile} = useBreakpoints();
   const {accessToken} = useAccessToken();
   const anilist = new Anilist(accessToken);
   const navigate: any = useNavigation();

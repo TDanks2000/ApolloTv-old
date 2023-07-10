@@ -8,6 +8,7 @@ import {
   OptionText,
   Wrapper,
 } from './Options.styles';
+import {useBreakpoints} from '../../../hooks';
 
 interface Props {
   openEpisodesModal: () => void;
@@ -15,9 +16,10 @@ interface Props {
 }
 
 const Options = ({openEpisodesModal, episodeLegth}: Props) => {
+  const {isMobile} = useBreakpoints();
   return (
     <Container>
-      <Wrapper>
+      <Wrapper isMobile={isMobile}>
         <OptionContainer
           onPress={openEpisodesModal}
           disabled={episodeLegth === 0}>

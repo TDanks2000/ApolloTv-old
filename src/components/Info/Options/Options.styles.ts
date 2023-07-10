@@ -5,11 +5,17 @@ export const Container = styled.View`
   padding: ${({theme}) => theme.spacing.paddingLeft};
 `;
 
-export const Wrapper = styled.View`
+type WrapperProps = {
+  isMobile: boolean;
+};
+
+export const Wrapper = styled.View<WrapperProps>`
   width: 100%;
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: ${({isMobile}) =>
+    isMobile ? 'space-between' : 'flex-start'};
+  gap: ${({isMobile}) => (isMobile ? '0' : '30px')};
   align-items: center;
 `;
 
