@@ -97,7 +97,7 @@ const InfoScreen = ({route}: Props) => {
     return find;
   };
 
-  const nextEpisode = findNextEpisode(data.episodes, 1, true);
+  const nextEpisode = findNextEpisode(data.episodes, 1, false);
   const nextNextEpisode = findNextEpisode(data.episodes, 2, false);
 
   return (

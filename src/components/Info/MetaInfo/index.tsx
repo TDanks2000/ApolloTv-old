@@ -34,9 +34,7 @@ const MetaInfo = ({data}: Props) => {
           </Text>
           <Seperator />
           <Text>
-            {data.episodes.length ?? 0}{' '}
-            {data.subOrDub.toUpperCase() === 'SUB' ? 'Subbed' : 'Dubbed'}{' '}
-            Episodes
+            {`${data.episodes.length ?? 0} / ${data.totalEpisodes}`} Episodes
           </Text>
           <Seperator />
         </TopMetaInfo>
