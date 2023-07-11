@@ -20,12 +20,20 @@ import {helpers, utils} from '../../../utils';
 interface Props {
   rating: number;
   title: string | ITitleLanguageOptions;
+  episode_title?: string;
   poster_image: string;
   dubOrSub: string;
   setDubOrSub: (dubOrSub: SubOrDub) => void;
 }
 
-const Top = ({rating, title, poster_image, setDubOrSub, dubOrSub}: Props) => {
+const Top = ({
+  rating,
+  title,
+  poster_image,
+  setDubOrSub,
+  dubOrSub,
+  episode_title,
+}: Props) => {
   const actualTitle = utils.getTitle(title);
 
   const navigation = useNavigation();
@@ -50,7 +58,11 @@ const Top = ({rating, title, poster_image, setDubOrSub, dubOrSub}: Props) => {
           </TopContainer>
           <BottomContainer>
             {/* <SeasonText>Season 1</SeasonText> */}
-            <TitleText numberOfLines={1}>{actualTitle}</TitleText>
+            <TitleText numberOfLines={2}>
+              {actualTitle && !episode_title
+                ? actualTitle
+                : `${actualTitle} - ${episode_title}`}
+            </TitleText>
             <BottomBottomContainer>
               <WatchNowComponent WatchText="Watch trailer" />
               <Option

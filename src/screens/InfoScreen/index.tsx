@@ -105,6 +105,7 @@ const InfoScreen = ({route}: Props) => {
       <ScrollView>
         <Info.Top
           title={data.title}
+          episode_title={nextEpisode ? nextEpisode.title : undefined}
           rating={data.rating}
           poster_image={nextEpisode?.image ? nextEpisode.image : data.cover}
           key={`info-top-${data.id}`}
