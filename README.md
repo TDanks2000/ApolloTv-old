@@ -52,16 +52,14 @@ The app is still in alpha, so it may not work as expected. If you find any bugs,
 
 <br />
 
+## Contributing
+Contributions to the ApolloTv are welcome! If you find a bug, have a feature suggestion, or want to contribute improvements, Please make a pull request and i shall take a look at it
+
 <br />
-<br />
-<br />
+
 
 ## ❤️
 
 ApolloTv is made with the love and passion that I have for anime and manga. I hope you enjoy it as much as I do. If you have any suggestions or feedback, please contact me on discord (Prostarz)
-
 <br />
-
-# ❤️
-
 Reminder that <strong><i>you are great, you are enough, and your presence is valued.</i></strong> If you are struggling with your mental health, please reach out to someone you love and consult a professional. You are not alone.
