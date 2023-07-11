@@ -4,6 +4,7 @@ import {CardProps} from '../../@types';
 import {utils} from '../../utils';
 import {
   BottomBanner,
+  BottomBannerSubText,
   BottomBannerText,
   Container,
   ImageBackground,
@@ -13,7 +14,11 @@ import {
 } from './ContinueWatchingCard.styles';
 import {useNavigation} from '@react-navigation/native';
 
-const ContinueWatchingCard = ({title, poster_image, rating, id}: CardProps) => {
+const ContinueWatchingCard = (
+  props: CardProps & {watched_percentage: number; episode_number: number},
+) => {
+  const {title, poster_image, rating, id, watched_percentage, episode_number} =
+    props;
   const navigation: any = useNavigation();
 
   const {width} = useWindowDimensions();
@@ -34,10 +39,13 @@ const ContinueWatchingCard = ({title, poster_image, rating, id}: CardProps) => {
         {/* @ts-ignore */}
         <Wrapper>
           <BottomBanner>
-            <PercentWatchedContainer>
-              <PercentWatched />
-            </PercentWatchedContainer>
+            {watched_percentage === 0 ? null : (
+              <PercentWatchedContainer>
+                <PercentWatched watched_percentage={watched_percentage ?? 0} />
+              </PercentWatchedContainer>
+            )}
             <BottomBannerText>{actualTitle}</BottomBannerText>
+            <BottomBannerSubText>Episode {episode_number}</BottomBannerSubText>
           </BottomBanner>
         </Wrapper>
       </ImageBackground>

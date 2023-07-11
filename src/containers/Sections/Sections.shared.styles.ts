@@ -3,6 +3,7 @@ import {styled} from 'styled-components/native';
 
 export const SectionContainer = styled.View`
   margin: 0 20px;
+  margin-right: 0;
 `;
 
 export const SectionWrapper = styled.View`

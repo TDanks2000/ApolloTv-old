@@ -3,7 +3,12 @@ import ContinueWatchingCard from './ContinueWatchingCard';
 import NavigationBar from './NavigationBar';
 import RectangleCard from './RectangleCard';
 import TopBarComponent from './TopBar';
-import {RatingComponent, WatchNowComponent, Option} from './Shared';
+import {
+  RatingComponent,
+  WatchNowComponent,
+  Option,
+  MiddleOfScreenLoadingComponent,
+} from './Shared';
 import Paginate from './Paginate';
 import CharacterCard from './CharacterCard';
 
@@ -18,6 +23,7 @@ export {
   TopBarComponent,
   BannerComponent,
   Option,
+  MiddleOfScreenLoadingComponent,
   ContinueWatchingCard,
   RectangleCard,
   RatingComponent,

@@ -148,6 +148,25 @@ export const SelectAll = async () => {
   return promise;
 };
 
+export const SelectALlUnWatched = async () => {
+  const query = 'SELECT * FROM episodes WHERE watched = 0';
+
+  const promise = new Promise((resolve, reject) => {
+    sqlDB.transaction(tx => {
+      tx.executeSql(
+        query,
+        [],
+        (_, {rows: {raw}}) => {
+          resolve(raw());
+        },
+        (_, error) => reject(error),
+      );
+    });
+  });
+
+  return promise;
+};
+
 export const deleteEpisode = async (id: string) => {
   const query = `DELETE FROM episodes WHERE id = ?`;
 

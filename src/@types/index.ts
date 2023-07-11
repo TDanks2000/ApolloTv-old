@@ -25,7 +25,7 @@ export interface ITitleLanguageOptions {
 
 export type TitleType = string | ITitleLanguageOptions;
 
-export interface CardProps {
+export type CardProps = {
   title: TitleType;
   id: string;
   poster_image?: string;
@@ -35,7 +35,7 @@ export interface CardProps {
   type?: string;
   release_year?: number;
   relation_type?: string;
-}
+};
 
 export interface EpisodeCardProps {
   title: string | undefined;

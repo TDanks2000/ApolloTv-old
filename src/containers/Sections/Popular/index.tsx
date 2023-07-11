@@ -47,6 +47,7 @@ const PopularContainer = () => {
           data={data}
           ItemSeparatorComponent={() => <View style={{width: 20}} />}
           renderItem={renderItem}
+          contentContainerStyle={{paddingRight: 20}}
         />
       </SectionWrapper>
     </SectionContainer>

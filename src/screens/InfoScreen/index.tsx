@@ -106,7 +106,7 @@ const InfoScreen = ({route}: Props) => {
         <Info.Top
           title={data.title}
           rating={data.rating}
-          poster_image={data.cover}
+          poster_image={nextEpisode?.image ? nextEpisode.image : data.cover}
           key={`info-top-${data.id}`}
           dubOrSub={dubOrSub ?? 'sub'}
           setDubOrSub={setDubOrSub}

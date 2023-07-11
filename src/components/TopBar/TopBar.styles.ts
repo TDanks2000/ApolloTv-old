@@ -8,7 +8,7 @@ export const Container = styled.View`
   justify-content: space-between;
   height: 70px;
   outline: 1px solid red;
-  padding: 0 20px;
+  margin: 0 20px;
 `;
 
 export const ProfileContainer = styled.TouchableOpacity`

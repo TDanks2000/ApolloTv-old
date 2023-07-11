@@ -53,6 +53,7 @@ const GenericSection = ({sectionTitle, sectionType}: Props) => {
           data={data?.results}
           ItemSeparatorComponent={() => <View style={{width: 20}} />}
           renderItem={renderItem}
+          contentContainerStyle={{paddingRight: 20}}
         />
       </SectionWrapper>
     </SectionContainer>

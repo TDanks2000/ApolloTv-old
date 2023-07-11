@@ -15,7 +15,7 @@ import {ListContainer} from '../../containers';
 import {useQuery} from '@tanstack/react-query';
 import {useAccessToken} from '../../contexts';
 import {Anilist} from '@tdanks2000/anilist-wrapper';
-import {Lists} from '../../components';
+import {Lists, MiddleOfScreenLoadingComponent} from '../../components';
 import {MediaListStatus} from '../../@types';
 import {api} from '../../utils';
 
@@ -24,22 +24,16 @@ const ListsScreen = () => {
     React.useState<MediaListStatus>('CURRENT');
   const {accessToken} = useAccessToken();
   const anilist = new Anilist(accessToken);
-  const {results: data} = AnimeTrending;
 
-  const {
-    isPending,
-    isError,
-    data: newData,
-    error,
-  } = useQuery({
+  const {isPending, isError, data, error} = useQuery({
     queryKey: ['user-lists'],
     queryFn: () => api.fetchAnilistLists(accessToken, anilist),
   });
 
-  if (isPending) return null;
-  if (!newData) return null;
+  if (isPending) return <MiddleOfScreenLoadingComponent />;
+  if (data?.length <= 0) return null;
 
-  const selectedLisData = newData[selectedList?.toLowerCase()];
+  const selectedLisData = data[selectedList?.toLowerCase()];
 
   return (
     <SafeAreaView>
@@ -48,7 +42,7 @@ const ListsScreen = () => {
           <Lists.Selector
             selectedList={selectedList}
             setSelectedList={setSelectedList}
-            selectedColor={newData.color}
+            selectedColor={data.color}
           />
         </SelectorContainer>
         <Wrapper>

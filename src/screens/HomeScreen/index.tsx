@@ -19,9 +19,7 @@ const HomeScreen = () => {
         <SectionContainer>
           <BannerComponent />
         </SectionContainer>
-        {/* <GenericContainer>
-          <ContuineWatchingContainer />
-        </GenericContainer> */}
+        <ContuineWatchingContainer />
         <GenericContainer>
           <GenericSection sectionTitle="Top Rated" sectionType={'top_rated'} />
         </GenericContainer>

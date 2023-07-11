@@ -26,7 +26,7 @@ const BannerComponent = () => {
     queryFn: fetcher,
   });
 
-  const [index, setCurrentIndex] = React.useState(0);
+  // const [index, setCurrentIndex] = React.useState(0);
 
   const renderItem: any = ({item}: any) => {
     return (
@@ -42,16 +42,16 @@ const BannerComponent = () => {
 
   if (isPending || isError) return null;
 
-  const onScroll = (e: NativeSyntheticEvent<NativeScrollEvent>) => {
-    const totalWidth = e.nativeEvent.layoutMeasurement.width;
-    const xPos = e.nativeEvent.contentOffset.x * (isMobile ? 1.1 : 2.2);
+  // const onScroll = (e: NativeSyntheticEvent<NativeScrollEvent>) => {
+  //   const totalWidth = e.nativeEvent.layoutMeasurement.width;
+  //   const xPos = e.nativeEvent.contentOffset.x * (isMobile ? 1.1 : 2.2);
 
-    const current = Math.floor(xPos / totalWidth);
+  //   const current = Math.floor(xPos / totalWidth);
 
-    if (current >= data?.results?.length)
-      return setCurrentIndex(data?.results?.length - 1);
-    setCurrentIndex(current <= 0 ? 0 : current);
-  };
+  //   if (current >= data?.results?.length)
+  //     return setCurrentIndex(data?.results?.length - 1);
+  //   setCurrentIndex(current <= 0 ? 0 : current);
+  // };
 
   return (
     <Container>
@@ -67,7 +67,7 @@ const BannerComponent = () => {
         // snapToInterval={screenSize}
         snapToAlignment="center"
         ItemSeparatorComponent={() => <View style={{width: 15}} />}
-        onScroll={onScroll}
+        contentContainerStyle={{paddingRight: 20}}
       />
       {/* <Circles>
         {data?.results?.map((item: any, dataIndex: number) => {

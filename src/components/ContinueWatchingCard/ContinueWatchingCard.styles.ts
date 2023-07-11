@@ -32,7 +32,7 @@ export const Wrapper = styled(LinearGradient).attrs({
 
 export const BottomBanner = styled.View`
   position: relative;
-  height: 28%;
+  height: 38%;
   width: 100%;
   display: flex;
   justify-content: center;
@@ -46,6 +46,13 @@ export const BottomBannerText = styled.Text.attrs({
   color: white;
   padding: 0 15px;
   font-family: ${({theme}) => theme.text.fonts.NunitoSans};
+  margin-top: 1px;
+`;
+
+export const BottomBannerSubText = styled(BottomBannerText)`
+  color: ${({theme}) => theme.text.offWhite};
+  font-size: 13px;
+  margin-top: -1px;
 `;
 
 export const PercentWatchedContainer = styled.View`
@@ -57,8 +64,12 @@ export const PercentWatchedContainer = styled.View`
   left: 0;
 `;
 
-export const PercentWatched = styled.View`
-  width: 50%;
+type PercentWatchedProps = {
+  watched_percentage: number;
+};
+
+export const PercentWatched = styled.View<PercentWatchedProps>`
+  width: ${({watched_percentage}) => watched_percentage}%;
   height: 100%;
   background-color: ${({theme}) => theme.base.mainColor};
 `;

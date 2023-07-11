@@ -14,8 +14,8 @@ const RecentSearches = ({searchText, setSearchText}: Props) => {
   const [forceRefresh, setForceRefresh] = React.useState(false);
   const [data, setData] = React.useState<string[]>();
 
-  const setTheData = () => {
-    const recentSearchs = helpers.recentSearchs(searchText);
+  const setTheData = async () => {
+    const recentSearchs = await helpers.recentSearchs(searchText);
 
     setData(recentSearchs);
   };
