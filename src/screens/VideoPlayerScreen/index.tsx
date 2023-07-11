@@ -9,7 +9,7 @@ import {
   SourceVideoOptions,
 } from '../../@types';
 import {useQuery} from '@tanstack/react-query';
-import {api} from '../../utils';
+import {api, utils} from '../../utils';
 import {API_BASE} from '@env';
 import {NavigationContext, useAccessToken} from '../../contexts';
 import Orientation from 'react-native-orientation-locker';
@@ -232,30 +232,12 @@ const VideoPlayerScreen = ({route}: Props) => {
   });
 
   const sources: SourceVideoOptions[] = data?.sources;
-  const findHighestQuality = (): SourceVideoOptions => {
-    if (!sources)
-      return {
-        quality: '',
-        url: '',
-      };
-    if (sources?.length < 1) return sources[0];
-
-    const highest = sources.reduce((prevSource: any, currentSource: any) => {
-      const prevQuality = prevSource.quality.split('p')[0];
-      const currentQuality = currentSource.quality.split('p')[0];
-
-      if (parseInt(currentQuality) > parseInt(prevQuality))
-        return currentSource;
-      else return prevSource;
-    });
-
-    return highest;
-  };
+  const findHighestQuality = utils.findHighestQuality(sources);
 
   useFocusEffect(
     React.useCallback(() => {
       if (!data) return;
-      setSelectedSource(findHighestQuality());
+      setSelectedSource(findHighestQuality);
       createAndUpdateDB();
       checkIfWatchedFromDB();
       setShowNavBar(false);
