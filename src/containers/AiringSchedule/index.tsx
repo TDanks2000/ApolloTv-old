@@ -22,7 +22,6 @@ const AiringScheduleContainer = () => {
         : [anime];
       // sort the array of anime based on the episode number
       sortedAnime[date].sort((a: any, b: any) => a.episode - b.episode);
-      // console.log(sortedAnime);
     });
 
     return sortedAnime;

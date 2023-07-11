@@ -47,7 +47,6 @@ const AppStack = ({setHiddenStatusBar}: {setHiddenStatusBar: boolean}) => {
         const currentRouteName = navigationRef.getCurrentRoute().name;
 
         if (previousRouteName !== currentRouteName) {
-          // console.log(currentRouteName);
           // Save the current route name for later comparison
           setRouteNameRef(currentRouteName);
         }

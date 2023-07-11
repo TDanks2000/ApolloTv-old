@@ -4,11 +4,11 @@ import {storage} from '../storage/cleint';
 export const setSubOrDub = (value: SubOrDub): void => {
   switch (value) {
     case 'sub':
-      console.log('setting sub');
+      console.log('setting sub to storage');
       storage.set('subOrDub', 'sub');
       break;
     case 'dub':
-      console.log('setting dub');
+      console.log('setting dub to storage');
       storage.set('subOrDub', 'dub');
   }
 };
@@ -16,7 +16,7 @@ export const setSubOrDub = (value: SubOrDub): void => {
 export const getSubOrDub = (): SubOrDub => {
   const subOrDub = storage.getString('subOrDub') ?? 'sub';
 
-  console.log(`got ${subOrDub}`);
+  console.log(`gotten ${subOrDub} from storage`);
   return subOrDub as SubOrDub;
 };
 
