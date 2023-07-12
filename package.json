@@ -22,6 +22,7 @@
     "@tdanks2000/anilist-wrapper": "^1.0.11",
     "@types/sanitize-html": "^2.9.0",
     "dayjs": "^1.11.9",
+    "m3u-parser-generator": "^1.3.0",
     "polished": "^4.2.2",
     "react": "18.2.0",
     "react-native": "0.72.1",

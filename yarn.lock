@@ -4899,6 +4899,11 @@ lru-cache@^6.0.0:
   dependencies:
     yallist "^4.0.0"
 
+m3u-parser-generator@^1.3.0:
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/m3u-parser-generator/-/m3u-parser-generator-1.3.0.tgz#d673ab917369167b1793f5fc733ca05924906117"
+  integrity sha512-Vaoc9LcWV+kbrj3OVtQn05zQI4tVYwO7XMGVUorI31+tNeCxen5pOEmoiO11DVFBS1eDvKdB91PgpYkhoGSnNg==
+
 make-dir@^2.0.0, make-dir@^2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/make-dir/-/make-dir-2.1.0.tgz#5f0310e18b8be898cc07009295a30ae41e91e6f5"

@@ -1,4 +1,4 @@
-import './download/downloadManager';
+// import './download/downloadManager';
 import * as utils from './utils';
 import * as api from './api';
 import * as helpers from './helpers';
