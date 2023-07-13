@@ -24,6 +24,7 @@ export const Wrapper = styled(LinearGradient).attrs({
   start: {x: 0, y: -0.3},
   end: {x: 0, y: 1},
 })`
+  position: relative;
   width: 100%;
   height: 100%;
   display: flex;
@@ -72,4 +73,20 @@ export const PercentWatched = styled.View<PercentWatchedProps>`
   width: ${({watched_percentage}) => watched_percentage}%;
   height: 100%;
   background-color: ${({theme}) => theme.base.mainColor};
+`;
+
+export const WhereAmIFromContainer = styled.View`
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 3px;
+  border-bottom-right-radius: 8px;
+  background: rgba(0, 0, 0, 1);
+`;
+
+export const Image = styled.Image.attrs({
+  resizeMode: 'contain',
+})`
+  width: 20px;
+  height: 20px;
 `;

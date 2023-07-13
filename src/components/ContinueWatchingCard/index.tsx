@@ -7,20 +7,36 @@ import {
   BottomBannerSubText,
   BottomBannerText,
   Container,
+  Image,
   ImageBackground,
   PercentWatched,
   PercentWatchedContainer,
+  WhereAmIFromContainer,
   Wrapper,
 } from './ContinueWatchingCard.styles';
 import {useNavigation} from '@react-navigation/native';
 import {useBreakpoints} from '../../hooks';
 
+const anilistLogo = require('../../assets/images/anilist-logo.png');
+const apolloLogo = require('../../assets/images/ApolloTv(no-bg).png');
+
 const ContinueWatchingCard = (
-  props: CardProps & {watched_percentage: number; episode_number: number},
+  props: CardProps & {
+    watched_percentage: number;
+    episode_number: number;
+    from: 'anilist' | 'default';
+  },
 ) => {
   const {isMobile} = useBreakpoints();
-  const {title, poster_image, rating, id, watched_percentage, episode_number} =
-    props;
+  const {
+    title,
+    poster_image,
+    rating,
+    id,
+    watched_percentage,
+    episode_number,
+    from,
+  } = props;
   const navigation: any = useNavigation();
 
   const {width} = useWindowDimensions();
@@ -40,6 +56,9 @@ const ContinueWatchingCard = (
         }}>
         {/* @ts-ignore */}
         <Wrapper>
+          <WhereAmIFromContainer>
+            <Image source={from === 'anilist' ? anilistLogo : apolloLogo} />
+          </WhereAmIFromContainer>
           <BottomBanner>
             {watched_percentage === 0 ? null : (
               <PercentWatchedContainer>

@@ -82,6 +82,7 @@ const ContuineWatchingContainer = () => {
         watched_percentage={item.watched_percentage ?? 0}
         title={item.title ?? utils.getTitle(item.media.title)}
         id={item.anime_id ?? item.media.id}
+        from={item?.media?.title ? 'anilist' : 'default'}
       />
     );
   };
@@ -102,7 +103,7 @@ const ContuineWatchingContainer = () => {
             data={data}
             ItemSeparatorComponent={() => <View style={{width: 20}} />}
             renderItem={renderItem}
-            contentContainerStyle={{paddingRight: 20}}
+            contentContainerStyle={{paddingHorizontal: 20}}
           />
         </SectionWrapper>
       </SectionContainer>

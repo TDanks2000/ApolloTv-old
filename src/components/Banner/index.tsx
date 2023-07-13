@@ -63,11 +63,10 @@ const BannerComponent = () => {
         pagingEnabled
         decelerationRate={'fast'}
         showsHorizontalScrollIndicator={false}
-        scrollEventThrottle={16}
         // snapToInterval={screenSize}
         snapToAlignment="center"
         ItemSeparatorComponent={() => <View style={{width: 15}} />}
-        contentContainerStyle={{paddingRight: 20}}
+        contentContainerStyle={{paddingHorizontal: 20}}
       />
       {/* <Circles>
         {data?.results?.map((item: any, dataIndex: number) => {
