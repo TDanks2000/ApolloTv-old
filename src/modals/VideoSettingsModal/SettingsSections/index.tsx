@@ -11,6 +11,8 @@ import {
   SettingsIconRight,
 } from '../Settings.shared.styles';
 import {SettingsSectionsType, SourceVideoOptions} from '../../../@types';
+import {Option} from '../../../components';
+import {settingsHelper} from '../../../utils';
 
 type Props = {
   selectedQuality: SourceVideoOptions;
@@ -27,20 +29,42 @@ const SettingsSections = ({
   selectedSetting,
 }: Props) => {
   const renderSection = (item: SettingsSectionsType) => {
-    const SectionComponent = () => (
-      <>
-        {item?.iconName ? <SectionIcon name={item.iconName} /> : null}
-        <SectionTitle>{item.name}</SectionTitle>
-        <SectionRight>
-          <SelectedOption>{item.selectedOption}</SelectedOption>
-          {/* @ts-ignore */}
-          <SettingsIconRight />
-        </SectionRight>
-      </>
-    );
+    const SectionComponent = () => {
+      if (item.optionType === 'option' && item.options && item.onPress) {
+        return (
+          <>
+            {item?.iconName ? <SectionIcon name={item.iconName} /> : null}
+            <SectionTitle>{item.name}</SectionTitle>
+            <SectionRight>
+              <Option
+                option={item.selectedOption}
+                options={item.options}
+                setOption={item.setOption ?? undefined}
+                onPress={item.onPress}
+                size="sm"
+              />
+            </SectionRight>
+          </>
+        );
+      }
+
+      return (
+        <>
+          {item?.iconName ? <SectionIcon name={item.iconName} /> : null}
+          <SectionTitle>{item.name}</SectionTitle>
+          <SectionRight>
+            <SelectedOption>{item.selectedOption}</SelectedOption>
+            {/* @ts-ignore */}
+            {item.hasSubOptions ? <SettingsIconRight /> : null}
+          </SectionRight>
+        </>
+      );
+    };
 
     return (
-      <Section onPress={() => setSelectedSetting(item.value)}>
+      <Section
+        disabled={item.optionType === 'option'}
+        onPress={() => setSelectedSetting(item.value)}>
         <SectionComponent />
       </Section>
     );

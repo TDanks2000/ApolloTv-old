@@ -9,7 +9,7 @@ export const Wrapper = styled.View`
   width: 100%;
   display: flex;
   justify-content: flex-start;
-  gap: 7px;
+  gap: 10px;
 `;
 
 export const TopMetaInfo = styled.View`
@@ -32,6 +32,7 @@ export const Text = styled.Text`
 `;
 
 export const Title = styled.Text`
+  margin-bottom: 5px;
   font-size: 23px;
   color: ${({theme}) => theme.text.primary};
 

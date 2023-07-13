@@ -2,7 +2,9 @@ import {rgba} from 'polished';
 import styled from 'styled-components/native';
 
 interface Props {
-  isActive: string;
+  isActive: boolean;
+
+  size?: 'sm' | 'md' | 'lg';
 }
 
 export const Container = styled.View`
@@ -24,10 +26,34 @@ export const Item = styled.TouchableOpacity<Props>`
   overflow: hidden;
 `;
 
+export const ItemSM = styled(Item)`
+  padding: 5px 10px;
+`;
+
+export const ItemMD = styled(Item)`
+  padding: 7px 15px;
+`;
+
+export const ItemLG = styled(Item)`
+  padding: 10px 20px;
+`;
+
 export const ItemText = styled.Text<Props>`
   color: ${({isActive, theme}) => (isActive ? theme.base.mainColor : 'black')};
 
   font-weight: bold;
   font-family: ${({theme}) => theme.text.fonts.NunitoSans};
   text-transform: uppercase;
+`;
+
+export const ItemTextSM = styled(ItemText)`
+  font-size: 11px;
+`;
+
+export const ItemTextMD = styled(ItemText)`
+  font-size: 12px;
+`;
+
+export const ItemTextLG = styled(ItemText)`
+  font-size: 14px;
 `;

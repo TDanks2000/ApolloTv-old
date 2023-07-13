@@ -7,11 +7,15 @@ import {QueryClient, QueryClientProvider} from '@tanstack/react-query';
 
 import {
   AccessTokenProvider,
+  GenericContext,
+  GenericContextProvider,
   NavigationProvixer,
+  SettingsProvider,
   useAccessToken,
 } from './src/contexts';
 import {Toast} from 'react-native-toast-message/lib/src/Toast';
 import {toastConfig} from './src/styles/toastconfig';
+import {Alert} from './src/components';
 
 const queryClient = new QueryClient();
 
@@ -20,22 +24,31 @@ const App = (): JSX.Element => {
 
   return (
     <AccessTokenProvider>
-      <InnerApp />
+      <GenericContextProvider>
+        <InnerApp />
+      </GenericContextProvider>
     </AccessTokenProvider>
   );
 };
 
 const InnerApp = () => {
   const {checkedForToken, accessToken} = useAccessToken();
+  const genericContext = React.useContext(GenericContext);
 
   return (
     <ThemeProvider theme={defaultTheme}>
       <QueryClientProvider client={queryClient}>
         <NavigationProvixer>
-          <AppStack setHiddenStatusBar={false} />
+          <SettingsProvider>
+            <AppStack setHiddenStatusBar={false} />
+          </SettingsProvider>
         </NavigationProvixer>
       </QueryClientProvider>
       <Toast autoHide={true} config={toastConfig} />
+      <Alert
+        alertState={genericContext!.alertState}
+        closeAlert={genericContext!.closeAlert}
+      />
     </ThemeProvider>
   );
 };

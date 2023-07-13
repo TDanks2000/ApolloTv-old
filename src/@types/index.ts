@@ -276,10 +276,11 @@ export interface SQLUpdateEpisodeData {
 
 export type Quality = '1080p' | '720p' | '480p' | '360p';
 
-export type SourceVideoOptions = {
-  url?: string;
+export interface SourceVideoOptions {
+  url: string;
+  isM3U8?: boolean;
   quality: Quality | string;
-};
+}
 
 export type SettingsOptions = {
   title: string;
@@ -297,6 +298,15 @@ export type SettingsSectionsType = {
   value: string;
   iconName?: string;
   selectedOption: string;
+  setOption?: (value: any) => void;
+  onPress?: () => void;
+
+  hasSubOptions?: boolean;
+  optionType?: 'option' | 'subOption';
+  options?: {
+    value: string;
+    label: string;
+  }[];
 };
 
 export type AniskipData = Aniskip[];
@@ -312,3 +322,5 @@ export interface AniskipInterval {
   endTime: number;
   startTime: number;
 }
+
+export type settings = 'auto_skip_intro' | 'auto_skip_outro' | 'prefered_voice';

@@ -16,6 +16,8 @@ import * as Info from './Info';
 import * as Search from './Search';
 import * as Player from './Player';
 import * as Lists from './Lists';
+import * as Settings from './Settings';
+import Alert from './Alert';
 
 export {
   Paginate,
@@ -29,8 +31,10 @@ export {
   RatingComponent,
   WatchNowComponent,
   CharacterCard,
+  Alert,
   Info,
   Player,
   Search,
   Lists,
+  Settings,
 };

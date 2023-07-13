@@ -13,16 +13,18 @@ import {
   Wrapper,
 } from './ContinueWatchingCard.styles';
 import {useNavigation} from '@react-navigation/native';
+import {useBreakpoints} from '../../hooks';
 
 const ContinueWatchingCard = (
   props: CardProps & {watched_percentage: number; episode_number: number},
 ) => {
+  const {isMobile} = useBreakpoints();
   const {title, poster_image, rating, id, watched_percentage, episode_number} =
     props;
   const navigation: any = useNavigation();
 
   const {width} = useWindowDimensions();
-  const screenSize = width * 0.84;
+  const screenSize = isMobile ? width : width * 0.25;
 
   const actualTitle = utils.getTitle(title, 'english');
 
@@ -31,7 +33,7 @@ const ContinueWatchingCard = (
   };
 
   return (
-    <Container width={width} onPress={onPress}>
+    <Container width={screenSize} onPress={onPress}>
       <ImageBackground
         source={{
           uri: poster_image,

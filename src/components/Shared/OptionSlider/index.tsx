@@ -1,20 +1,32 @@
 import {View, Text} from 'react-native';
 import React from 'react';
-import {Container, Item, ItemText} from './Options.styles';
+import {
+  Container,
+  Item,
+  ItemLG,
+  ItemMD,
+  ItemSM,
+  ItemText,
+  ItemTextLG,
+  ItemTextMD,
+  ItemTextSM,
+} from './Options.styles';
 
 interface Props {
   options: {
     value: string;
     label: string;
   }[];
-  setOption: (value: string) => void;
+  setOption?: (value: string) => void;
   option: string;
   onPress?: (value: any) => void;
+
+  size?: 'sm' | 'md' | 'lg';
 }
 
-const Option = ({options, setOption, option, onPress}: Props) => {
+const Option = ({options, setOption, option, onPress, size}: Props) => {
   const handlePress = (value: string) => {
-    setOption(value);
+    if (setOption) setOption(value);
     if (onPress) onPress(value);
   };
 
@@ -23,19 +35,40 @@ const Option = ({options, setOption, option, onPress}: Props) => {
       {options.map(o => {
         const active: boolean = o.value === option;
 
+        const props: any = {
+          key: o.value,
+          onPress: () => handlePress(o.value),
+          activeOpacity: 0.7,
+          // @ts-ignore
+          isActive: active,
+          disabled: active,
+          size,
+        };
+
+        if (size === 'sm')
+          return (
+            <ItemSM {...props}>
+              <ItemTextSM isActive={active}>{o.label}</ItemTextSM>
+            </ItemSM>
+          );
+
+        if (size === 'md')
+          return (
+            <ItemMD {...props}>
+              <ItemTextMD isActive={active}>{o.label}</ItemTextMD>
+            </ItemMD>
+          );
+
+        if (size === 'lg')
+          return (
+            <ItemLG {...props}>
+              <ItemTextLG isActive={active}>{o.label}</ItemTextLG>
+            </ItemLG>
+          );
+
         return (
-          <Item
-            key={o.value}
-            onPress={() => handlePress(o.value)}
-            activeOpacity={0.7}
-            // @ts-ignore
-            isActive={active}
-            disabled={active}>
-            <ItemText
-              // @ts-ignore
-              isActive={active}>
-              {o.label}
-            </ItemText>
+          <Item {...props}>
+            <ItemText isActive={active}>{o.label}</ItemText>
           </Item>
         );
       })}

@@ -15,7 +15,8 @@ import {
 import {Option, RatingComponent, WatchNowComponent} from '../../Shared';
 import {useNavigation} from '@react-navigation/native';
 import {ITitleLanguageOptions, SubOrDub} from '../../../@types';
-import {helpers, utils} from '../../../utils';
+import {helpers, settingsHelper, utils} from '../../../utils';
+import {SettingsContext} from '../../../contexts';
 
 interface Props {
   rating: number;
@@ -35,6 +36,9 @@ const Top = ({
   episode_title,
 }: Props) => {
   const actualTitle = utils.getTitle(title);
+
+  const {changePreferedVoice, preferedVoice} =
+    React.useContext(SettingsContext);
 
   const navigation = useNavigation();
 
@@ -66,14 +70,14 @@ const Top = ({
             <BottomBottomContainer>
               <WatchNowComponent WatchText="Watch trailer" />
               <Option
-                option={dubOrSub}
+                option={preferedVoice as string}
                 options={[
                   {label: 'SUB', value: 'sub'},
                   {label: 'DUB', value: 'dub'},
                 ]}
                 setOption={(value: string) => setDubOrSub(value as SubOrDub)}
                 onPress={(value: string) =>
-                  helpers.setSubOrDub(value === 'sub' ? 'sub' : 'dub')
+                  changePreferedVoice ? changePreferedVoice() : null
                 }
               />
             </BottomBottomContainer>
