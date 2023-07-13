@@ -59,6 +59,12 @@ const ContuineWatchingContainer = () => {
         })
       : null;
 
+    uniqueList?.sort((a: any, b: any) => {
+      if (!a.updatedAt) return 1;
+      if (!b.updatedAt) return 1;
+      return a.updatedAt < b.updatedAt ? 1 : -1;
+    });
+
     return uniqueList;
   };
 

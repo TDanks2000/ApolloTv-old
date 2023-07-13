@@ -9,9 +9,13 @@ import {
   SourceVideoOptions,
 } from '../../@types';
 import {useQuery} from '@tanstack/react-query';
-import {api, utils} from '../../utils';
+import {api, settingsHelper, utils} from '../../utils';
 import {API_BASE} from '@env';
-import {NavigationContext, useAccessToken} from '../../contexts';
+import {
+  NavigationContext,
+  SettingsContext,
+  useAccessToken,
+} from '../../contexts';
 import Orientation from 'react-native-orientation-locker';
 import {episodeSQLHelper} from '../../utils/database';
 import {Anilist} from '@tdanks2000/anilist-wrapper';
@@ -23,6 +27,9 @@ type Props = NativeStackScreenProps<RootStackParamList, 'VideoPlayer'>;
 const VideoPlayerScreen = ({route}: Props) => {
   const {accessToken} = useAccessToken();
   const anilist = new Anilist(accessToken);
+
+  const {autoSkipOutro, autoSkipIntro, changeAutoSkip} =
+    React.useContext(SettingsContext);
 
   const watchTimeBeforeSync = 80;
   const [watched, setWatched] = React.useState<boolean>(false);
@@ -138,7 +145,7 @@ const VideoPlayerScreen = ({route}: Props) => {
     if (skipDataPending) return;
     if (!currentTime || !duration) return;
 
-    if (skipData?.opening?.interval) {
+    if (skipData?.opening?.interval && autoSkipIntro === 'on') {
       const openingStartTime = skipData.opening.interval.startTime;
       const isCurrentPosAtOpening = currentTime >= openingStartTime;
 
@@ -150,7 +157,7 @@ const VideoPlayerScreen = ({route}: Props) => {
       }
     }
 
-    if (skipData?.ending?.interval) {
+    if (skipData?.ending?.interval && autoSkipOutro === 'on') {
       const endingStartTime = skipData.ending.interval.startTime;
       const isCurrentPosAtEnding = currentTime >= endingStartTime;
 
@@ -244,6 +251,8 @@ const VideoPlayerScreen = ({route}: Props) => {
 
       return () => {
         setShowNavBar(true);
+        if (hasSkipedIntro === true) toggleHasSkippedIntro();
+        if (hasSkipedEnding === true) toggleHasSkippedEnding();
       };
     }, [data]),
   );

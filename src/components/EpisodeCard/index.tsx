@@ -57,8 +57,15 @@ const EpisodeCard = (props: EpisodeCardProps) => {
   };
 
   React.useEffect(() => {
-    if (episodeDBEntry?.watched_percentage && !watched_percentage)
+    if (
+      episodeDBEntry?.watched_percentage &&
+      watched_percentage &&
+      watched_percentage <= 0
+    )
       setActualWatchedPercent(episodeDBEntry.watched_percentage);
+    else if (watched_percentage && watched_percentage > 0)
+      setActualWatchedPercent(watched_percentage);
+    else setActualWatchedPercent(undefined);
   }, []);
 
   return (

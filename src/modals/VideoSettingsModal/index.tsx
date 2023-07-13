@@ -14,6 +14,8 @@ import {
 } from './Settings.styles';
 import SettingsSection from './SettingSection';
 import SettingsSections from './SettingsSections';
+import {settingsHelper} from '../../utils';
+import {SettingsContext} from '../../contexts';
 
 type Props = {
   shouldOpen: boolean;
@@ -30,6 +32,9 @@ const VideoSettingsModal = ({
   shouldOpen,
   closeFunction,
 }: Props) => {
+  const {autoSkipOutro, autoSkipIntro, changeAutoSkip} =
+    React.useContext(SettingsContext);
+
   const [selectedSetting, setSelectedSetting] = React.useState<
     string | undefined
   >();
@@ -48,6 +53,52 @@ const VideoSettingsModal = ({
       value: 'quality',
       iconName: 'sliders-h',
       selectedOption: selectedQuality.quality,
+      hasSubOptions: true,
+      optionType: 'subOption',
+    },
+    {
+      name: 'Auto Skip Intro',
+      value: 'auto_skip_intro',
+      iconName: 'step-forward',
+      selectedOption: autoSkipIntro === 'on' ? 'on' : 'off',
+      hasSubOptions: false,
+      optionType: 'option',
+      setOption: undefined,
+      onPress: () => {
+        if (changeAutoSkip) changeAutoSkip('auto_skip_intro');
+      },
+      options: [
+        {
+          label: 'On',
+          value: 'on',
+        },
+        {
+          label: 'Off',
+          value: 'off',
+        },
+      ],
+    },
+    {
+      name: 'Auto Skip Outro',
+      value: 'auto_skip_outro',
+      iconName: 'step-forward',
+      selectedOption: autoSkipOutro === 'on' ? 'on' : 'off',
+      hasSubOptions: false,
+      optionType: 'option',
+      setOption: undefined,
+      onPress: () => {
+        if (changeAutoSkip) changeAutoSkip('auto_skip_outro');
+      },
+      options: [
+        {
+          label: 'On',
+          value: 'on',
+        },
+        {
+          label: 'Off',
+          value: 'off',
+        },
+      ],
     },
     // {
     //   name: 'Subtitles',

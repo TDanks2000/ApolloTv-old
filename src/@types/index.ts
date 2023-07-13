@@ -298,6 +298,15 @@ export type SettingsSectionsType = {
   value: string;
   iconName?: string;
   selectedOption: string;
+  setOption?: (value: any) => void;
+  onPress?: () => void;
+
+  hasSubOptions?: boolean;
+  optionType?: 'option' | 'subOption';
+  options?: {
+    value: string;
+    label: string;
+  }[];
 };
 
 export type AniskipData = Aniskip[];
@@ -313,3 +322,5 @@ export interface AniskipInterval {
   endTime: number;
   startTime: number;
 }
+
+export type settings = 'auto_skip_intro' | 'auto_skip_outro' | 'prefered_voice';

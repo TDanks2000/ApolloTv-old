@@ -1,5 +1,4 @@
 import RNFS from 'react-native-fs';
-import {FFmpegKit} from 'ffmpeg-kit-react-native';
 
 import {M3uParser} from 'm3u-parser-generator';
 

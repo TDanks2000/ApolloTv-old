@@ -15,6 +15,9 @@ import {AnimeInfo} from '../../@types';
 import {utils} from '../../utils';
 import {Paginate} from '../../components';
 import {episodeSQLHelper} from '../../utils/database';
+import {useAccessToken} from '../../contexts';
+import {Anilist} from '@tdanks2000/anilist-wrapper';
+import {useQuery} from '@tanstack/react-query';
 
 interface Props {
   episodes: any[];
@@ -29,8 +32,10 @@ const EpisodesModal = ({
   episodes,
   anime_info,
 }: Props) => {
+  const {accessToken} = useAccessToken();
+  const anilist = new Anilist(accessToken);
+
   const [selectedPage, setSelectedPage] = React.useState<number>(1);
-  const [episodesFromDB, setEpisodesFromDB] = React.useState<any[]>([]);
 
   const pageSize = 50;
 
@@ -40,17 +45,35 @@ const EpisodesModal = ({
   };
 
   const getEpisodesFromSQLDB = async () => {
-    const data: any = await episodeSQLHelper.selectFromAnimeId(anime_info.id);
+    const anilistData = await anilist.media.anime(parseInt(anime_info.id));
+    const dataFromDb: any = await episodeSQLHelper.selectFromAnimeId(
+      anime_info.id,
+    );
 
-    setEpisodesFromDB(data);
+    return {data: dataFromDb, anilistData};
   };
+
+  const {
+    isError,
+    isPending,
+    data: dataFromDBAndAnilist,
+    error,
+  } = useQuery({
+    queryKey: ['getEpisodesFromSQLDB', anime_info.id],
+    queryFn: getEpisodesFromSQLDB,
+  });
 
   React.useEffect(() => {
     if (!episodes || !episodes?.length) return;
-    getEpisodesFromSQLDB();
 
     if (episodes[0].number !== 1) episodes.sort((a, b) => a.number - b.number);
   }, [episodes]);
+
+  if (isPending) return null;
+
+  const progress =
+    (dataFromDBAndAnilist?.anilistData as any).data.Media?.mediaListEntry
+      ?.progress || 0;
 
   return (
     <Modal visible={visible} transparent={true} animationType={'slide'}>
@@ -76,9 +99,15 @@ const EpisodesModal = ({
                   selectedPage === 1 ? pageSize : pageSize * selectedPage + 1,
                 )
                 .map((episode, index) => {
-                  const episodeFromDb = episodesFromDB.find(
-                    item => item.episode_number === episode.number,
+                  const episodeFromDb = dataFromDBAndAnilist?.data.find(
+                    (item: any) => item.episode_number === episode.number,
                   );
+
+                  // console.log({
+                  //   episodeNumber: episode.number,
+                  //   progres: progress,
+                  //   watched: episode.number <= progress,
+                  // });
 
                   return (
                     <EpisodeCard
@@ -89,6 +118,7 @@ const EpisodesModal = ({
                       episode_number={episode.number}
                       setEpisodeModalVisible={setVisible}
                       episodeDBEntry={episodeFromDb}
+                      watched_percentage={episode.number <= progress ? 100 : 0}
                       anime_info={{
                         id: anime_info.id,
                         title: anime_info.title,
