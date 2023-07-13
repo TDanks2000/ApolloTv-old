@@ -12,6 +12,7 @@ import {
   Wrapper,
 } from './ListCard.styles';
 import {useNavigation} from '@react-navigation/native';
+import {useBreakpoints} from '../../hooks';
 
 const ListCard = ({
   id,
@@ -23,6 +24,7 @@ const ListCard = ({
   type,
   release_year,
 }: CardProps) => {
+  const {isMobile} = useBreakpoints();
   const navigation = useNavigation<StackNavigation>();
   const actualTitle = utils.getTitle(title);
 
@@ -33,7 +35,7 @@ const ListCard = ({
   };
 
   return (
-    <Container onPress={onPress}>
+    <Container onPress={onPress} isMobile={isMobile}>
       <Wrapper>
         <Left>
           <Image source={{uri: poster_image}} />

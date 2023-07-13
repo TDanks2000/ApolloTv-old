@@ -2,8 +2,10 @@ import {View, FlatList} from 'react-native';
 import React from 'react';
 import ListCard from '../../components/ListCard';
 import {utils} from '../../utils';
+import {useBreakpoints} from '../../hooks';
 
 const ListContainer = ({data}: any) => {
+  const {isMobile} = useBreakpoints();
   const renderItem = ({media: item}: any) => {
     const actualTitle = utils.getTitle(item.title);
     return (
@@ -25,13 +27,38 @@ const ListContainer = ({data}: any) => {
   }, []);
 
   if (!combineData) return null;
+
+  if (!isMobile)
+    return (
+      <FlatList
+        key={`mobile-flatlist-lists`}
+        data={combineData}
+        renderItem={({item}) => renderItem(item)}
+        showsVerticalScrollIndicator={false}
+        numColumns={2}
+        contentContainerStyle={{
+          paddingBottom: 250,
+          paddingTop: 20,
+          gap: 25,
+        }}
+        columnWrapperStyle={{
+          justifyContent: 'space-between',
+        }}
+        snapToAlignment="center"
+      />
+    );
+
   return (
     <FlatList
+      key={`flatlist-lists`}
       data={combineData}
       renderItem={({item}) => renderItem(item)}
       showsVerticalScrollIndicator={false}
-      ItemSeparatorComponent={() => <View style={{height: 25}} />}
-      contentContainerStyle={{paddingBottom: 250, paddingTop: 20}}
+      contentContainerStyle={{
+        paddingBottom: 250,
+        paddingTop: 20,
+        gap: 25,
+      }}
       snapToAlignment="center"
     />
   );

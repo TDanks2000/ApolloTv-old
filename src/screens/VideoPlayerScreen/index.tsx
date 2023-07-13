@@ -222,6 +222,10 @@ const VideoPlayerScreen = ({route}: Props) => {
         updateDB();
         setWatched(true);
       }
+      if (watched > 100) {
+        updateDB();
+        setWatched(true);
+      }
     }
   };
 
@@ -253,6 +257,7 @@ const VideoPlayerScreen = ({route}: Props) => {
         setShowNavBar(true);
         if (hasSkipedIntro === true) toggleHasSkippedIntro();
         if (hasSkipedEnding === true) toggleHasSkippedEnding();
+        if (watched === true) setWatched(false);
       };
     }, [data]),
   );
