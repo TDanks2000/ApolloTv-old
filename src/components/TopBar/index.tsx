@@ -9,28 +9,36 @@ import {
   ProfileText,
   ProfileTextContainer,
 } from './TopBar.styles';
-import {useNavigation} from '@react-navigation/native';
+import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import {StackNavigation} from '../../@types';
 import NotLoggedInComponent from './NotLoggedIn';
-import {useQuery} from '@tanstack/react-query';
+import {QueryClient, useQuery, useQueryClient} from '@tanstack/react-query';
 import {Anilist} from '@tdanks2000/anilist-wrapper';
 import {useAccessToken} from '../../contexts';
 import {Linking} from 'react-native';
+import {storage, utils} from '../../utils';
+import {ANILIST_ACCESS_TOKEN_STORAGE} from '../../utils/constants';
 
-const TopBarComponent = () => {
-  const {accessToken} = useAccessToken();
-  const anilist = new Anilist(accessToken);
+type Props = {
+  hasJustLoggedIn?: boolean;
+};
+
+const TopBarComponent = ({hasJustLoggedIn}: Props) => {
+  let accessToken = useAccessToken().accessToken;
   const navigation = useNavigation<StackNavigation>();
 
   const fetcher = async () => {
     if (!accessToken) return [];
 
+    const anilist = new Anilist(accessToken);
+
     const data = await anilist.user.getCurrentUser();
+    console.log('data', data);
     return (data as any)?.data;
   };
 
   const {isPending, isError, data, error} = useQuery({
-    queryKey: ['Top-Bar', accessToken],
+    queryKey: ['Top-Bar'],
     queryFn: fetcher,
   });
 

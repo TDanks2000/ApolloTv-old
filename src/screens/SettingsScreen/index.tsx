@@ -11,8 +11,19 @@ import {
 } from './SettingsScreen.styles';
 import {Settings} from '../../components';
 import {GenericContext} from '../../contexts';
+import {storage} from '../../utils';
+import {ANILIST_ACCESS_TOKEN_STORAGE} from '../../utils/constants';
 
-const SettingsScreen = () => {
+import Toast from 'react-native-toast-message';
+import {useNavigation} from '@react-navigation/native';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import {RootStackParamList} from '../../@types';
+import {useQueryClient} from '@tanstack/react-query';
+
+type Props = NativeStackScreenProps<RootStackParamList, 'LoggingIn'>;
+
+const SettingsScreen = ({navigation}: Props) => {
+  const queryClient = useQueryClient();
   const genericContext = React.useContext(GenericContext);
   return (
     <SafeAreaView>
@@ -50,12 +61,23 @@ const SettingsScreen = () => {
                   options: [
                     {
                       text: 'Cancel',
-                      onPress: () => console.log('Cancel'),
+                      onPress: () => {},
                       style: 'default',
                     },
                     {
                       text: 'Confirm',
-                      onPress: () => console.log('Confirm'),
+                      onPress: async () => {
+                        storage.delete(ANILIST_ACCESS_TOKEN_STORAGE);
+                        Toast.show({
+                          type: 'success',
+                          text1: 'Logged out successfully',
+                        });
+                        navigation.navigate('Home', {
+                          hasJustLoggedIn: false,
+                        });
+
+                        queryClient.invalidateQueries({queryKey: ['Top-Bar']});
+                      },
                       style: 'default',
                     },
                   ],

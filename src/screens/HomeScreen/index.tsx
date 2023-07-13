@@ -10,12 +10,24 @@ import {
 } from '../../containers';
 import {ScrollView} from '../../styles/sharedStyles';
 import {storage} from '../../utils';
+import {RootStackParamList} from '../../@types';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import {useFocusEffect} from '@react-navigation/native';
+import {useQueryClient} from '@tanstack/react-query';
 
-const HomeScreen = () => {
+type Props = NativeStackScreenProps<RootStackParamList, 'Home'>;
+
+const HomeScreen = ({route}: Props) => {
+  const hasJustLoggedIn = route?.params?.hasJustLoggedIn;
+
+  React.useEffect(() => {
+    if (!hasJustLoggedIn) return;
+  }, [hasJustLoggedIn]);
+
   return (
     <SafeAreaView>
       <ScrollView style={{marginTop: 15}}>
-        <TopBarComponent />
+        <TopBarComponent hasJustLoggedIn={hasJustLoggedIn} />
         <SectionContainer>
           <BannerComponent />
         </SectionContainer>

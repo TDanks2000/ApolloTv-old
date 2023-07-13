@@ -7,10 +7,13 @@ import {ANILIST_ACCESS_TOKEN_STORAGE} from '../../utils/constants';
 import {useAccessToken} from '../../contexts';
 
 import Toast from 'react-native-toast-message';
+import {useQueryClient} from '@tanstack/react-query';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'LoggingIn'>;
 
 const LoggingInScreen = ({route, navigation}: Props) => {
+  const queryClient = useQueryClient();
+
   const {accessToken} = useAccessToken();
   const {params} = route;
 
@@ -24,26 +27,26 @@ const LoggingInScreen = ({route, navigation}: Props) => {
         position: 'top',
         visibilityTime: dismessTime,
       });
-      navigation.navigate('Home');
+      navigation.navigate('Home', {});
     }
     if (!params?.access_code) return;
     const token = helpers.parseDeepLinks(params?.access_code);
 
     if (!token) return;
 
-    try {
-      storage.set(ANILIST_ACCESS_TOKEN_STORAGE, token);
-    } catch (error) {
-    } finally {
-      Toast.show({
-        type: 'success',
-        text1: '🎉🎊🍾',
-        text2: 'You have been successfully logged in',
-        position: 'top',
-        visibilityTime: dismessTime,
-      });
-      navigation.navigate('Home');
-    }
+    storage.set(ANILIST_ACCESS_TOKEN_STORAGE, token);
+    Toast.show({
+      type: 'success',
+      text1: '🎉🎊🍾',
+      text2: 'You have been successfully logged in',
+      position: 'top',
+      visibilityTime: dismessTime,
+    });
+    queryClient.invalidateQueries({queryKey: ['Top-Bar'], exact: false});
+
+    navigation.navigate('Home', {
+      hasJustLoggedIn: true,
+    });
   }, [params?.access_code]);
 
   if (!params?.access_code)

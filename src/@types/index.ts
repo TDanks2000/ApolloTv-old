@@ -51,7 +51,9 @@ export interface EpisodeCardProps {
 }
 
 export type RootStackParamList = {
-  Home: undefined;
+  Home: {
+    hasJustLoggedIn?: boolean;
+  };
   Info: {
     id: string;
   };
