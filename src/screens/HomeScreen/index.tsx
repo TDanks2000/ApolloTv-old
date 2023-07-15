@@ -9,20 +9,32 @@ import {
   PopularContainer,
 } from '../../containers';
 import {ScrollView} from '../../styles/sharedStyles';
-import {storage} from '../../utils';
+import {helpers, storage} from '../../utils';
 import {RootStackParamList} from '../../@types';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {useFocusEffect} from '@react-navigation/native';
 import {useQueryClient} from '@tanstack/react-query';
+import {GenericContext} from '../../contexts';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Home'>;
 
 const HomeScreen = ({route}: Props) => {
+  const genericContext = React.useContext(GenericContext);
   const hasJustLoggedIn = route?.params?.hasJustLoggedIn;
 
+  const hasLaunchedBefore = helpers.launchedBefore();
+
   React.useEffect(() => {
-    if (!hasJustLoggedIn) return;
-  }, [hasJustLoggedIn]);
+    if (hasLaunchedBefore) return;
+    genericContext?.openAlert(
+      'Welcome to ApolloTv',
+      'This app is still in early alpha so some features may not be working as of yet',
+      'error',
+      {
+        duration: 10000,
+      },
+    );
+  }, []);
 
   return (
     <SafeAreaView>

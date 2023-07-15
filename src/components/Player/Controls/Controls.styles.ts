@@ -22,7 +22,7 @@ export const Container = styled.View<Props>`
 `;
 
 export const Button = styled.TouchableOpacity`
-  background-color: rgba(255, 255, 255, 0.2);
+  background-color: rgba(0, 0, 0, 0.55);
   width: 55px;
   height: 55px;
   border-radius: 9999px;
@@ -71,7 +71,7 @@ export const Middle = styled.View`
   position: relative;
   z-index: 1;
   /* flex: 1; */
-  width: 100%;
+  width: auto;
   flex-direction: row;
   justify-content: center;
   align-items: center;

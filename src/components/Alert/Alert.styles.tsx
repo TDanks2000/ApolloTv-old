@@ -26,7 +26,7 @@ export const AlertBox = styled.View<AlertBoxProps>`
   min-height: 100px;
   border-radius: 8px;
   overflow: hidden;
-  border-left-width: 6px;
+  border-left-width: 9px;
 
   ${({AlertBoxType, theme}) => {
     if (AlertBoxType === 'success')
@@ -39,6 +39,16 @@ export const AlertBox = styled.View<AlertBoxProps>`
   }};
 
   padding: 15px;
+`;
+
+export const TitleContainer = styled.View`
+  flex-direction: row;
+  align-items: center;
+`;
+
+export const IconContainer = styled.View`
+  align-items: center;
+  justify-content: center;
 `;
 
 export const Title = styled(Text)`

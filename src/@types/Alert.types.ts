@@ -10,7 +10,7 @@ export type AlertShowTrueState = {
   show: true;
   title: string;
   message: string;
-  icon?: string;
+  icon?: string | React.Component;
   type: AlertTypes;
   duration?: number;
   options?: AlertOptions[];

@@ -11,7 +11,7 @@ import {
 } from './SettingsScreen.styles';
 import {Settings} from '../../components';
 import {GenericContext} from '../../contexts';
-import {storage} from '../../utils';
+import {settingsHelper, storage} from '../../utils';
 import {ANILIST_ACCESS_TOKEN_STORAGE} from '../../utils/constants';
 
 import Toast from 'react-native-toast-message';
@@ -20,9 +20,10 @@ import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {RootStackParamList} from '../../@types';
 import {useQueryClient} from '@tanstack/react-query';
 
-type Props = NativeStackScreenProps<RootStackParamList, 'LoggingIn'>;
+type Props = NativeStackScreenProps<RootStackParamList, 'Settings'>;
 
 const SettingsScreen = ({navigation}: Props) => {
+  const preferedVoice = settingsHelper.getSetting('prefered_voice');
   const queryClient = useQueryClient();
   const genericContext = React.useContext(GenericContext);
   return (
@@ -44,6 +45,7 @@ const SettingsScreen = ({navigation}: Props) => {
             descriptor="Voice language e.g. Sub or Dub"
             type="prefered_voice"
             options={[]}
+            selectedOption={preferedVoice === 'dub' ? 'DUB (EN)' : 'SUB (JP)'}
           />
 
           <Seperator />

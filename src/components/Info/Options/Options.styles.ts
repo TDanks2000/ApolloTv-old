@@ -1,5 +1,7 @@
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {styled} from 'styled-components/native';
+import {Text} from '../../../styles/sharedStyles';
+import {rgba} from 'polished';
 
 export const Container = styled.View`
   padding: ${({theme}) => theme.spacing.paddingLeft};
@@ -19,7 +21,11 @@ export const Wrapper = styled.View<WrapperProps>`
   align-items: center;
 `;
 
-export const OptionContainer = styled.TouchableOpacity`
+export const OptionContainer = styled.View`
+  position: relative;
+`;
+
+export const OptionWrapper = styled.TouchableOpacity`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -47,4 +53,37 @@ export const OptionText = styled.Text`
   color: white;
   font-family: ${({theme}) => theme.text.fonts.NunitoSans};
   font-size: 14px;
+`;
+
+type DropDownProps = {
+  isOpen: boolean;
+};
+
+export const OptionDropDown = styled.View<DropDownProps>`
+  position: absolute;
+  width: 140px;
+  height: ${({isOpen}) => (isOpen ? 'auto' : '0')};
+  background: ${({theme}) => theme.base.offDarkBg};
+  transform: scaleY(1.2);
+  left: 0;
+  top: 70px;
+  border-radius: 8px;
+  overflow: hidden;
+  /* padding: 10px 5px; */
+  z-index: 1;
+
+  flex-direction: column;
+`;
+
+export const OptionDropDownItem = styled.TouchableOpacity`
+  width: 100%;
+  background: ${({theme}) => rgba(theme.text.secondary, 0.05)};
+  padding: 10px 7px;
+  border-bottom-width: 1px;
+  border-color: rgba(255, 255, 255, 0.1);
+`;
+
+export const OptionDropDownItemText = styled(Text)`
+  text-transform: capitalize;
+  font-size: 15px;
 `;

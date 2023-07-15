@@ -1,6 +1,13 @@
 import {View, Text} from 'react-native';
 import React, {Component, ReactElement} from 'react';
-import {Container, Description, Title} from './Section.styles';
+import {
+  Container,
+  Description,
+  LeftContainer,
+  RightContainer,
+  SelectedOption,
+  Title,
+} from './Section.styles';
 
 type SettingsSectionType = 'video' | 'prefered_voice' | 'log_out';
 
@@ -9,6 +16,7 @@ type Props = {
   descriptor: string;
 
   type: SettingsSectionType;
+  selectedOption?: string;
 } & (
   | {
       type: 'log_out';
@@ -35,8 +43,17 @@ const Section = (props: Props) => {
 
   return (
     <Container onPress={handlePress}>
-      <Title>{title}</Title>
-      <Description>{descriptor}</Description>
+      <LeftContainer>
+        <Title>{title}</Title>
+        <Description>{descriptor}</Description>
+      </LeftContainer>
+      <RightContainer>
+        {props.selectedOption ? (
+          <SelectedOption numberOfLines={1}>
+            {props.selectedOption}
+          </SelectedOption>
+        ) : null}
+      </RightContainer>
     </Container>
   );
 };

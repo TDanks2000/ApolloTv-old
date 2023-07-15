@@ -69,3 +69,13 @@ export const parseDeepLinks = (urlFragment: string) => {
 
   return null; // Access token not found in the URL fragment
 };
+
+export const launchedBefore = () => {
+  const launchedBefore = storage.getBoolean('launchedBefore') ?? false;
+  if (launchedBefore === false) {
+    storage.set('launchedBefore', true);
+    return false;
+  } else {
+    return true;
+  }
+};

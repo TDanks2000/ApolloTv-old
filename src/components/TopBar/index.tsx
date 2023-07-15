@@ -28,12 +28,11 @@ const TopBarComponent = ({hasJustLoggedIn}: Props) => {
   const navigation = useNavigation<StackNavigation>();
 
   const fetcher = async () => {
+    accessToken = await storage.getString(ANILIST_ACCESS_TOKEN_STORAGE);
     if (!accessToken) return [];
-
     const anilist = new Anilist(accessToken);
 
     const data = await anilist.user.getCurrentUser();
-    console.log('data', data);
     return (data as any)?.data;
   };
 

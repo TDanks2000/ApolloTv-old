@@ -6,7 +6,7 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import {Info} from '../../components';
 import {DescriptionComponent} from '../../components/Shared';
 import {ScrollView} from '../../styles/sharedStyles';
-import {EpisodesModal} from '../../modals';
+import {CollectionsModal, EpisodesModal} from '../../modals';
 import {API_BASE} from '@env';
 import {api, helpers} from '../../utils';
 import {useQuery} from '@tanstack/react-query';
@@ -163,6 +163,7 @@ const InfoScreen = ({route}: Props) => {
           malId: data.malId,
         }}
       />
+      {/* <CollectionsModal /> */}
     </SafeAreaView>
   );
 };
