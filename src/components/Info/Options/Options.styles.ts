@@ -64,7 +64,6 @@ export const OptionDropDown = styled.View<DropDownProps>`
   width: 140px;
   height: ${({isOpen}) => (isOpen ? 'auto' : '0')};
   background: ${({theme}) => theme.base.offDarkBg};
-  transform: scaleY(1.2);
   left: 0;
   top: 70px;
   border-radius: 8px;
@@ -75,9 +74,16 @@ export const OptionDropDown = styled.View<DropDownProps>`
   flex-direction: column;
 `;
 
-export const OptionDropDownItem = styled.TouchableOpacity`
+type OptionProps = {
+  active?: boolean;
+};
+
+export const OptionDropDownItem = styled.TouchableOpacity<OptionProps>`
   width: 100%;
-  background: ${({theme}) => rgba(theme.text.secondary, 0.05)};
+  background: ${({theme, active}) =>
+    active
+      ? rgba(theme.base.mainColor, 0.15)
+      : rgba(theme.text.secondary, 0.05)};
   padding: 10px 7px;
   border-bottom-width: 1px;
   border-color: rgba(255, 255, 255, 0.1);

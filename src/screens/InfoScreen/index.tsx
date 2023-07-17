@@ -125,6 +125,7 @@ const InfoScreen = ({route}: Props) => {
         <Info.Options
           openEpisodesModal={() => setShowEpisodesModal(true)}
           episodeLegth={data?.episodes?.length ?? 0}
+          anime_info={data}
         />
         <Info.MetaInfo data={data} key={`info-meta-info-${data.id}`} />
         <DescriptionComponent description={data.description} />
