@@ -8,11 +8,11 @@ import {
 } from '../Sections/Sections.shared.styles';
 import {AnimeTrending} from '../../utils/TestData';
 import {RectangleCard} from '../../components';
-import { FullAnimeInfo } from '../../@types';
+import {FullAnimeInfo} from '../../@types';
 
 interface Props {
   title: string;
-  data:  any[];
+  data: any[];
 }
 
 const CardContainer = ({title, data}: Props) => {
@@ -41,7 +41,8 @@ const CardContainer = ({title, data}: Props) => {
           horizontal
           showsHorizontalScrollIndicator={false}
           data={data}
-          ItemSeparatorComponent={() => <View style={{width: 20}} />}
+          ItemSeparatorComponent={() => <View style={{width: 15}} />}
+          contentContainerStyle={{paddingHorizontal: 20}}
           renderItem={renderItem}
         />
       </SectionWrapper>

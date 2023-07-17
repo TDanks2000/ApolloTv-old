@@ -30,17 +30,16 @@ const CharacterContainer = ({characters, subOrDub}: Props) => {
         <SectionTitle>Characters</SectionTitle>
       </SectionTitleContainer>
 
-
       <SectionWrapper>
-
-      <FlatList
-        horizontal
-        showsHorizontalScrollIndicator={false}
-        data={characters}
-        renderItem={renderItem}
-        ItemSeparatorComponent={() => <View style={{width: 20}} />}
+        <FlatList
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          data={characters}
+          renderItem={renderItem}
+          ItemSeparatorComponent={() => <View style={{width: 20}} />}
+          contentContainerStyle={{paddingHorizontal: 20}}
         />
-        </SectionWrapper>
+      </SectionWrapper>
     </>
   );
 };
