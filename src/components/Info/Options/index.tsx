@@ -142,6 +142,24 @@ const Options = ({openEpisodesModal, episodeLegth, anime_info}: Props) => {
         <OptionContainer>
           <OptionWrapper disabled>
             <OptionIconContainer>
+              <OptionIcon name="ban" />
+            </OptionIconContainer>
+            <OptionText>W.I.P</OptionText>
+          </OptionWrapper>
+        </OptionContainer>
+
+        <OptionContainer>
+          <OptionWrapper disabled>
+            <OptionIconContainer>
+              <OptionIcon name="ban" />
+            </OptionIconContainer>
+            <OptionText>W.I.P</OptionText>
+          </OptionWrapper>
+        </OptionContainer>
+
+        {/* <OptionContainer>
+          <OptionWrapper disabled>
+            <OptionIconContainer>
               <OptionIcon name="download" />
             </OptionIconContainer>
             <OptionText>Download</OptionText>
@@ -155,7 +173,7 @@ const Options = ({openEpisodesModal, episodeLegth, anime_info}: Props) => {
             </OptionIconContainer>
             <OptionText>Related</OptionText>
           </OptionWrapper>
-        </OptionContainer>
+        </OptionContainer> */}
       </Wrapper>
     </Container>
   );
