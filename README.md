@@ -78,6 +78,9 @@ Further down the line features
   </tbody>
 </table>
 
+
+<br />
+
 ## INSTALLATION INSTRUCTIONS
 
 <details>
