@@ -22,7 +22,7 @@ export const Description = styled(Text)`
 `;
 
 export const LeftContainer = styled.View`
-  width: 79%;
+  width: 77%;
 `;
 
 export const RightContainer = styled.View`

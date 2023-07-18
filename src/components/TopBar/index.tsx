@@ -28,7 +28,7 @@ const TopBarComponent = ({hasJustLoggedIn}: Props) => {
   const navigation = useNavigation<StackNavigation>();
 
   const fetcher = async () => {
-    accessToken = await storage.getString(ANILIST_ACCESS_TOKEN_STORAGE);
+    accessToken = storage.getString(ANILIST_ACCESS_TOKEN_STORAGE);
     if (!accessToken) return [];
     const anilist = new Anilist(accessToken);
 

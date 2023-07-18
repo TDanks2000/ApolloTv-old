@@ -1,16 +1,22 @@
 import React from 'react';
-import {View} from 'react-native';
+import {View, Linking} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {ScrollView, SharedContainer, Text} from '../../styles/sharedStyles';
 import {
   BottomImage,
   BottomImageContaoner,
   BottomInfo,
+  Disclaimer,
   Seperator,
+  Social,
+  SocialIconWrapper,
+  SocialWrapper,
   Title,
+  VersionInfo,
+  VersionNumber,
 } from './SettingsScreen.styles';
 import {Settings} from '../../components';
-import {GenericContext} from '../../contexts';
+import {GenericContext, SettingsContext} from '../../contexts';
 import {settingsHelper, storage} from '../../utils';
 import {ANILIST_ACCESS_TOKEN_STORAGE} from '../../utils/constants';
 
@@ -23,9 +29,15 @@ import {useQueryClient} from '@tanstack/react-query';
 type Props = NativeStackScreenProps<RootStackParamList, 'Settings'>;
 
 const SettingsScreen = ({navigation}: Props) => {
-  const preferedVoice = settingsHelper.getSetting('prefered_voice');
+  const {preferedVoice, changePreferedVoice} =
+    React.useContext(SettingsContext);
   const queryClient = useQueryClient();
   const genericContext = React.useContext(GenericContext);
+
+  const onPress = (url: string) => {
+    Linking.openURL(url);
+  };
+
   return (
     <SafeAreaView>
       <SharedContainer>
@@ -44,7 +56,9 @@ const SettingsScreen = ({navigation}: Props) => {
             title="Prefered Voice"
             descriptor="Voice language e.g. Sub or Dub"
             type="prefered_voice"
-            options={[]}
+            onPress={() => {
+              if (changePreferedVoice) changePreferedVoice();
+            }}
             selectedOption={preferedVoice === 'dub' ? 'DUB (EN)' : 'SUB (JP)'}
           />
 
@@ -79,6 +93,9 @@ const SettingsScreen = ({navigation}: Props) => {
                         });
 
                         queryClient.invalidateQueries({queryKey: ['Top-Bar']});
+                        queryClient.invalidateQueries({
+                          queryKey: ['user-lists'],
+                        });
                       },
                       style: 'default',
                     },
@@ -95,6 +112,24 @@ const SettingsScreen = ({navigation}: Props) => {
               <BottomImage
                 source={require('../../assets/images/Apollotv-banner(no-bg).png')}
               />
+
+              <VersionInfo>
+                <VersionNumber>
+                  V {require('../../../package.json').version} Alpha
+                </VersionNumber>
+              </VersionInfo>
+              <SocialWrapper>
+                <SocialIconWrapper
+                  onPress={() =>
+                    onPress('https://github.com/apollotv-team/apollotv')
+                  }>
+                  <Social name="github" />
+                </SocialIconWrapper>
+              </SocialWrapper>
+              <Disclaimer>
+                ApolloTv does not store any files on its server. {'\n'} All
+                contents are provided by non-affiliated third parties.
+              </Disclaimer>
             </BottomImageContaoner>
           </BottomInfo>
         </ScrollView>

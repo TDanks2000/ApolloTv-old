@@ -72,8 +72,8 @@ const EpisodesModal = ({
   if (isPending) return null;
 
   const progress =
-    (dataFromDBAndAnilist?.anilistData as any).data.Media?.mediaListEntry
-      ?.progress || 0;
+    (dataFromDBAndAnilist?.anilistData as any)?.data.Media?.mediaListEntry
+      ?.progress ?? 0;
 
   return (
     <Modal visible={visible} transparent={true} animationType={'slide'}>

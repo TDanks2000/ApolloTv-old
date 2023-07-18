@@ -28,17 +28,15 @@ type Props = {
     }
   | {
       type: 'prefered_voice';
-      options: {
-        value: string;
-        text: string;
-      }[];
+      onPress: () => void;
     }
 );
 
 const Section = (props: Props) => {
   const {title, descriptor} = props;
   const handlePress = () => {
-    if (props.type === 'log_out') props.onPress();
+    if (props.type === 'log_out' || props.type === 'prefered_voice')
+      props.onPress();
   };
 
   return (
