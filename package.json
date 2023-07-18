@@ -8,7 +8,7 @@
     "lint": "eslint .",
     "start": "react-native start",
     "test": "jest",
-    "postversion": "cd android && ./gradlew bundleRelease",
+    "postversion": "cd android && ./gradlew assemble",
     "build": "cd android && ./gradlew bundleRelease",
     "buildApk": "cd android && ./gradlew assemble",
     "buildDevApk": "cd android && ./gradlew assembleDebug"
