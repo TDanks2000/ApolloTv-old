@@ -70,6 +70,11 @@ Further down the line features
             <img src="./misc/images/apollotv-video.png"/>
         </td>
     </tr>
+    <tr>
+        <td colspan="3">
+            <img src="./misc/images/apollotv-video-settings.png"/>
+        </td>
+    </tr>
   </tbody>
 </table>
 
