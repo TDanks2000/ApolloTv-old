@@ -45,6 +45,34 @@ Further down the line features
 
 <br />
 
+## SCREENSHOTS
+
+<table>
+  <thead>
+    <tr>
+      <th colspan="5">ANDROID</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+        <td>
+            <img src="./misc/images/apollotv-home.png"/>
+        </td>
+        <td>
+            <img src="./misc/images/apollotv-search.png""/>
+        </td>
+        <td>
+            <img src="./misc/images/apollotv-info-top.png"/>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="3">
+            <img src="./misc/images/apollotv-video.png"/>
+        </td>
+    </tr>
+  </tbody>
+</table>
+
 ## INSTALLATION INSTRUCTIONS
 
 <details>
