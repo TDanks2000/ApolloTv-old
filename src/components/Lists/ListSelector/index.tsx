@@ -1,13 +1,14 @@
 import {FlatList, View} from 'react-native';
 import React from 'react';
 import {MediaListStatus} from '../../../@types/index';
-import {PillContainer, PillText} from './ListSelector.styles';
+import {PillContainer, PillLength, PillText} from './ListSelector.styles';
 
 interface SelectorProps {
   selectedList: MediaListStatus;
   setSelectedList: (list: MediaListStatus) => void;
   selectedColor?: string;
   listTypes: {name: string; value: MediaListStatus}[];
+  data: any;
 }
 
 const Selector = ({
@@ -15,18 +16,28 @@ const Selector = ({
   setSelectedList,
   selectedColor,
   listTypes,
+  data,
 }: SelectorProps) => {
   const renderItem = ({
     item,
   }: {
     item: {name: string; value: MediaListStatus};
   }) => {
+    const selectedLisData = data[item.value?.toLowerCase()];
+    if (!selectedLisData?.length) return null;
+
+    const combineData = selectedLisData.reduce((acc: any, list: any) => {
+      return acc.concat(list.entries);
+    }, []);
     return (
       <PillContainer
         selected={item.value === selectedList}
         onPress={() => setSelectedList(item.value)}
         selectedColor={selectedColor}>
-        <PillText>{item.name}</PillText>
+        <PillText>{item.name} </PillText>
+        <PillLength>
+          {combineData?.length > 100 ? '100+' : combineData?.length ?? '0'}
+        </PillLength>
       </PillContainer>
     );
   };
@@ -37,7 +48,9 @@ const Selector = ({
       data={listTypes}
       showsHorizontalScrollIndicator={false}
       renderItem={renderItem}
-      ItemSeparatorComponent={() => <View style={{width: 15}} />}
+      contentContainerStyle={{
+        gap: 15,
+      }}
     />
   );
 };

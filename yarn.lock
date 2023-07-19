@@ -1965,9 +1965,9 @@
     client-only "0.0.1"
 
 "@tdanks2000/anilist-wrapper@^1.0.11":
-  version "1.0.11"
-  resolved "https://registry.yarnpkg.com/@tdanks2000/anilist-wrapper/-/anilist-wrapper-1.0.11.tgz#d4ed90d91802f6a6d47bf9e8ca0add7b3a2c80ab"
-  integrity sha512-qBd4BhGVeWZomkS1RWkCpla4OHUKD+sIOyZ7U8rYaSSVLMzUQOzip7DzbjJlsSYPdVvzpRAZACUtJgfESJJBGA==
+  version "1.0.13"
+  resolved "https://registry.yarnpkg.com/@tdanks2000/anilist-wrapper/-/anilist-wrapper-1.0.13.tgz#a5024d0d8370eb27bd89e94c4e31cd935925a3aa"
+  integrity sha512-jCbYo1NsqzPkt5d2s5pGdhphYjx8IQbSPMibhP73hsHCdClgO8wG3cF6bobqdG7Ul8xsMwwLiZ34sQOBtBXptQ==
   dependencies:
     abort-controller "^3.0.0"
 

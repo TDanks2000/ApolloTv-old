@@ -42,6 +42,11 @@ const ListsScreen = () => {
       value: 'PLANNING',
     },
     {
+      name: 'On Hold',
+      value: 'PAUSED',
+    },
+
+    {
       name: 'Re Watching',
       value: 'REPEATING',
     },
@@ -73,6 +78,7 @@ const ListsScreen = () => {
       <SharedContainerRel>
         <SelectorContainer>
           <Lists.Selector
+            data={data}
             listTypes={listTypes}
             selectedList={selectedList}
             setSelectedList={setSelectedList}

@@ -10,6 +10,8 @@ interface PillProps {
 export const PillContainer = styled.TouchableOpacity<PillProps>`
   padding: 10px 20px;
   border-radius: 20px;
+  flex-direction: row;
+  gap: 3px;
   background-color: ${({selected, selectedColor, theme}) =>
     selected
       ? selectedColor
@@ -21,4 +23,9 @@ export const PillContainer = styled.TouchableOpacity<PillProps>`
 export const PillText = styled(Text)`
   text-transform: uppercase;
   font-weight: bold;
+`;
+
+export const PillLength = styled(Text)`
+  font-size: 12.5px;
+  color: ${({theme}) => theme.text.offWhite};
 `;
