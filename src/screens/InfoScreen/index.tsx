@@ -80,7 +80,7 @@ const InfoScreen = ({route}: Props) => {
     returnLastEpisodeIfFin?: boolean,
   ) => {
     const nextEpisodeNumber =
-      mediaListStatus?.progress + howManyEpisodesForward;
+      mediaListStatus?.progress ?? 0 + howManyEpisodesForward;
 
     if (mediaListStatus && mediaListStatus.status === 'COMPLETED')
       return undefined;

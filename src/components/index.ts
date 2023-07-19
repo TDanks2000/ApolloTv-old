@@ -8,6 +8,7 @@ import {
   WatchNowComponent,
   Option,
   MiddleOfScreenLoadingComponent,
+  MiddleOfScreenTextComponent,
 } from './Shared';
 import Paginate from './Paginate';
 import CharacterCard from './CharacterCard';
@@ -26,6 +27,7 @@ export {
   BannerComponent,
   Option,
   MiddleOfScreenLoadingComponent,
+  MiddleOfScreenTextComponent,
   ContinueWatchingCard,
   RectangleCard,
   RatingComponent,

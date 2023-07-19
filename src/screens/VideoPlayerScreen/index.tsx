@@ -252,9 +252,11 @@ const VideoPlayerScreen = ({route}: Props) => {
       createAndUpdateDB();
       checkIfWatchedFromDB();
       setShowNavBar(false);
+      utils.ToggleSystemNavigation(false);
 
       return () => {
         setShowNavBar(true);
+        utils.ToggleSystemNavigation(true);
         if (hasSkipedIntro === true) toggleHasSkippedIntro();
         if (hasSkipedEnding === true) toggleHasSkippedEnding();
         if (watched === true) setWatched(false);

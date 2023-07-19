@@ -22,21 +22,29 @@ const MetaInfo = ({data}: Props) => {
   const actualTitle = utils.getTitle(data.title);
   const actualGenres = data.genres?.slice(0, 2);
 
+  const isStartAndEndSameYear = data?.startDate?.year === data?.endDate?.year;
+  const isShowStillAiring = data.status.toLowerCase() === 'ongoing';
+  const hasAllEpisodesAired = data?.episodes?.length === data?.totalEpisodes;
+
   return (
     <Container>
       <Wrapper>
         <TopMetaInfo>
-          <Text style={{textTransform: 'uppercase'}}>
-            {data.startDate.year ?? '??'} -{' '}
-            {data.status.toLowerCase() === 'ongoing'
-              ? 'Present'
-              : data.endDate.year ?? '??'}
-          </Text>
+          {isStartAndEndSameYear ? (
+            <Text>{data.startDate.year}</Text>
+          ) : (
+            <Text style={{textTransform: 'uppercase'}}>
+              {data.startDate.year ?? '??'} -{' '}
+              {isShowStillAiring ? 'Present' : data.endDate.year ?? '??'}
+            </Text>
+          )}
           <Seperator />
           <Text>
-            {`${data.episodes.length ?? 0} / ${data.totalEpisodes}`} Episodes
+            {hasAllEpisodesAired
+              ? data?.totalEpisodes
+              : `${data.episodes.length ?? 0} / ${data.totalEpisodes}`}{' '}
+            Episodes
           </Text>
-          <Seperator />
         </TopMetaInfo>
         <Title numberOfLines={1}>{actualTitle}</Title>
         <BottomMetaInfo>

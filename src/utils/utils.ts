@@ -4,6 +4,7 @@ import {
   TitleLanguageOptions,
 } from '../@types';
 import sanitizer from 'sanitize-html';
+import SystemNavigationBar from 'react-native-system-navigation-bar';
 
 export const getTitle = (
   title: string | ITitleLanguageOptions,
@@ -99,4 +100,15 @@ export const findHighestQuality = (
 
 export const delay = (ms: number): Promise<void> => {
   return new Promise(resolve => setTimeout(resolve, ms));
+};
+
+export const ToggleSystemNavigation = (show: boolean) => {
+  switch (show) {
+    case true:
+      SystemNavigationBar.navigationShow();
+      break;
+    case false:
+      SystemNavigationBar.leanBack();
+      break;
+  }
 };

@@ -15,7 +15,11 @@ import {ListContainer} from '../../containers';
 import {useQuery} from '@tanstack/react-query';
 import {useAccessToken} from '../../contexts';
 import {Anilist} from '@tdanks2000/anilist-wrapper';
-import {Lists, MiddleOfScreenLoadingComponent} from '../../components';
+import {
+  Lists,
+  MiddleOfScreenLoadingComponent,
+  MiddleOfScreenTextComponent,
+} from '../../components';
 import {MediaListStatus} from '../../@types';
 import {api} from '../../utils';
 
@@ -31,7 +35,10 @@ const ListsScreen = () => {
   });
 
   if (isPending) return <MiddleOfScreenLoadingComponent />;
-  if (data?.length <= 0) return null;
+  if (data?.length <= 0)
+    return (
+      <MiddleOfScreenTextComponent text="Seems like you are not logged in!" />
+    );
 
   const selectedLisData = data[selectedList?.toLowerCase()];
 
