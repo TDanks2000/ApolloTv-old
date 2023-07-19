@@ -29,6 +29,32 @@ const ListsScreen = () => {
   const {accessToken} = useAccessToken();
   const anilist = new Anilist(accessToken);
 
+  const listTypes: {
+    name: string;
+    value: MediaListStatus;
+  }[] = [
+    {
+      name: 'Watching',
+      value: 'CURRENT',
+    },
+    {
+      name: 'Plan to Watch',
+      value: 'PLANNING',
+    },
+    {
+      name: 'Re Watching',
+      value: 'REPEATING',
+    },
+    {
+      name: 'Completed',
+      value: 'COMPLETED',
+    },
+    {
+      name: 'Dropped',
+      value: 'DROPPED',
+    },
+  ];
+
   const {isPending, isError, data, error} = useQuery({
     queryKey: ['user-lists'],
     queryFn: () => api.fetchAnilistLists(accessToken, anilist),
@@ -47,6 +73,7 @@ const ListsScreen = () => {
       <SharedContainerRel>
         <SelectorContainer>
           <Lists.Selector
+            listTypes={listTypes}
             selectedList={selectedList}
             setSelectedList={setSelectedList}
             selectedColor={data.color}

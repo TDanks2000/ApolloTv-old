@@ -7,39 +7,15 @@ interface SelectorProps {
   selectedList: MediaListStatus;
   setSelectedList: (list: MediaListStatus) => void;
   selectedColor?: string;
+  listTypes: {name: string; value: MediaListStatus}[];
 }
 
 const Selector = ({
   selectedList,
   setSelectedList,
   selectedColor,
+  listTypes,
 }: SelectorProps) => {
-  const listTypes: {
-    name: string;
-    value: MediaListStatus;
-  }[] = [
-    {
-      name: 'Watching',
-      value: 'CURRENT',
-    },
-    {
-      name: 'Plan to Watch',
-      value: 'PLANNING',
-    },
-    {
-      name: 'Re Watching',
-      value: 'REPEATING',
-    },
-    {
-      name: 'Completed',
-      value: 'COMPLETED',
-    },
-    {
-      name: 'Dropped',
-      value: 'DROPPED',
-    },
-  ];
-
   const renderItem = ({
     item,
   }: {
