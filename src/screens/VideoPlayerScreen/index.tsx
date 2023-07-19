@@ -111,7 +111,7 @@ const VideoPlayerScreen = ({route}: Props) => {
 
   const videoRef: any = React.useRef(null);
 
-  const [paused, setPaused] = React.useState(true);
+  const [paused, setPaused] = React.useState(false);
   const [duration, setDuration] = React.useState(0);
   const [currentTime, setCurrentTime] = React.useState(0);
   const [isBuffering, setIsBuffering] = React.useState<boolean>(false);
@@ -252,11 +252,9 @@ const VideoPlayerScreen = ({route}: Props) => {
       createAndUpdateDB();
       checkIfWatchedFromDB();
       setShowNavBar(false);
-      utils.ToggleSystemNavigation(false);
 
       return () => {
         setShowNavBar(true);
-        utils.ToggleSystemNavigation(true);
         if (hasSkipedIntro === true) toggleHasSkippedIntro();
         if (hasSkipedEnding === true) toggleHasSkippedEnding();
         if (watched === true) setWatched(false);
@@ -322,6 +320,7 @@ const VideoPlayerScreen = ({route}: Props) => {
         style={{
           width: '100%',
           height: '100%',
+          backgroundColor: 'black',
         }}
         onError={error => {
           showError(error.error.errorString);

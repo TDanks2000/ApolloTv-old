@@ -15,6 +15,7 @@ import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {useFocusEffect} from '@react-navigation/native';
 import {useQueryClient} from '@tanstack/react-query';
 import {GenericContext} from '../../contexts';
+import {episodeSQLHelper} from '../../utils/database';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Home'>;
 
@@ -25,6 +26,7 @@ const HomeScreen = ({route}: Props) => {
   const hasLaunchedBefore = helpers.launchedBefore();
 
   React.useEffect(() => {
+    episodeSQLHelper.createTable();
     if (hasLaunchedBefore) return;
     genericContext?.openAlert(
       'Welcome to ApolloTv',

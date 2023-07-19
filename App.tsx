@@ -17,7 +17,7 @@ import {Toast} from 'react-native-toast-message/lib/src/Toast';
 import {toastConfig} from './src/styles/toastconfig';
 import {Alert} from './src/components';
 import {useFocusEffect} from '@react-navigation/native';
-import {helpers} from './src/utils';
+import {helpers, utils} from './src/utils';
 
 const queryClient = new QueryClient();
 
@@ -36,6 +36,10 @@ const App = (): JSX.Element => {
 const InnerApp = () => {
   const {checkedForToken, accessToken} = useAccessToken();
   const genericContext = React.useContext(GenericContext);
+
+  React.useEffect(() => {
+    utils.ToggleSystemNavigation(false);
+  }, []);
 
   return (
     <ThemeProvider theme={defaultTheme}>
