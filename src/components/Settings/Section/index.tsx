@@ -7,7 +7,9 @@ import {
   RightContainer,
   SelectedOption,
   Title,
-} from './Section.styles';
+  Wrapper,
+} from '../Settings.styles';
+import {useNavigation} from '@react-navigation/native';
 
 type SettingsSectionType = 'video' | 'prefered_voice' | 'log_out';
 
@@ -24,7 +26,7 @@ type Props = {
     }
   | {
       type: 'video';
-      settingsScreen: ReactElement;
+      settingsScreen: string;
     }
   | {
       type: 'prefered_voice';
@@ -33,26 +35,30 @@ type Props = {
 );
 
 const Section = (props: Props) => {
+  const navigation: any = useNavigation();
   const {title, descriptor} = props;
   const handlePress = () => {
     if (props.type === 'log_out' || props.type === 'prefered_voice')
       props.onPress();
+    if (props.type === 'video') navigation.navigate(props.settingsScreen);
   };
 
   return (
-    <Container onPress={handlePress}>
-      <LeftContainer>
-        <Title>{title}</Title>
-        <Description>{descriptor}</Description>
-      </LeftContainer>
-      <RightContainer>
-        {props.selectedOption ? (
-          <SelectedOption numberOfLines={1}>
-            {props.selectedOption}
-          </SelectedOption>
-        ) : null}
-      </RightContainer>
-    </Container>
+    <Wrapper>
+      <Container onPress={handlePress}>
+        <LeftContainer>
+          <Title>{title}</Title>
+          <Description>{descriptor}</Description>
+        </LeftContainer>
+        <RightContainer>
+          {props.selectedOption ? (
+            <SelectedOption numberOfLines={1}>
+              {props.selectedOption}
+            </SelectedOption>
+          ) : null}
+        </RightContainer>
+      </Container>
+    </Wrapper>
   );
 };
 

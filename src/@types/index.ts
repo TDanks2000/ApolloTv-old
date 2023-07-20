@@ -71,6 +71,10 @@ export type RootStackParamList = {
     anime_info: AnimeInfo;
     watched_percentage?: number;
   };
+
+  // SETTINGS
+  VideoSettings: undefined;
+  // END SETTINGS
 };
 
 export type StackNavigation = NavigationProp<RootStackParamList>;
@@ -276,7 +280,7 @@ export interface SQLUpdateEpisodeData {
   watched_percentage: number;
 }
 
-export type Quality = '1080p' | '720p' | '480p' | '360p';
+export type Quality = '1080p' | '720p' | '480p' | '360p' | 'HIGHEST' | 'LOWEST';
 
 export interface SourceVideoOptions {
   url: string;
@@ -325,4 +329,8 @@ export interface AniskipInterval {
   startTime: number;
 }
 
-export type settings = 'auto_skip_intro' | 'auto_skip_outro' | 'prefered_voice';
+export type settings =
+  | 'auto_skip_intro'
+  | 'auto_skip_outro'
+  | 'prefered_voice'
+  | 'prefered_quality';

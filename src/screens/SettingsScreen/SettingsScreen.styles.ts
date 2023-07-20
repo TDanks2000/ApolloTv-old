@@ -4,18 +4,6 @@ import {Text} from '../../styles/sharedStyles';
 import {rgba} from 'polished';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 
-export const Title = styled(Text)`
-  font-size: 20px;
-  margin-bottom: 10px;
-`;
-
-export const Seperator = styled.View`
-  width: 100%;
-  height: 2px;
-  background-color: ${({theme}) => rgba(theme.text.secondary, 0.5)};
-  margin: 15px 0;
-`;
-
 export const BottomInfo = styled.View`
   margin-top: 25px;
 `;

@@ -1,13 +1,15 @@
 import React from 'react';
-import {EpisodeInfo} from '../@types';
+import {EpisodeInfo, Quality} from '../@types';
 import {settingsHelper} from '../utils';
 
 export const SettingsContext = React.createContext<{
   autoSkipIntro?: string;
   autoSkipOutro?: string;
   preferedVoice?: string;
+  preferedQuality?: Quality;
   changeAutoSkip?: (setting: 'auto_skip_intro' | 'auto_skip_outro') => void;
   changePreferedVoice?: () => void;
+  changePreferedQuality?: (quality: Quality) => void;
 }>({});
 
 export const SettingsProvider = ({children}: any) => {
@@ -15,6 +17,8 @@ export const SettingsProvider = ({children}: any) => {
   const autoSkipOutroSetting = settingsHelper.getSetting('auto_skip_outro');
   const preferedVoiceSettings: any =
     settingsHelper.getSetting('prefered_voice');
+  const preferedQualitySetting: any =
+    settingsHelper.getSetting('prefered_quality');
 
   const [autoSkipIntro, setAutoSkipIntro] = React.useState(
     autoSkipIntroSetting ?? 'off',
@@ -24,6 +28,9 @@ export const SettingsProvider = ({children}: any) => {
   );
   const [preferedVoice, setPreferedVoice] = React.useState<'sub' | 'dub'>(
     preferedVoiceSettings ?? 'sub',
+  );
+  const [preferedQuality, setPreferedQuality] = React.useState<Quality>(
+    preferedQualitySetting ?? 'HIGHEST',
   );
 
   const changeAutoSkip = (setting: 'auto_skip_intro' | 'auto_skip_outro') => {
@@ -44,6 +51,11 @@ export const SettingsProvider = ({children}: any) => {
     setPreferedVoice(prev => (prev === 'sub' ? 'dub' : 'sub'));
   };
 
+  const changePreferedQuality = (quality: Quality) => {
+    settingsHelper.setSetting('prefered_quality', quality);
+    setPreferedQuality(quality);
+  };
+
   return (
     <SettingsContext.Provider
       value={{
@@ -52,6 +64,8 @@ export const SettingsProvider = ({children}: any) => {
         preferedVoice,
         changeAutoSkip,
         changePreferedVoice,
+        preferedQuality,
+        changePreferedQuality,
       }}>
       {children}
     </SettingsContext.Provider>

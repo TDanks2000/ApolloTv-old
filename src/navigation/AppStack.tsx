@@ -12,6 +12,7 @@ import {
   SettingsScreen,
   VideoPlayerScreen,
   LoggingInScreen,
+  VideoSettingScreen,
 } from '../screens';
 import {NavigationBar} from '../components';
 import {RootStackParamList} from '../@types';
@@ -68,6 +69,10 @@ const AppStack = ({setHiddenStatusBar}: {setHiddenStatusBar: boolean}) => {
         <Stack.Screen name="Info" component={InfoScreen} />
         <Stack.Screen name="VideoPlayer" component={VideoPlayerScreen} />
         <Stack.Screen name="LoggingIn" component={LoggingInScreen} />
+
+        {/* SETTINGS */}
+        <Stack.Screen name="VideoSettings" component={VideoSettingScreen} />
+        {/* END SETTINGS */}
       </Stack.Navigator>
       <NavigationBar
         currentRoute={routeNameRef === undefined ? 'loading' : routeNameRef}

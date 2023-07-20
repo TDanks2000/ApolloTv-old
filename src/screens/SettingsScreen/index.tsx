@@ -1,17 +1,15 @@
 import React from 'react';
 import {View, Linking} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import {ScrollView, SharedContainer, Text} from '../../styles/sharedStyles';
+import {ScrollView, SharedContainer, Title} from '../../styles/sharedStyles';
 import {
   BottomImage,
   BottomImageContaoner,
   BottomInfo,
   Disclaimer,
-  Seperator,
   Social,
   SocialIconWrapper,
   SocialWrapper,
-  Title,
   VersionInfo,
   VersionNumber,
 } from './SettingsScreen.styles';
@@ -25,6 +23,7 @@ import {useNavigation} from '@react-navigation/native';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {RootStackParamList} from '../../@types';
 import {useQueryClient} from '@tanstack/react-query';
+import {Seperator} from '../../styles/settings.shared.styles';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Settings'>;
 
@@ -42,18 +41,18 @@ const SettingsScreen = ({navigation}: Props) => {
     <SafeAreaView>
       <SharedContainer>
         <Title>Settings</Title>
-        <ScrollView style={{marginTop: 20}}>
+        <ScrollView style={{paddingTop: 30, marginTop: 15}}>
           <Settings.Section
             title="Video"
             descriptor="Manage video player settings"
             type="video"
-            settingsScreen={<View />}
+            settingsScreen={'VideoSettings'}
           />
 
           <Seperator />
 
           <Settings.Section
-            title="Prefered Voice"
+            title="Preferred Voice"
             descriptor="Voice language e.g. Sub or Dub"
             type="prefered_voice"
             onPress={() => {

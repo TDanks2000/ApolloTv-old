@@ -9,6 +9,7 @@ import {
   Option,
   MiddleOfScreenLoadingComponent,
   MiddleOfScreenTextComponent,
+  BackButtonComponent,
 } from './Shared';
 import Paginate from './Paginate';
 import CharacterCard from './CharacterCard';
@@ -28,6 +29,7 @@ export {
   Option,
   MiddleOfScreenLoadingComponent,
   MiddleOfScreenTextComponent,
+  BackButtonComponent,
   ContinueWatchingCard,
   RectangleCard,
   RatingComponent,

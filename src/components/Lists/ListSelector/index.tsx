@@ -24,7 +24,6 @@ const Selector = ({
     item: {name: string; value: MediaListStatus};
   }) => {
     const selectedLisData = data[item.value?.toLowerCase()];
-    if (!selectedLisData?.length) return null;
 
     const combineData = selectedLisData.reduce((acc: any, list: any) => {
       return acc.concat(list.entries);
