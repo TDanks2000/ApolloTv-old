@@ -17,7 +17,7 @@ export const BottomImageContaoner = styled.View`
 export const BottomImage = styled.Image.attrs({
   resizeMode: 'contain',
 })`
-  width: 150px;
+  width: 200px;
   height: 45px;
 `;
 
