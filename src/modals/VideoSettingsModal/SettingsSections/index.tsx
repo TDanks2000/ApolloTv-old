@@ -9,7 +9,7 @@ import {
   SectionTitle,
   SelectedOption,
   SettingsIconRight,
-} from '../Settings.shared.styles';
+} from '../VideoSettingsModal.shared.styles';
 import {SettingsSectionsType, SourceVideoOptions} from '../../../@types';
 import {Option} from '../../../components';
 import {settingsHelper} from '../../../utils';

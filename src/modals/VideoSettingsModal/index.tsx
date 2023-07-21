@@ -5,13 +5,13 @@ import {
   SettingsSectionsType,
   SourceVideoOptions,
 } from '../../@types';
-import {Container, SettingsIconLeft} from './Settings.shared.styles';
+import {Container, SettingsIconLeft} from './VideoSettingsModal.shared.styles';
 import {
   SettingsContainer,
   SettingsWrapper,
   TopContainer,
   TopTitle,
-} from './Settings.styles';
+} from './VideoSettingsModal.styles';
 import SettingsSection from './SettingSection';
 import SettingsSections from './SettingsSections';
 import {settingsHelper} from '../../utils';
@@ -112,7 +112,9 @@ const VideoSettingsModal = ({
     <Modal
       visible={shouldOpen}
       transparent={true}
-      onRequestClose={closeFunction}>
+      onRequestClose={closeFunction}
+      animationType="fade"
+      hardwareAccelerated={true}>
       <TouchableOpacity onPress={closeFunction}>
         <SettingsContainer>
           <SettingsWrapper>

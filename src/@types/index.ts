@@ -48,6 +48,7 @@ export interface EpisodeCardProps {
   episodeDBEntry: any;
 
   anime_info: AnimeInfo;
+  episodes: EpisodeInfo[];
 }
 
 export type RootStackParamList = {
@@ -70,6 +71,7 @@ export type RootStackParamList = {
     episode_info: EpisodeInfo;
     anime_info: AnimeInfo;
     watched_percentage?: number;
+    episodes: EpisodeInfo[];
   };
 
   // SETTINGS

@@ -5,11 +5,12 @@ import {
   ClickToDismiss,
   Container,
   Middle,
-  SettingsCog,
+  IconBase,
   Top,
   TopRight,
   TopText,
   TopTextContainer,
+  IconBase6,
 } from './Controls.styles';
 import PlayPause from './PlayPause';
 import SkipTo from './SkipTo';
@@ -24,7 +25,7 @@ import {
 import {utils} from '../../../utils';
 import {episodeSQLHelper} from '../../../utils/database';
 
-import {VideoSettingsModal} from '../../../modals';
+import {VideoEpisodesModal, VideoSettingsModal} from '../../../modals';
 
 interface Props {
   paused: boolean;
@@ -134,17 +135,25 @@ const PlayerControls = ({
             </TopText>
           </TopTextContainer>
           <TopRight>
-            <TouchableOpacity onPress={startSpinAnimation}>
-              <Animated.View style={{transform: [{rotate: spin}]}}>
-                <SettingsCog name="cog" />
-              </Animated.View>
-            </TouchableOpacity>
-            <VideoSettingsModal
-              shouldOpen={openSettings}
-              closeFunction={startSpinAnimation}
-              selectedQuality={selectedQuality}
-              options={[qualityOptions]}
-            />
+            <View>
+              <TouchableOpacity>
+                <IconBase6 name="rectangle-list" />
+              </TouchableOpacity>
+              <VideoEpisodesModal />
+            </View>
+            <View>
+              <TouchableOpacity onPress={startSpinAnimation}>
+                <Animated.View style={{transform: [{rotate: spin}]}}>
+                  <IconBase name="cog" />
+                </Animated.View>
+              </TouchableOpacity>
+              <VideoSettingsModal
+                shouldOpen={openSettings}
+                closeFunction={startSpinAnimation}
+                selectedQuality={selectedQuality}
+                options={[qualityOptions]}
+              />
+            </View>
           </TopRight>
         </Top>
         <Middle>

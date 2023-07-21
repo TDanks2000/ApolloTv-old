@@ -1,4 +1,6 @@
 import Icon from 'react-native-vector-icons/FontAwesome5';
+// @ts-ignore
+import Icon6 from 'react-native-vector-icons/FontAwesome6';
 import {styled} from 'styled-components/native';
 import {Text} from '../../../styles/sharedStyles';
 import LinearGradient from 'react-native-linear-gradient';
@@ -104,9 +106,16 @@ export const ClickToDismiss = styled.Pressable`
 
 export const TopRight = styled.View`
   position: relative;
+  flex-direction: row;
+  gap: 15px;
+  align-items: center;
 `;
 
-export const SettingsCog = styled(Icon)`
+export const IconBase = styled(Icon)`
+  color: white;
+  font-size: 20px;
+`;
+export const IconBase6 = styled(Icon6)`
   color: white;
   font-size: 20px;
 `;

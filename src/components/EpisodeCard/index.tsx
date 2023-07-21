@@ -30,6 +30,7 @@ const EpisodeCard = (props: EpisodeCardProps) => {
     episode_number,
     image,
     watched_percentage,
+    episodes,
   } = props;
   const [actualWatchedPercent, setActualWatchedPercent] = React.useState<
     number | undefined
@@ -52,6 +53,7 @@ const EpisodeCard = (props: EpisodeCardProps) => {
         title: anime_info.title,
         malId: anime_info.malId,
       },
+      episodes,
     });
     setEpisodeModalVisible(false);
   };

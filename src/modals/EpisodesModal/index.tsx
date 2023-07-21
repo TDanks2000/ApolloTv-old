@@ -11,7 +11,7 @@ import {
 } from './EpisodesModal.styles';
 
 import EpisodeCard from '../../components/EpisodeCard';
-import {AnimeInfo} from '../../@types';
+import {AnimeInfo, EpisodeInfo} from '../../@types';
 import {utils} from '../../utils';
 import {Paginate} from '../../components';
 import {episodeSQLHelper} from '../../utils/database';
@@ -20,7 +20,7 @@ import {Anilist} from '@tdanks2000/anilist-wrapper';
 import {useQuery} from '@tanstack/react-query';
 
 interface Props {
-  episodes: any[];
+  episodes: EpisodeInfo[];
   visible: boolean;
   setVisible: (value: boolean) => void;
   anime_info: AnimeInfo;
@@ -124,6 +124,7 @@ const EpisodesModal = ({
                         title: anime_info.title,
                         malId: anime_info.malId,
                       }}
+                      episodes={episodes}
                     />
                   );
                 })}

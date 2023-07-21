@@ -7,7 +7,7 @@ import {
   SectionRight,
   SectionTitle,
   SelectedOption,
-} from '../Settings.shared.styles';
+} from '../VideoSettingsModal.shared.styles';
 import {SettingsOptions, SettingsOptionsGroup} from '../../../@types';
 
 type Props = {

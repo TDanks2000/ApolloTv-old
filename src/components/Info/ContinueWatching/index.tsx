@@ -7,7 +7,7 @@ import {
   TextIcon,
   Wrapper,
 } from './ContinueWatching.styles';
-import {FullAnimeInfo, StackNavigation} from '../../../@types';
+import {EpisodeInfo, FullAnimeInfo, StackNavigation} from '../../../@types';
 import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import {episodeSQLHelper} from '../../../utils/database';
 
@@ -18,6 +18,7 @@ interface Props {
   animeData: FullAnimeInfo;
   nextEpisodeData: any;
   nextEpisodeNumber: number;
+  episodes: EpisodeInfo[];
 }
 
 const ContinueWatching = ({
@@ -27,6 +28,7 @@ const ContinueWatching = ({
   nextEpisodeData,
   nextEpisodeNumber,
   animeData,
+  episodes,
 }: Props) => {
   const [watchedPercentage, setWatchedPercentage] = React.useState<number>(0);
   const navigation = useNavigation<StackNavigation>();
@@ -48,6 +50,7 @@ const ContinueWatching = ({
       },
       next_episode_id: nextEpisodeData.id,
       watched_percentage: watchedPercentage,
+      episodes,
     });
   };
 
