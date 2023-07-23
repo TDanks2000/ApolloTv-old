@@ -1,6 +1,6 @@
 import {View, Text, Modal, TouchableOpacity} from 'react-native';
 import React from 'react';
-import {EpisodeInfo} from '../../@types';
+import {AnimeInfo, EpisodeInfo} from '../../@types';
 import {
   Container,
   EpisodesContainer,
@@ -19,6 +19,7 @@ type Props = {
   onClose: () => void;
   closeFunction: () => void;
   currentEpisode: number;
+  anime_info: AnimeInfo;
 };
 
 const VideoEpisodesModal = ({
@@ -26,6 +27,7 @@ const VideoEpisodesModal = ({
   visible,
   closeFunction,
   currentEpisode,
+  anime_info,
 }: Props) => {
   const [selectedPage, setSelectedPage] = React.useState<number>(1);
 
@@ -36,6 +38,9 @@ const VideoEpisodesModal = ({
       <VideoEpisodeCard
         episode_info={{...item, episode_number: item.number}}
         isCurrentEpisode={item.number === currentEpisode}
+        anime_info={anime_info}
+        episodes={episodes}
+        closeFunction={closeFunction}
       />
     );
   };

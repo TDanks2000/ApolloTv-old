@@ -194,6 +194,7 @@ const PlayerControls = ({
               </TouchableOpacity>
               <VideoEpisodesModal
                 episodes={episodes}
+                anime_info={anime_info}
                 visible={openEpisodes}
                 onClose={() => {}}
                 closeFunction={() => setOpenEpisodes(false)}

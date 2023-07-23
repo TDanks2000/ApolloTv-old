@@ -2,7 +2,7 @@ import {View, Text} from 'react-native';
 import React from 'react';
 import {api} from '../../../utils';
 import {API_BASE} from '@env';
-import {EpisodeInfo} from '../../../@types';
+import {AnimeInfo, EpisodeInfo, StackNavigation} from '../../../@types';
 import {
   Container,
   ExtraText,
@@ -11,23 +11,40 @@ import {
   Right,
   Title,
 } from './VideoEpisodeCard.styles';
+import {useNavigation} from '@react-navigation/native';
 
 type Props = {
   episode_info: EpisodeInfo;
   isCurrentEpisode: boolean;
+  anime_info: AnimeInfo;
+  episodes: EpisodeInfo[];
+
+  closeFunction: () => void;
 };
 
-const VideoEpisodeCard = ({episode_info, isCurrentEpisode}: Props) => {
-  const handlePress = async () => {
-    const data = await api.fetcher(
-      `${API_BASE}/anilist/watch/${episode_info.id}`,
-    );
+const VideoEpisodeCard = ({
+  episode_info,
+  isCurrentEpisode,
+  anime_info,
+  episodes,
+  closeFunction,
+}: Props) => {
+  const navigation = useNavigation<StackNavigation>();
 
-    // Set src of video and close modal
+  const handlePress = async () => {
+    navigation.navigate('VideoPlayer', {
+      anime_info: anime_info,
+      episode_id: episode_info.id,
+      episode_info,
+      episodes: episodes,
+      source_provider: 'gogoanime',
+      next_episode_id: episodes[episodes.indexOf(episode_info) + 1]?.id,
+    });
+    closeFunction();
   };
 
   return (
-    <Container isCurrentEpisode={isCurrentEpisode}>
+    <Container isCurrentEpisode={isCurrentEpisode} onPress={handlePress}>
       <Left>
         <Image source={{uri: episode_info.image}} />
       </Left>
