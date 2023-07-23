@@ -53,6 +53,7 @@ export const OptionText = styled.Text`
   color: white;
   font-family: ${({theme}) => theme.text.fonts.NunitoSans};
   font-size: 14px;
+  text-transform: capitalize;
 `;
 
 type DropDownProps = {

@@ -71,6 +71,10 @@ const Options = ({openEpisodesModal, episodeLegth, anime_info}: Props) => {
     anime_data as any
   )?.data?.Media?.mediaListEntry?.status?.toLowerCase();
 
+  const actualAnimeStatus = collectionOptions.find(
+    option => option.status.toLowerCase() === animeStatus,
+  );
+
   const onCollectionOptionPress = async (option: CollectionOptions) => {
     try {
       await anilist.user.updateShow({
@@ -121,7 +125,11 @@ const Options = ({openEpisodesModal, episodeLegth, anime_info}: Props) => {
             <OptionIconContainer>
               <OptionIcon name="list-ul" />
             </OptionIconContainer>
-            <OptionText>Collections</OptionText>
+            <OptionText>
+              {animeStatus && actualAnimeStatus
+                ? actualAnimeStatus.name
+                : 'Collections'}
+            </OptionText>
           </OptionWrapper>
           <OptionDropDown isOpen={openCollection}>
             {collectionOptions.map((option, index) => {
@@ -144,7 +152,7 @@ const Options = ({openEpisodesModal, episodeLegth, anime_info}: Props) => {
             <OptionIconContainer>
               <OptionIcon name="ban" />
             </OptionIconContainer>
-            <OptionText>W.I.P</OptionText>
+            <OptionText style={{textTransform: 'uppercase'}}>W.I.P</OptionText>
           </OptionWrapper>
         </OptionContainer>
 
@@ -153,7 +161,7 @@ const Options = ({openEpisodesModal, episodeLegth, anime_info}: Props) => {
             <OptionIconContainer>
               <OptionIcon name="ban" />
             </OptionIconContainer>
-            <OptionText>W.I.P</OptionText>
+            <OptionText style={{textTransform: 'uppercase'}}>W.I.P</OptionText>
           </OptionWrapper>
         </OptionContainer>
 
