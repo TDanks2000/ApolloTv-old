@@ -18,6 +18,7 @@ import {BackButtonComponent} from '../../Shared';
 import ControlsSlider from './Slider';
 import {
   AnimeInfo,
+  Aniskip,
   EpisodeInfo,
   SettingsOptionsGroup,
   SourceVideoOptions,
@@ -26,6 +27,7 @@ import {utils} from '../../../utils';
 import {episodeSQLHelper} from '../../../utils/database';
 
 import {VideoEpisodesModal, VideoSettingsModal} from '../../../modals';
+import SkipIntroOutro from './SkipIntroOutro';
 
 interface Props {
   paused: boolean;
@@ -44,6 +46,12 @@ interface Props {
   setSelectedQuality: (quality: SourceVideoOptions) => void;
   sources: SourceVideoOptions[];
   checkIfWatched: () => void;
+
+  skipTimes: {opening?: Aniskip; ending?: Aniskip} | undefined;
+  skipFunctions: {
+    skipIntro: () => void;
+    skipOutro: () => void;
+  };
 }
 
 const PlayerControls = ({
@@ -60,7 +68,11 @@ const PlayerControls = ({
   setSelectedQuality,
   checkIfWatched,
   isBuffering,
+  skipFunctions,
+  skipTimes,
 }: Props) => {
+  const [isAtIntro, setIsAtIntro] = React.useState<boolean>(false);
+  const [isAtOutro, setIsAtOutro] = React.useState<boolean>(false);
   const [hideControls, setHideControls] = React.useState<boolean>(false);
   const actualTitle = utils.getTitle(anime_info.title);
   const [spinState, setSpinState] = React.useState<boolean>(false);
@@ -118,6 +130,50 @@ const PlayerControls = ({
       },
     })),
   };
+
+  const timeToCheckBefore = 5;
+  React.useEffect(() => {
+    if (!skipTimes?.opening) return;
+    const openingStartTime =
+      skipTimes?.opening.interval.startTime - timeToCheckBefore;
+    const openingEndTime = skipTimes?.opening?.interval?.endTime;
+
+    console.log(currentTime, openingStartTime);
+
+    const isCurrentPosAtOpening =
+      currentTime >= openingStartTime && currentTime <= openingEndTime;
+    const isCurrentPosAtOpeningEnd = currentTime >= openingEndTime;
+
+    if (isCurrentPosAtOpening && !isAtIntro) {
+      setIsAtIntro(true);
+      setIsAtOutro(false);
+      console.log('isAtIntro');
+    } else if (isCurrentPosAtOpeningEnd && isAtIntro) {
+      setIsAtIntro(false);
+      console.log('!isAtIntro');
+    }
+
+    if (!skipTimes?.ending) return;
+    const endingStartTime =
+      skipTimes?.ending.interval.startTime - timeToCheckBefore;
+    const endingEndTime = skipTimes?.ending?.interval?.endTime;
+    const isCurrentPosAtEnding =
+      currentTime >= endingStartTime && currentTime <= endingEndTime;
+    const isCurrentPosAtEndingEnd = currentTime >= endingEndTime;
+    if (isCurrentPosAtEnding && !isAtOutro) {
+      setIsAtOutro(true);
+      setIsAtIntro(false);
+      console.log('isAtOutro');
+    } else if (isCurrentPosAtEndingEnd && isAtOutro) {
+      setIsAtOutro(false);
+      console.log('!isAtOutro');
+    }
+  }, [currentTime]);
+
+  // React.useEffect(() => {
+  //   console.log(isAtIntro);
+  //   console.log(isAtOutro);
+  // }, [isAtIntro, isAtOutro]);
 
   return (
     <>
@@ -191,6 +247,23 @@ const PlayerControls = ({
           />
         </Bottom>
       </Container>
+      {isAtOutro ? (
+        <SkipIntroOutro
+          isHidden={hideControls}
+          duration={5000}
+          title="Skip Outro"
+          type="skip_outro"
+          skipFunctions={skipFunctions}
+        />
+      ) : isAtIntro ? (
+        <SkipIntroOutro
+          isHidden={hideControls}
+          duration={5000}
+          title="Skip Intro"
+          type="skip_intro"
+          skipFunctions={skipFunctions}
+        />
+      ) : null}
     </>
   );
 };

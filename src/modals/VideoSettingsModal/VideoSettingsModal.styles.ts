@@ -10,7 +10,7 @@ export const SettingsContainer = styled(Animated.View)`
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
-  margin: 85px 0;
+  margin-top: 85px;
   padding-right: 30px;
 `;
 

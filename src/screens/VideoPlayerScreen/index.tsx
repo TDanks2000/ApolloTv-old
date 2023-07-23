@@ -139,6 +139,36 @@ const VideoPlayerScreen = ({route}: Props) => {
     checkIfWatched();
   }, [watched_percentage, duration]);
 
+  const skipIntro = (wantToUpdate: boolean = false) => {
+    if (!skipData?.opening?.interval) return;
+    const openingStartTime = skipData.opening.interval.startTime;
+    const isCurrentPosAtOpening = currentTime >= openingStartTime;
+
+    const openingEndTime = skipData.opening.interval.endTime;
+
+    if (isCurrentPosAtOpening && wantToUpdate && !hasSkipedIntro) {
+      toggleHasSkippedIntro();
+      videoRef.current.seek(openingEndTime);
+    } else if (isCurrentPosAtOpening) {
+      videoRef.current.seek(openingEndTime);
+    }
+  };
+
+  const skipOutro = (wantToUpdate: boolean = false) => {
+    if (!skipData?.ending?.interval) return;
+    const endingStartTime = skipData.ending.interval.startTime;
+    const isCurrentPosAtEnding = currentTime >= endingStartTime;
+
+    const endingEndTime = skipData.ending.interval.endTime;
+
+    if (isCurrentPosAtEnding && wantToUpdate && !hasSkipedEnding) {
+      toggleHasSkippedEnding();
+      videoRef.current.seek(endingEndTime);
+    } else if (isCurrentPosAtEnding) {
+      videoRef.current.seek(endingEndTime);
+    }
+  };
+
   // Skip intro / outro
   React.useEffect(() => {
     if (!videoRef?.current) return;
@@ -146,27 +176,11 @@ const VideoPlayerScreen = ({route}: Props) => {
     if (!currentTime || !duration) return;
 
     if (skipData?.opening?.interval && autoSkipIntro === 'on') {
-      const openingStartTime = skipData.opening.interval.startTime;
-      const isCurrentPosAtOpening = currentTime >= openingStartTime;
-
-      const openingEndTime = skipData.opening.interval.endTime;
-
-      if (isCurrentPosAtOpening && !hasSkipedIntro) {
-        toggleHasSkippedIntro();
-        videoRef.current.seek(openingEndTime);
-      }
+      skipIntro(true);
     }
 
     if (skipData?.ending?.interval && autoSkipOutro === 'on') {
-      const endingStartTime = skipData.ending.interval.startTime;
-      const isCurrentPosAtEnding = currentTime >= endingStartTime;
-
-      const endingEndTime = skipData.ending.interval.endTime;
-
-      if (isCurrentPosAtEnding && !hasSkipedEnding) {
-        toggleHasSkippedEnding();
-        videoRef.current.seek(endingEndTime);
-      }
+      skipOutro(true);
     }
   }, [currentTime, duration]);
 
@@ -301,6 +315,11 @@ const VideoPlayerScreen = ({route}: Props) => {
         setSelectedQuality={setSelectedSource}
         checkIfWatched={checkIfWatched}
         isBuffering={isBuffering}
+        skipTimes={skipData}
+        skipFunctions={{
+          skipIntro: skipIntro,
+          skipOutro: skipOutro,
+        }}
       />
       <Video
         ref={videoRef}

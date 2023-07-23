@@ -19,7 +19,7 @@ type Props = {
 const VideoEpisodesModal = () => {
   return (
     <Modal
-      visible={true}
+      visible={false}
       transparent={true}
       animationType="fade"
       hardwareAccelerated={true}>
