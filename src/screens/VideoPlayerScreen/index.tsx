@@ -54,6 +54,7 @@ const VideoPlayerScreen = ({route}: Props) => {
     anime_info,
     next_episode_id,
     watched_percentage,
+    episodes,
   } = route.params;
 
   const fetchAniskip = async () => {
@@ -320,6 +321,7 @@ const VideoPlayerScreen = ({route}: Props) => {
           skipIntro: skipIntro,
           skipOutro: skipOutro,
         }}
+        episodes={episodes}
       />
       <Video
         ref={videoRef}

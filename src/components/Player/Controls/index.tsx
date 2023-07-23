@@ -52,6 +52,7 @@ interface Props {
     skipIntro: () => void;
     skipOutro: () => void;
   };
+  episodes: EpisodeInfo[];
 }
 
 const PlayerControls = ({
@@ -70,6 +71,7 @@ const PlayerControls = ({
   isBuffering,
   skipFunctions,
   skipTimes,
+  episodes,
 }: Props) => {
   const [isAtIntro, setIsAtIntro] = React.useState<boolean>(false);
   const [isAtOutro, setIsAtOutro] = React.useState<boolean>(false);
@@ -79,6 +81,7 @@ const PlayerControls = ({
   const spinValue = React.useRef(new Animated.Value(0)).current;
 
   const [openSettings, setOpenSettings] = React.useState<boolean>(false);
+  const [openEpisodes, setOpenEpisodes] = React.useState<boolean>(false);
 
   const startSpinAnimation = () => {
     setSpinState((prev: boolean) => !prev);
@@ -138,8 +141,6 @@ const PlayerControls = ({
       skipTimes?.opening.interval.startTime - timeToCheckBefore;
     const openingEndTime = skipTimes?.opening?.interval?.endTime;
 
-    console.log(currentTime, openingStartTime);
-
     const isCurrentPosAtOpening =
       currentTime >= openingStartTime && currentTime <= openingEndTime;
     const isCurrentPosAtOpeningEnd = currentTime >= openingEndTime;
@@ -147,10 +148,8 @@ const PlayerControls = ({
     if (isCurrentPosAtOpening && !isAtIntro) {
       setIsAtIntro(true);
       setIsAtOutro(false);
-      console.log('isAtIntro');
     } else if (isCurrentPosAtOpeningEnd && isAtIntro) {
       setIsAtIntro(false);
-      console.log('!isAtIntro');
     }
 
     if (!skipTimes?.ending) return;
@@ -163,10 +162,8 @@ const PlayerControls = ({
     if (isCurrentPosAtEnding && !isAtOutro) {
       setIsAtOutro(true);
       setIsAtIntro(false);
-      console.log('isAtOutro');
     } else if (isCurrentPosAtEndingEnd && isAtOutro) {
       setIsAtOutro(false);
-      console.log('!isAtOutro');
     }
   }, [currentTime]);
 
@@ -192,10 +189,16 @@ const PlayerControls = ({
           </TopTextContainer>
           <TopRight>
             <View>
-              <TouchableOpacity>
+              <TouchableOpacity onPress={() => setOpenEpisodes(true)}>
                 <IconBase6 name="rectangle-list" />
               </TouchableOpacity>
-              <VideoEpisodesModal />
+              <VideoEpisodesModal
+                episodes={episodes}
+                visible={openEpisodes}
+                onClose={() => {}}
+                closeFunction={() => setOpenEpisodes(false)}
+                currentEpisode={episode_info.episode_number ?? 1}
+              />
             </View>
             <View>
               <TouchableOpacity onPress={startSpinAnimation}>

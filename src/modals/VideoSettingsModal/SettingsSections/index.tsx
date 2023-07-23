@@ -32,7 +32,7 @@ const SettingsSections = ({
     const SectionComponent = () => {
       if (item.optionType === 'option' && item.options && item.onPress) {
         return (
-          <>
+          <React.Fragment key={`settings-option-${item.value}`}>
             {item?.iconName ? <SectionIcon name={item.iconName} /> : null}
             <SectionTitle>{item.name}</SectionTitle>
             <SectionRight>
@@ -44,12 +44,12 @@ const SettingsSections = ({
                 size="sm"
               />
             </SectionRight>
-          </>
+          </React.Fragment>
         );
       }
 
       return (
-        <>
+        <React.Fragment key={`settings-option-${item.value}`}>
           {item?.iconName ? <SectionIcon name={item.iconName} /> : null}
           <SectionTitle>{item.name}</SectionTitle>
           <SectionRight>
@@ -57,14 +57,12 @@ const SettingsSections = ({
             {/* @ts-ignore */}
             {item.hasSubOptions ? <SettingsIconRight /> : null}
           </SectionRight>
-        </>
+        </React.Fragment>
       );
     };
 
     return (
-      <Section
-        disabled={item.optionType === 'option'}
-        onPress={() => setSelectedSetting(item.value)}>
+      <Section onPress={() => setSelectedSetting(item.value)}>
         <SectionComponent />
       </Section>
     );
@@ -72,11 +70,17 @@ const SettingsSections = ({
 
   return (
     <FlatList
+      horizontal={false}
+      scrollEnabled={true}
       showsVerticalScrollIndicator={false}
       data={settingOptions}
       renderItem={({item}: {item: SettingsSectionsType}) => renderSection(item)}
-      ItemSeparatorComponent={() => <View style={{height: 15}} />}
-      contentContainerStyle={{paddingHorizontal: 10, paddingVertical: 15}}
+      contentContainerStyle={{
+        paddingHorizontal: 10,
+        paddingVertical: 15,
+        paddingBottom: 100,
+        gap: 15,
+      }}
     />
   );
 };

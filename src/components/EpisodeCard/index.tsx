@@ -70,8 +70,6 @@ const EpisodeCard = (props: EpisodeCardProps) => {
     else setActualWatchedPercent(undefined);
   }, []);
 
-  console.log(watched_percentage);
-
   return (
     <EpisodeContainer onPress={onPress}>
       <EpisodeImageBackground

@@ -12,6 +12,7 @@ interface PaginateProps {
   pageSize?: number;
   setSelectedPage: (page: number) => void;
   selectedPage: number;
+  size?: 'sm' | 'normal';
 }
 
 const Paginate = ({
@@ -19,6 +20,7 @@ const Paginate = ({
   pageSize = 25,
   setSelectedPage,
   selectedPage,
+  size,
 }: PaginateProps) => {
   const totalPageCount = Math.ceil(results.length / pageSize);
   const pages = new Array(totalPageCount).fill(0);
@@ -40,8 +42,9 @@ const Paginate = ({
               <PaginatePill
                 key={`page-${i}`}
                 onPress={() => setSelectedPage(i + 1)}
-                active={i + 1 === selectedPage}>
-                <PaginatePillText>
+                active={i + 1 === selectedPage}
+                size={size}>
+                <PaginatePillText size={size}>
                   {currentPageAmount} - {currentPageMaxAmount}
                 </PaginatePillText>
               </PaginatePill>

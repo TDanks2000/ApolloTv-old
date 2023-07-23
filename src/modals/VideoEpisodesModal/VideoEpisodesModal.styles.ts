@@ -12,6 +12,7 @@ export const Container = styled(Animated.View)`
   justify-content: flex-end;
   margin: 85px 0;
   padding-right: 30px;
+  z-index: 10;
 `;
 
 export const Wrapper = styled.Pressable`
@@ -39,4 +40,7 @@ export const TopTitle = styled(Text)`
 export const EpisodesContainer = styled.View`
   width: 100%;
   height: 100%;
+
+  margin: 15px;
+  z-index: 10;
 `;
