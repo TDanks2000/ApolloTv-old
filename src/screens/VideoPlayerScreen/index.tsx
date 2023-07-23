@@ -1,6 +1,6 @@
 import {View, Text, StatusBar} from 'react-native';
 import React from 'react';
-import {Player} from '../../components';
+import {MiddleOfScreenLoadingComponent, Player} from '../../components';
 import Video, {OnLoadData, OnProgressData} from 'react-native-video';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {
@@ -268,17 +268,26 @@ const VideoPlayerScreen = ({route}: Props) => {
       checkIfWatchedFromDB();
       setShowNavBar(false);
 
+      if (isError) {
+        setShowNavBar(true);
+      }
+
       return () => {
         setShowNavBar(true);
         if (hasSkipedIntro === true) toggleHasSkippedIntro();
         if (hasSkipedEnding === true) toggleHasSkippedEnding();
         if (watched === true) setWatched(false);
       };
-    }, [data]),
+    }, [data, isError, error]),
   );
 
-  if (isPending) return <Text>Loading...</Text>;
-  if (isError) return <Text>{error.message}</Text>;
+  if (isPending) return <MiddleOfScreenLoadingComponent />;
+  if (isError)
+    return Toast.show({
+      type: 'error',
+      text1: 'Error',
+      text2: error?.message ?? 'Something went wrong',
+    });
 
   if (!selectedSource) return <Text>Loading...</Text>;
 
