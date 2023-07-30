@@ -1,4 +1,5 @@
 import RNFS from 'react-native-fs';
+import {FFmpegKit} from 'ffmpeg-kit-react-native';
 
 import {M3uParser} from 'm3u-parser-generator';
 
@@ -9,7 +10,7 @@ import {
   TitleType,
 } from '../../@types';
 import * as utils from '../utils';
-import {AnimeTrending, InfoData} from '../TestData';
+import {InfoData} from '../TestData';
 
 type VideoData = {
   data: FullAnimeInfo;
@@ -92,6 +93,7 @@ class DownloadManager {
 
   downloadFile = async (url: string, headers: any) => {
     const folderPath = `${this.downloadPath}/${this.episodeNumber}`;
+    const tempFolderPath = `${this.downloadPath}/${this.episodeNumber}/temp`;
     const m3u8Master = await (
       await fetch(url, {
         method: 'GET',
@@ -101,21 +103,21 @@ class DownloadManager {
 
     // await RNFS.unlink(`${folderPath}/${url.split('/').pop()}`);
 
-    const readM3U8Master = await RNFS.readFile(
-      `${folderPath}/${url.split('/').pop()}`,
-      'utf8',
-    ).then(item => item);
+    const m3u8FilePath = `${tempFolderPath}/${url.split('/').pop()}`;
+    const readM3U8Master = await RNFS.readFile(m3u8FilePath, 'utf8')
+      .then(item => item)
+      .catch(() => {});
 
     let playlist;
     if (!readM3U8Master) {
       // check if folder exists
-      await RNFS.readDir(folderPath).catch(() => {
-        RNFS.mkdir(folderPath);
+      await RNFS.readDir(tempFolderPath).catch(() => {
+        RNFS.mkdir(tempFolderPath);
       });
 
       // save m3u8master to folder
       RNFS.writeFile(
-        `${folderPath}/${url.split('/').pop()}`,
+        `${tempFolderPath}/${url.split('/').pop()}`,
         m3u8Master,
         'utf8',
       );
@@ -136,9 +138,11 @@ class DownloadManager {
 
     await urlCollection.forEach(async item => {
       const fileName = item.url.split('/').pop();
-      const filePath = `${folderPath}/${fileName}`;
+      const filePath = `${tempFolderPath}/${fileName}`;
 
-      const readFile = await RNFS.readFile(filePath, 'utf8').then(item => item);
+      const readFile = await RNFS.readFile(filePath, 'utf8')
+        .then(item => item)
+        .catch(() => {});
 
       if (readFile) return;
 
@@ -154,12 +158,49 @@ class DownloadManager {
         },
         backgroundTimeout: 5000,
         background: true,
-      });
+      }).promise.catch(err => console.log(err));
+
       console.log('downloaded', fileName);
     });
-    console.log('done');
 
-    // return urlCollection;
+    console.log('all downloaded');
+
+    const outputMp4File = `${folderPath}/video.mp4`;
+    await this.convertToMp4(m3u8FilePath, outputMp4File);
+
+    return urlCollection;
+  };
+
+  private convertToMp4 = async (
+    m3u8FilePath: string,
+    outputMp4File: string,
+  ) => {
+    console.log('started converting');
+    const readFile = await RNFS.readFile(m3u8FilePath, 'utf8')
+      .then(item => item)
+      .catch(() => {});
+
+    if (!readFile) return console.log('file does not exist');
+
+    await FFmpegKit.executeAsync(
+      `-allowed_extensions ALL -i ${m3u8FilePath} -c copy ${outputMp4File} -y`,
+      session => {
+        console.log('completed');
+        // CALLED WHEN SESSION IS EXECUTED
+      },
+      log => {
+        console.log(log);
+        // CALLED WHEN SESSION PRINTS LOGS
+      },
+      statistics => {
+        console.log(statistics);
+        // CALLED WHEN SESSION GENERATES STATISTICS
+      },
+    )
+      .then(() => console.log('completed'))
+      .catch(err => console.log(err));
+
+    return true;
   };
 
   public static start = async () => {};
@@ -180,44 +221,44 @@ class DownloadManager {
     {
       data: InfoData as any,
       episode_number: 1,
-      episode_title: 'Episode 1',
+      episode_title: 'Episode 2',
       headers: {
         Referer:
           'https://gotaku1.com/embedplus?id=MjA3Mzc1&token=CvnovvsQsarvyMoSOeev2A&expires=1689104276',
       },
       sources: [
         {
-          url: 'https://www046.vipanicdn.net/streamhls/0b594d900f47daabc194844092384914/ep.1067.1688264977.360.m3u8',
+          url: 'https://www049.vipanicdn.net/streamhls/0b594d900f47daabc194844092384914/ep.1069.1689474813.360.m3u8',
           isM3U8: true,
           quality: '360p',
         },
         {
-          url: 'https://www046.vipanicdn.net/streamhls/0b594d900f47daabc194844092384914/ep.1067.1688264977.480.m3u8',
+          url: 'https://www049.vipanicdn.net/streamhls/0b594d900f47daabc194844092384914/ep.1069.1689474813.480.m3u8',
           isM3U8: true,
           quality: '480p',
         },
         {
-          url: 'https://www046.vipanicdn.net/streamhls/0b594d900f47daabc194844092384914/ep.1067.1688264977.720.m3u8',
+          url: 'https://www049.vipanicdn.net/streamhls/0b594d900f47daabc194844092384914/ep.1069.1689474813.720.m3u8',
           isM3U8: true,
           quality: '720p',
         },
         {
-          url: 'https://www046.vipanicdn.net/streamhls/0b594d900f47daabc194844092384914/ep.1067.1688264977.1080.m3u8',
+          url: 'https://www049.vipanicdn.net/streamhls/0b594d900f47daabc194844092384914/ep.1069.1689474813.1080.m3u8',
           isM3U8: true,
           quality: '1080p',
         },
         {
-          url: 'https://www046.vipanicdn.net/streamhls/0b594d900f47daabc194844092384914/ep.1067.1688264977.m3u8',
+          url: 'https://www049.vipanicdn.net/streamhls/0b594d900f47daabc194844092384914/ep.1069.1689474813.m3u8',
           isM3U8: true,
           quality: 'default',
         },
         {
-          url: 'https://www046.anifastcdn.info/videos/hls/xDgTzbPldZpwX0UJ95Xqag/1689111477/207375/0b594d900f47daabc194844092384914/ep.1067.1688264977.m3u8',
+          url: 'https://www049.anifastcdn.info/videos/hls/hlE9PRdNYbD7SgDgo7Tb5g/1690714128/208288/0b594d900f47daabc194844092384914/ep.1069.1689474813.m3u8',
           isM3U8: true,
           quality: 'backup',
         },
       ],
-      title: 'one piece',
+      title: 'test',
     },
     () => {},
     () => {},
@@ -225,6 +266,7 @@ class DownloadManager {
   );
 
   console.log(
+    'download',
     await download.downloadFile(download.url, download.videoData.headers),
   );
 })();

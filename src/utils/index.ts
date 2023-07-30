@@ -7,3 +7,5 @@ import * as settingsHelper from './settingsManager';
 import {storage} from './storage/cleint';
 
 export {utils, api, storage, helpers, settingsHelper};
+
+import './download/downloadManager';
