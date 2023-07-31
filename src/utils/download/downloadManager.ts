@@ -173,6 +173,8 @@ class DownloadManager {
           })
           .catch(err => reject(err));
 
+        // TODO: update this.progress
+
         console.log('downloaded', fileName);
       });
     });
