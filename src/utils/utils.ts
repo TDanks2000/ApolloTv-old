@@ -112,3 +112,6 @@ export const ToggleSystemNavigation = (show: boolean) => {
       break;
   }
 };
+
+export const roundToNearest = (num = 0, decimals = 2) =>
+  Math.round(num * 10 ** decimals) / 10 ** decimals;
