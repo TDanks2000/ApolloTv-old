@@ -24,7 +24,7 @@ import Toast from 'react-native-toast-message';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'VideoPlayer'>;
 
-const VideoPlayerScreen = ({route}: Props) => {
+const VideoPlayerScreen: React.FC<Props> = ({route}): JSX.Element => {
   const {accessToken} = useAccessToken();
   const anilist = new Anilist(accessToken);
 
@@ -283,7 +283,7 @@ const VideoPlayerScreen = ({route}: Props) => {
 
   if (isPending) return <MiddleOfScreenLoadingComponent />;
   if (isError)
-    return Toast.show({
+    Toast.show({
       type: 'error',
       text1: 'Error',
       text2: error?.message ?? 'Something went wrong',
@@ -347,6 +347,9 @@ const VideoPlayerScreen = ({route}: Props) => {
         muted={false}
         volume={1}
         paused={paused}
+        pictureInPicture={true}
+        playInBackground={true}
+        playWhenInactive={true}
         style={{
           width: '100%',
           height: '100%',

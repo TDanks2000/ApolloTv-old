@@ -10,8 +10,9 @@ import {
   Wrapper,
 } from '../Settings.styles';
 import {useNavigation} from '@react-navigation/native';
+import {RootStackParamList} from '../../../@types';
 
-type SettingsSectionType = 'video' | 'prefered_voice' | 'log_out';
+type SettingsSectionType = 'navigation' | 'prefered_voice' | 'log_out';
 
 type Props = {
   title: string;
@@ -25,8 +26,8 @@ type Props = {
       onPress: () => void;
     }
   | {
-      type: 'video';
-      settingsScreen: string;
+      type: 'navigation';
+      settingsScreen: keyof RootStackParamList;
     }
   | {
       type: 'prefered_voice';
@@ -40,7 +41,7 @@ const Section = (props: Props) => {
   const handlePress = () => {
     if (props.type === 'log_out' || props.type === 'prefered_voice')
       props.onPress();
-    if (props.type === 'video') navigation.navigate(props.settingsScreen);
+    if (props.type === 'navigation') navigation.navigate(props.settingsScreen);
   };
 
   return (

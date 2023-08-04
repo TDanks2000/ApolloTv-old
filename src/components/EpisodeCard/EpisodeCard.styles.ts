@@ -1,5 +1,6 @@
 import {rgba} from 'polished';
 import LinearGradient from 'react-native-linear-gradient';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {styled} from 'styled-components/native';
 
 export const EpisodeContainer = styled.TouchableOpacity.attrs({
@@ -34,6 +35,7 @@ export const Wrapper = styled(LinearGradient).attrs({
   start: {x: 0, y: -0.3},
   end: {x: 0, y: 1},
 })`
+  position: relative;
   width: 100%;
   height: 100%;
   display: flex;
@@ -87,4 +89,27 @@ export const PercentWatched = styled.View<PercentWatchedProps>`
   width: ${({watchedPercent}) => watchedPercent}%;
   height: 100%;
   background-color: ${({theme}) => theme.base.mainColor};
+`;
+
+export const DownloadWrapper = styled.View`
+  position: absolute;
+  right: 0;
+  top: 0;
+  margin: 3px;
+`;
+
+export const DownloadButton = styled.TouchableOpacity`
+  background: black;
+  width: 35px;
+  height: 35px;
+  border-radius: 9999px;
+  overflow: hidden;
+  justify-content: center;
+  align-items: center;
+  border-color: red;
+`;
+
+export const DownloadIcon = styled(Icon)`
+  color: ${({theme}) => theme.text.primary};
+  font-size: 20px;
 `;

@@ -6,7 +6,7 @@ export type TitleLanguageOptions =
   | 'romanji'
   | 'userPreferred';
 
-export type sourceProviders = 'gogoanime';
+export type sourceProviders = 'gogoanime' | '9anime' | 'zoro' | 'kickassanime';
 
 export type MediaListStatus =
   | 'CURRENT'
@@ -31,6 +31,18 @@ export type CardProps = {
   poster_image?: string;
   rating?: number;
   total_episodes?: number;
+  color?: string;
+  type?: string;
+  release_year?: number;
+  relation_type?: string;
+};
+
+export type MangaCardProps = {
+  title: TitleType;
+  id: string;
+  poster_image?: string;
+  rating?: number;
+  total_chapters?: number;
   color?: string;
   type?: string;
   release_year?: number;
@@ -73,9 +85,13 @@ export type RootStackParamList = {
     watched_percentage?: number;
     episodes: EpisodeInfo[];
   };
+  ReaderScreen: undefined;
+
+  testingScreen: undefined;
 
   // SETTINGS
   VideoSettings: undefined;
+  SyncingSettings: undefined;
   // END SETTINGS
 };
 
@@ -335,4 +351,21 @@ export type settings =
   | 'auto_skip_intro'
   | 'auto_skip_outro'
   | 'prefered_voice'
-  | 'prefered_quality';
+  | 'prefered_quality'
+  | 'source_provider';
+
+export type DropdownData<LabelType, ValueType> = {
+  label: LabelType;
+  value: ValueType;
+  image?: string;
+};
+
+export interface MangaPage {
+  page: number;
+  img: string;
+  headerForImage: HeaderForImage;
+}
+
+export interface HeaderForImage {
+  Referer: string;
+}

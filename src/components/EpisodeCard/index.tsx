@@ -3,6 +3,9 @@ import React from 'react';
 import {
   BottomBanner,
   BottomBannerTextContainer,
+  DownloadButton,
+  DownloadIcon,
+  DownloadWrapper,
   EpisodeContainer,
   EpisodeImageBackground,
   EpisodeNumber,
@@ -19,6 +22,7 @@ import {
 } from '../../@types';
 import {NavigationProp, useNavigation} from '@react-navigation/native';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import {CircleProgress} from '../Shared';
 
 const EpisodeCard = (props: EpisodeCardProps) => {
   let {

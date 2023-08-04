@@ -1,20 +1,24 @@
 import {View, FlatList} from 'react-native';
 import React from 'react';
 import ListCard from '../../ListCard';
+import MangaListCard from '../../MangaListCard';
 
-const SearchResults = ({data}: any) => {
-  const renderItem = (item: any) => (
-    <ListCard
-      id={item.id}
-      title={item.title}
-      color={item.color}
-      poster_image={item.image}
-      rating={item.rating}
-      total_episodes={item.totalEpisodes}
-      type={item.type}
-      release_year={item.releaseDate}
-    />
-  );
+const SearchResults = ({data, type}: any) => {
+  const renderItem = (item: any) => {
+    const props = {
+      id: item.id,
+      title: item.title,
+      color: item.color,
+      poster_image: item.image,
+      rating: item.rating,
+      type: item.type,
+      release_year: item.releaseDate,
+    };
+
+    if (type === 'manga')
+      return <MangaListCard {...props} total_chapters={item.totalChapters} />;
+    return <ListCard {...props} total_episodes={item.totalEpisodes} />;
+  };
 
   return (
     <FlatList

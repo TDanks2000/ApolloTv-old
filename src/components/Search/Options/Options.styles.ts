@@ -1,19 +1,12 @@
-import {rgba} from 'polished';
 import {styled} from 'styled-components/native';
 import {Text} from '../../../styles/sharedStyles';
+import {rgba} from 'polished';
 
-export const Container = styled.FlatList`
+export const Container = styled.ScrollView`
   width: 100%;
   height: 50px;
   margin: 20px 0;
   margin-bottom: 5px;
-  margin-top: 0;
-`;
-
-export const Wrapper = styled.View`
-  display: flex;
-  flex-direction: row;
-  gap: 5px;
 `;
 
 interface PillProps {

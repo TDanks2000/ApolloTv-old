@@ -45,8 +45,16 @@ const SettingsScreen = ({navigation}: Props) => {
           <Settings.Section
             title="Video"
             descriptor="Manage video player settings"
-            type="video"
+            type="navigation"
             settingsScreen={'VideoSettings'}
+          />
+          <Seperator />
+
+          <Settings.Section
+            title="Syncing"
+            descriptor="Manage syncing settings"
+            type="navigation"
+            settingsScreen={'SyncingSettings'}
           />
 
           <Seperator />

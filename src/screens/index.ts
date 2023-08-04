@@ -6,6 +6,8 @@ import InfoScreen from './InfoScreen';
 import VideoPlayerScreen from './VideoPlayerScreen';
 import LoggingInScreen from './LoggingInScreen';
 import {VideoSettingScreen} from './SettingScreens';
+import TestingScreen from './TetsingScreen';
+import ReaderScreen from './ReaderScreen';
 
 export {
   HomeScreen,
@@ -16,4 +18,6 @@ export {
   VideoPlayerScreen,
   LoggingInScreen,
   VideoSettingScreen,
+  TestingScreen,
+  ReaderScreen,
 };

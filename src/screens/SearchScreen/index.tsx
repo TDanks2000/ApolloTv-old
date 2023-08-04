@@ -10,6 +10,7 @@ import {API_BASE} from '@env';
 import {useQuery} from '@tanstack/react-query';
 
 const SearchScreen = () => {
+  const [searchForManga, setSearchForManga] = React.useState<boolean>(false);
   const [data, setData] = React.useState();
   const [loading, toggleLoading] = React.useReducer(s => !s, false);
   const [searchText, setSearchText] = React.useState('');
@@ -19,9 +20,13 @@ const SearchScreen = () => {
   const fetcher = async () => {
     setData(undefined);
     toggleLoading();
-    const getData = await api.fetcher(
-      `${API_BASE}/anilist/search/${debouncedSearchTerm}`,
-    );
+
+    const url = !searchForManga
+      ? `${API_BASE}/anilist/search/${debouncedSearchTerm}`
+      : `${API_BASE}/anilist-manga/search/${debouncedSearchTerm}`;
+
+    const getData = await api.fetcher(url);
+
     toggleLoading();
     setData(getData?.results);
 
@@ -29,7 +34,7 @@ const SearchScreen = () => {
   };
 
   const {isPending, isError, error} = useQuery({
-    queryKey: ['searchh', debouncedSearchTerm],
+    queryKey: ['searchh', debouncedSearchTerm, searchForManga],
     queryFn: fetcher,
     enabled: debouncedSearchTerm.length > 0,
   });
@@ -42,11 +47,18 @@ const SearchScreen = () => {
             search_text={searchText}
             setSearchText={setSearchText}
           />
+          <Search.Options
+            wantManga={searchForManga}
+            setWantManga={setSearchForManga}
+          />
           <Search.RecentSearches
             searchText={debouncedSearchTerm}
             setSearchText={setSearchText}
           />
-          <Search.SearchResults data={data} />
+          <Search.SearchResults
+            data={data}
+            type={searchForManga ? 'manga' : 'anime'}
+          />
         </SharedContainer>
       </SafeAreaView>
       {loading ? <MiddleOfScreenLoadingComponent /> : null}

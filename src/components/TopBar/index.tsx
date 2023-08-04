@@ -70,11 +70,7 @@ const TopBarComponent = ({hasJustLoggedIn}: Props) => {
         <IconItemContainer onPress={() => navigation.navigate('Search')}>
           <IconItem name="search" />
         </IconItemContainer>
-        <IconItemContainer
-          disabled
-          onPress={() =>
-            navigation.navigate('LoggingIn', {access_code: undefined})
-          }>
+        <IconItemContainer onPress={() => navigation.navigate('ReaderScreen')}>
           <IconItem name="bell" />
         </IconItemContainer>
       </IconContainer>

@@ -63,9 +63,7 @@ const Top = ({
           <BottomContainer>
             {/* <SeasonText>Season 1</SeasonText> */}
             <TitleText numberOfLines={2}>
-              {actualTitle && !episode_title
-                ? actualTitle
-                : `${actualTitle} - ${episode_title}`}
+              {actualTitle && !episode_title ? actualTitle : episode_title}
             </TitleText>
             <BottomBottomContainer>
               <WatchNowComponent WatchText="Watch trailer" />

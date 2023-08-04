@@ -1,5 +1,5 @@
 import React from 'react';
-import {EpisodeInfo, Quality} from '../@types';
+import {EpisodeInfo, Quality, sourceProviders} from '../@types';
 import {settingsHelper} from '../utils';
 
 export const SettingsContext = React.createContext<{
@@ -7,10 +7,14 @@ export const SettingsContext = React.createContext<{
   autoSkipOutro?: string;
   preferedVoice?: string;
   preferedQuality?: Quality;
+  sourceProvider?: sourceProviders;
   changeAutoSkip?: (setting: 'auto_skip_intro' | 'auto_skip_outro') => void;
   changePreferedVoice?: () => void;
   changePreferedQuality?: (quality: Quality) => void;
+  changeSourceProvider?: (provider: sourceProviders) => void;
 }>({});
+
+export const useSettingsContext = React.useContext(SettingsContext);
 
 export const SettingsProvider = ({children}: any) => {
   const autoSkipIntroSetting = settingsHelper.getSetting('auto_skip_intro');
@@ -19,6 +23,9 @@ export const SettingsProvider = ({children}: any) => {
     settingsHelper.getSetting('prefered_voice');
   const preferedQualitySetting: any =
     settingsHelper.getSetting('prefered_quality');
+  const sourceProviderSetting = settingsHelper.getSetting(
+    'source_provider',
+  ) as sourceProviders;
 
   const [autoSkipIntro, setAutoSkipIntro] = React.useState(
     autoSkipIntroSetting ?? 'off',
@@ -31,6 +38,9 @@ export const SettingsProvider = ({children}: any) => {
   );
   const [preferedQuality, setPreferedQuality] = React.useState<Quality>(
     preferedQualitySetting ?? 'HIGHEST',
+  );
+  const [sourceProvider, setSourceprovider] = React.useState<sourceProviders>(
+    sourceProviderSetting ?? 'gogoanime',
   );
 
   const changeAutoSkip = (setting: 'auto_skip_intro' | 'auto_skip_outro') => {
@@ -56,16 +66,23 @@ export const SettingsProvider = ({children}: any) => {
     setPreferedQuality(quality);
   };
 
+  const changeSourceProvider = (provider: sourceProviders) => {
+    settingsHelper.setSetting('source_provider', provider);
+    setSourceprovider(provider);
+  };
+
   return (
     <SettingsContext.Provider
       value={{
         autoSkipIntro,
         autoSkipOutro,
         preferedVoice,
+        preferedQuality,
+        sourceProvider,
         changeAutoSkip,
         changePreferedVoice,
-        preferedQuality,
         changePreferedQuality,
+        changeSourceProvider,
       }}>
       {children}
     </SettingsContext.Provider>

@@ -13,7 +13,11 @@ import {useQuery} from '@tanstack/react-query';
 import {InfoPageSkeleton} from '../../components/Skeletons';
 import CharacterContainer from '../../containers/CastContainer';
 import {CWWrapper, Wrapper} from './InfoScreen.styles';
-import {useAccessToken} from '../../contexts';
+import {
+  SettingsContext,
+  useAccessToken,
+  useSettingsContext,
+} from '../../contexts';
 import {Anilist} from '@tdanks2000/anilist-wrapper';
 import {CardContainer} from '../../containers';
 import {useBreakpoints} from '../../hooks';
@@ -21,6 +25,8 @@ import {useBreakpoints} from '../../hooks';
 type Props = NativeStackScreenProps<RootStackParamList, 'Info'>;
 
 const InfoScreen = ({route}: Props) => {
+  const {sourceProvider, preferedVoice} = React.useContext(SettingsContext);
+
   const {isMobile} = useBreakpoints();
   const {accessToken} = useAccessToken();
   const anilist = new Anilist(accessToken);
@@ -30,7 +36,9 @@ const InfoScreen = ({route}: Props) => {
   const [showEpisodesModal, setShowEpisodesModal] = React.useState(false);
   const [showTrailerModal, setShowTrailerModal] = React.useState(false);
 
-  const [dubOrSub, setDubOrSub] = React.useState<SubOrDub>();
+  const [dubOrSub, setDubOrSub] = React.useState<SubOrDub>(
+    preferedVoice as SubOrDub,
+  );
 
   useFocusEffect(
     React.useCallback(() => {
@@ -44,7 +52,9 @@ const InfoScreen = ({route}: Props) => {
     const mediaStatus = (await anilist.media.anime(Number(id))) as any;
 
     const animeData = await api.fetcher(
-      `${API_BASE}/anilist/info/${id}?dub=${dubOrSub === 'dub'}`,
+      `${API_BASE}/anilist/info/${id}?dub=${
+        dubOrSub === 'dub'
+      }&provider=${sourceProvider}`,
     );
 
     const mediaListStatus = mediaStatus?.data?.Media?.mediaListEntry;
@@ -128,6 +138,7 @@ const InfoScreen = ({route}: Props) => {
           episodeLegth={data?.episodes?.length ?? 0}
           anime_info={data}
         />
+        {/* <Info.SourceSelector /> */}
         <Info.MetaInfo data={data} key={`info-meta-info-${data.id}`} />
         <DescriptionComponent description={data.description} />
         <Wrapper>
@@ -141,7 +152,7 @@ const InfoScreen = ({route}: Props) => {
             <CardContainer
               title="Related"
               data={data?.relations.filter(item =>
-                item.type.toLowerCase() === 'manga' ? false : true,
+                item?.type?.toLowerCase() === 'manga' ? false : true,
               )}
             />
           </Wrapper>

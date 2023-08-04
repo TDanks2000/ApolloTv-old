@@ -13,10 +13,13 @@ import {
   VideoPlayerScreen,
   LoggingInScreen,
   VideoSettingScreen,
+  TestingScreen,
+  ReaderScreen,
 } from '../screens';
 import {NavigationBar} from '../components';
 import {RootStackParamList} from '../@types';
 import {utils} from '../utils';
+import {SyncingSettingScreen} from '../screens/SettingScreens';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -68,10 +71,13 @@ const AppStack = ({setHiddenStatusBar}: {setHiddenStatusBar: boolean}) => {
         <Stack.Screen name="Settings" component={SettingsScreen} />
         <Stack.Screen name="Info" component={InfoScreen} />
         <Stack.Screen name="VideoPlayer" component={VideoPlayerScreen} />
+        <Stack.Screen name="ReaderScreen" component={ReaderScreen} />
         <Stack.Screen name="LoggingIn" component={LoggingInScreen} />
+        <Stack.Screen name="testingScreen" component={TestingScreen} />
 
         {/* SETTINGS */}
         <Stack.Screen name="VideoSettings" component={VideoSettingScreen} />
+        <Stack.Screen name="SyncingSettings" component={SyncingSettingScreen} />
         {/* END SETTINGS */}
       </Stack.Navigator>
       <NavigationBar

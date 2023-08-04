@@ -1,6 +1,10 @@
 import {NavigationProvixer, NavigationContext} from './PlayerModalContext';
 import {AccessTokenProvider, useAccessToken} from './useAccessToken';
-import {SettingsContext, SettingsProvider} from './SettingsContexts';
+import {
+  SettingsContext,
+  SettingsProvider,
+  useSettingsContext,
+} from './SettingsContexts';
 import {GenericContext, GenericContextProvider} from './GenericContexts';
 
 export {
@@ -12,4 +16,5 @@ export {
   useAccessToken,
   SettingsProvider,
   GenericContextProvider,
+  useSettingsContext,
 };
