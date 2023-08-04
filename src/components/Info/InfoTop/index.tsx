@@ -23,8 +23,10 @@ interface Props {
   title: string | ITitleLanguageOptions;
   episode_title?: string;
   poster_image: string;
-  dubOrSub: string;
-  setDubOrSub: (dubOrSub: SubOrDub) => void;
+  dubOrSub?: string;
+  setDubOrSub?: (dubOrSub: SubOrDub) => void;
+
+  type?: 'MANGA' | 'ANIME';
 }
 
 const Top = ({
@@ -34,6 +36,7 @@ const Top = ({
   setDubOrSub,
   dubOrSub,
   episode_title,
+  type,
 }: Props) => {
   const actualTitle = utils.getTitle(title);
 
@@ -65,20 +68,24 @@ const Top = ({
             <TitleText numberOfLines={2}>
               {actualTitle && !episode_title ? actualTitle : episode_title}
             </TitleText>
-            <BottomBottomContainer>
-              <WatchNowComponent WatchText="Watch trailer" />
-              <Option
-                option={preferedVoice as string}
-                options={[
-                  {label: 'SUB', value: 'sub'},
-                  {label: 'DUB', value: 'dub'},
-                ]}
-                setOption={(value: string) => setDubOrSub(value as SubOrDub)}
-                onPress={(value: string) =>
-                  changePreferedVoice ? changePreferedVoice() : null
-                }
-              />
-            </BottomBottomContainer>
+            {type && type === 'MANGA' ? null : (
+              <BottomBottomContainer>
+                <WatchNowComponent WatchText="Watch trailer" />
+                <Option
+                  option={preferedVoice as string}
+                  options={[
+                    {label: 'SUB', value: 'sub'},
+                    {label: 'DUB', value: 'dub'},
+                  ]}
+                  setOption={(value: string) =>
+                    setDubOrSub && setDubOrSub(value as SubOrDub)
+                  }
+                  onPress={(value: string) =>
+                    changePreferedVoice ? changePreferedVoice() : null
+                  }
+                />
+              </BottomBottomContainer>
+            )}
           </BottomContainer>
         </Wrapper>
       </ImageBackground>

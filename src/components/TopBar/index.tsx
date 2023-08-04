@@ -70,7 +70,12 @@ const TopBarComponent = ({hasJustLoggedIn}: Props) => {
         <IconItemContainer onPress={() => navigation.navigate('Search')}>
           <IconItem name="search" />
         </IconItemContainer>
-        <IconItemContainer onPress={() => navigation.navigate('ReaderScreen')}>
+        <IconItemContainer
+          onPress={() =>
+            navigation.navigate('MangaInfo', {
+              id: '30013',
+            })
+          }>
           <IconItem name="bell" />
         </IconItemContainer>
       </IconContainer>

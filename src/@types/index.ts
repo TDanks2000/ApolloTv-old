@@ -1,4 +1,5 @@
 import {NavigationProp} from '@react-navigation/native';
+import {Chapter, MangaInfo} from './Manga';
 
 export type TitleLanguageOptions =
   | 'english'
@@ -70,6 +71,9 @@ export type RootStackParamList = {
   Info: {
     id: string;
   };
+  MangaInfo: {
+    id: string;
+  };
   Lists: undefined;
   Search: undefined;
   Settings: undefined;
@@ -85,7 +89,13 @@ export type RootStackParamList = {
     watched_percentage?: number;
     episodes: EpisodeInfo[];
   };
-  ReaderScreen: undefined;
+
+  ReaderScreen: {
+    manga_id: string;
+    chapter_id: string;
+    manga_info: MangaInfo;
+    chapter_info: Chapter;
+  };
 
   testingScreen: undefined;
 
@@ -360,12 +370,4 @@ export type DropdownData<LabelType, ValueType> = {
   image?: string;
 };
 
-export interface MangaPage {
-  page: number;
-  img: string;
-  headerForImage: HeaderForImage;
-}
-
-export interface HeaderForImage {
-  Referer: string;
-}
+export * from './Manga';

@@ -15,6 +15,7 @@ import {
   VideoSettingScreen,
   TestingScreen,
   ReaderScreen,
+  MangaInfoScreen,
 } from '../screens';
 import {NavigationBar} from '../components';
 import {RootStackParamList} from '../@types';
@@ -70,6 +71,7 @@ const AppStack = ({setHiddenStatusBar}: {setHiddenStatusBar: boolean}) => {
         <Stack.Screen name="Search" component={SearchScreen} />
         <Stack.Screen name="Settings" component={SettingsScreen} />
         <Stack.Screen name="Info" component={InfoScreen} />
+        <Stack.Screen name="MangaInfo" component={MangaInfoScreen} />
         <Stack.Screen name="VideoPlayer" component={VideoPlayerScreen} />
         <Stack.Screen name="ReaderScreen" component={ReaderScreen} />
         <Stack.Screen name="LoggingIn" component={LoggingInScreen} />

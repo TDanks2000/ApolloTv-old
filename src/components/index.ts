@@ -17,6 +17,7 @@ import Paginate from './Paginate';
 import CharacterCard from './CharacterCard';
 
 import * as Info from './Info';
+import * as MangaInfo from './MangaInfo';
 import * as Search from './Search';
 import * as Player from './Player';
 import * as Lists from './Lists';
@@ -44,6 +45,7 @@ export {
   Dropdown,
   MangaListCard,
   Info,
+  MangaInfo,
   Player,
   Search,
   Lists,

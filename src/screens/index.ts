@@ -8,6 +8,7 @@ import LoggingInScreen from './LoggingInScreen';
 import {VideoSettingScreen} from './SettingScreens';
 import TestingScreen from './TetsingScreen';
 import ReaderScreen from './ReaderScreen';
+import MangaInfoScreen from './MangaInfoScreen';
 
 export {
   HomeScreen,
@@ -15,6 +16,7 @@ export {
   SearchScreen,
   SettingsScreen,
   InfoScreen,
+  MangaInfoScreen,
   VideoPlayerScreen,
   LoggingInScreen,
   VideoSettingScreen,

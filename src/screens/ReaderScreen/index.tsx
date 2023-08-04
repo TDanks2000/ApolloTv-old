@@ -51,6 +51,9 @@ const ReaderScreen = () => {
           }}
           source={{
             uri: item.img,
+            headers: {
+              Referer: item?.headerForImage?.Referer,
+            },
           }}
         />
       </TouchableOpacity>
