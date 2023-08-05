@@ -1,23 +1,37 @@
 import {FlatList, View} from 'react-native';
 import React from 'react';
-import {Character, SubOrDub} from '../../@types';
-import {CharacterCard} from '../../components';
+import {Character, MangaCharacter, MediaTypes, SubOrDub} from '../../@types';
+import {CharacterCard, MangaCharacterCard} from '../../components';
 import {
   SectionTitle,
   SectionTitleContainer,
   SectionWrapper,
 } from '../Sections/Sections.shared.styles';
 
-interface Props {
-  characters: Character[];
-  subOrDub: SubOrDub | undefined;
-}
+type Props = {
+  type?: MediaTypes;
+  characters: Character[] | MangaCharacter[];
+  subOrDub?: SubOrDub | undefined;
+} & (
+  | {
+      type: 'ANIME';
+      characters: Character[];
+      subOrDub: SubOrDub | undefined;
+    }
+  | {
+      type: 'MANGA';
+      characters: MangaCharacter[];
+    }
+);
 
-const CharacterContainer = ({characters, subOrDub}: Props) => {
-  const renderItem = ({item}: {item: Character}) => {
+const CharacterContainer = ({characters, subOrDub, type}: Props) => {
+  const renderItem = (item: Character | MangaCharacter) => {
+    if (type === 'MANGA') {
+      return <MangaCharacterCard {...(item as MangaCharacter)} />;
+    }
     return (
       <CharacterCard
-        {...item}
+        {...(item as Character)}
         key={`character-${item.id}`}
         subOrDub={subOrDub}
       />
@@ -35,7 +49,9 @@ const CharacterContainer = ({characters, subOrDub}: Props) => {
           horizontal
           showsHorizontalScrollIndicator={false}
           data={characters}
-          renderItem={renderItem}
+          renderItem={({item}: {item: MangaCharacter | Character}) =>
+            renderItem(item)
+          }
           ItemSeparatorComponent={() => <View style={{width: 20}} />}
           contentContainerStyle={{paddingHorizontal: 20}}
         />

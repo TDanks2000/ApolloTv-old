@@ -1,6 +1,7 @@
 import {styled} from 'styled-components/native';
 import {Text} from '../../styles/sharedStyles';
 import LinearGradient from 'react-native-linear-gradient';
+import {MediaTypes} from '../../@types';
 
 export const Container = styled.TouchableOpacity`
   width: 130px;
@@ -17,7 +18,11 @@ export const ImageBackground = styled.ImageBackground`
   object-fit: cover;
 `;
 
-export const Wrapper = styled(LinearGradient).attrs({
+type Props = {
+  type?: MediaTypes;
+};
+
+export const Wrapper = styled(LinearGradient).attrs<Props>({
   colors: ['rgba(0, 0, 0, 0)', 'rgba(0, 0, 0, 0.45)'],
   start: {x: 0, y: 0},
   end: {x: 0, y: 1},
@@ -25,7 +30,8 @@ export const Wrapper = styled(LinearGradient).attrs({
   width: 100%;
   height: 100%;
 
-  justify-content: space-between;
+  justify-content: ${({type}) =>
+    type === 'MANGA' ? 'flex-end' : 'space-between'};
   padding: 8px;
   align-items: center;
 `;

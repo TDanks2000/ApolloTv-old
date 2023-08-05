@@ -29,7 +29,7 @@ const MangaListCard = ({
   const actualTitle = utils.getTitle(title);
 
   const onPress = () => {
-    navigation.navigate('Info', {
+    navigation.navigate('MangaInfo', {
       id,
     });
   };

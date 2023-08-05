@@ -1,6 +1,6 @@
 import {View, Text} from 'react-native';
 import React from 'react';
-import {CardProps} from '../../@types';
+import {CardProps, StackNavigation} from '../../@types';
 import {utils} from '../../utils';
 import {
   Container,
@@ -19,12 +19,14 @@ const RectangleCard = ({
   poster_image,
   rating,
   relation_type,
+  type,
 }: CardProps) => {
-  const navigation: any = useNavigation();
+  const navigation = useNavigation<StackNavigation>();
   const actualTitle = utils.getTitle(title);
 
   const onPress = () => {
-    navigation.navigate('Info', {id});
+    if (type?.toLowerCase() === 'manga') navigation.navigate('MangaInfo', {id});
+    else navigation.navigate('Info', {id});
   };
 
   return (

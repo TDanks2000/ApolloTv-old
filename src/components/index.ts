@@ -15,6 +15,7 @@ import {
 } from './Shared';
 import Paginate from './Paginate';
 import CharacterCard from './CharacterCard';
+import MangaCharacterCard from './CharacterCard/MangaCard';
 
 import * as Info from './Info';
 import * as MangaInfo from './MangaInfo';
@@ -27,6 +28,7 @@ import Alert from './Alert';
 import MangaListCard from './MangaListCard';
 
 export {
+  MangaCharacterCard,
   Paginate,
   NavigationBar,
   TopBarComponent,

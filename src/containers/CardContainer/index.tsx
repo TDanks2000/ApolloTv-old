@@ -24,7 +24,10 @@ const CardContainer = ({title, data}: Props) => {
         poster_image={item.image}
         id={item.id}
         rating={item.rating}
-        relation_type={item?.relationType}
+        type={item?.type}
+        relation_type={
+          item?.type?.toLowerCase() === 'manga' ? 'MANGA' : item?.relationType
+        }
       />
     );
   };
@@ -41,6 +44,7 @@ const CardContainer = ({title, data}: Props) => {
           horizontal
           showsHorizontalScrollIndicator={false}
           data={data}
+          keyExtractor={item => item.id}
           ItemSeparatorComponent={() => <View style={{width: 15}} />}
           contentContainerStyle={{paddingHorizontal: 20}}
           renderItem={renderItem}

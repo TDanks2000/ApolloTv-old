@@ -139,22 +139,22 @@ const InfoScreen = ({route}: Props) => {
           anime_info={data}
         />
         {/* <Info.SourceSelector /> */}
-        <Info.MetaInfo data={data} key={`info-meta-info-${data.id}`} />
+        <Info.MetaInfo
+          type={'ANIME'}
+          data={data}
+          key={`info-meta-info-${data.id}`}
+        />
         <DescriptionComponent description={data.description} />
         <Wrapper>
           <CharacterContainer
+            type="ANIME"
             characters={data.characters}
             subOrDub={dubOrSub}
           />
         </Wrapper>
         {data?.relations.length > 0 ? (
           <Wrapper>
-            <CardContainer
-              title="Related"
-              data={data?.relations.filter(item =>
-                item?.type?.toLowerCase() === 'manga' ? false : true,
-              )}
-            />
+            <CardContainer title="Related" data={data?.relations} />
           </Wrapper>
         ) : null}
         {data?.recommendations.length > 0 ? (

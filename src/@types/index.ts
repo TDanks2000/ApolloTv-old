@@ -1,5 +1,7 @@
 import {NavigationProp} from '@react-navigation/native';
-import {Chapter, MangaInfo} from './Manga';
+import {Chapter, FullMangaInfo} from './Manga';
+
+export type MediaTypes = 'ANIME' | 'MANGA';
 
 export type TitleLanguageOptions =
   | 'english'
@@ -91,9 +93,10 @@ export type RootStackParamList = {
   };
 
   ReaderScreen: {
+    chapter_number: number;
     manga_id: string;
     chapter_id: string;
-    manga_info: MangaInfo;
+    manga_info: FullMangaInfo;
     chapter_info: Chapter;
   };
 
@@ -280,6 +283,18 @@ export interface QueryAnime {
     | {
         mediaStatus: any;
         animeData: FullAnimeInfo | undefined;
+      }
+    | undefined;
+  error: Error | null;
+}
+
+export interface QueryManga {
+  isPending: boolean;
+  isError: boolean;
+  data:
+    | {
+        mediaStatus: any;
+        mangaData: FullMangaInfo | undefined;
       }
     | undefined;
   error: Error | null;

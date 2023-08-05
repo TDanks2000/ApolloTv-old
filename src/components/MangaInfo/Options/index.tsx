@@ -13,26 +13,59 @@ import {
   Wrapper,
 } from '../../Info/Options/Options.styles';
 
-import {MangaInfo} from '../../../@types';
+import {FullMangaInfo} from '../../../@types';
 import {useBreakpoints} from '../../../hooks';
 
 type Props = {
   openChaptersModal: () => void;
   chaptersLength: number;
-  manga_info: MangaInfo;
+  manga_info: FullMangaInfo;
 };
 
-const Options: React.FC = () => {
+const Options: React.FC<Props> = ({
+  chaptersLength,
+  manga_info,
+  openChaptersModal,
+}) => {
   const {isMobile} = useBreakpoints();
   return (
     <Container>
       <Wrapper isMobile={isMobile}>
         <OptionContainer>
-          <OptionWrapper>
+          <OptionWrapper
+            onPress={openChaptersModal}
+            disabled={chaptersLength === 0}>
             <OptionIconContainer>
               <OptionIcon name="book" />
             </OptionIconContainer>
             <OptionText>Chapters</OptionText>
+          </OptionWrapper>
+        </OptionContainer>
+
+        <OptionContainer>
+          <OptionWrapper disabled>
+            <OptionIconContainer>
+              <OptionIcon name="ban" />
+            </OptionIconContainer>
+            <OptionText style={{textTransform: 'uppercase'}}>W.I.P</OptionText>
+          </OptionWrapper>
+        </OptionContainer>
+
+        <OptionContainer>
+          <OptionWrapper disabled>
+            <OptionIconContainer>
+              <OptionIcon name="ban" />
+            </OptionIconContainer>
+            <OptionText style={{textTransform: 'uppercase'}}>W.I.P</OptionText>
+          </OptionWrapper>
+        </OptionContainer>
+
+        <OptionContainer>
+          <OptionWrapper disabled>
+            <OptionIconContainer>
+              <OptionIcon name="ban" />
+            </OptionIconContainer>
+            <OptionText style={{textTransform: 'uppercase'}}>W.I.P</OptionText>
           </OptionWrapper>
         </OptionContainer>
       </Wrapper>

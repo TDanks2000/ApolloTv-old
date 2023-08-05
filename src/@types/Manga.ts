@@ -1,6 +1,8 @@
-export interface MangaInfo {
+import {TitleType} from '.';
+
+export interface FullMangaInfo {
   id: string;
-  title: Title;
+  title: TitleType;
   malId: number;
   trailer: Trailer;
   image: string;
@@ -18,7 +20,7 @@ export interface MangaInfo {
   studios: any[];
   type: Type;
   recommendations: Recommendation[];
-  characters: Character[];
+  characters: MangaCharacter[];
   relations: Relation[];
   chapters: Chapter[];
 }
@@ -29,7 +31,7 @@ export interface Chapter {
   releaseDate: Date;
 }
 
-export interface Character {
+export interface MangaCharacter {
   id: number;
   role: Role;
   name: Name;
@@ -58,7 +60,7 @@ export interface EndDateClass {
 export interface Recommendation {
   id: number;
   malId: number | null;
-  title: Title;
+  title: TitleType;
   status: Status;
   chapters: number | null;
   image: string;
@@ -72,13 +74,6 @@ export enum Status {
   Ongoing = 'Ongoing',
 }
 
-export interface Title {
-  romaji: string;
-  english: null | string;
-  native: null | string;
-  userPreferred?: string;
-}
-
 export enum Type {
   Manga = 'MANGA',
 }
@@ -87,7 +82,7 @@ export interface Relation {
   id: number;
   relationType: RelationType;
   malId: number | null;
-  title: Title;
+  title: TitleType;
   status: Status;
   chapters: number | null;
   image: string;

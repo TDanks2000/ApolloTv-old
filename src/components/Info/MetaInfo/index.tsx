@@ -10,41 +10,56 @@ import {
   AltText,
   Wrapper,
 } from './MetaInfo.styles';
-import {FullAnimeInfo, ITitleLanguageOptions} from '../../../@types';
+import {FullAnimeInfo, FullMangaInfo} from '../../../@types';
 import {utils} from '../../../utils';
 
-interface Props {
-  data: FullAnimeInfo;
-}
+type Props = {
+  type?: 'ANIME' | 'MANGA';
+  data: FullAnimeInfo | FullMangaInfo;
+} & (
+  | {
+      type: 'ANIME';
+      data: FullAnimeInfo;
+    }
+  | {
+      type: 'MANGA';
+      data: FullMangaInfo;
+    }
+);
 
-const MetaInfo = ({data}: Props) => {
+const MetaInfo = ({data, type}: Props) => {
   const now = new Date();
   const actualTitle = utils.getTitle(data.title);
   const actualGenres = data.genres?.slice(0, 2);
 
   const isStartAndEndSameYear = data?.startDate?.year === data?.endDate?.year;
-  const isShowStillAiring = data.status.toLowerCase() === 'ongoing';
-  const hasAllEpisodesAired = data?.episodes?.length === data?.totalEpisodes;
+  const isShowStillAiring = data?.status?.toLowerCase() === 'ongoing';
+  const hasAllEpisodesAired =
+    type === 'ANIME' && data?.episodes?.length === data?.totalEpisodes;
 
   return (
     <Container>
       <Wrapper>
         <TopMetaInfo>
           {isStartAndEndSameYear ? (
-            <Text>{data.startDate.year}</Text>
+            <Text>{data?.startDate?.year}</Text>
           ) : (
             <Text style={{textTransform: 'uppercase'}}>
               {data.startDate.year ?? '??'} -{' '}
-              {isShowStillAiring ? 'Present' : data.endDate.year ?? '??'}
+              {isShowStillAiring ? 'Present' : data?.endDate?.year ?? '??'}
             </Text>
           )}
           <Seperator />
-          <Text>
-            {hasAllEpisodesAired
-              ? data?.totalEpisodes
-              : `${data.episodes.length ?? 0} / ${data.totalEpisodes}`}{' '}
-            Episodes
-          </Text>
+          {type === 'ANIME' ? (
+            <Text>
+              {hasAllEpisodesAired
+                ? data?.totalEpisodes
+                : `${data.episodes.length ?? 0} / ${data.totalEpisodes}`}{' '}
+              Episodes
+            </Text>
+          ) : (
+            <Text>{data.chapters?.length ?? 0} Chapters</Text>
+          )}
         </TopMetaInfo>
         <Title numberOfLines={1}>{actualTitle}</Title>
         <BottomMetaInfo>
@@ -53,9 +68,11 @@ const MetaInfo = ({data}: Props) => {
               <AltText>{genre}</AltText>
             </BottomMetaInfoItem>
           ))}
-          <BottomMetaInfoItem>
-            <AltText bold={true}>{data.isAdult ? '18+' : '13+'}</AltText>
-          </BottomMetaInfoItem>
+          {type === 'ANIME' ? (
+            <BottomMetaInfoItem>
+              <AltText bold={true}>{data.isAdult ? '18+' : '13+'}</AltText>
+            </BottomMetaInfoItem>
+          ) : null}
         </BottomMetaInfo>
       </Wrapper>
     </Container>
