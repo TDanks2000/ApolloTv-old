@@ -26,16 +26,16 @@ The app is still in alpha, so it may not work as expected. If you find any bugs,
 
 ## Features/Planned Features
 
-- [x] Ad Free
-- [x] Fast
-- [x] Responsive
-- [x] Custom video player
+- [X] Ad Free
+- [X] Fast
+- [X] Responsive
+- [X] Custom video player
 - [x] Dub support
-- [x] Anilist Collection support (Plant to watch, watching, watched, ReWatching, Dropped etc)
+- [X] Anilist Collection support (Plant to watch, watching, watched, ReWatching, Dropped etc)
 - [X] Sync with anilist
+- [X] Manga support 
 
 Future features
-- [ ] Manga support (maybe if people ask for it)
 - [ ] Download Episodes (coming soon)
 
 Further down the line features
