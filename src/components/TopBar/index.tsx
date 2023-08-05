@@ -71,6 +71,7 @@ const TopBarComponent = ({hasJustLoggedIn}: Props) => {
           <IconItem name="search" />
         </IconItemContainer>
         <IconItemContainer
+          disabled
           onPress={() =>
             navigation.navigate('MangaInfo', {
               id: '30013',
