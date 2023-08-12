@@ -104,7 +104,7 @@ const VideoPlayerScreen: React.FC<Props> = ({route}): JSX.Element => {
     StatusBar.setHidden(true);
 
     return () => {
-      // lock to vertical
+      // lock to portrait
       Orientation.lockToPortrait();
       StatusBar.setHidden(false, 'slide');
     };

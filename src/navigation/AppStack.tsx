@@ -21,6 +21,8 @@ import {NavigationBar} from '../components';
 import {RootStackParamList} from '../@types';
 import {utils} from '../utils';
 import {SyncingSettingScreen} from '../screens/SettingScreens';
+import Orientation from 'react-native-orientation-locker';
+import {StatusBar} from 'react-native';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -40,6 +42,19 @@ const linking = {
 const AppStack = ({setHiddenStatusBar}: {setHiddenStatusBar: boolean}) => {
   const navigationRef: any = useNavigationContainerRef();
   const [routeNameRef, setRouteNameRef] = useState<any>();
+
+  React.useEffect(() => {
+    if (routeNameRef === 'VideoPlayer' || routeNameRef === 'ReaderScreen') {
+      if (routeNameRef === 'VideoPlayer') Orientation.lockToLandscape();
+      StatusBar.setHidden(true);
+      return utils.ToggleSystemNavigation(false);
+    }
+
+    // lock to portrait
+    Orientation.lockToPortrait();
+    StatusBar.setHidden(false, 'slide');
+    utils.ToggleSystemNavigation(true);
+  }, [routeNameRef]);
 
   return (
     <NavigationContainer

@@ -10,8 +10,9 @@ export const SettingsContainer = styled(Animated.View)`
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
-  margin-top: 85px;
+  margin: 45px 0;
   padding-right: 30px;
+  z-index: 20;
 `;
 
 export const SettingsWrapper = styled.Pressable`

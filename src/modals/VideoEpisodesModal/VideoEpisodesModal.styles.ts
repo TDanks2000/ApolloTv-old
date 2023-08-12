@@ -10,9 +10,9 @@ export const Container = styled(Animated.View)`
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
-  margin: 85px 0;
+  margin: 45px 0;
   padding-right: 30px;
-  z-index: 10;
+  z-index: 20;
 `;
 
 export const Wrapper = styled.Pressable`
@@ -20,7 +20,7 @@ export const Wrapper = styled.Pressable`
   max-height: 100%;
   border-radius: 8px;
   overflow: hidden;
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(0, 0, 0, 0.8);
 `;
 
 export const TopContainer = styled.View`
