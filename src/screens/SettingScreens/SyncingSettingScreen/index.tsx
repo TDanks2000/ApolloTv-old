@@ -18,7 +18,14 @@ const SyncingSettingScreen = () => {
           <Title>Syncing Settings</Title>
         </TextContainer>
 
-        <ScrollView style={{paddingTop: 30, marginTop: 15}}></ScrollView>
+        <ScrollView style={{paddingTop: 30, marginTop: 15}}>
+          <Settings.Setting
+            title="Private mode"
+            descriptor="Keep your watch history between you and yourself only"
+            selectedOption={'off'}
+            onPress={() => {}}
+          />
+        </ScrollView>
       </SharedContainer>
     </SafeAreaView>
   );
