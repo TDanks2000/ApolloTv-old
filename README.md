@@ -1,79 +1,109 @@
-This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
+<div align="center">
+<a href="#">
+    <img src="./misc/images/Apollotv-banner(no-bg).png"/ style="width: 550px" >
+</a>
+</div>
 
-# Getting Started
+<br />
 
->**Note**: Make sure you have completed the [React Native - Environment Setup](https://reactnative.dev/docs/environment-setup) instructions till "Creating a new application" step, before proceeding.
+---
 
-## Step 1: Start the Metro Server
+<br />
 
-First, you will need to start **Metro**, the JavaScript _bundler_ that ships _with_ React Native.
+<div align="center">
+    <p align="center">
+    <img src="https://img.shields.io/badge/platforms-android-blueviolet?style=for-the-badge"/>
+    <img src="https://img.shields.io/github/downloads/apollotv-team/apollotv/total?color=blueviolet&logo=android&logoColor=%23fff&style=for-the-badge" />
+    <img src="https://img.shields.io/github/license/tdanks2000/apollotvrn?style=for-the-badge" />
+  </p>
+</div>
 
-To start Metro, run the following command from the _root_ of your React Native project:
+<br />
 
-```bash
-# using npm
-npm start
+## DISCLAIMER
 
-# OR using Yarn
-yarn start
-```
+The app is still in alpha, so it may not work as expected. If you find any bugs, please report them in the [issues](https://github.com/TDanks2000/apollotvrn/issues) section.
 
-## Step 2: Start your Application
+## Features/Planned Features
 
-Let Metro Bundler run in its _own_ terminal. Open a _new_ terminal from the _root_ of your React Native project. Run the following command to start your _Android_ or _iOS_ app:
+- [x] Ad Free
+- [x] Fast
+- [x] Responsive
+- [x] Custom video player
+- [x] Dub support
+- [x] Anilist Collection support (Plant to watch, watching, watched, ReWatching, Dropped etc)
+- [X] Sync with anilist
 
-### For Android
+Future features
+- [ ] Manga support (maybe if people ask for it)
+- [ ] Download Episodes (coming soon)
 
-```bash
-# using npm
-npm run android
+Further down the line features
+- [ ] Movies
+- [ ] Tv shows 
+- [ ] more trackers (trakt, mal etc etc)
 
-# OR using Yarn
-yarn android
-```
+<br />
 
-### For iOS
+## SCREENSHOTS
 
-```bash
-# using npm
-npm run ios
+<table>
+  <thead>
+    <tr>
+      <th colspan="5">ANDROID</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+        <td>
+            <img src="./misc/images/apollotv-home.png"/>
+        </td>
+        <td>
+            <img src="./misc/images/apollotv-search.png""/>
+        </td>
+        <td>
+            <img src="./misc/images/apollotv-info-top.png"/>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="3">
+            <img src="./misc/images/apollotv-video.png"/>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="3">
+            <img src="./misc/images/apollotv-video-settings.png"/>
+        </td>
+    </tr>
+  </tbody>
+</table>
 
-# OR using Yarn
-yarn ios
-```
 
-If everything is set up _correctly_, you should see your new app running in your _Android Emulator_ or _iOS Simulator_ shortly provided you have set up your emulator/simulator correctly.
+<br />
 
-This is one way to run your app — you can also run it directly from within Android Studio and Xcode respectively.
+## INSTALLATION INSTRUCTIONS
 
-## Step 3: Modifying your App
+<details>
+<summary>ANDROID</summary>
+<p>Make sure you have install from unknown sources enabled</p>
+<p>it will most likely ask you to enable this anyway</p>
 
-Now that you have successfully run the app, let's modify it.
+1. [Download the apk.](https://github.com/TDanks2000/apollotvrn/releases)
+2. Install the apk.
+3. Open the app.
 
-1. Open `App.tsx` in your text editor of choice and edit some lines.
-2. For **Android**: Press the <kbd>R</kbd> key twice or select **"Reload"** from the **Developer Menu** (<kbd>Ctrl</kbd> + <kbd>M</kbd> (on Window and Linux) or <kbd>Cmd ⌘</kbd> + <kbd>M</kbd> (on macOS)) to see your changes!
+</details>
 
-   For **iOS**: Hit <kbd>Cmd ⌘</kbd> + <kbd>R</kbd> in your iOS Simulator to reload the app and see your changes!
+<br />
 
-## Congratulations! :tada:
+## Contributing
+Contributions to the ApolloTv are welcome! If you find a bug, have a feature suggestion, or want to contribute improvements, Please make a pull request and i shall take a look at it
 
-You've successfully run and modified your React Native App. :partying_face:
+<br />
 
-### Now what?
 
-- If you want to add this new React Native code to an existing application, check out the [Integration guide](https://reactnative.dev/docs/integration-with-existing-apps).
-- If you're curious to learn more about React Native, check out the [Introduction to React Native](https://reactnative.dev/docs/getting-started).
+## ❤️
 
-# Troubleshooting
-
-If you can't get this to work, see the [Troubleshooting](https://reactnative.dev/docs/troubleshooting) page.
-
-# Learn More
-
-To learn more about React Native, take a look at the following resources:
-
-- [React Native Website](https://reactnative.dev) - learn more about React Native.
-- [Getting Started](https://reactnative.dev/docs/environment-setup) - an **overview** of React Native and how setup your environment.
-- [Learn the Basics](https://reactnative.dev/docs/getting-started) - a **guided tour** of the React Native **basics**.
-- [Blog](https://reactnative.dev/blog) - read the latest official React Native **Blog** posts.
-- [`@facebook/react-native`](https://github.com/facebook/react-native) - the Open Source; GitHub **repository** for React Native.
+ApolloTv is made with the love and passion that I have for anime and manga. I hope you enjoy it as much as I do. If you have any suggestions or feedback, please contact me on discord (Prostarz)
+<br /> <br />
+Reminder that <strong><i>you are great, you are enough, and your presence is valued.</i></strong> If you are struggling with your mental health, please reach out to someone you love and consult a professional. You are not alone.
