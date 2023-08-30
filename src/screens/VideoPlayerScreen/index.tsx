@@ -150,7 +150,7 @@ const VideoPlayerScreen: React.FC<Props> = ({route}): JSX.Element => {
     if (isCurrentPosAtOpening && wantToUpdate && !hasSkipedIntro) {
       toggleHasSkippedIntro();
       videoRef.current.seek(openingEndTime);
-    } else if (isCurrentPosAtOpening) {
+    } else if (isCurrentPosAtOpening && !wantToUpdate) {
       videoRef.current.seek(openingEndTime);
     }
   };
@@ -165,7 +165,7 @@ const VideoPlayerScreen: React.FC<Props> = ({route}): JSX.Element => {
     if (isCurrentPosAtEnding && wantToUpdate && !hasSkipedEnding) {
       toggleHasSkippedEnding();
       videoRef.current.seek(endingEndTime);
-    } else if (isCurrentPosAtEnding) {
+    } else if (isCurrentPosAtEnding && !wantToUpdate) {
       videoRef.current.seek(endingEndTime);
     }
   };
