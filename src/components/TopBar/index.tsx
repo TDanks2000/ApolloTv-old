@@ -18,6 +18,8 @@ import {useAccessToken} from '../../contexts';
 import {Linking} from 'react-native';
 import {storage, utils} from '../../utils';
 import {ANILIST_ACCESS_TOKEN_STORAGE} from '../../utils/constants';
+import {NotificationsModal} from '../../modals';
+import NotificationBell from './NotificationBell';
 
 type Props = {
   hasJustLoggedIn?: boolean;
@@ -44,43 +46,38 @@ const TopBarComponent = ({hasJustLoggedIn}: Props) => {
   if (isPending) return null;
 
   return (
-    <Container>
-      {accessToken && (data as any)?.Viewer ? (
-        <ProfileContainer
-          onPress={() => Linking.openURL(data?.Viewer?.siteUrl)}>
-          <ProfileImage
-            source={{
-              uri: data?.Viewer?.avatar?.medium,
-            }}
-          />
-          <ProfileTextContainer>
-            <ProfileText>Hello,</ProfileText>
-            <ProfileText numberOfLines={1} isProfileName={true}>
-              {data?.Viewer?.name}
-            </ProfileText>
-          </ProfileTextContainer>
-        </ProfileContainer>
-      ) : (
-        <ProfileContainer disabled>
-          <NotLoggedInComponent />
-        </ProfileContainer>
-      )}
+    <>
+      <Container>
+        {accessToken && (data as any)?.Viewer ? (
+          <ProfileContainer
+            onPress={() => Linking.openURL(data?.Viewer?.siteUrl)}>
+            <ProfileImage
+              source={{
+                uri: data?.Viewer?.avatar?.medium,
+              }}
+            />
+            <ProfileTextContainer>
+              <ProfileText>Hello,</ProfileText>
+              <ProfileText numberOfLines={1} isProfileName={true}>
+                {data?.Viewer?.name}
+              </ProfileText>
+            </ProfileTextContainer>
+          </ProfileContainer>
+        ) : (
+          <ProfileContainer disabled>
+            <NotLoggedInComponent />
+          </ProfileContainer>
+        )}
 
-      <IconContainer>
-        <IconItemContainer onPress={() => navigation.navigate('Search')}>
-          <IconItem name="search" />
-        </IconItemContainer>
-        <IconItemContainer
-          disabled
-          onPress={() =>
-            navigation.navigate('MangaInfo', {
-              id: '30013',
-            })
-          }>
-          <IconItem name="bell" />
-        </IconItemContainer>
-      </IconContainer>
-    </Container>
+        <IconContainer>
+          <IconItemContainer onPress={() => navigation.navigate('Search')}>
+            <IconItem name="search" />
+          </IconItemContainer>
+          <NotificationBell />
+        </IconContainer>
+      </Container>
+      <NotificationsModal />
+    </>
   );
 };
 

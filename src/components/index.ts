@@ -26,6 +26,7 @@ import * as Settings from './Settings';
 import * as Reader from './Reader';
 import Alert from './Alert';
 import MangaListCard from './MangaListCard';
+import NotificationCard from './NotificationCard';
 
 export {
   MangaCharacterCard,
@@ -53,4 +54,5 @@ export {
   Lists,
   Settings,
   Reader,
+  NotificationCard,
 };
