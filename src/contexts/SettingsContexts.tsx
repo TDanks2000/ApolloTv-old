@@ -5,6 +5,7 @@ import {settingsHelper} from '../utils';
 export const SettingsContext = React.createContext<{
   autoSkipIntro?: string;
   autoSkipOutro?: string;
+  autoNextEpisode?: string;
   preferedVoice?: string;
   preferedQuality?: Quality;
   sourceProvider?: sourceProviders;
@@ -12,6 +13,7 @@ export const SettingsContext = React.createContext<{
   changePreferedVoice?: () => void;
   changePreferedQuality?: (quality: Quality) => void;
   changeSourceProvider?: (provider: sourceProviders) => void;
+  changeAutoNextEpisode?: (setting: 'auto_next_episode') => void;
 }>({});
 
 export const useSettingsContext = React.useContext(SettingsContext);
@@ -19,6 +21,8 @@ export const useSettingsContext = React.useContext(SettingsContext);
 export const SettingsProvider = ({children}: any) => {
   const autoSkipIntroSetting = settingsHelper.getSetting('auto_skip_intro');
   const autoSkipOutroSetting = settingsHelper.getSetting('auto_skip_outro');
+  const autoNextEpisodeSetting = settingsHelper.getSetting('auto_next_episode');
+
   const preferedVoiceSettings: any =
     settingsHelper.getSetting('prefered_voice');
   const preferedQualitySetting: any =
@@ -32,6 +36,9 @@ export const SettingsProvider = ({children}: any) => {
   );
   const [autoSkipOutro, setAutoSkipOutro] = React.useState(
     autoSkipOutroSetting ?? 'off',
+  );
+  const [autoNextEpisode, setAutoNextEpisode] = React.useState(
+    autoNextEpisodeSetting ?? 'off',
   );
   const [preferedVoice, setPreferedVoice] = React.useState<'sub' | 'dub'>(
     preferedVoiceSettings ?? 'sub',
@@ -51,6 +58,11 @@ export const SettingsProvider = ({children}: any) => {
       setAutoSkipOutro(prev => (prev === 'on' ? 'off' : 'on'));
       settingsHelper.setSetting(setting, autoSkipOutro === 'on' ? 'off' : 'on');
     }
+  };
+
+  const changeAutoNextEpisode = (setting: 'auto_next_episode') => {
+    settingsHelper.setSetting(setting, autoNextEpisode === 'on' ? 'off' : 'on');
+    setAutoNextEpisode(prev => (prev === 'on' ? 'off' : 'on'));
   };
 
   const changePreferedVoice = () => {
@@ -76,6 +88,7 @@ export const SettingsProvider = ({children}: any) => {
       value={{
         autoSkipIntro,
         autoSkipOutro,
+        autoNextEpisode,
         preferedVoice,
         preferedQuality,
         sourceProvider,
@@ -83,6 +96,7 @@ export const SettingsProvider = ({children}: any) => {
         changePreferedVoice,
         changePreferedQuality,
         changeSourceProvider,
+        changeAutoNextEpisode,
       }}>
       {children}
     </SettingsContext.Provider>

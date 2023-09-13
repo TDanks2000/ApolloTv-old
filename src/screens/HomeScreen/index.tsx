@@ -1,4 +1,5 @@
 import React, {useEffect} from 'react';
+import {useWindowDimensions} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {BannerComponent, TopBarComponent} from '../../components';
 import {GenericContainer, SectionContainer} from './HomeScreen.styles';
@@ -16,17 +17,20 @@ import {useFocusEffect} from '@react-navigation/native';
 import {useQueryClient} from '@tanstack/react-query';
 import {GenericContext} from '../../contexts';
 import {episodeSQLHelper} from '../../utils/database';
+import {addToAnalytics} from '../../utils/api';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Home'>;
 
 const HomeScreen = ({route}: Props) => {
   const genericContext = React.useContext(GenericContext);
   const hasJustLoggedIn = route?.params?.hasJustLoggedIn;
+  const {width} = useWindowDimensions();
 
   const hasLaunchedBefore = helpers.launchedBefore();
 
   React.useEffect(() => {
     episodeSQLHelper.createTable();
+    addToAnalytics(width);
     if (hasLaunchedBefore) return;
     genericContext?.openAlert(
       'Welcome to ApolloTv',

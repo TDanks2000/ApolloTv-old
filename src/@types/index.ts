@@ -375,6 +375,7 @@ export interface AniskipInterval {
 export type settings =
   | 'auto_skip_intro'
   | 'auto_skip_outro'
+  | 'auto_next_episode'
   | 'prefered_voice'
   | 'prefered_quality'
   | 'source_provider';
@@ -384,5 +385,24 @@ export type DropdownData<LabelType, ValueType> = {
   value: ValueType;
   image?: string;
 };
+
+export interface SQLNewEpisodeData {
+  anime_id: number;
+  title: string;
+  checked: boolean;
+  checkedAt: string;
+  nextCheckAt: string;
+  currentEpisodes: number;
+  latestEpisode: EpisodeInfo;
+}
+
+export interface SQLUpdateNewEpisodeData {
+  anime_id: number;
+  checked: boolean;
+  checkedAt: string;
+  nextCheckAt: string;
+  currentEpisodes: number;
+  latestEpisode: EpisodeInfo;
+}
 
 export * from './Manga';

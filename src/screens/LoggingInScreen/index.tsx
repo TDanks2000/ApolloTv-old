@@ -37,8 +37,8 @@ const LoggingInScreen = ({route, navigation}: Props) => {
     storage.set(ANILIST_ACCESS_TOKEN_STORAGE, token);
     Toast.show({
       type: 'success',
-      text1: '🎉🎊🍾',
-      text2: 'You have been successfully logged in',
+      text1: 'You have been successfully logged in!',
+      text2: 'still not logged in? close app, clear cache',
       position: 'top',
       visibilityTime: dismessTime,
     });

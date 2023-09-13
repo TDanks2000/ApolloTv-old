@@ -5,8 +5,10 @@ import Video, {OnLoadData, OnProgressData} from 'react-native-video';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {
   AniskipData,
+  Episode,
   RootStackParamList,
   SourceVideoOptions,
+  StackNavigation,
 } from '../../@types';
 import {useQuery} from '@tanstack/react-query';
 import {api, settingsHelper, utils} from '../../utils';
@@ -19,17 +21,24 @@ import {
 import Orientation from 'react-native-orientation-locker';
 import {episodeSQLHelper} from '../../utils/database';
 import {Anilist} from '@tdanks2000/anilist-wrapper';
-import {useFocusEffect} from '@react-navigation/native';
+import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import Toast from 'react-native-toast-message';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'VideoPlayer'>;
 
 const VideoPlayerScreen: React.FC<Props> = ({route}): JSX.Element => {
+  const navigation = useNavigation<StackNavigation>();
+
   const {accessToken} = useAccessToken();
   const anilist = new Anilist(accessToken);
 
-  const {autoSkipOutro, autoSkipIntro, changeAutoSkip} =
-    React.useContext(SettingsContext);
+  const {
+    autoSkipOutro,
+    autoSkipIntro,
+    changeAutoSkip,
+    autoNextEpisode,
+    changeAutoNextEpisode,
+  } = React.useContext(SettingsContext);
 
   const watchTimeBeforeSync = 80;
   const [watched, setWatched] = React.useState<boolean>(false);
@@ -248,6 +257,32 @@ const VideoPlayerScreen: React.FC<Props> = ({route}): JSX.Element => {
     setDuration(data.duration);
   };
 
+  const onEnd = () => {
+    if (autoNextEpisode === 'off' || !autoNextEpisode) return;
+    const current_episode = episode_info.episode_number!;
+    const next_episode_number = current_episode + 1;
+    const next_episode =
+      episodes.find(episode => episode.number === next_episode_number) ?? null;
+
+    if (!next_episode) return;
+    navigation.navigate('Info', {
+      id: anime_info.id,
+    });
+    navigation.navigate('VideoPlayer', {
+      anime_info: anime_info,
+      episode_id: next_episode.id,
+      episode_info: {
+        id: next_episode.id,
+        title: next_episode.title,
+        episode_number: next_episode.number,
+        image: next_episode.image,
+      },
+      episodes: episodes,
+      source_provider: 'gogoanime',
+      next_episode_id: episodes[episodes.indexOf(next_episode) + 1]?.id ?? null,
+    });
+  };
+
   const fetcher = async () => {
     return await api.fetcher(`${API_BASE}/anilist/watch/${episode_id}`);
   };
@@ -336,6 +371,7 @@ const VideoPlayerScreen: React.FC<Props> = ({route}): JSX.Element => {
         ref={videoRef}
         onLoad={onLoad}
         onProgress={onProgress}
+        onEnd={onEnd}
         onBuffer={data => setIsBuffering(data.isBuffering)}
         source={{
           uri: selectedSource.url,

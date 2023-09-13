@@ -9,16 +9,15 @@ import {
   ProfileText,
   ProfileTextContainer,
 } from './TopBar.styles';
-import {useFocusEffect, useNavigation} from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 import {StackNavigation} from '../../@types';
 import NotLoggedInComponent from './NotLoggedIn';
-import {QueryClient, useQuery, useQueryClient} from '@tanstack/react-query';
+import {useQuery} from '@tanstack/react-query';
 import {Anilist} from '@tdanks2000/anilist-wrapper';
 import {useAccessToken} from '../../contexts';
 import {Linking} from 'react-native';
-import {storage, utils} from '../../utils';
+import {storage} from '../../utils';
 import {ANILIST_ACCESS_TOKEN_STORAGE} from '../../utils/constants';
-import {NotificationsModal} from '../../modals';
 import NotificationBell from './NotificationBell';
 
 type Props = {
@@ -76,7 +75,6 @@ const TopBarComponent = ({hasJustLoggedIn}: Props) => {
           <NotificationBell />
         </IconContainer>
       </Container>
-      <NotificationsModal />
     </>
   );
 };

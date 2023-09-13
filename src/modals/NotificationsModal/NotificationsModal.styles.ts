@@ -1,6 +1,13 @@
 import {styled} from 'styled-components/native';
 
-export const NotificationsContainer = styled.View`
+export const CloseBG = styled.Pressable`
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+`;
+
+export const NotificationsContainer = styled.Pressable`
   background-color: rgba(0, 0, 0, 1);
   width: 300px;
   min-height: 250px;
@@ -10,6 +17,7 @@ export const NotificationsContainer = styled.View`
   margin-top: 75px;
   border-radius: 8px;
   padding: 10px;
+  z-index: 1;
 `;
 
 export const NotificationsWrapper = styled.View`

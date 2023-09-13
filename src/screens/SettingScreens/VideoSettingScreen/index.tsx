@@ -12,9 +12,12 @@ const VideoSettingScreen = () => {
   const {
     autoSkipIntro,
     autoSkipOutro,
+    autoNextEpisode,
+
     preferedQuality,
     changePreferedQuality,
     changeAutoSkip,
+    changeAutoNextEpisode,
   } = React.useContext(SettingsContext);
 
   const qualityOptions: Quality[] = [
@@ -52,6 +55,19 @@ const VideoSettingScreen = () => {
             selectedOption={autoSkipOutro ?? 'off'}
             onPress={() =>
               changeAutoSkip ? changeAutoSkip('auto_skip_outro') : undefined
+            }
+          />
+
+          <Seperator />
+
+          <Settings.Setting
+            title="Auto Next Episode"
+            descriptor="Auto play the next Episode"
+            selectedOption={autoNextEpisode ?? 'off'}
+            onPress={() =>
+              changeAutoNextEpisode
+                ? changeAutoNextEpisode('auto_next_episode')
+                : undefined
             }
           />
 

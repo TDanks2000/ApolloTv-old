@@ -32,8 +32,13 @@ const VideoSettingsModal = ({
   shouldOpen,
   closeFunction,
 }: Props) => {
-  const {autoSkipOutro, autoSkipIntro, changeAutoSkip} =
-    React.useContext(SettingsContext);
+  const {
+    autoSkipOutro,
+    autoSkipIntro,
+    changeAutoSkip,
+    autoNextEpisode,
+    changeAutoNextEpisode,
+  } = React.useContext(SettingsContext);
 
   const [selectedSetting, setSelectedSetting] = React.useState<
     string | undefined
@@ -88,6 +93,28 @@ const VideoSettingsModal = ({
       setOption: undefined,
       onPress: () => {
         if (changeAutoSkip) changeAutoSkip('auto_skip_outro');
+      },
+      options: [
+        {
+          label: 'On',
+          value: 'on',
+        },
+        {
+          label: 'Off',
+          value: 'off',
+        },
+      ],
+    },
+    {
+      name: 'Auto Next Episode',
+      value: 'auto_next_episode',
+      iconName: 'forward',
+      selectedOption: autoNextEpisode === 'on' ? 'on' : 'off',
+      hasSubOptions: false,
+      optionType: 'option',
+      setOption: undefined,
+      onPress: () => {
+        if (changeAutoNextEpisode) changeAutoNextEpisode('auto_next_episode');
       },
       options: [
         {

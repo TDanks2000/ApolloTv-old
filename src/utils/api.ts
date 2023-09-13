@@ -1,4 +1,4 @@
-import {API_BASE} from '@env';
+import {API_BASE, ANALYTICS_URL} from '@env';
 import {SectionTypes} from '../@types';
 import {Anilist} from '@tdanks2000/anilist-wrapper';
 
@@ -50,4 +50,14 @@ export const fetchAnilistLists = async (
   };
 
   return returnData;
+};
+
+export const addToAnalytics = async (screen_width: number) => {
+  const res = await fetch(`${ANALYTICS_URL}`, {
+    headers: {
+      'x-screen-width': screen_width.toString(),
+    },
+  });
+
+  console.log(await res.json());
 };
