@@ -132,6 +132,10 @@ const SettingsScreen = ({navigation}: Props) => {
                   }>
                   <Social name="github" />
                 </SocialIconWrapper>
+                <SocialIconWrapper
+                  onPress={() => onPress('https://discord.gg/ysZtjn6ED3')}>
+                  <Social name="discord" />
+                </SocialIconWrapper>
               </SocialWrapper>
               <Disclaimer>
                 ApolloTv does not store any files on its server. {'\n'} All

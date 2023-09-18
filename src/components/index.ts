@@ -27,8 +27,10 @@ import * as Reader from './Reader';
 import Alert from './Alert';
 import MangaListCard from './MangaListCard';
 import NotificationCard from './NotificationCard';
+import NewsCard from './NewsCard';
 
 export {
+  NewsCard,
   MangaCharacterCard,
   Paginate,
   NavigationBar,

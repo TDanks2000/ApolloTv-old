@@ -17,9 +17,9 @@ export const getSectionUrl = (type: SectionTypes) => {
   }
 };
 
-export const fetcher = async (url: string): Promise<any> => {
+export const fetcher = async <T>(url: string): Promise<T> => {
   const res = await fetch(url);
-  return res.json();
+  return res.json() as Promise<T>;
 };
 
 export const fetchAnilistLists = async (
@@ -53,11 +53,11 @@ export const fetchAnilistLists = async (
 };
 
 export const addToAnalytics = async (screen_width: number) => {
-  const res = await fetch(`${ANALYTICS_URL}`, {
+  // let uuid = getUUID() ? createUUID() : getUUID();
+
+  await fetch(`${ANALYTICS_URL}`, {
     headers: {
       'x-screen-width': screen_width.toString(),
     },
   });
-
-  console.log(await res.json());
 };

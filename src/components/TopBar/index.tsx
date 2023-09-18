@@ -69,8 +69,8 @@ const TopBarComponent = ({hasJustLoggedIn}: Props) => {
         )}
 
         <IconContainer>
-          <IconItemContainer onPress={() => navigation.navigate('Search')}>
-            <IconItem name="search" />
+          <IconItemContainer onPress={() => navigation.navigate('news', {})}>
+            <IconItem name="newspaper" />
           </IconItemContainer>
           <NotificationBell />
         </IconContainer>

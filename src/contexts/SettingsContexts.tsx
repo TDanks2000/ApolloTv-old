@@ -2,26 +2,39 @@ import React from 'react';
 import {EpisodeInfo, Quality, sourceProviders} from '../@types';
 import {settingsHelper} from '../utils';
 
+type OnOrOff = 'on' | 'off';
+
 export const SettingsContext = React.createContext<{
-  autoSkipIntro?: string;
-  autoSkipOutro?: string;
-  autoNextEpisode?: string;
-  preferedVoice?: string;
+  autoSkipIntro?: OnOrOff;
+  autoSkipOutro?: OnOrOff;
+  autoNextEpisode?: OnOrOff;
+  preferedVoice?: 'sub' | 'dub';
   preferedQuality?: Quality;
   sourceProvider?: sourceProviders;
+  privateMode?: OnOrOff;
   changeAutoSkip?: (setting: 'auto_skip_intro' | 'auto_skip_outro') => void;
   changePreferedVoice?: () => void;
   changePreferedQuality?: (quality: Quality) => void;
   changeSourceProvider?: (provider: sourceProviders) => void;
   changeAutoNextEpisode?: (setting: 'auto_next_episode') => void;
+  changePrivateMode?: () => void;
 }>({});
 
 export const useSettingsContext = React.useContext(SettingsContext);
 
 export const SettingsProvider = ({children}: any) => {
-  const autoSkipIntroSetting = settingsHelper.getSetting('auto_skip_intro');
-  const autoSkipOutroSetting = settingsHelper.getSetting('auto_skip_outro');
-  const autoNextEpisodeSetting = settingsHelper.getSetting('auto_next_episode');
+  const autoSkipIntroSetting = settingsHelper.getSetting<OnOrOff | undefined>(
+    'auto_skip_intro',
+  );
+  const autoSkipOutroSetting = settingsHelper.getSetting<OnOrOff | undefined>(
+    'auto_skip_outro',
+  );
+  const autoNextEpisodeSetting = settingsHelper.getSetting<OnOrOff | undefined>(
+    'auto_next_episode',
+  );
+  const privateModeSetting = settingsHelper.getSetting<OnOrOff | undefined>(
+    'private_mode',
+  );
 
   const preferedVoiceSettings: any =
     settingsHelper.getSetting('prefered_voice');
@@ -48,6 +61,9 @@ export const SettingsProvider = ({children}: any) => {
   );
   const [sourceProvider, setSourceprovider] = React.useState<sourceProviders>(
     sourceProviderSetting ?? 'gogoanime',
+  );
+  const [privateMode, setPrivateMode] = React.useState(
+    privateModeSetting ?? 'off',
   );
 
   const changeAutoSkip = (setting: 'auto_skip_intro' | 'auto_skip_outro') => {
@@ -83,6 +99,14 @@ export const SettingsProvider = ({children}: any) => {
     setSourceprovider(provider);
   };
 
+  const changePrivateMode = () => {
+    settingsHelper.setSetting(
+      'private_mode',
+      privateMode === 'off' ? 'on' : 'off',
+    );
+    setPrivateMode(prev => (prev === 'off' ? 'on' : 'off'));
+  };
+
   return (
     <SettingsContext.Provider
       value={{
@@ -92,11 +116,13 @@ export const SettingsProvider = ({children}: any) => {
         preferedVoice,
         preferedQuality,
         sourceProvider,
+        privateMode,
         changeAutoSkip,
         changePreferedVoice,
         changePreferedQuality,
         changeSourceProvider,
         changeAutoNextEpisode,
+        changePrivateMode,
       }}>
       {children}
     </SettingsContext.Provider>

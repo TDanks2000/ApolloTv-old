@@ -9,7 +9,7 @@ export const setSetting = (setting: settings, value: any): void => {
   storage.set(settingName, value);
 };
 
-export const getSetting = (setting: settings): string | undefined => {
+export const getSetting = <T>(setting: settings): T => {
   const settingName = `setting-${setting}`;
-  return storage.getString(settingName);
+  return storage.getString(settingName) as T;
 };

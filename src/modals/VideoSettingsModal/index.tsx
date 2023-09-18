@@ -16,6 +16,7 @@ import SettingsSection from './SettingSection';
 import SettingsSections from './SettingsSections';
 import {settingsHelper} from '../../utils';
 import {SettingsContext} from '../../contexts';
+import DeviceBrightness from '@adrianso/react-native-device-brightness';
 
 type Props = {
   shouldOpen: boolean;
@@ -43,6 +44,16 @@ const VideoSettingsModal = ({
   const [selectedSetting, setSelectedSetting] = React.useState<
     string | undefined
   >();
+  const [brightness, setBrightness] = React.useState<number>(0);
+
+  const getBrightness = async () => {
+    const value = await DeviceBrightness.getSystemBrightnessLevel();
+    setBrightness(value);
+  };
+
+  React.useEffect(() => {
+    getBrightness();
+  }, []);
 
   const findSelectedSetting = (): SettingsOptionsGroup => {
     const selectedSection = options.find(
@@ -127,6 +138,16 @@ const VideoSettingsModal = ({
         },
       ],
     },
+    // {
+    //   name: 'Brightness',
+    //   value: 'brightness',
+    //   optionType: 'slider',
+    //   iconName: 'moon',
+    //   selectedOption: brightness.toString(),
+    //   minValue: 0,
+    //   maxValue: 1,
+    //   hasSubOptions: false,
+    // },
     // {
     //   name: 'Subtitles',
     //   value: 'subtitles',

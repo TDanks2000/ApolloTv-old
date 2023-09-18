@@ -7,8 +7,7 @@ import {
   TotalTimeText,
   WatchTimeText,
 } from './Slider.styles';
-import dayjs from 'dayjs';
-import {GestureResponderEvent, TouchableOpacity} from 'react-native';
+import {TouchableOpacity} from 'react-native';
 
 interface Props {
   currentTime: number;
@@ -30,16 +29,23 @@ const ControlsSlider = ({
     showTimeLeft => !showTimeLeft,
     false,
   );
-  const durationTimeFormatted = dayjs(duration * 1000).format(
-    duration > 3600000 ? 'HH:mm:ss' : 'mm:ss',
-  );
-  const currentTimeFormatted = dayjs(currentTime * 1000).format(
-    currentTime > 3600000 ? 'HH:mm:ss' : 'mm:ss',
-  );
 
-  const timeLeftFormatted = dayjs(duration * 1000 - currentTime * 1000).format(
-    duration > 3600000 ? 'HH:mm:ss' : 'mm:ss',
-  );
+  const timeToString = (timeInSeconds: number): string => {
+    const h = Math.floor(timeInSeconds / 3600);
+    const m = Math.floor((timeInSeconds % 3600) / 60);
+    const s = Math.floor((timeInSeconds % 3600) % 60);
+
+    const hDisplay = h > 0 ? (h < 10 ? '0' : '') + h + ':' : '';
+    const mDisplay = (m < 10 ? '0' : '') + m + ':';
+    const sDisplay = (s < 10 ? '0' : '') + s;
+    return hDisplay + mDisplay + sDisplay;
+  };
+
+  const durationTimeFormatted = timeToString(duration);
+
+  const currentTimeFormatted = timeToString(currentTime);
+
+  const timeLeftFormatted = timeToString(duration - currentTime);
 
   const onSlidingStart = () => {
     setPaused(true);

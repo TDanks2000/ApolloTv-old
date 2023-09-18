@@ -2,7 +2,7 @@ import {BackButton} from './../../modals/EpisodesModal/EpisodesModal.styles';
 import {styled} from 'styled-components/native';
 import {Text} from '../../styles/sharedStyles';
 import {rgba} from 'polished';
-import Icon from 'react-native-vector-icons/FontAwesome5';
+import Icon from 'react-native-vector-icons/FontAwesome6';
 
 export const BottomInfo = styled.View`
   margin-top: 25px;

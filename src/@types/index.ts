@@ -66,50 +66,6 @@ export interface EpisodeCardProps {
   episodes: EpisodeInfo[];
 }
 
-export type RootStackParamList = {
-  Home: {
-    hasJustLoggedIn?: boolean;
-  };
-  Info: {
-    id: string;
-  };
-  MangaInfo: {
-    id: string;
-  };
-  Lists: undefined;
-  Search: undefined;
-  Settings: undefined;
-  LoggingIn: {
-    access_code?: string;
-  };
-  VideoPlayer: {
-    episode_id: string;
-    source_provider: sourceProviders;
-    next_episode_id?: string;
-    episode_info: EpisodeInfo;
-    anime_info: AnimeInfo;
-    watched_percentage?: number;
-    episodes: EpisodeInfo[];
-  };
-
-  ReaderScreen: {
-    chapter_number: number;
-    manga_id: string;
-    chapter_id: string;
-    manga_info: FullMangaInfo;
-    chapter_info: Chapter;
-  };
-
-  testingScreen: undefined;
-
-  // SETTINGS
-  VideoSettings: undefined;
-  SyncingSettings: undefined;
-  // END SETTINGS
-};
-
-export type StackNavigation = NavigationProp<RootStackParamList>;
-
 export type SectionTypes = 'trending' | 'popular' | 'top_rated';
 
 export interface EpisodeInfo {
@@ -351,7 +307,9 @@ export type SettingsSectionsType = {
   onPress?: () => void;
 
   hasSubOptions?: boolean;
-  optionType?: 'option' | 'subOption';
+  optionType?: 'option' | 'subOption' | 'slider';
+  minValue?: number;
+  maxValue?: number;
   options?: {
     value: string;
     label: string;
@@ -378,7 +336,8 @@ export type settings =
   | 'auto_next_episode'
   | 'prefered_voice'
   | 'prefered_quality'
-  | 'source_provider';
+  | 'source_provider'
+  | 'private_mode';
 
 export type DropdownData<LabelType, ValueType> = {
   label: LabelType;
@@ -405,4 +364,41 @@ export interface SQLUpdateNewEpisodeData {
   latestEpisode: EpisodeInfo;
 }
 
+export interface ANNRecentFeed {
+  title: string;
+  id: string;
+  uploadedAt: string;
+  topics: Topic[];
+  preview: Preview;
+  thumbnail: string;
+  url: string;
+}
+
+export interface Preview {
+  intro: string;
+  full: string;
+}
+
+export enum Topic {
+  Anime = 'anime',
+  Games = 'games',
+  Industry = 'industry',
+  LiveAction = 'live-action',
+  Manga = 'manga',
+  Music = 'music',
+  Novels = 'novels',
+  People = 'people',
+}
+
+export interface ANNInfo {
+  id: string;
+  title: string;
+  uploadedAt: string;
+  intro: string;
+  description: string;
+  thumbnail: string;
+  url: string;
+}
+
+export * from './Navigation';
 export * from './Manga';

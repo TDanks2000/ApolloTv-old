@@ -13,6 +13,7 @@ import {
 import {SettingsSectionsType, SourceVideoOptions} from '../../../@types';
 import {Option} from '../../../components';
 import {settingsHelper} from '../../../utils';
+import {Slider} from '@sharcoux/slider';
 
 type Props = {
   selectedQuality: SourceVideoOptions;
@@ -47,6 +48,19 @@ const SettingsSections = ({
           </React.Fragment>
         );
       }
+
+      // if (item.optionType === 'slider') {
+      //   console.log(item.selectedOption);
+      //   return (
+      //     <React.Fragment key={`settings-slider-${item.value}`}>
+      //       {item?.iconName ? <SectionIcon name={item.iconName} /> : null}
+      //       <SectionTitle>{item.name}</SectionTitle>
+      //       <SectionRight>
+      //         <Slider value={parseInt(item.selectedOption)} />
+      //       </SectionRight>
+      //     </React.Fragment>
+      //   );
+      // }
 
       return (
         <React.Fragment key={`settings-option-${item.value}`}>

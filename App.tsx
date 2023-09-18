@@ -1,3 +1,5 @@
+import 'react-native-gesture-handler';
+
 import React from 'react';
 import {LogBox} from 'react-native';
 import AppStack from './src/navigation/AppStack';

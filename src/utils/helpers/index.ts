@@ -79,3 +79,16 @@ export const launchedBefore = () => {
     return true;
   }
 };
+
+// export const createUUID = () => {
+//   const uuid = short.generate();
+//   if (!getUUID()) {
+//     storage.set('uuid', uuid);
+//   }
+//   return uuid;
+// };
+
+// export const getUUID = () => {
+//   const uuid = storage.getString('uuid');
+//   return uuid;
+// };

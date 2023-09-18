@@ -8,7 +8,7 @@ import {Seperator} from '../../../styles/settings.shared.styles';
 import {SettingsContext} from '../../../contexts';
 
 const SyncingSettingScreen = () => {
-  const {} = React.useContext(SettingsContext);
+  const {privateMode, changePrivateMode} = React.useContext(SettingsContext);
 
   return (
     <SafeAreaView>
@@ -22,8 +22,10 @@ const SyncingSettingScreen = () => {
           <Settings.Setting
             title="Private mode"
             descriptor="Keep your watch history between you and yourself only"
-            selectedOption={'off'}
-            onPress={() => {}}
+            selectedOption={privateMode === 'on' ? 'On' : 'Off'}
+            onPress={() => {
+              if (changePrivateMode) changePrivateMode();
+            }}
           />
         </ScrollView>
       </SharedContainer>
