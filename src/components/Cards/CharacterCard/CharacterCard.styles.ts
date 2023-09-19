@@ -1,7 +1,7 @@
 import {styled} from 'styled-components/native';
-import {Text} from '../../styles/sharedStyles';
+import {Text} from '../../../styles/sharedStyles';
 import LinearGradient from 'react-native-linear-gradient';
-import {MediaTypes} from '../../@types';
+import {MediaTypes} from '../../../@types';
 
 export const Container = styled.TouchableOpacity`
   width: 130px;

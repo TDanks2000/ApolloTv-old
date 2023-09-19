@@ -9,7 +9,7 @@ import {
   Title,
   Description,
 } from './NewsCard.styles';
-import {Preview, StackNavigation} from '../../@types';
+import {Preview, StackNavigation} from '../../../@types';
 import {useNavigation} from '@react-navigation/native';
 
 type Props = {

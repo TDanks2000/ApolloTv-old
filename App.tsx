@@ -42,7 +42,7 @@ const InnerApp = () => {
       <QueryClientProvider client={queryClient}>
         <NavigationProvixer>
           <SettingsProvider>
-            <AppStack setHiddenStatusBar={false} />
+            <AppStack />
           </SettingsProvider>
         </NavigationProvixer>
       </QueryClientProvider>

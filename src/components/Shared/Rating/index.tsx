@@ -8,6 +8,7 @@ interface Props {
 
 const RatingComponent = ({rating}: Props) => {
   return (
+    // @ts-ignore
     <RatingContainer>
       <RatingText>{rating ? (rating / 10).toFixed(1) : '??'}</RatingText>
       <RatingIcon name="star" />

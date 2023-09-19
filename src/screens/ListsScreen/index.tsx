@@ -10,7 +10,7 @@ import {
   Title,
   Wrapper,
 } from './ListScreen.styles';
-import ListCard from '../../components/ListCard';
+import {ListCard} from '../../components/Cards';
 import {ListContainer} from '../../containers';
 import {useQuery} from '@tanstack/react-query';
 import {useAccessToken} from '../../contexts';

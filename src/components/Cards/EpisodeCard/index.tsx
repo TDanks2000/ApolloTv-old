@@ -19,10 +19,10 @@ import {
   EpisodeInfo,
   RootStackParamList,
   StackNavigation,
-} from '../../@types';
+} from '../../../@types';
 import {NavigationProp, useNavigation} from '@react-navigation/native';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import {CircleProgress} from '../Shared';
+import {CircleProgress} from '../../Shared';
 
 const EpisodeCard = (props: EpisodeCardProps) => {
   let {

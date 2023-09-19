@@ -1,7 +1,7 @@
 import {View, Text} from 'react-native';
 import React from 'react';
-import {CardProps, StackNavigation} from '../../@types';
-import {utils} from '../../utils';
+import {CardProps, StackNavigation} from '../../../@types';
+import {utils} from '../../../utils';
 import {
   Container,
   ImageBackground,
@@ -11,7 +11,7 @@ import {
   Wrapper,
 } from './RectangleCard.styles';
 import {useNavigation} from '@react-navigation/native';
-import {RatingComponent} from '../Shared';
+import {RatingComponent} from '../../Shared';
 
 const RectangleCard = ({
   title,

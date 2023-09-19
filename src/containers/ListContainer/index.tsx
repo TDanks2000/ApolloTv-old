@@ -1,6 +1,6 @@
 import {View, FlatList} from 'react-native';
 import React from 'react';
-import ListCard from '../../components/ListCard';
+import {ListCard} from '../../components/Cards';
 import {utils} from '../../utils';
 import {useBreakpoints} from '../../hooks';
 

@@ -2,22 +2,43 @@ import {API_BASE, ANALYTICS_URL} from '@env';
 import {SectionTypes} from '../@types';
 import {Anilist} from '@tdanks2000/anilist-wrapper';
 
-export const getSectionUrl = (type: SectionTypes) => {
+export const getSectionUrl = (
+  type: SectionTypes,
+  mediaType: 'ANIME' | 'MANGA' = 'ANIME',
+) => {
   const apiUrl = `${API_BASE}/anilist`;
+  const apiUrlManga = `${API_BASE}/anilist-manga`;
 
-  switch (type) {
-    case 'trending':
-      return apiUrl + '/trending';
-    case 'popular':
-      return apiUrl + '/popular';
-    case 'top_rated':
-      return apiUrl + '/top-rated';
-    default:
-      return API_BASE + '/trending';
+  if (mediaType === 'ANIME') {
+    switch (type) {
+      case 'trending':
+        return apiUrl + '/trending';
+      case 'popular':
+        return apiUrl + '/popular';
+      case 'top_rated':
+        return apiUrl + '/top-rated';
+      default:
+        return API_BASE + '/trending';
+    }
   }
+
+  if (mediaType === 'MANGA') {
+    switch (type) {
+      case 'trending':
+        return apiUrlManga + '/trending';
+      case 'popular':
+        return apiUrlManga + '/popular';
+      case 'top_rated':
+        return apiUrlManga + '/top-rated';
+      default:
+        return apiUrlManga + '/trending';
+    }
+  }
+
+  return apiUrl + '/trending';
 };
 
-export const fetcher = async <T>(url: string): Promise<T> => {
+export const fetcher = async <T = any>(url: string): Promise<T> => {
   const res = await fetch(url);
   return res.json() as Promise<T>;
 };

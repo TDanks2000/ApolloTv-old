@@ -1,7 +1,6 @@
 import {View, FlatList} from 'react-native';
 import React from 'react';
-import ListCard from '../../ListCard';
-import MangaListCard from '../../MangaListCard';
+import {MangaListCard, ListCard} from '../../Cards';
 
 const SearchResults = ({data, type}: any) => {
   const renderItem = (item: any) => {

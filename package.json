@@ -12,7 +12,8 @@
     "release": "cd android && ./gradlew assemble && cd .. && node ./helpers/updateRelease.js && node ./helpers/moveBuild.js",
     "build": "cd android && ./gradlew bundleRelease",
     "buildApk": "cd android && ./gradlew assemble",
-    "buildDevApk": "cd android && ./gradlew assembleDebug"
+    "buildDevApk": "cd android && ./gradlew assembleDebug",
+    "check-types": "tsc --noEmit"
   },
   "dependencies": {
     "@adrianso/react-native-device-brightness": "^1.2.7",
@@ -50,7 +51,7 @@
     "react-native-webview": "^13.2.2",
     "rn-update-apk": "^5.0.0",
     "sanitize-html": "^2.11.0",
-    "styled-components": "^6.0.3"
+    "styled-components": "6.0.7"
   },
   "devDependencies": {
     "@babel/core": "^7.22.9",

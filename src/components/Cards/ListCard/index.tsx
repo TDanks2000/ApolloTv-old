@@ -1,7 +1,7 @@
 import {View, Text} from 'react-native';
 import React from 'react';
-import {CardProps, StackNavigation} from '../../@types';
-import {utils} from '../../utils';
+import {CardProps, StackNavigation} from '../../../@types';
+import {utils} from '../../../utils';
 import {
   Container,
   ExtraText,
@@ -12,7 +12,7 @@ import {
   Wrapper,
 } from './ListCard.styles';
 import {useNavigation} from '@react-navigation/native';
-import {useBreakpoints} from '../../hooks';
+import {useBreakpoints} from '../../../hooks';
 
 const ListCard = ({
   id,
@@ -35,6 +35,7 @@ const ListCard = ({
   };
 
   return (
+    // @ts-ignore
     <Container onPress={onPress} isMobile={isMobile}>
       <Wrapper>
         <Left>

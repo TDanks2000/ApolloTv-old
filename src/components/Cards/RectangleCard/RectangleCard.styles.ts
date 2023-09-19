@@ -1,7 +1,7 @@
 import Icon from 'react-native-vector-icons/FontAwesome';
 import LinearGradient from 'react-native-linear-gradient';
 import {styled} from 'styled-components/native';
-import { Text } from '../../styles/sharedStyles';
+import {Text} from '../../../styles/sharedStyles';
 
 export const Container = styled.TouchableOpacity`
   width: 130px;
@@ -54,4 +54,4 @@ export const SubTitle = styled(Text).attrs({
   color: ${({theme}) => theme.text.offWhite};
   text-align: center;
   text-transform: capitalize;
-`
+`;

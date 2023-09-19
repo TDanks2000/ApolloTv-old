@@ -1,7 +1,7 @@
 import {View, Text, useWindowDimensions} from 'react-native';
 import React from 'react';
-import {CardProps} from '../../@types';
-import {utils} from '../../utils';
+import {CardProps} from '../../../@types';
+import {utils} from '../../../utils';
 import {
   BottomBanner,
   BottomBannerSubText,
@@ -15,10 +15,10 @@ import {
   Wrapper,
 } from './ContinueWatchingCard.styles';
 import {useNavigation} from '@react-navigation/native';
-import {useBreakpoints} from '../../hooks';
+import {useBreakpoints} from '../../../hooks';
 
-const anilistLogo = require('../../assets/images/anilist-logo.png');
-const apolloLogo = require('../../assets/images/ApolloTv(no-bg).png');
+const anilistLogo = require('../../../assets/images/anilist-logo.png');
+const apolloLogo = require('../../../assets/images/ApolloTv(no-bg).png');
 
 const ContinueWatchingCard = (
   props: CardProps & {

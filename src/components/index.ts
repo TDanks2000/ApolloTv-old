@@ -1,7 +1,6 @@
 import BannerComponent from './Banner';
-import ContinueWatchingCard from './ContinueWatchingCard';
 import NavigationBar from './NavigationBar';
-import RectangleCard from './RectangleCard';
+import RectangleCard from './Cards/RectangleCard';
 import TopBarComponent from './TopBar';
 import {
   RatingComponent,
@@ -14,8 +13,6 @@ import {
   Dropdown,
 } from './Shared';
 import Paginate from './Paginate';
-import CharacterCard from './CharacterCard';
-import MangaCharacterCard from './CharacterCard/MangaCard';
 
 import * as Info from './Info';
 import * as MangaInfo from './MangaInfo';
@@ -25,9 +22,14 @@ import * as Lists from './Lists';
 import * as Settings from './Settings';
 import * as Reader from './Reader';
 import Alert from './Alert';
-import MangaListCard from './MangaListCard';
-import NotificationCard from './NotificationCard';
-import NewsCard from './NewsCard';
+import {
+  ContinueWatchingCard,
+  MangaCharacterCard,
+  CharacterCard,
+  MangaListCard,
+  NotificationCard,
+  NewsCard,
+} from './Cards';
 
 export {
   NewsCard,

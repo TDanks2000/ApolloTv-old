@@ -15,15 +15,20 @@ import {SectionTypes} from '../../../@types';
 interface Props {
   sectionTitle: string;
   sectionType: SectionTypes;
+
+  type?: 'ANIME' | 'MANGA';
 }
 
-const GenericSection = ({sectionTitle, sectionType}: Props) => {
+const GenericSection = ({sectionTitle, sectionType, type = 'ANIME'}: Props) => {
   const fetcher = async () => {
-    return await api.fetcher(api.getSectionUrl(sectionType));
+    const res = (await api.fetcher(
+      api.getSectionUrl(sectionType, type),
+    )) as any;
+    return res;
   };
 
   const {isPending, isError, data, error} = useQuery({
-    queryKey: ['section', sectionType],
+    queryKey: ['section', sectionType, type],
     queryFn: fetcher,
   });
 
@@ -35,6 +40,7 @@ const GenericSection = ({sectionTitle, sectionType}: Props) => {
         poster_image={item.image}
         id={item.id}
         rating={item.rating}
+        type={type}
       />
     );
   };
@@ -44,7 +50,9 @@ const GenericSection = ({sectionTitle, sectionType}: Props) => {
   return (
     <SectionContainer>
       <SectionTitleContainer>
-        <SectionTitle>{sectionTitle}</SectionTitle>
+        <SectionTitle>
+          {sectionTitle} {type}
+        </SectionTitle>
       </SectionTitleContainer>
       <SectionWrapper>
         <FlatList

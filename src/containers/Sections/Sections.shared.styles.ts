@@ -22,6 +22,7 @@ export const SectionTitle = styled.Text`
   font-size: 18px;
   color: white;
   font-family: ${({theme}) => theme.text.fonts.NunitoSans};
+  text-transform: capitalize;
 `;
 
 export const SectionTitleIcon = styled(Icon)`

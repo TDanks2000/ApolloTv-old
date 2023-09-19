@@ -9,9 +9,9 @@ import {
   PercentWatchedContainer,
   Wrapper,
 } from './ChapterCard';
-import {Chapter, FullMangaInfo, StackNavigation} from '../../@types';
+import {Chapter, FullMangaInfo, StackNavigation} from '../../../@types';
 import {useNavigation} from '@react-navigation/native';
-import {Text} from '../../styles/sharedStyles';
+import {Text} from '../../../styles/sharedStyles';
 
 type Props = {
   manga_info: FullMangaInfo;

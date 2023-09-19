@@ -54,7 +54,29 @@ const HomeScreen = ({route}: Props) => {
           <GenericSection sectionTitle="Top Rated" sectionType={'top_rated'} />
         </GenericContainer>
         <GenericContainer>
+          <GenericSection
+            sectionTitle="Top Rated"
+            sectionType={'top_rated'}
+            type="MANGA"
+          />
+        </GenericContainer>
+        <GenericContainer>
           <GenericSection sectionTitle="Trending" sectionType={'trending'} />
+        </GenericContainer>
+        <GenericContainer>
+          <GenericSection
+            sectionTitle="Trending"
+            sectionType={'trending'}
+            type="MANGA"
+          />
+        </GenericContainer>
+
+        <GenericContainer>
+          <GenericSection
+            sectionTitle="Popular"
+            sectionType={'popular'}
+            type="MANGA"
+          />
         </GenericContainer>
         {/* <GenericContainer> */}
         {/* <AiringScheduleContainer /> */}

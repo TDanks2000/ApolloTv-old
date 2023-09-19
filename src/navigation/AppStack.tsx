@@ -41,7 +41,7 @@ const linking = {
   config,
 };
 
-const AppStack = ({setHiddenStatusBar}: {setHiddenStatusBar: boolean}) => {
+const AppStack = () => {
   const navigationRef: any = useNavigationContainerRef();
   const [routeNameRef, setRouteNameRef] = useState<any>();
 

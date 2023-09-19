@@ -10,7 +10,7 @@ import {
   TopContainer,
 } from './EpisodesModal.styles';
 
-import EpisodeCard from '../../components/EpisodeCard';
+import {EpisodeCard} from '../../components/Cards';
 import {
   AnimeInfo,
   Chapter,

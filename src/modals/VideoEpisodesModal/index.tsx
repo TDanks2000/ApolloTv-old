@@ -8,7 +8,7 @@ import {
   TopTitle,
   Wrapper,
 } from './VideoEpisodesModal.styles';
-import EpisodeCard from '../../components/EpisodeCard';
+import {EpisodeCard} from '../../components/Cards';
 import VideoEpisodeCard from './VideoEpisodeCard';
 import {FlatList} from 'react-native';
 import {Paginate} from '../../components';
