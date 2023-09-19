@@ -24,7 +24,7 @@ import {RootStackParamList} from '../@types';
 import {utils} from '../utils';
 import {SyncingSettingScreen} from '../screens/SettingScreens';
 import Orientation from 'react-native-orientation-locker';
-import {StatusBar} from 'react-native';
+import {StatusBar, Platform} from 'react-native';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -52,8 +52,10 @@ const AppStack = ({setHiddenStatusBar}: {setHiddenStatusBar: boolean}) => {
       return utils.ToggleSystemNavigation(false);
     }
 
-    // lock to portrait
-    Orientation.lockToPortrait();
+    if (!Platform.isTV) {
+      // lock to portrait
+      Orientation.lockToPortrait();
+    }
     StatusBar.setHidden(false, 'slide');
     utils.ToggleSystemNavigation(true);
   }, [routeNameRef]);

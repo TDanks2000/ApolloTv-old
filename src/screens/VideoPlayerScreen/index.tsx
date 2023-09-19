@@ -1,4 +1,4 @@
-import {View, Text, StatusBar} from 'react-native';
+import {View, Text, StatusBar, Platform} from 'react-native';
 import React from 'react';
 import {MiddleOfScreenLoadingComponent, Player} from '../../components';
 import Video, {OnLoadData, OnProgressData} from 'react-native-video';
@@ -113,8 +113,10 @@ const VideoPlayerScreen: React.FC<Props> = ({route}): JSX.Element => {
     StatusBar.setHidden(true);
 
     return () => {
-      // lock to portrait
-      Orientation.lockToPortrait();
+      if (!Platform.isTV) {
+        // lock to portrait
+        Orientation.lockToPortrait();
+      }
       StatusBar.setHidden(false, 'slide');
     };
   }, [episode_id]);
