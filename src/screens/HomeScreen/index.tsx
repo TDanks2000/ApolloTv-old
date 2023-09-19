@@ -63,13 +63,6 @@ const HomeScreen = ({route}: Props) => {
         <GenericContainer>
           <GenericSection sectionTitle="Trending" sectionType={'trending'} />
         </GenericContainer>
-        <GenericContainer>
-          <GenericSection
-            sectionTitle="Trending"
-            sectionType={'trending'}
-            type="MANGA"
-          />
-        </GenericContainer>
 
         <GenericContainer>
           <GenericSection

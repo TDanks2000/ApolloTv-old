@@ -38,6 +38,7 @@ const VideoPlayerScreen: React.FC<Props> = ({route}): JSX.Element => {
     changeAutoSkip,
     autoNextEpisode,
     changeAutoNextEpisode,
+    privateMode,
   } = React.useContext(SettingsContext);
 
   const watchTimeBeforeSync = 80;
@@ -226,6 +227,7 @@ const VideoPlayerScreen: React.FC<Props> = ({route}): JSX.Element => {
 
   // Update anilist progress
   const updateAnilist = async () => {
+    if (privateMode) return false;
     if (!accessToken || watchedAnilist) return false;
     const didUpdate = await anilist.user.updateShow({
       mediaId: parseInt(anime_info.id),
@@ -242,7 +244,7 @@ const VideoPlayerScreen: React.FC<Props> = ({route}): JSX.Element => {
       const watched = (data?.currentTime / duration) * 100;
       if (watched > watchTimeBeforeSync) {
         // update anilist progress
-        updateAnilist();
+        if (!privateMode) updateAnilist();
 
         // update the progress in the sql db
         updateDB();

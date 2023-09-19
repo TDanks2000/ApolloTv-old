@@ -18,7 +18,7 @@ export const getSectionUrl = (
       case 'top_rated':
         return apiUrl + '/top-rated';
       default:
-        return API_BASE + '/trending';
+        return apiUrl + '/trending';
     }
   }
 
