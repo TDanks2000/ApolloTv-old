@@ -122,7 +122,7 @@ const VideoPlayerScreen: React.FC<Props> = ({route}): JSX.Element => {
     };
   }, [episode_id]);
 
-  const videoRef: any = React.useRef(null);
+  const videoRef = React.useRef<Video>(null);
 
   const [paused, setPaused] = React.useState(false);
   const [duration, setDuration] = React.useState(0);
@@ -159,6 +159,7 @@ const VideoPlayerScreen: React.FC<Props> = ({route}): JSX.Element => {
 
     const openingEndTime = skipData.opening.interval.endTime;
 
+    if (!videoRef.current) return;
     if (isCurrentPosAtOpening && wantToUpdate && !hasSkipedIntro) {
       toggleHasSkippedIntro();
       videoRef.current.seek(openingEndTime);
@@ -174,6 +175,7 @@ const VideoPlayerScreen: React.FC<Props> = ({route}): JSX.Element => {
 
     const endingEndTime = skipData.ending.interval.endTime;
 
+    if (!videoRef.current) return;
     if (isCurrentPosAtEnding && wantToUpdate && !hasSkipedEnding) {
       toggleHasSkippedEnding();
       videoRef.current.seek(endingEndTime);
