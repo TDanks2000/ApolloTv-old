@@ -36,7 +36,7 @@ The app is still in alpha, so it may not work as expected. If you find any bugs,
 - [X] Manga support
 
 Future features
-- [ ] Download Episodes (coming soon)
+- [ ] Download
 
 Further down the line features
 - [ ] Movies
