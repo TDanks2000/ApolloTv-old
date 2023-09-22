@@ -92,3 +92,64 @@ export const launchedBefore = () => {
 //   const uuid = storage.getString('uuid');
 //   return uuid;
 // };
+
+interface AnimeInfo {
+  id: string;
+  malId: number;
+  episode: number;
+  airingAt: number;
+  title: {
+    romaji: string;
+    english: string | null;
+    native: string;
+    userPreferred: string;
+  };
+  country: string;
+  image: string;
+  description: string | null;
+  cover: string;
+  genres: string[];
+  color: string;
+  rating: number | null;
+  releaseDate: number | null;
+  type: string;
+}
+
+interface AnimeByDay {
+  [day: string]: AnimeInfo[];
+}
+
+interface AnimeByMonth {
+  [month: string]: AnimeByDay;
+}
+
+interface AnimeByYear {
+  [year: string]: AnimeByMonth;
+}
+
+export const structureAiringSchedule = (results: any[]): AnimeByYear => {
+  const structuredObject: AnimeByYear = {};
+
+  results.forEach(anime => {
+    const airingDate = new Date(anime.airingAt * 1000);
+    const year = airingDate.getFullYear().toString();
+    const month = (airingDate.getMonth() + 1).toString().padStart(2, '0');
+    const day = airingDate.getDate().toString().padStart(2, '0');
+
+    if (!structuredObject[year]) {
+      structuredObject[year] = {};
+    }
+
+    if (!structuredObject[year][month]) {
+      structuredObject[year][month] = {};
+    }
+
+    if (!structuredObject[year][month][day]) {
+      structuredObject[year][month][day] = [];
+    }
+
+    structuredObject[year][month][day].push(anime);
+  });
+
+  return structuredObject;
+};

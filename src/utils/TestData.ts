@@ -9532,3 +9532,488 @@ export const MangaInfoData = {
     },
   ],
 };
+
+export const AiringSchedule = {
+  currentPage: 1,
+  hasNextPage: true,
+  results: [
+    {
+      id: '163542',
+      malId: 54947,
+      episode: 11,
+      airingAt: 1695303000,
+      title: {
+        romaji: 'Spy Kyoushitsu 2nd season',
+        english: 'Spy Classroom Season 2',
+        native: 'スパイ教室 2nd season',
+        userPreferred: 'Spy Kyoushitsu 2nd season',
+      },
+      country: 'JP',
+      image:
+        'https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx163542-p2TquRJYjPty.jpg',
+      description: 'The second season of <i>Spy Kyoushitsu</i>.',
+      cover:
+        'https://s4.anilist.co/file/anilistcdn/media/anime/banner/163542-nV57cYAKtURn.jpg',
+      genres: ['Action', 'Comedy', 'Drama', 'Mystery'],
+      color: null,
+      rating: 67,
+      releaseDate: 2023,
+      type: 'TV',
+    },
+    {
+      id: '155168',
+      malId: 53200,
+      episode: 11,
+      airingAt: 1695306600,
+      title: {
+        romaji: 'Hataraku Maou-sama!! 2nd Season',
+        english: 'The Devil is a Part-Timer! Season 2 Part 2',
+        native: 'はたらく魔王さま！！2nd Season',
+        userPreferred: 'Hataraku Maou-sama!! 2nd Season',
+      },
+      country: 'JP',
+      image:
+        'https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx155168-x7TUG4F0HnQy.jpg',
+      description:
+        "Sequel to <i>Hataraku Maou-sama!!</i>.<br><br>\nLucifer and company face new challenges, form new alliances and...now there's a baby! Your favorite otherwordly crew returns in this continuation.<br><br>\n(Source: Crunchyroll)",
+      cover:
+        'https://s4.anilist.co/file/anilistcdn/media/anime/banner/155168-S9lR447kRCwF.jpg',
+      genres: ['Comedy', 'Fantasy', 'Romance', 'Slice of Life'],
+      color: '#28aee4',
+      rating: 65,
+      releaseDate: 2023,
+      type: 'TV',
+    },
+    {
+      id: '145064',
+      malId: 51009,
+      episode: 9,
+      airingAt: 1695308160,
+      title: {
+        romaji: 'Jujutsu Kaisen 2nd Season',
+        english: 'JUJUTSU KAISEN Season 2',
+        native: '呪術廻戦 第2期',
+        userPreferred: 'Jujutsu Kaisen 2nd Season',
+      },
+      country: 'JP',
+      image:
+        'https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx145064-5fa4ZBbW4dqA.jpg',
+      description:
+        'The second season of <i>Jujutsu Kaisen</i>.<br>\n<br>\nThe past comes to light when second-year students Satoru Gojou and Suguru Getou are tasked with escorting young Riko Amanai to Master Tengen. But when a non-sorcerer user tries to kill them, their mission to protect the Star Plasma Vessel threatens to turn them into bitter enemies and cement their destinies—one as the world’s strongest sorcerer, and the other its most twisted curse user!<br>\n<br>\n(Source: Crunchyroll)',
+      cover:
+        'https://s4.anilist.co/file/anilistcdn/media/anime/banner/145064-S7qAgxf6kMrW.jpg',
+      genres: ['Action', 'Drama', 'Supernatural'],
+      color: '#5d86e4',
+      rating: 86,
+      releaseDate: 2023,
+      type: 'TV',
+    },
+    {
+      id: '156040',
+      malId: 53438,
+      episode: 12,
+      airingAt: 1695308400,
+      title: {
+        romaji:
+          'Higeki no Genkyou to Naru Saikyou Gedou Last Boss Joou wa Tami no Tame ni Tsukushimasu.',
+        english:
+          'The Most Heretical Last Boss Queen: From Villainess to Savior',
+        native: '悲劇の元凶となる最強外道ラスボス女王は民の為に尽くします。',
+        userPreferred:
+          'Higeki no Genkyou to Naru Saikyou Gedou Last Boss Joou wa Tami no Tame ni Tsukushimasu.',
+      },
+      country: 'JP',
+      image:
+        'https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx156040-qWlfbAk6GJJR.png',
+      description:
+        'It’s one thing to get reincarnated as a righteous hero. It’s another thing entirely to get reincarnated as a villain! Our protagonist was just reincarnated into the body of Princess Pride Royal Ivy, the last boss and ultimate villain of her favorite otome game. But evil just isn’t her style, so she’ll use Pride’s powerful abilities to sow peace and love instead of discord! Can she change the fate of this vile villainess, or is her role in the story already rotten to the core?<br>\n<br>\n(Source: HIDIVE)',
+      cover:
+        'https://s4.anilist.co/file/anilistcdn/media/anime/banner/156040-5ZETAYIXKOU2.jpg',
+      genres: ['Comedy', 'Fantasy', 'Romance'],
+      color: '#e4865d',
+      rating: 68,
+      releaseDate: 2023,
+      type: 'TV',
+    },
+    {
+      id: '142877',
+      malId: 50613,
+      episode: 12,
+      airingAt: 1695311700,
+      title: {
+        romaji: 'Rurouni Kenshin: Meiji Kenkaku Romantan (2023)',
+        english: 'Rurouni Kenshin (2023)',
+        native: 'るろうに剣心 －明治剣客浪漫譚－(2023)',
+        userPreferred: 'Rurouni Kenshin: Meiji Kenkaku Romantan (2023)',
+      },
+      country: 'JP',
+      image:
+        'https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx142877-wNH2KPu6LYF4.jpg',
+      description:
+        'Re-adaptation of the main manga series.\n<br><br>\nOne hundred and forty years ago in Kyoto, with the coming of the American "Black Ships," there arose a warrior who, felling men with his bloodstained blade, gained the name Hitokiri, manslayer! His killer blade helped close the turbulent Bakumatsu era and slashed open the progressive age known as Meiji. Then he vanished, and with the flow of years, became legend.\n<br><br>\n(Source: Viz Media)',
+      cover:
+        'https://s4.anilist.co/file/anilistcdn/media/anime/banner/142877-iMtNuzJHmkd2.jpg',
+      genres: ['Action', 'Adventure', 'Drama', 'Romance'],
+      color: '#e4935d',
+      rating: 74,
+      releaseDate: 2023,
+      type: 'TV',
+    },
+    {
+      id: '155418',
+      malId: 53263,
+      episode: 12,
+      airingAt: 1695315600,
+      title: {
+        romaji:
+          'Seija Musou: Salaryman, Isekai de Ikinokoru Tame ni Ayumu Michi',
+        english: 'The Great Cleric',
+        native: '聖者無双 ～サラリーマン、異世界で生き残るために歩む道～',
+        userPreferred:
+          'Seija Musou: Salaryman, Isekai de Ikinokoru Tame ni Ayumu Michi',
+      },
+      country: 'JP',
+      image:
+        'https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx155418-wLWulAHYVrE5.jpg',
+      description:
+        "Can a former salaryman become peerless in another world?!<br>\n<br>\nA salaryman was shot to death just before earning a promotion, and a god decided to reincarnate him in another world as a fifteen-year-old healer named Luciel. On top of all that, the country he was born into seems to hate healers. Feeling that he's in danger, Luciel visits the adventurers' guild in hopes of keeping himself safe. But the training is much harder than he expected, and every day he's forced to drink a mysterious beverage called \"Substance X.\" Wait, this life doesn't seem to have anything to do with being a healer...<br>\n<br>\nThe day-to-day life of a super-masochistic, back-from-the-dead healer begins, with his very survival on the line!<br>\n<br>\n(Source: Crunchyroll)<br>\n<br>\n<i>Note: Each episode streams one week early in Japan on ABEMA</I>.",
+      cover:
+        'https://s4.anilist.co/file/anilistcdn/media/anime/banner/155418-vLNaZP4ZecdW.jpg',
+      genres: ['Adventure', 'Comedy', 'Fantasy'],
+      color: '#e48650',
+      rating: 63,
+      releaseDate: 2023,
+      type: 'TV',
+    },
+    {
+      id: '8336',
+      malId: 8336,
+      episode: 518,
+      airingAt: 1695334200,
+      title: {
+        romaji: 'Hanakappa',
+        english: null,
+        native: 'はなかっぱ',
+        userPreferred: 'Hanakappa',
+      },
+      country: 'JP',
+      image:
+        'https://s4.anilist.co/file/anilistcdn/media/anime/cover/medium/b8336-BJzIHFC49RWb.jpg',
+      description: 'Story about Kappa with flowers on their heads.',
+      cover:
+        'https://s4.anilist.co/file/anilistcdn/media/anime/cover/medium/b8336-BJzIHFC49RWb.jpg',
+      genres: ['Comedy'],
+      color: '#f1ae43',
+      rating: null,
+      releaseDate: 2010,
+      type: 'TV_SHORT',
+    },
+    {
+      id: '140842',
+      malId: 50250,
+      episode: 102,
+      airingAt: 1695336000,
+      title: {
+        romaji: 'Chiikawa',
+        english: 'Chiikawa',
+        native: 'ちいかわ',
+        userPreferred: 'Chiikawa',
+      },
+      country: 'JP',
+      image:
+        'https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx140842-T0geOCa3zS0A.jpg',
+      description:
+        'The sometimes happy, sometimes sad, and a tad stressful daily life of "some sort of small, cute creature" known as Chiikawa. Chiikawa enjoys delicious food with bees and rabbits, toils hard every day for the rewards of work, and still maintains a smile.<br>\n<br>\n(Source: Anime News Network)\n',
+      cover:
+        'https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx140842-T0geOCa3zS0A.jpg',
+      genres: ['Comedy'],
+      color: '#e4d6ae',
+      rating: 58,
+      releaseDate: 2022,
+      type: 'TV_SHORT',
+    },
+    {
+      id: '142730',
+      malId: null,
+      episode: 183,
+      airingAt: 1695344400,
+      title: {
+        romaji: 'Shen Wu Tianzun 2',
+        english: 'The Legend of Sky Lord 2',
+        native: '神武天尊 第二季',
+        userPreferred: 'Shen Wu Tianzun 2',
+      },
+      country: 'CN',
+      image:
+        'https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx142730-X3iXoiM0wE0c.png',
+      description: 'The second season of <i>Shen Wu Tianzun</i>.',
+      cover:
+        'https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx142730-X3iXoiM0wE0c.png',
+      genres: ['Action', 'Adventure', 'Fantasy'],
+      color: '#28a1e4',
+      rating: null,
+      releaseDate: null,
+      type: 'ONA',
+    },
+    {
+      id: '130974',
+      malId: null,
+      episode: 199,
+      airingAt: 1695344400,
+      title: {
+        romaji: 'Xiuluo Jian Zun',
+        english: null,
+        native: '修罗剑尊',
+        userPreferred: 'Xiuluo Jian Zun',
+      },
+      country: 'CN',
+      image:
+        'https://s4.anilist.co/file/anilistcdn/media/anime/cover/medium/b130974-EgtPkMqfA9HX.jpg',
+      description: null,
+      cover:
+        'https://s4.anilist.co/file/anilistcdn/media/anime/cover/medium/b130974-EgtPkMqfA9HX.jpg',
+      genres: ['Fantasy'],
+      color: '#5daee4',
+      rating: null,
+      releaseDate: null,
+      type: 'ONA',
+    },
+    {
+      id: '1960',
+      malId: 1960,
+      episode: 1632,
+      airingAt: 1695347700,
+      title: {
+        romaji: 'Sore Ike! Anpanman',
+        english: null,
+        native: 'それいけ!アンパンマン',
+        userPreferred: 'Sore Ike! Anpanman',
+      },
+      country: 'JP',
+      image:
+        'https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx1960-ueSmUxBXWuFK.jpg',
+      description:
+        'One night, a Star of Life falls down the chimney of a bakery nestled deep in the forest, causing the dough in the oven to come to life. The dough becomes Anpanman, a superhero made of anpan (a sweet roll with bean jam filling). Together with his friends, Anpanman fights his rival Baikinman and helps the malnourished.\n<br><br>\n(Source: Anime News Network)',
+      cover:
+        'https://s4.anilist.co/file/anilistcdn/media/anime/banner/1960-9Vx6QVIU8z4Z.jpg',
+      genres: ['Comedy', 'Fantasy'],
+      color: '#e4935d',
+      rating: 59,
+      releaseDate: 1988,
+      type: 'TV',
+    },
+    {
+      id: '155222',
+      malId: null,
+      episode: 51,
+      airingAt: 1695348000,
+      title: {
+        romaji: 'Wanmei Shijie 3',
+        english: null,
+        native: '完美世界 第3季',
+        userPreferred: 'Wanmei Shijie 3',
+      },
+      country: 'CN',
+      image:
+        'https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx155222-IftjtpeZn1Xu.png',
+      description: 'The third season of <i>Wanmei Shijie</i>.',
+      cover:
+        'https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx155222-IftjtpeZn1Xu.png',
+      genres: ['Action', 'Adventure', 'Fantasy'],
+      color: '#e43550',
+      rating: 67,
+      releaseDate: null,
+      type: 'ONA',
+    },
+    {
+      id: '150950',
+      malId: 52949,
+      episode: 48,
+      airingAt: 1695348000,
+      title: {
+        romaji: 'Bai Lian Cheng Shen',
+        english: null,
+        native: '百炼成神',
+        userPreferred: 'Bai Lian Cheng Shen',
+      },
+      country: 'CN',
+      image:
+        'https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx150950-h1BekOOJ0YK0.png',
+      description:
+        'Zen Luo, who is now a menial slave, used to be a young master of a big family, owing to the decline of his family, his sister is imprisoned by a strong force, he has no choice but to be at others’ service. However, Every cloud has a silver lining, The ancient book left by his father actually conceals the magical spell, which can change a human into an instrument! What’s the mysterious power behind all these? This is contest with fate.\n<br><br>\n(Source: Webcomics)',
+      cover:
+        'https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx150950-h1BekOOJ0YK0.png',
+      genres: ['Action', 'Adventure', 'Fantasy'],
+      color: '#43aee4',
+      rating: 62,
+      releaseDate: null,
+      type: 'ONA',
+    },
+    {
+      id: '136862',
+      malId: 49448,
+      episode: 234,
+      airingAt: 1695348000,
+      title: {
+        romaji: 'Ni Tian Zhizun',
+        english: null,
+        native: '逆天至尊',
+        userPreferred: 'Ni Tian Zhizun',
+      },
+      country: 'CN',
+      image:
+        'https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx136862-s2HpY8Lg8qTS.jpg',
+      description:
+        'The entire universe is divided into the inner universe and the outer universe. The two universes are enemies of each other. The outer universe is ruled by demons, and the inner universe is divided into The Realm of gods, the Eternal Realm, and the Mortal Realm. In the universe, there are countless mortal worlds like the Tianfa Continent, and they are collectively referred to as the Jiutian Xin Region. In the field of Jiutian Xin, nine immortal emperors commanded all star fields in nine layers. Above the nine heavens is the realm of purification of immortal gods.',
+      cover:
+        'https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx136862-s2HpY8Lg8qTS.jpg',
+      genres: ['Action', 'Fantasy'],
+      color: '#f1e4c9',
+      rating: 64,
+      releaseDate: null,
+      type: 'ONA',
+    },
+    {
+      id: '120272',
+      malId: 41884,
+      episode: 320,
+      airingAt: 1695348000,
+      title: {
+        romaji: 'Ling Jian Zun 4',
+        english: null,
+        native: '灵剑尊 第四季',
+        userPreferred: 'Ling Jian Zun 4',
+      },
+      country: 'CN',
+      image:
+        'https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx120272-v1UXPGEyyVDb.png',
+      description: null,
+      cover:
+        'https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx120272-v1UXPGEyyVDb.png',
+      genres: ['Action', 'Adventure', 'Fantasy'],
+      color: '#a11a35',
+      rating: 64,
+      releaseDate: null,
+      type: 'ONA',
+    },
+    {
+      id: '166325',
+      malId: 55192,
+      episode: 42,
+      airingAt: 1695348000,
+      title: {
+        romaji: 'Jiu Tian Xuan Di Jue 4',
+        english: null,
+        native: '九天玄帝诀 第四季',
+        userPreferred: 'Jiu Tian Xuan Di Jue 4',
+      },
+      country: 'CN',
+      image:
+        'https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx166325-TdqsauPd5Nyh.png',
+      description: 'The forth season of <i>Jiu Tian Xuan Di Jue</i>.',
+      cover:
+        'https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx166325-TdqsauPd5Nyh.png',
+      genres: ['Action', 'Fantasy'],
+      color: '#bbc9f1',
+      rating: null,
+      releaseDate: null,
+      type: 'ONA',
+    },
+    {
+      id: '134088',
+      malId: 55151,
+      episode: 15,
+      airingAt: 1695348000,
+      title: {
+        romaji: 'Da Zhuzai',
+        english: 'The Great Ruler',
+        native: '大主宰',
+        userPreferred: 'Da Zhuzai',
+      },
+      country: 'CN',
+      image:
+        'https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx134088-7Y4NKvK53Gdw.jpg',
+      description:
+        'In the vast world, planes converge and numerous races thrive. A gathering of extraordinary talents unfolds, where one after another, supreme beings from the lower planes come forth. In this boundless realm, they weave captivating legends that inspire admiration, pursuing the path to dominance.\n<br><br>\n(Source: iQ)',
+      cover:
+        'https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx134088-7Y4NKvK53Gdw.jpg',
+      genres: ['Action', 'Adventure', 'Fantasy', 'Romance'],
+      color: '#e4a135',
+      rating: null,
+      releaseDate: null,
+      type: 'ONA',
+    },
+    {
+      id: '136484',
+      malId: 49413,
+      episode: 12,
+      airingAt: 1695351600,
+      title: {
+        romaji: 'Shiguang Dailiren II',
+        english: 'Link Click Season 2',
+        native: '时光代理人 第二季',
+        userPreferred: 'Shiguang Dailiren II',
+      },
+      country: 'CN',
+      image:
+        'https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx136484-nBYX9HCItKjb.jpg',
+      description:
+        "Cheng Xiaoshi by chance meets Lu Guang, a person possessing super powers, and awakens to his own special ability.\nIn order to save the Time Photo Studio which is on the verge of closing down, the two of them start to cooperate in using their super powers to enter photos of customers to complete their commissions.\n<br><br>\nHowever, the appearance of a mysterious killer shatters the peace, Lu Guang's condition is still unknown and Qiao Ling has also become entangled in the conspiracy. Faced with all this, how will Cheng Xiaoshi solve the situation?\n<br><br>\n(Source: bilibili, translated)",
+      cover:
+        'https://s4.anilist.co/file/anilistcdn/media/anime/banner/136484-ogmj913o9Hxd.jpg',
+      genres: ['Drama', 'Mystery', 'Supernatural', 'Thriller'],
+      color: '#e45078',
+      rating: 86,
+      releaseDate: null,
+      type: 'ONA',
+    },
+    {
+      id: '120325',
+      malId: 42295,
+      episode: 102,
+      airingAt: 1695375600,
+      title: {
+        romaji: 'Fushigi Dagashiya: Zenitendou',
+        english: null,
+        native: 'ふしぎ駄菓子屋 銭天堂',
+        userPreferred: 'Fushigi Dagashiya: Zenitendou',
+      },
+      country: 'JP',
+      image:
+        'https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx120325-ubMgHRUT5dgJ.png',
+      description:
+        "Zenitendo is a mysterious candy store that only lucky people can reach. All the candy recommended by Beniko, the owner of the store, is perfectly suited to the buyer's troubles. However, it depends on whether the candy will be used or eaten correctly that it can bring happiness or misfortune.<br>\n<br>\n(Source: MAL News)",
+      cover:
+        'https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx120325-ubMgHRUT5dgJ.png',
+      genres: ['Mystery'],
+      color: '#e4a150',
+      rating: 50,
+      releaseDate: 2020,
+      type: 'TV_SHORT',
+    },
+    {
+      id: '158871',
+      malId: 53876,
+      episode: 23,
+      airingAt: 1695376500,
+      title: {
+        romaji: 'Pocket Monsters (2023)',
+        english: 'Pokémon Horizons: The Series',
+        native: 'ポケットモンスター (2023)',
+        userPreferred: 'Pocket Monsters (2023)',
+      },
+      country: 'JP',
+      image:
+        'https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx158871-FmWU8dacXDiA.jpg',
+      description:
+        'A new dream and adventure set throughout the entire Pokémon world unfolds in a brand new Pokémon-series following a girl named Liko and a boy named Roy.',
+      cover:
+        'https://s4.anilist.co/file/anilistcdn/media/anime/banner/158871-JGaVb9DxvgTa.jpg',
+      genres: ['Action', 'Adventure', 'Fantasy'],
+      color: '#e4bb28',
+      rating: 72,
+      releaseDate: 2023,
+      type: 'TV',
+    },
+  ],
+};
