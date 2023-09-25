@@ -112,3 +112,27 @@ export const ToggleSystemNavigation = (show: boolean) => {
       break;
   }
 };
+
+export const convertToDayOfWeek = (
+  dayNumber: number,
+  shortFormat: boolean = false,
+): string => {
+  const daysOfWeekShort = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+  const daysOfWeekLong = [
+    'Sunday',
+    'Monday',
+    'Tuesday',
+    'Wednesday',
+    'Thursday',
+    'Friday',
+    'Saturday',
+  ];
+
+  if (dayNumber < 0 || dayNumber > 7) {
+    throw new Error(
+      'Invalid day number. Day number should be between 0 and 7.',
+    );
+  }
+
+  return shortFormat ? daysOfWeekShort[dayNumber] : daysOfWeekLong[dayNumber];
+};

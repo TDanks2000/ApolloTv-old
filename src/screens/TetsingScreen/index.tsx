@@ -1,11 +1,23 @@
-import {View, Text} from 'react-native';
+import {View, Text, TouchableOpacity} from 'react-native';
 import React from 'react';
 import {Dropdown} from '../../components';
 import {DropdownData} from '../../@types';
 import {AiringSchedule} from '../../utils/TestData';
 
 import {Circle, Svg} from 'react-native-svg';
-import {helpers} from '../../utils';
+import {helpers, utils} from '../../utils';
+import {
+  AnimeContainer,
+  AnimesContainer,
+  AnimeTime,
+  AnimeTitle,
+  DateView,
+  DayMonthText,
+  DayOfWeekText,
+  DaysContainer,
+} from './Testing.styles';
+import {SafeAreaView} from 'react-native-safe-area-context';
+import {SharedContainer} from '../../styles/sharedStyles';
 
 // const TestingScreen = () => {
 //   type DataType = DropdownData<string, string>;
@@ -48,35 +60,76 @@ import {helpers} from '../../utils';
 // };
 
 const TestingScreen: React.FC = () => {
+  const [selectedDay, setSelectedDay] = React.useState<any>(null);
+
   const {results} = AiringSchedule;
   const formatted = helpers.structureAiringSchedule(results);
-  console.log(JSON.stringify(formatted, null, 2));
+
+  React.useEffect(() => {
+    // Set the default day to the first available day
+    const firstMonth = Object.keys(formatted[Object.keys(formatted)[0]])[0];
+    const firstDay = Object.keys(
+      formatted[Object.keys(formatted)[0]][firstMonth],
+    )[0];
+    setSelectedDay(firstDay);
+  }, []);
+
   return (
-    <>
-      {Object.entries(formatted).map(([year, months]) => {
-        return (
-          <>
-            {Object.entries(months).map(([month, days]) => {
-              return (
-                <>
-                  <Text>{month}</Text>
+    <SafeAreaView>
+      <SharedContainer>
+        {Object.entries(formatted).map(([year, months]) => (
+          <View key={year}>
+            {Object.entries(months).map(([month, days]) => (
+              <View key={month}>
+                <DaysContainer>
                   {Object.entries(days).map(([day, animeList]) => {
+                    const releaseDate = new Date(`${year}-${month}-${day}`);
+                    const DayMonth = new Intl.DateTimeFormat('en-US', {
+                      day: 'numeric',
+                      month: 'short',
+                    }).format(releaseDate);
+
                     return (
-                      <>
-                        <Text>{day}</Text>
-                        {animeList.map(anime => {
-                          return <Text>{anime.title.userPreferred}</Text>;
-                        })}
-                      </>
+                      <DateView
+                        key={day}
+                        onPress={() => setSelectedDay(day)}
+                        active={selectedDay === day}>
+                        <DayOfWeekText>
+                          {utils.convertToDayOfWeek(releaseDate.getDay(), true)}
+                        </DayOfWeekText>
+                        <DayMonthText>{DayMonth}</DayMonthText>
+                      </DateView>
                     );
                   })}
-                </>
-              );
-            })}
-          </>
-        );
-      })}
-    </>
+                </DaysContainer>
+                {selectedDay === null || selectedDay in days ? (
+                  <AnimesContainer>
+                    {selectedDay !== null &&
+                      days[selectedDay].map(anime => {
+                        const releasingAtDate = new Date(anime.airingAt);
+                        const dateFormated = new Intl.DateTimeFormat('en-US', {
+                          hour: 'numeric',
+                          minute: 'numeric',
+                        }).format(releasingAtDate);
+                        return (
+                          <AnimeContainer key={anime.id}>
+                            <AnimeTime>{dateFormated}</AnimeTime>
+                            <AnimeTitle numberOfLines={1}>
+                              {utils.getTitle(anime.title as any)}
+                            </AnimeTitle>
+                          </AnimeContainer>
+                        );
+                      })}
+                  </AnimesContainer>
+                ) : (
+                  <Text>Select a day to view anime</Text>
+                )}
+              </View>
+            ))}
+          </View>
+        ))}
+      </SharedContainer>
+    </SafeAreaView>
   );
 };
 
