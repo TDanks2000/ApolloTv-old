@@ -190,7 +190,7 @@ const VideoPlayerScreen: React.FC<Props> = ({route}): JSX.Element => {
       (episode: any) => episode.episode_number === episode_info.episode_number,
     );
 
-    if (findEpisode && findEpisode.watched_percentage) {
+    if (findEpisode && findEpisode?.watched_percentage) {
       const watchedSeekTo = (findEpisode.watched_percentage * duration) / 100;
       videoRef.current?.seek(watchedSeekTo);
     } else if (watched_percentage && watched_percentage > 0) {

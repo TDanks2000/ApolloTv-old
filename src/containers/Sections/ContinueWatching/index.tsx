@@ -79,7 +79,7 @@ const ContuineWatchingContainer = () => {
         {...item}
         poster_image={item.image ?? item.media.coverImage.large}
         episode_number={item.episode_number ?? item.progress + 1}
-        watched_percentage={item.watched_percentage ?? 0}
+        watched_percentage={item?.watched_percentage ?? 0}
         title={item.title ?? utils.getTitle(item.media.title)}
         id={item.anime_id ?? item.media.id}
         from={item?.media?.title ? 'anilist' : 'default'}

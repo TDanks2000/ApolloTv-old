@@ -68,7 +68,7 @@ const EpisodeCard = (props: EpisodeCardProps) => {
       watched_percentage &&
       watched_percentage <= 0
     )
-      setActualWatchedPercent(episodeDBEntry.watched_percentage);
+      setActualWatchedPercent(episodeDBEntry?.watched_percentage ?? 0);
     else if (watched_percentage && watched_percentage > 0)
       setActualWatchedPercent(watched_percentage);
     else setActualWatchedPercent(undefined);

@@ -60,7 +60,7 @@ const ContinueWatching = ({
       (item: any) => item.episode_number === currentEpisode,
     );
 
-    return setWatchedPercentage(findEpisode.watched_percentage);
+    return setWatchedPercentage(findEpisode?.watched_percentage ?? 0);
   };
 
   useFocusEffect(

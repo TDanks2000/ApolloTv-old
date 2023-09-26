@@ -56,7 +56,7 @@ export const insertEpisode = async (episode: SQLEpisodeData) => {
       Number(episode.episode_number),
       String(episode.next_episode_id),
       Number(episode.watched),
-      Number(episode.watched_percentage),
+      Number(episode.watched_percentage ?? 0),
     ]);
   });
 };
@@ -67,7 +67,7 @@ export const updateTable = async (episode: SQLUpdateEpisodeData) => {
   return await sqlDB.transaction(tx => {
     return tx.executeSql(query, [
       episode.watched,
-      episode.watched_percentage,
+      episode?.watched_percentage ?? 0,
       episode.id,
     ]);
   });

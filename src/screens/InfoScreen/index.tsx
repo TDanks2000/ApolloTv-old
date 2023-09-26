@@ -90,21 +90,23 @@ const InfoScreen = ({route}: Props) => {
     returnLastEpisodeIfFin?: boolean,
   ) => {
     const nextEpisodeNumber =
-      mediaListStatus?.progress ?? 0 + howManyEpisodesForward;
+      (mediaListStatus?.progress || 0) + howManyEpisodesForward;
 
-    if (mediaListStatus && mediaListStatus.status === 'COMPLETED')
+    if (
+      mediaListStatus?.status === 'COMPLETED' ||
+      (nextEpisodeNumber >= episodes.length && returnLastEpisodeIfFin)
+    ) {
+      return returnLastEpisodeIfFin ? episodes[episodes.length - 1] : undefined;
+    }
+
+    if (!returnLastEpisodeIfFin && nextEpisodeNumber >= episodes.length) {
       return undefined;
-    if (nextEpisodeNumber >= episodes.length && returnLastEpisodeIfFin)
-      return episodes[episodes.length - 1];
+    }
 
-    if (!returnLastEpisodeIfFin && nextEpisodeNumber > episodes.length)
-      return undefined;
-
-    const find =
-      episodes.find((episode: any) => episode.number === nextEpisodeNumber) ||
-      episodes[0];
-
-    return find;
+    return (
+      episodes.find(episode => episode.number === nextEpisodeNumber) ||
+      episodes[0]
+    );
   };
 
   const nextEpisode = findNextEpisode(data.episodes, 1, false);
