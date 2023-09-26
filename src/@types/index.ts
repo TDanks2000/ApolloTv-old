@@ -403,14 +403,7 @@ export interface ANNInfo {
 export * from './Navigation';
 export * from './Manga';
 
-export interface AnimeByDay {
-  [day: string]: AnimeInfo[];
-}
-
-export interface AnimeByMonth {
-  [month: string]: AnimeByDay;
-}
-
-export interface AnimeByYear {
-  [year: string]: AnimeByMonth;
+// Update the AnimeByDay type
+export interface AnimeByDate {
+  [date: string]: AnimeInfo[];
 }

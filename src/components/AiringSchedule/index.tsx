@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {View, Text} from 'react-native';
+import {View, Text, ScrollView} from 'react-native';
 import {
   AnimeContainer,
   AnimesContainer,
@@ -10,100 +10,109 @@ import {
   DayOfWeekText,
   DaysContainer,
 } from './AiringSchedule.styles';
-import {AiringSchedule} from '../../utils/TestData';
-import {helpers, utils} from '../../utils';
-import {AnimeByDay, AnimeByMonth} from '../../@types';
+import {api, helpers, utils} from '../../utils';
+import {AnimeByDate} from '../../@types';
+import {useQuery} from '@tanstack/react-query';
 
 const AiringScheduleComponent: React.FC = () => {
-  const [selectedDay, setSelectedDay] = useState<any>(null);
+  const [selectedDay, setSelectedDay] = useState<string | null>(null);
 
-  const {results} = AiringSchedule;
-  const formatted = helpers.structureAiringSchedule(results);
+  const fetcher = async () => {
+    const data = await api.getAiringSchedule();
+    return data ?? [];
+  };
+
+  const {isPending, isError, data} = useQuery({
+    queryKey: ['AiringSchedule'],
+    queryFn: fetcher,
+  });
 
   useEffect(() => {
-    setInitialSelectedDay();
-  }, []);
+    if (!isPending && !isError) {
+      setInitialSelectedDay();
+    }
+  }, [isPending, isError]);
+
+  const formatted = data ? helpers.structureAiringSchedule(data) : null;
 
   const setInitialSelectedDay = () => {
-    // Set the default day to the first available day
-    const firstMonth = Object.keys(formatted[Object.keys(formatted)[0]])[0];
-    const firstDay = Object.keys(
-      formatted[Object.keys(formatted)[0]][firstMonth],
-    )[0];
-    setSelectedDay(firstDay);
+    if (!formatted) return;
+
+    const currentDate = new Date();
+    const formattedDate = utils.formatDate(currentDate); // Format: "DD/MM/YYYY"
+
+    // Check if today's date exists in the formatted data
+    if (formatted[formattedDate]) {
+      setSelectedDay(formattedDate);
+    } else {
+      // Fallback to the first available day
+      const firstDate = Object.keys(formatted)[0];
+      setSelectedDay(firstDate);
+    }
   };
 
-  const renderDateViews = (year: string, months: AnimeByMonth) => {
-    return Object.entries(months).map(([month, days]) => {
-      return (
-        <View key={month}>
-          <DaysContainer>{renderDays(year, month, days)}</DaysContainer>
-          {renderAnimeContainer(year, month, days)}
-        </View>
-      );
-    });
+  const renderDateViews = (formattedData: AnimeByDate) => {
+    const dateComponents = Object.entries(formattedData).map(
+      ([date, animeList]) => {
+        const dayComponent = renderDay(date, animeList);
+        const animeContainers = renderAnimeContainers(animeList);
+
+        return (
+          <View key={date}>
+            {dayComponent}
+            {animeContainers}
+          </View>
+        );
+      },
+    );
+
+    return <View style={{flexDirection: 'row'}}>{dateComponents}</View>;
   };
 
-  const renderDays = (year: string, month: string, days: any) => {
-    return Object.entries(days).map(([day, animeList]) => {
-      const releaseDate = new Date(`${year}-${month}-${day}`);
-      const DayMonth = new Intl.DateTimeFormat('en-US', {
-        day: 'numeric',
-        month: 'short',
-      }).format(releaseDate);
+  const renderDay = (date: string, animeList: any[]) => {
+    const DayMonth = date;
 
-      console.log(selectedDay);
-      return (
-        <DateView
-          key={day}
-          onPress={() => setSelectedDay(day)}
-          active={selectedDay === day}>
-          <DayOfWeekText>
-            {utils.convertToDayOfWeek(releaseDate.getDay(), true)}
-          </DayOfWeekText>
-          <DayMonthText>{DayMonth}</DayMonthText>
-        </DateView>
-      );
-    });
+    return (
+      <DateView
+        key={date}
+        onPress={() => setSelectedDay(date)}
+        active={selectedDay === date}>
+        <DayOfWeekText>
+          {utils.convertToDayOfWeek(new Date(date).getDay(), true)}
+        </DayOfWeekText>
+        <DayMonthText>{DayMonth}</DayMonthText>
+      </DateView>
+    );
   };
 
-  const renderAnimeContainer = (
-    year: string,
-    month: string,
-    days: AnimeByDay,
-  ) => {
-    return selectedDay === null || selectedDay in days ? (
+  const renderAnimeContainers = (animeList: any[]) => {
+    return selectedDay === null ? (
       <AnimesContainer>
-        {selectedDay !== null &&
-          days[selectedDay].map(anime => {
-            const releasingAtDate = new Date(anime.airingAt);
-            const dateFormatted = new Intl.DateTimeFormat('en-US', {
-              hour: 'numeric',
-              minute: 'numeric',
-            }).format(releasingAtDate);
+        {animeList.map(anime => {
+          const releasingAtDate = new Date(anime.airingAt * 1000);
+          const dateFormatted = new Intl.DateTimeFormat('en-US', {
+            hour: 'numeric',
+            minute: 'numeric',
+          }).format(releasingAtDate);
 
-            return (
-              <AnimeContainer key={anime.id}>
-                <AnimeTime>{dateFormatted}</AnimeTime>
-                <AnimeTitle numberOfLines={1}>
-                  {utils.getTitle(anime.title as any)}
-                </AnimeTitle>
-              </AnimeContainer>
-            );
-          })}
+          return (
+            <AnimeContainer key={anime.id}>
+              <AnimeTime>{dateFormatted}</AnimeTime>
+              <AnimeTitle numberOfLines={1}>
+                {utils.getTitle(anime.title)}
+              </AnimeTitle>
+            </AnimeContainer>
+          );
+        })}
       </AnimesContainer>
     ) : (
       <Text>Select a day to view anime</Text>
     );
   };
 
-  return (
-    <View>
-      {Object.entries(formatted).map(([year, months]) => (
-        <View key={year}>{renderDateViews(year, months)}</View>
-      ))}
-    </View>
-  );
+  if (!formatted) return null;
+
+  return <ScrollView>{renderDateViews(formatted)}</ScrollView>;
 };
 
 export default AiringScheduleComponent;

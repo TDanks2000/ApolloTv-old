@@ -73,6 +73,25 @@ export const fetchAnilistLists = async (
   return returnData;
 };
 
+export const getAiringSchedule = async (
+  page: number = 1,
+  perPage: number = 50,
+  notYetAired: boolean = true,
+) => {
+  const url = `${API_BASE}/anilist/airing-schedule?notYetAired=${notYetAired}&page=${page}&perPage=${perPage}`;
+  const url2 = `${API_BASE}/anilist/airing-schedule?notYetAired=${notYetAired}&page=${
+    page + 1
+  }&perPage=${perPage}`;
+  console.log(url);
+  const data1 = fetcher<any>(url);
+  const data2 = fetcher<any>(url2);
+  const [res, res2] = await Promise.all([data1, data2]);
+
+  const combine = [...res?.results, ...res2?.results];
+
+  return combine;
+};
+
 export const addToAnalytics = async (screen_width: number) => {
   // let uuid = getUUID() ? createUUID() : getUUID();
 

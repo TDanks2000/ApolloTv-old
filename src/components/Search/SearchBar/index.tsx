@@ -1,5 +1,10 @@
 import React from 'react';
-import {Container, TextInput} from './SearchBar.styles';
+import {
+  Container,
+  FilterOption,
+  FilterOptions,
+  TextInput,
+} from './SearchBar.styles';
 
 interface Props {
   search_text: string;
@@ -14,6 +19,9 @@ const SearchBar = ({search_text, setSearchText}: Props) => {
         onChangeText={(text: string) => setSearchText && setSearchText(text)}
         placeholder="What do you want to watch?"
       />
+      <FilterOptions>
+        <FilterOption name="sliders" />
+      </FilterOptions>
     </Container>
   );
 };

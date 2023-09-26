@@ -1,4 +1,4 @@
-import {AnimeByYear, RecentSearch, RecentSearchs, SubOrDub} from '../../@types';
+import {AnimeByDate, RecentSearch, RecentSearchs, SubOrDub} from '../../@types';
 import {storage} from '../storage/cleint';
 
 export const setSubOrDub = (value: SubOrDub): void => {
@@ -115,28 +115,22 @@ interface AnimeInfo {
   type: string;
 }
 
-export const structureAiringSchedule = (results: any[]): AnimeByYear => {
-  const structuredObject: AnimeByYear = {};
+export const structureAiringSchedule = (results: any[]): AnimeByDate => {
+  const structuredObject: AnimeByDate = {};
 
-  results.forEach(anime => {
+  results?.forEach(anime => {
     const airingDate = new Date(anime.airingAt * 1000);
-    const year = airingDate.getFullYear().toString();
+    const year = airingDate.getFullYear();
     const month = (airingDate.getMonth() + 1).toString().padStart(2, '0');
     const day = airingDate.getDate().toString().padStart(2, '0');
 
-    if (!structuredObject[year]) {
-      structuredObject[year] = {};
+    const formattedDate = `${day}/${month}/${year}`;
+
+    if (!structuredObject[formattedDate]) {
+      structuredObject[formattedDate] = [];
     }
 
-    if (!structuredObject[year][month]) {
-      structuredObject[year][month] = {};
-    }
-
-    if (!structuredObject[year][month][day]) {
-      structuredObject[year][month][day] = [];
-    }
-
-    structuredObject[year][month][day].push(anime);
+    structuredObject[formattedDate].push(anime);
   });
 
   return structuredObject;

@@ -27,19 +27,27 @@ export const DayOfWeekText = styled(Text)`
   font-size: 16px;
 `;
 
-export const DaysContainer = styled.View`
-  flex-direction: row;
-  gap: 10px;
-`;
+export const DaysContainer = styled.ScrollView.attrs({
+  horizontal: true,
+  contentContainerStyle: {
+    gap: 10,
+  },
+})``;
 
-export const AnimesContainer = styled.View`
+export const AnimesContainer = styled.ScrollView.attrs({
+  showsHorizontalScrollIndicator: false,
+  showsVerticalScrollIndicator: false,
+  contentContainerStyle: {
+    gap: 5,
+  },
+})`
   width: 100%;
-  gap: 10px;
+  height: 235px;
   margin-top: 20px;
   overflow: hidden;
 `;
 
-export const AnimeContainer = styled.View`
+export const AnimeContainer = styled.Pressable`
   width: 100%;
   flex-direction: row;
   justify-content: space-between;
@@ -50,7 +58,8 @@ export const AnimeContainer = styled.View`
 export const AnimeTime = styled(Text)`
   overflow: hidden;
 `;
+
 export const AnimeTitle = styled(Text)`
-  width: 100%;
+  flex: 1;
   overflow: hidden;
 `;
