@@ -1,4 +1,4 @@
-import {RecentSearch, RecentSearchs, SubOrDub} from '../../@types';
+import {AnimeByYear, RecentSearch, RecentSearchs, SubOrDub} from '../../@types';
 import {storage} from '../storage/cleint';
 
 export const setSubOrDub = (value: SubOrDub): void => {
@@ -113,18 +113,6 @@ interface AnimeInfo {
   rating: number | null;
   releaseDate: number | null;
   type: string;
-}
-
-interface AnimeByDay {
-  [day: string]: AnimeInfo[];
-}
-
-interface AnimeByMonth {
-  [month: string]: AnimeByDay;
-}
-
-interface AnimeByYear {
-  [year: string]: AnimeByMonth;
 }
 
 export const structureAiringSchedule = (results: any[]): AnimeByYear => {

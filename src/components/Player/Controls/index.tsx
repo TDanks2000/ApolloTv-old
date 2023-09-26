@@ -28,6 +28,7 @@ import {episodeSQLHelper} from '../../../utils/database';
 
 import {VideoEpisodesModal, VideoSettingsModal} from '../../../modals';
 import SkipIntroOutro from './SkipIntroOutro';
+import {UPDATEDB} from '../../../screens/VideoPlayerScreen/helpers';
 
 interface Props {
   paused: boolean;
@@ -40,7 +41,7 @@ interface Props {
   episode_info: EpisodeInfo;
   anime_info: AnimeInfo;
 
-  updateDB: () => void;
+  updateDB: UPDATEDB;
 
   selectedQuality: SourceVideoOptions;
   setSelectedQuality: (quality: SourceVideoOptions) => void;
@@ -105,7 +106,7 @@ const PlayerControls = ({
   let hideControlsDuration: number = 7000;
   let hideControlsTimeout: any;
   const handleInactive = (wantUpdate: boolean = true) => {
-    if (wantUpdate) updateDB();
+    if (wantUpdate) updateDB(currentTime, duration, episode_info);
     setHideControls((prev: boolean) => !prev);
 
     clearTimeout(hideControlsTimeout);
@@ -222,7 +223,6 @@ const PlayerControls = ({
             duration={-30}
             videoRef={videoRef}
             currentTime={currentTime}
-            updateDb={updateDB}
             isBuffering={isBuffering}
           />
           <PlayPause
@@ -236,7 +236,6 @@ const PlayerControls = ({
             duration={30}
             videoRef={videoRef}
             currentTime={currentTime}
-            updateDb={updateDB}
             isBuffering={isBuffering}
           />
         </Middle>
@@ -247,7 +246,6 @@ const PlayerControls = ({
             duration={duration}
             setPaused={setPaused}
             videoRef={videoRef}
-            updateDB={updateDB}
           />
         </Bottom>
       </Container>

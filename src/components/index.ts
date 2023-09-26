@@ -30,8 +30,10 @@ import {
   NotificationCard,
   NewsCard,
 } from './Cards';
+import AiringScheduleComponent from './AiringSchedule';
 
 export {
+  AiringScheduleComponent,
   NewsCard,
   MangaCharacterCard,
   Paginate,

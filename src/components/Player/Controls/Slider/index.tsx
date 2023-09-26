@@ -8,14 +8,13 @@ import {
   WatchTimeText,
 } from './Slider.styles';
 import {TouchableOpacity} from 'react-native';
+import {UPDATEDB} from '../../../../screens/VideoPlayerScreen/helpers';
 
 interface Props {
   currentTime: number;
   duration: number;
   setPaused: (paused: boolean) => void;
   videoRef: any;
-
-  updateDB: () => void;
 }
 
 const ControlsSlider = ({
@@ -23,7 +22,6 @@ const ControlsSlider = ({
   duration,
   setPaused,
   videoRef,
-  updateDB,
 }: Props) => {
   const [timeLeft, toggleTimeLeft] = React.useReducer(
     showTimeLeft => !showTimeLeft,
@@ -54,7 +52,6 @@ const ControlsSlider = ({
   const onSlidingComplete = (value: number) => {
     videoRef.current.seek(value);
     setPaused(false);
-    updateDB();
   };
 
   return (

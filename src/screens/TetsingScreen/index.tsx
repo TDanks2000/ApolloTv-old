@@ -1,21 +1,11 @@
 import {View, Text, TouchableOpacity} from 'react-native';
 import React from 'react';
-import {Dropdown} from '../../components';
+import {AiringScheduleComponent, Dropdown} from '../../components';
 import {DropdownData} from '../../@types';
 import {AiringSchedule} from '../../utils/TestData';
 
 import {Circle, Svg} from 'react-native-svg';
 import {helpers, utils} from '../../utils';
-import {
-  AnimeContainer,
-  AnimesContainer,
-  AnimeTime,
-  AnimeTitle,
-  DateView,
-  DayMonthText,
-  DayOfWeekText,
-  DaysContainer,
-} from './Testing.styles';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {SharedContainer} from '../../styles/sharedStyles';
 
@@ -77,57 +67,7 @@ const TestingScreen: React.FC = () => {
   return (
     <SafeAreaView>
       <SharedContainer>
-        {Object.entries(formatted).map(([year, months]) => (
-          <View key={year}>
-            {Object.entries(months).map(([month, days]) => (
-              <View key={month}>
-                <DaysContainer>
-                  {Object.entries(days).map(([day, animeList]) => {
-                    const releaseDate = new Date(`${year}-${month}-${day}`);
-                    const DayMonth = new Intl.DateTimeFormat('en-US', {
-                      day: 'numeric',
-                      month: 'short',
-                    }).format(releaseDate);
-
-                    return (
-                      <DateView
-                        key={day}
-                        onPress={() => setSelectedDay(day)}
-                        active={selectedDay === day}>
-                        <DayOfWeekText>
-                          {utils.convertToDayOfWeek(releaseDate.getDay(), true)}
-                        </DayOfWeekText>
-                        <DayMonthText>{DayMonth}</DayMonthText>
-                      </DateView>
-                    );
-                  })}
-                </DaysContainer>
-                {selectedDay === null || selectedDay in days ? (
-                  <AnimesContainer>
-                    {selectedDay !== null &&
-                      days[selectedDay].map(anime => {
-                        const releasingAtDate = new Date(anime.airingAt);
-                        const dateFormated = new Intl.DateTimeFormat('en-US', {
-                          hour: 'numeric',
-                          minute: 'numeric',
-                        }).format(releasingAtDate);
-                        return (
-                          <AnimeContainer key={anime.id}>
-                            <AnimeTime>{dateFormated}</AnimeTime>
-                            <AnimeTitle numberOfLines={1}>
-                              {utils.getTitle(anime.title as any)}
-                            </AnimeTitle>
-                          </AnimeContainer>
-                        );
-                      })}
-                  </AnimesContainer>
-                ) : (
-                  <Text>Select a day to view anime</Text>
-                )}
-              </View>
-            ))}
-          </View>
-        ))}
+        <AiringScheduleComponent />
       </SharedContainer>
     </SafeAreaView>
   );

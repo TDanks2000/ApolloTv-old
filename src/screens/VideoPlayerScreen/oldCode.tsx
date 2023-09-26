@@ -1,21 +1,8 @@
-import React, {
-  useState,
-  useEffect,
-  useRef,
-  useCallback,
-  useReducer,
-  useContext,
-  useMemo,
-} from 'react';
 import {View, Text, StatusBar, Platform} from 'react-native';
+import React from 'react';
+import {MiddleOfScreenLoadingComponent, Player} from '../../components';
 import Video, {OnLoadData, OnProgressData} from 'react-native-video';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import {useQuery} from '@tanstack/react-query';
-import Orientation from 'react-native-orientation-locker';
-import {useFocusEffect, useNavigation} from '@react-navigation/native';
-import Toast from 'react-native-toast-message';
-
-import {MiddleOfScreenLoadingComponent, Player} from '../../components';
 import {
   AniskipData,
   Episode,
@@ -23,6 +10,7 @@ import {
   SourceVideoOptions,
   StackNavigation,
 } from '../../@types';
+import {useQuery} from '@tanstack/react-query';
 import {api, settingsHelper, utils} from '../../utils';
 import {API_BASE} from '@env';
 import {
@@ -30,14 +18,17 @@ import {
   SettingsContext,
   useAccessToken,
 } from '../../contexts';
+import Orientation from 'react-native-orientation-locker';
 import {episodeSQLHelper} from '../../utils/database';
 import {Anilist} from '@tdanks2000/anilist-wrapper';
-import {updateDB, watchTimeBeforeSync} from './helpers';
+import {useFocusEffect, useNavigation} from '@react-navigation/native';
+import Toast from 'react-native-toast-message';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'VideoPlayer'>;
 
 const VideoPlayerScreen: React.FC<Props> = ({route}): JSX.Element => {
   const navigation = useNavigation<StackNavigation>();
+
   const {accessToken} = useAccessToken();
   const anilist = new Anilist(accessToken);
 
@@ -48,22 +39,23 @@ const VideoPlayerScreen: React.FC<Props> = ({route}): JSX.Element => {
     autoNextEpisode,
     changeAutoNextEpisode,
     privateMode,
-  } = useContext(SettingsContext);
+  } = React.useContext(SettingsContext);
 
-  const [watched, setWatched] = useState<boolean>(false);
-  const [watchedAnilist, setWatchedAnilist] = useState<boolean>(false);
-  const [selectedSource, setSelectedSource] = useState<
+  const watchTimeBeforeSync = 80;
+  const [watched, setWatched] = React.useState<boolean>(false);
+  const [watchedAnilist, setWatchedAnilist] = React.useState<boolean>(false);
+  const [selectedSource, setSelectedSource] = React.useState<
     SourceVideoOptions | undefined
   >(undefined);
-  const videoRef = useRef<Video>(null);
 
-  const [paused, setPaused] = useState(false);
-  const [duration, setDuration] = useState(0);
-  const [currentTime, setCurrentTime] = useState(0);
-  const [isBuffering, setIsBuffering] = useState<boolean>(false);
-
-  const [hasSkipedIntro, toggleHasSkippedIntro] = useReducer(s => !s, false);
-  const [hasSkipedEnding, toggleHasSkippedEnding] = useReducer(s => !s, false);
+  const [hasSkipedIntro, toggleHasSkippedIntro] = React.useReducer(
+    s => !s,
+    false,
+  );
+  const [hasSkipedEnding, toggleHasSkippedEnding] = React.useReducer(
+    s => !s,
+    false,
+  );
 
   const {
     episode_id,
@@ -101,7 +93,7 @@ const VideoPlayerScreen: React.FC<Props> = ({route}): JSX.Element => {
     queryFn: fetchAniskip,
   });
 
-  const {setShowNavBar}: any = useContext(NavigationContext);
+  const {setShowNavBar}: any = React.useContext(NavigationContext);
 
   const createAndUpdateDB = async () => {
     await episodeSQLHelper.createTable();
@@ -117,68 +109,25 @@ const VideoPlayerScreen: React.FC<Props> = ({route}): JSX.Element => {
     });
   };
 
-  useEffect(() => {
-    checkIfWatched();
-  }, [watched_percentage, duration]);
-
-  const skipSection = (type: 'op' | 'ed', wantToUpdate: boolean = false) => {
-    if (!skipData?.ending && !skipData?.opening) return;
-
-    const skipItem = type === 'op' ? skipData.opening : skipData.ending;
-
-    if (!skipItem || !skipItem.interval) return;
-
-    const {startTime, endTime} = skipItem.interval;
-    const isCurrentPosAtStart = currentTime >= startTime;
-
-    if (isCurrentPosAtStart) {
-      if (
-        wantToUpdate &&
-        ((type === 'op' && !hasSkipedIntro) ||
-          (type === 'ed' && !hasSkipedEnding))
-      ) {
-        if (videoRef.current) {
-          toggleHasSkippedIntro();
-          toggleHasSkippedEnding();
-          videoRef.current.seek(endTime);
-        }
-      } else if (!wantToUpdate) {
-        if (videoRef.current) {
-          videoRef.current.seek(endTime);
-        }
-      }
-    }
-  };
-
-  const skipIntro = () => skipSection('op', true);
-  const skipOutro = () => skipSection('ed', true);
-
-  useEffect(() => {
-    if (!videoRef?.current) return;
-    if (!currentTime || !duration) return;
-
-    if (skipDataPending) return;
-
-    if (skipData?.opening?.interval && autoSkipIntro === 'on') {
-      skipIntro();
-    }
-
-    if (skipData?.ending?.interval && autoSkipOutro === 'on') {
-      skipOutro();
-    }
-  }, [currentTime, duration]);
-
-  useEffect(() => {
+  React.useEffect(() => {
     Orientation.lockToLandscape();
     StatusBar.setHidden(true);
 
     return () => {
       if (!Platform.isTV) {
+        // lock to portrait
         Orientation.lockToPortrait();
       }
       StatusBar.setHidden(false, 'slide');
     };
   }, [episode_id]);
+
+  const videoRef = React.useRef<Video>(null);
+
+  const [paused, setPaused] = React.useState(false);
+  const [duration, setDuration] = React.useState(0);
+  const [currentTime, setCurrentTime] = React.useState(0);
+  const [isBuffering, setIsBuffering] = React.useState<boolean>(false);
 
   const checkIfWatched = async () => {
     if (!duration) return;
@@ -190,7 +139,7 @@ const VideoPlayerScreen: React.FC<Props> = ({route}): JSX.Element => {
       (episode: any) => episode.episode_number === episode_info.episode_number,
     );
 
-    if (findEpisode && findEpisode.watched_percentage) {
+    if (findEpisode) {
       const watchedSeekTo = (findEpisode.watched_percentage * duration) / 100;
       videoRef.current?.seek(watchedSeekTo);
     } else if (watched_percentage && watched_percentage > 0) {
@@ -199,10 +148,74 @@ const VideoPlayerScreen: React.FC<Props> = ({route}): JSX.Element => {
     }
   };
 
-  useEffect(() => {
+  React.useEffect(() => {
     checkIfWatched();
   }, [watched_percentage, duration]);
 
+  const skipIntro = (wantToUpdate: boolean = false) => {
+    if (!skipData?.opening?.interval) return;
+    const openingStartTime = skipData.opening.interval.startTime;
+    const isCurrentPosAtOpening = currentTime >= openingStartTime;
+
+    const openingEndTime = skipData.opening.interval.endTime;
+
+    if (!videoRef.current) return;
+    if (isCurrentPosAtOpening && wantToUpdate && !hasSkipedIntro) {
+      toggleHasSkippedIntro();
+      videoRef.current.seek(openingEndTime);
+    } else if (isCurrentPosAtOpening && !wantToUpdate) {
+      videoRef.current.seek(openingEndTime);
+    }
+  };
+
+  const skipOutro = (wantToUpdate: boolean = false) => {
+    if (!skipData?.ending?.interval) return;
+    const endingStartTime = skipData.ending.interval.startTime;
+    const isCurrentPosAtEnding = currentTime >= endingStartTime;
+
+    const endingEndTime = skipData.ending.interval.endTime;
+
+    if (!videoRef.current) return;
+    if (isCurrentPosAtEnding && wantToUpdate && !hasSkipedEnding) {
+      toggleHasSkippedEnding();
+      videoRef.current.seek(endingEndTime);
+    } else if (isCurrentPosAtEnding && !wantToUpdate) {
+      videoRef.current.seek(endingEndTime);
+    }
+  };
+
+  // Skip intro / outro
+  React.useEffect(() => {
+    if (!videoRef?.current) return;
+    if (skipDataPending) return;
+    if (!currentTime || !duration) return;
+
+    if (skipData?.opening?.interval && autoSkipIntro === 'on') {
+      skipIntro(true);
+    }
+
+    if (skipData?.ending?.interval && autoSkipOutro === 'on') {
+      skipOutro(true);
+    }
+  }, [currentTime, duration]);
+
+  // Update sql progress
+  const updateDB = async () => {
+    if (watched) return;
+    const watchedAnount = Math.floor((currentTime / duration) * 100);
+
+    if (isNaN(watchedAnount)) return;
+    await episodeSQLHelper.updateTable({
+      id: episode_info.id,
+      watched: watchedAnount > watchTimeBeforeSync ? true : false,
+      watched_percentage:
+        watchedAnount > 0 && watchedAnount > watchTimeBeforeSync
+          ? 100
+          : watchedAnount,
+    });
+  };
+
+  // check if episode is wathced from the sql db
   const checkIfWatchedFromDB = async () => {
     const checkInDb: any = await episodeSQLHelper.selectFromAnimeId(
       anime_info.id,
@@ -214,6 +227,7 @@ const VideoPlayerScreen: React.FC<Props> = ({route}): JSX.Element => {
     return setWatched(false);
   };
 
+  // Update anilist progress
   const updateAnilist = async () => {
     if (privateMode === 'on') return false;
     if (!accessToken || watchedAnilist) return false;
@@ -230,17 +244,18 @@ const VideoPlayerScreen: React.FC<Props> = ({route}): JSX.Element => {
 
     if (duration) {
       const watched = (data?.currentTime / duration) * 100;
+      if (watched > watchTimeBeforeSync) {
+        // update anilist progress
+        if (privateMode === 'off') updateAnilist();
 
-      if (watched > watchTimeBeforeSync && privateMode === 'off') {
-        updateAnilist();
+        // update the progress in the sql db
+        updateDB();
+        setWatched(true);
       }
-
-      updateDB(
-        data?.currentTime ?? currentTime,
-        duration,
-        episode_info,
-        watched,
-      );
+      if (watched > 100) {
+        updateDB();
+        setWatched(true);
+      }
     }
   };
 
@@ -287,7 +302,7 @@ const VideoPlayerScreen: React.FC<Props> = ({route}): JSX.Element => {
   const findHighestQuality = utils.findHighestQuality(sources);
 
   useFocusEffect(
-    useCallback(() => {
+    React.useCallback(() => {
       if (!data) return;
       setSelectedSource(findHighestQuality);
       createAndUpdateDB();
@@ -307,23 +322,20 @@ const VideoPlayerScreen: React.FC<Props> = ({route}): JSX.Element => {
     }, [data, isError, error]),
   );
 
-  const USER_AGENT = useMemo(
-    () =>
-      'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.116 Safari/537.36',
-    [],
-  );
-  const referer = useMemo(() => data?.headers?.Referer ?? undefined, [data]);
-
   if (isPending) return <MiddleOfScreenLoadingComponent />;
-  if (isError) {
+  if (isError)
     Toast.show({
       type: 'error',
       text1: 'Error',
       text2: error?.message ?? 'Something went wrong',
     });
-  }
 
-  if (!selectedSource) return <MiddleOfScreenLoadingComponent />;
+  if (!selectedSource) return <Text>Loading...</Text>;
+
+  const USER_AGENT =
+    'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.116 Safari/537.36';
+
+  const referer = data?.headers?.Referer ?? undefined;
 
   const showError = (errorString?: string) => {
     Toast.show({

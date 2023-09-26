@@ -8,7 +8,6 @@ interface Props {
   isBuffering: boolean;
 
   videoRef: any;
-  updateDb: () => void;
 }
 
 const SkipTo = ({
@@ -16,29 +15,13 @@ const SkipTo = ({
   duration,
   videoRef,
   currentTime,
-  updateDb,
   isBuffering,
 }: Props) => {
   const [shouldDebounce, setShouldDebounce] = React.useState<boolean>(false);
 
   const onPress = () => {
     videoRef.current.seek(currentTime + duration);
-    setShouldDebounce(true);
   };
-
-  React.useEffect(() => {
-    if (!shouldDebounce) return;
-
-    const debounceTimer = setTimeout(() => {
-      updateDb();
-      console.log('updated time in db');
-      setShouldDebounce(false);
-    }, 1500);
-
-    return () => {
-      clearTimeout(debounceTimer);
-    };
-  }, [shouldDebounce, currentTime]);
 
   return (
     <Button onPress={onPress} disabled={isBuffering}>
