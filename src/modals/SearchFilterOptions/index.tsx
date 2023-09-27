@@ -41,10 +41,31 @@ const SearchFilterOptions: React.FC<Props> = ({
               wantManga={wantManga}
             />
           </FilterTypeContainer>
-          <FilterTypeText>Genres</FilterTypeText>
-          <FilterTypeText>Year</FilterTypeText>
-          <FilterTypeText>Season</FilterTypeText>
-          <FilterTypeText>Format</FilterTypeText>
+
+          <FilterTypeContainer>
+            <FilterTypeText>Year</FilterTypeText>
+            <SearchFilter.Year />
+          </FilterTypeContainer>
+
+          <FilterTypeContainer>
+            <FilterTypeText>Genres</FilterTypeText>
+            <SearchFilter.Genres />
+          </FilterTypeContainer>
+
+          <FilterTypeContainer>
+            <FilterTypeText>Season</FilterTypeText>
+            <SearchFilter.Season />
+          </FilterTypeContainer>
+
+          <FilterTypeContainer>
+            <FilterTypeText>Format</FilterTypeText>
+            <SearchFilter.Format />
+          </FilterTypeContainer>
+
+          <FilterTypeContainer>
+            <FilterTypeText>Status</FilterTypeText>
+            <SearchFilter.Status />
+          </FilterTypeContainer>
         </Container>
       </Background>
     </BaseModal>

@@ -407,3 +407,53 @@ export * from './Manga';
 export interface AnimeByDate {
   [date: string]: AnimeInfo[];
 }
+
+export enum GENRES {
+  ACTION = 'Action',
+  ADVENTURE = 'Adventure',
+  CARS = 'Cars',
+  COMEDY = 'Comedy',
+  DRAMA = 'Drama',
+  FANTASY = 'Fantasy',
+  HORROR = 'Horror',
+  MAHOU_SHOUJO = 'Mahou Shoujo',
+  MECHA = 'Mecha',
+  MUSIC = 'Music',
+  MYSTERY = 'Mystery',
+  PSYCHOLOGICAL = 'Psychological',
+  ROMANCE = 'Romance',
+  SCI_FI = 'Sci-Fi',
+  SLICE_OF_LIFE = 'Slice of Life',
+  SPORTS = 'Sports',
+  SUPERNATURAL = 'Supernatural',
+  THRILLER = 'Thriller',
+}
+
+export enum MediaFormat {
+  TV = 'TV',
+  TV_SHORT = 'TV_SHORT',
+  MOVIE = 'MOVIE',
+  SPECIAL = 'SPECIAL',
+  OVA = 'OVA',
+  ONA = 'ONA',
+  MUSIC = 'MUSIC',
+  MANGA = 'MANGA',
+  NOVEL = 'NOVEL',
+  ONE_SHOT = 'ONE_SHOT',
+}
+
+export enum MediaStatus {
+  ONGOING = 'Ongoing',
+  COMPLETED = 'Completed',
+  HIATUS = 'Hiatus',
+  CANCELLED = 'Cancelled',
+  NOT_YET_AIRED = 'Not yet aired',
+  UNKNOWN = 'Unknown',
+}
+
+export enum MediaSeason {
+  WINTER = `WINTER`,
+  SPRING = `SPRING`,
+  SUMMER = `SUMMER`,
+  FALL = `FALL`,
+}

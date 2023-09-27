@@ -1,6 +1,7 @@
 import {View, Text} from 'react-native';
 import React from 'react';
-import {Container, PillContainer, PillTitle} from './Options.styles';
+import {Container} from './Options.styles';
+import {PillComponent} from '../../Shared';
 
 type Props = {
   wantManga: boolean;
@@ -14,18 +15,18 @@ const MediaType: React.FC<Props> = ({wantManga = false, setWantManga}) => {
 
   return (
     <Container horizontal={true} showsHorizontalScrollIndicator={false}>
-      <PillContainer
+      <PillComponent
         active={!wantManga}
         onPress={handlePress}
-        disabled={!wantManga}>
-        <PillTitle>ANIME</PillTitle>
-      </PillContainer>
-      <PillContainer
+        disabled={!wantManga}
+        title="ANIME"
+      />
+      <PillComponent
         active={wantManga}
         onPress={handlePress}
-        disabled={wantManga}>
-        <PillTitle>MANGA</PillTitle>
-      </PillContainer>
+        disabled={wantManga}
+        title={'MANGA'}
+      />
     </Container>
   );
 };

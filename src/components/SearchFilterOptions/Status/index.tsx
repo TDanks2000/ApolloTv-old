@@ -1,26 +1,26 @@
 import {View, Text, FlatList} from 'react-native';
 import React from 'react';
-import {MediaFormats} from '../../../utils/constants';
-import {MediaFormat} from '../../../@types';
+import {MediaStatuss} from '../../../utils/constants';
+import {MediaStatus} from '../../../@types';
 import {PillComponent} from '../../Shared';
 
-const Format = () => {
-  const renderItem = (item: MediaFormat) => {
+const Status = () => {
+  const renderItem = (item: MediaStatus) => {
     return <PillComponent title={item.replaceAll('_', ' ')} active={false} />;
   };
 
   return (
     <View>
       <FlatList
-        data={MediaFormats}
+        data={MediaStatuss}
         renderItem={({item}) => renderItem(item)}
         horizontal={true}
         showsHorizontalScrollIndicator={false}
-        keyExtractor={item => `filter-format-${item}`}
+        keyExtractor={item => `filter-status-${item}`}
         contentContainerStyle={{gap: 10}}
       />
     </View>
   );
 };
 
-export default Format;
+export default Status;

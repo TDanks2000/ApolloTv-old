@@ -8,8 +8,10 @@ import RatingComponent from './Rating';
 import WatchNowComponent from './WatchNow';
 import CircleProgress from './CircleProgress';
 import Dropdown from './Dropdown';
+import PillComponent from './Pill';
 
 export {
+  PillComponent,
   RatingComponent,
   WatchNowComponent,
   DescriptionComponent,
