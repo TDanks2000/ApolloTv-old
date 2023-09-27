@@ -1,4 +1,5 @@
 import React from 'react';
+import {Platform} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {
   NavBarContainer,
@@ -21,7 +22,7 @@ const NavigationBar = ({currentRoute}: Props) => {
     navigation.navigate(stackName);
   };
 
-  if (!showNavBar) return null;
+  if (!showNavBar || Platform.isTV) return null;
 
   return (
     <NavBarContainer>

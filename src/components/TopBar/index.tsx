@@ -15,7 +15,7 @@ import NotLoggedInComponent from './NotLoggedIn';
 import {useQuery} from '@tanstack/react-query';
 import {Anilist} from '@tdanks2000/anilist-wrapper';
 import {useAccessToken} from '../../contexts';
-import {Linking} from 'react-native';
+import {Linking, Platform} from 'react-native';
 import {storage} from '../../utils';
 import {ANILIST_ACCESS_TOKEN_STORAGE} from '../../utils/constants';
 import NotificationBell from './NotificationBell';
@@ -69,10 +69,25 @@ const TopBarComponent = ({hasJustLoggedIn}: Props) => {
         )}
 
         <IconContainer>
+          {Platform.isTV &&
+            <>
+              <IconItemContainer onPress={() => navigation.navigate('Search')}>
+                <IconItem name="search" />
+              </IconItemContainer>
+              <IconItemContainer onPress={() => navigation.navigate('Lists')}>
+                <IconItem name="list-ul" />
+              </IconItemContainer>
+            </>
+          }
           <IconItemContainer onPress={() => navigation.navigate('news', {})}>
             <IconItem name="newspaper" />
           </IconItemContainer>
           <NotificationBell />
+          {Platform.isTV &&
+            <IconItemContainer onPress={() => navigation.navigate('Settings')}>
+              <IconItem name="cog" />
+            </IconItemContainer>
+          }
         </IconContainer>
       </Container>
     </>

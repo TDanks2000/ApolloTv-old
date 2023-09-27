@@ -58,9 +58,10 @@ const Setting = (props: Props) => {
         <Dropdown isOpen={open}>
           <DropdownComponent>
             {props.options?.map((option: string, index: number) => (
-              <DropdownItem onPress={() => handlePress(option)}>
+              <DropdownItem 
+                key={`option-${option}-${index}`} 
+                onPress={() => handlePress(option)}>
                 <DropdownItemTitle
-                  key={`option-${option}-${index}`}
                   isSelected={option === selectedOption}>
                   {option}
                 </DropdownItemTitle>

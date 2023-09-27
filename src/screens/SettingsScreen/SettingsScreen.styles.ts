@@ -6,6 +6,7 @@ import Icon from 'react-native-vector-icons/FontAwesome6';
 
 export const BottomInfo = styled.View`
   margin-top: 25px;
+  margin-bottom: 25px;
 `;
 
 export const BottomImageContaoner = styled.View`

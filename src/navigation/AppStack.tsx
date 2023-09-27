@@ -23,7 +23,7 @@ import {NavigationBar} from '../components';
 import {RootStackParamList} from '../@types';
 import {utils} from '../utils';
 import {SyncingSettingScreen} from '../screens/SettingScreens';
-import Orientation from 'react-native-orientation-locker';
+import {OrientationLocker, LANDSCAPE, PORTRAIT} from 'react-native-orientation-locker';
 import {StatusBar, Platform} from 'react-native';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -46,18 +46,7 @@ const AppStack = () => {
   const [routeNameRef, setRouteNameRef] = useState<any>();
 
   React.useEffect(() => {
-    if (routeNameRef === 'VideoPlayer' || routeNameRef === 'ReaderScreen') {
-      if (routeNameRef === 'VideoPlayer') Orientation.lockToLandscape();
-      StatusBar.setHidden(true);
-      return utils.ToggleSystemNavigation(false);
-    }
-
-    if (!Platform.isTV) {
-      // lock to portrait
-      Orientation.lockToPortrait();
-    }
-    StatusBar.setHidden(false, 'slide');
-    utils.ToggleSystemNavigation(true);
+    utils.ToggleSystemNavigation(!(routeNameRef === 'VideoPlayer' || routeNameRef === 'ReaderScreen'));  
   }, [routeNameRef]);
 
   return (
@@ -76,6 +65,8 @@ const AppStack = () => {
           setRouteNameRef(currentRouteName);
         }
       }}>
+      <OrientationLocker orientation={Platform.isTV ? LANDSCAPE : PORTRAIT} />
+      <StatusBar hidden={false} showHideTransition={'slide'} />
       <Stack.Navigator
         initialRouteName="Home"
         screenOptions={{
