@@ -11,7 +11,7 @@ import {View, Text, StatusBar, Platform} from 'react-native';
 import Video, {OnLoadData, OnProgressData} from 'react-native-video';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {useQuery} from '@tanstack/react-query';
-import Orientation from 'react-native-orientation-locker';
+import {OrientationLocker, LANDSCAPE} from 'react-native-orientation-locker';
 import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import Toast from 'react-native-toast-message';
 
@@ -167,18 +167,6 @@ const VideoPlayerScreen: React.FC<Props> = ({route}): JSX.Element => {
       skipOutro();
     }
   }, [currentTime, duration]);
-
-  useEffect(() => {
-    Orientation.lockToLandscape();
-    StatusBar.setHidden(true);
-
-    return () => {
-      if (!Platform.isTV) {
-        Orientation.lockToPortrait();
-      }
-      StatusBar.setHidden(false, 'slide');
-    };
-  }, [episode_id]);
 
   const checkIfWatched = async () => {
     if (!duration) return;
@@ -340,6 +328,8 @@ const VideoPlayerScreen: React.FC<Props> = ({route}): JSX.Element => {
 
   return (
     <View>
+      <OrientationLocker orientation={LANDSCAPE} />
+      <StatusBar hidden={true} />
       <Player.PlayerControls
         paused={paused}
         setPaused={setPaused}

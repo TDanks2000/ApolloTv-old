@@ -1,10 +1,11 @@
 import {styled} from 'styled-components/native';
+import {Platform} from 'react-native';
 
 export const ScrollView = styled.ScrollView.attrs({
   showsHorizontalScrollIndicator: false,
   showsVerticalScrollIndicator: false,
   contentContainerStyle: {
-    paddingBottom: 300,
+    paddingBottom: Platform.isTV ? 25 : 100,
   },
 })``;
 
