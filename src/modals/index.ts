@@ -4,8 +4,10 @@ import TrailerModal from './TrailerModal';
 import VideoSettingsModal from './VideoSettingsModal';
 import VideoEpisodesModal from './VideoEpisodesModal';
 import NotificationsModal from './NotificationsModal';
+import SearchFilterOptions from './SearchFilterOptions';
 
 export {
+  SearchFilterOptions,
   NotificationsModal,
   EpisodesModal,
   VideoSettingsModal,

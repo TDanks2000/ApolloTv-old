@@ -43,6 +43,7 @@ const SettingsScreen = ({navigation}: Props) => {
         <Title>Settings</Title>
         <ScrollView style={{paddingTop: 30, marginTop: 15}}>
           <Settings.Section
+            key={'Video-settings'}
             title="Video"
             descriptor="Manage video player settings"
             type="navigation"
@@ -51,6 +52,7 @@ const SettingsScreen = ({navigation}: Props) => {
           <Seperator />
 
           <Settings.Section
+            key={'Syncing-settings'}
             title="Syncing"
             descriptor="Manage syncing settings"
             type="navigation"
@@ -60,6 +62,7 @@ const SettingsScreen = ({navigation}: Props) => {
           <Seperator />
 
           <Settings.Section
+            key={'voice-settings'}
             title="Preferred Voice"
             descriptor="Voice language e.g. Sub or Dub"
             type="prefered_voice"
@@ -72,6 +75,7 @@ const SettingsScreen = ({navigation}: Props) => {
           <Seperator />
 
           <Settings.Section
+            key={'log-out-settings'}
             title="Log Out"
             descriptor="Log out of anilist"
             type="log_out"

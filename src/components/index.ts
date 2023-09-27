@@ -17,6 +17,7 @@ import Paginate from './Paginate';
 import * as Info from './Info';
 import * as MangaInfo from './MangaInfo';
 import * as Search from './Search';
+import * as SearchFilter from './SearchFilterOptions';
 import * as Player from './Player';
 import * as Lists from './Lists';
 import * as Settings from './Settings';
@@ -33,6 +34,7 @@ import {
 import AiringScheduleComponent from './AiringSchedule';
 
 export {
+  SearchFilter,
   AiringScheduleComponent,
   NewsCard,
   MangaCharacterCard,

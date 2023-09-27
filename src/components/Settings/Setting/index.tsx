@@ -45,7 +45,7 @@ const Setting = (props: Props) => {
 
   return (
     <Wrapper>
-      <Container onPress={handleSettingPress}>
+      <Container onPress={handleSettingPress} key={`${title}-setting`}>
         <LeftContainer>
           <Title numberOfLines={1}>{title}</Title>
           <Description numberOfLines={2}>{descriptor}</Description>
@@ -58,11 +58,10 @@ const Setting = (props: Props) => {
         <Dropdown isOpen={open}>
           <DropdownComponent>
             {props.options?.map((option: string, index: number) => (
-              <DropdownItem 
-                key={`option-${option}-${index}`} 
+              <DropdownItem
+                key={`option-${option}-${index}`}
                 onPress={() => handlePress(option)}>
-                <DropdownItemTitle
-                  isSelected={option === selectedOption}>
+                <DropdownItemTitle isSelected={option === selectedOption}>
                   {option}
                 </DropdownItemTitle>
               </DropdownItem>

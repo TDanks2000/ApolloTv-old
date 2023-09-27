@@ -9,9 +9,14 @@ import {
 interface Props {
   search_text: string;
   setSearchText: (text: string) => void;
+  setShowFilterOptions: (show: boolean) => void;
 }
 
-const SearchBar = ({search_text, setSearchText}: Props) => {
+const SearchBar = ({
+  search_text,
+  setSearchText,
+  setShowFilterOptions,
+}: Props) => {
   return (
     <Container>
       <TextInput
@@ -19,7 +24,7 @@ const SearchBar = ({search_text, setSearchText}: Props) => {
         onChangeText={(text: string) => setSearchText && setSearchText(text)}
         placeholder="What do you want to watch?"
       />
-      <FilterOptions>
+      <FilterOptions onPress={() => setShowFilterOptions(true)}>
         <FilterOption name="sliders" />
       </FilterOptions>
     </Container>

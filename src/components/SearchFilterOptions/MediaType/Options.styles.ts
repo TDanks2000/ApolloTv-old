@@ -2,11 +2,13 @@ import {styled} from 'styled-components/native';
 import {Text} from '../../../styles/sharedStyles';
 import {rgba} from 'polished';
 
-export const Container = styled.ScrollView`
+export const Container = styled.ScrollView.attrs({
+  contentContainerStyle: {
+    gap: 10,
+  },
+})`
   width: 100%;
-  height: 50px;
-  margin: 20px 0;
-  margin-bottom: 5px;
+  height: 40px;
 `;
 
 interface PillProps {
@@ -14,11 +16,11 @@ interface PillProps {
 }
 
 export const PillContainer = styled.TouchableOpacity<PillProps>`
-  padding: 0 20px;
-  height: 35px;
+  padding: 0 15px;
+  height: 30px;
   background: ${({theme, active}) =>
     active === false || !active
-      ? 'rgba(0, 0, 0, 0.8)'
+      ? 'rgba(255, 255, 255, 0.1)'
       : rgba(theme.base.mainColor, 0.8)};
   border-radius: 20px;
   overflow: hidden;
@@ -30,7 +32,7 @@ export const PillContainer = styled.TouchableOpacity<PillProps>`
 
 export const PillTitle = styled(Text)`
   text-align: center;
-  font-size: 11px;
+  font-size: 14px;
   color: ${({theme}) => theme.text.primary};
 
   text-transform: capitalize;

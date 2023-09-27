@@ -7,7 +7,7 @@ type Props = {
   setWantManga: (manga: boolean) => void;
 };
 
-const Options: React.FC<Props> = ({wantManga = false, setWantManga}) => {
+const MediaType: React.FC<Props> = ({wantManga = false, setWantManga}) => {
   const handlePress = () => {
     setWantManga(!wantManga);
   };
@@ -30,4 +30,4 @@ const Options: React.FC<Props> = ({wantManga = false, setWantManga}) => {
   );
 };
 
-export default Options;
+export default MediaType;

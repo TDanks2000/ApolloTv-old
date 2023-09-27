@@ -5,9 +5,8 @@ import {Text} from '../../../styles/sharedStyles';
 export const Container = styled.FlatList`
   width: 100%;
   height: 50px;
-  margin: 20px 0;
+  margin: 15px 0;
   margin-bottom: 5px;
-  margin-top: 0;
 `;
 
 export const Wrapper = styled.View`

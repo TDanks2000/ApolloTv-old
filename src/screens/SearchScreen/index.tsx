@@ -1,16 +1,17 @@
-import {View, Text} from 'react-native';
 import React from 'react';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import {SharedContainer, SharedContainerRel} from '../../styles/sharedStyles';
+import {SharedContainer} from '../../styles/sharedStyles';
 import {MiddleOfScreenLoadingComponent, Search} from '../../components';
-import {AnimeTrending} from '../../utils/TestData';
 import {useDebounceSearch} from '../../hooks';
-import {api, helpers} from '../../utils';
+import {api} from '../../utils';
 import {API_BASE} from '@env';
 import {useQuery} from '@tanstack/react-query';
+import {SearchFilterOptions} from '../../modals';
 
 const SearchScreen = () => {
   const [searchForManga, setSearchForManga] = React.useState<boolean>(false);
+  const [showFilterOptions, setShowFilterOptions] =
+    React.useState<boolean>(false);
   const [data, setData] = React.useState();
   const [loading, toggleLoading] = React.useReducer(s => !s, false);
   const [searchText, setSearchText] = React.useState('');
@@ -46,10 +47,7 @@ const SearchScreen = () => {
           <Search.SearchBar
             search_text={searchText}
             setSearchText={setSearchText}
-          />
-          <Search.Options
-            wantManga={searchForManga}
-            setWantManga={setSearchForManga}
+            setShowFilterOptions={setShowFilterOptions}
           />
           <Search.RecentSearches
             searchText={debouncedSearchTerm}
@@ -62,6 +60,13 @@ const SearchScreen = () => {
         </SharedContainer>
       </SafeAreaView>
       {loading ? <MiddleOfScreenLoadingComponent /> : null}
+
+      <SearchFilterOptions
+        showModal={showFilterOptions}
+        setShowModal={setShowFilterOptions}
+        wantManga={searchForManga}
+        setWantManga={setSearchForManga}
+      />
     </>
   );
 };
