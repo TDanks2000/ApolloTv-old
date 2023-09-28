@@ -49,7 +49,6 @@ export const MediaStatuss: MediaStatus[] = [
   MediaStatus.HIATUS,
   MediaStatus.CANCELLED,
   MediaStatus.NOT_YET_AIRED,
-  MediaStatus.UNKNOWN,
 ];
 
 export const MediaSeasons: MediaSeason[] = [

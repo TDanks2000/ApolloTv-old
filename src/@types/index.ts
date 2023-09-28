@@ -443,11 +443,11 @@ export enum MediaFormat {
 }
 
 export enum MediaStatus {
-  ONGOING = 'Ongoing',
-  COMPLETED = 'Completed',
-  HIATUS = 'Hiatus',
-  CANCELLED = 'Cancelled',
-  NOT_YET_AIRED = 'Not yet aired',
+  ONGOING = 'RELEASING',
+  COMPLETED = 'FINISHED',
+  HIATUS = 'HIATUS',
+  CANCELLED = 'CANCELLED',
+  NOT_YET_AIRED = 'NOT_YET_RELEASED',
   UNKNOWN = 'Unknown',
 }
 

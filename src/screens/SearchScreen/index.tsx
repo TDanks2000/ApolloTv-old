@@ -10,8 +10,16 @@ import {SearchFilterOptions} from '../../modals';
 
 const SearchScreen = () => {
   const [searchForManga, setSearchForManga] = React.useState<boolean>(false);
+  const [year, setYear] = React.useState<string>();
+  const [genres, setGenres] = React.useState<string[]>([]);
+  const [season, setSeason] = React.useState<string>();
+  const [format, setFormat] = React.useState<string>();
+  const [status, setStatus] = React.useState<string>();
+  const [sort, setSort] = React.useState<string[]>([]);
+
   const [showFilterOptions, setShowFilterOptions] =
     React.useState<boolean>(false);
+
   const [data, setData] = React.useState();
   const [loading, toggleLoading] = React.useReducer(s => !s, false);
   const [searchText, setSearchText] = React.useState('');
@@ -22,11 +30,15 @@ const SearchScreen = () => {
     setData(undefined);
     toggleLoading();
 
-    const url = !searchForManga
-      ? `${API_BASE}/anilist/search/${debouncedSearchTerm}`
-      : `${API_BASE}/anilist-manga/search/${debouncedSearchTerm}`;
-
-    const getData = await api.fetcher(url);
+    const getData = await api.Search({
+      query: debouncedSearchTerm,
+      format,
+      genres,
+      season,
+      status,
+      year,
+      type: searchForManga ? 'MANGA' : 'ANIME',
+    });
 
     toggleLoading();
     setData(getData?.results);
@@ -35,9 +47,17 @@ const SearchScreen = () => {
   };
 
   const {isPending, isError, error} = useQuery({
-    queryKey: ['searchh', debouncedSearchTerm, searchForManga],
+    queryKey: [
+      'search',
+      debouncedSearchTerm,
+      searchForManga,
+      format,
+      genres,
+      season,
+      status,
+      year,
+    ],
     queryFn: fetcher,
-    enabled: debouncedSearchTerm.length > 0,
   });
 
   return (
@@ -66,6 +86,18 @@ const SearchScreen = () => {
         setShowModal={setShowFilterOptions}
         wantManga={searchForManga}
         setWantManga={setSearchForManga}
+        year={year}
+        genres={genres}
+        season={season}
+        format={format}
+        status={status}
+        sort={sort}
+        setYear={setYear}
+        setGenres={setGenres}
+        setSeason={setSeason}
+        setFormat={setFormat}
+        setStatus={setStatus}
+        setSort={setSort}
       />
     </>
   );

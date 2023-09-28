@@ -11,6 +11,7 @@ import ReaderScreen from './ReaderScreen';
 import MangaInfoScreen from './MangaInfoScreen';
 import NewsScreen from './NewsScreen';
 import NewsInfoScreen from './NewsInfoScreen';
+
 export {
   NewsInfoScreen,
   NewsScreen,

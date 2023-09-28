@@ -4,9 +4,28 @@ import {Genres as GenresArray} from '../../../utils/constants';
 import {GENRES} from '../../../@types';
 import {PillComponent} from '../../Shared';
 
-const Genres = () => {
+type Props = {
+  genres?: string[];
+  setGenres: (value: string[]) => void;
+};
+
+const Genres: React.FC<Props> = ({genres, setGenres}) => {
+  const handlePress = (item: GENRES) => {
+    if (genres?.includes(item)) {
+      setGenres(genres!.filter(genre => genre !== item));
+    } else {
+      setGenres([...genres!, item]);
+    }
+  };
+
   const renderItem = (item: GENRES) => {
-    return <PillComponent title={item} active={false} />;
+    return (
+      <PillComponent
+        title={item}
+        onPress={() => handlePress(item)}
+        active={genres!.includes(item)}
+      />
+    );
   };
 
   return (

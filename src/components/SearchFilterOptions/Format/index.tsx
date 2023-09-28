@@ -4,9 +4,24 @@ import {MediaFormats} from '../../../utils/constants';
 import {MediaFormat} from '../../../@types';
 import {PillComponent} from '../../Shared';
 
-const Format = () => {
+type Props = {
+  format?: string;
+  setFormat: (value: string) => void;
+};
+
+const Format: React.FC<Props> = ({format, setFormat}) => {
+  const handlePress = (item: MediaFormat) => {
+    setFormat(item === format ? '' : item);
+  };
+
   const renderItem = (item: MediaFormat) => {
-    return <PillComponent title={item.replaceAll('_', ' ')} active={false} />;
+    return (
+      <PillComponent
+        title={item.replaceAll('_', ' ')}
+        active={item.toLowerCase() === format?.toLowerCase()}
+        onPress={() => handlePress(item)}
+      />
+    );
   };
 
   return (

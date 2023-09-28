@@ -101,3 +101,42 @@ export const addToAnalytics = async (screen_width: number) => {
     },
   });
 };
+
+export interface ASearchType {
+  query?: string;
+  year?: string;
+  genres?: string[];
+  season?: string;
+  format?: string;
+  status?: string;
+  sort?: string[];
+  type?: 'ANIME' | 'MANGA';
+}
+
+export const Search = async (queries: ASearchType) => {
+  const url =
+    queries.type === 'MANGA'
+      ? new URL(`${API_BASE}/anilist-manga/search`)
+      : new URL(`${API_BASE}/anilist/advanced-search`);
+
+  if (queries.type === 'MANGA') {
+    const data = await fetcher<any>(`${url.href}${queries.query!}`);
+    return data;
+  }
+
+  queries = {type: 'ANIME', ...queries};
+
+  Object.entries(queries).forEach(([key, value]) => {
+    if (!value || value.length < 1) return;
+    if (key === 'genres' && value.length > 1) {
+      value = `[${value.map((v: string) => `"${v}"`)}]`;
+    }
+    url.searchParams.append(key, value);
+  });
+
+  const data = await fetcher<any>(
+    url.href.replace('advanced-search/', 'advanced-search'),
+  );
+
+  return data;
+};

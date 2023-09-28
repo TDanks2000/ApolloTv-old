@@ -4,9 +4,24 @@ import {MediaStatuss} from '../../../utils/constants';
 import {MediaStatus} from '../../../@types';
 import {PillComponent} from '../../Shared';
 
-const Status = () => {
+type Props = {
+  status?: string;
+  setStatus: (value: string) => void;
+};
+
+const Status: React.FC<Props> = ({status, setStatus}) => {
+  const handlePress = (item: MediaStatus) => {
+    setStatus(item === status ? '' : item);
+  };
+
   const renderItem = (item: MediaStatus) => {
-    return <PillComponent title={item.replaceAll('_', ' ')} active={false} />;
+    return (
+      <PillComponent
+        title={item.replaceAll('_', ' ')}
+        active={status?.toLowerCase() === item.toLowerCase()}
+        onPress={() => handlePress(item)}
+      />
+    );
   };
 
   return (
