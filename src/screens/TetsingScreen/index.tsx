@@ -50,19 +50,19 @@ import {SharedContainer} from '../../styles/sharedStyles';
 // };
 
 const TestingScreen: React.FC = () => {
-  const [selectedDay, setSelectedDay] = React.useState<any>(null);
+  // const [selectedDay, setSelectedDay] = React.useState<any>(null);
 
-  const {results} = AiringSchedule;
-  const formatted = helpers.structureAiringSchedule(results);
+  // const {results} = AiringSchedule;
+  // const formatted = helpers.structureAiringSchedule(results);
 
-  React.useEffect(() => {
-    // Set the default day to the first available day
-    const firstMonth = Object.keys(formatted[Object.keys(formatted)[0]])[0];
-    const firstDay = Object.keys(
-      formatted[Object.keys(formatted)[0]][firstMonth],
-    )[0];
-    setSelectedDay(firstDay);
-  }, []);
+  // React.useEffect(() => {
+  //   // Set the default day to the first available day
+  //   const firstMonth = Object.keys(formatted[Object.keys(formatted)[0]])[0];
+  //   const firstDay = Object.keys(
+  //     formatted[Object.keys(formatted)[0]][firstMonth],
+  //   )[0];
+  //   setSelectedDay(firstDay);
+  // }, []);
 
   return (
     <SafeAreaView>

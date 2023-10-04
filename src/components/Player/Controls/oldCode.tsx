@@ -1,8 +1,5 @@
-// React and React Native imports
-import React, {useState, useEffect} from 'react';
-import {View, TouchableOpacity, Animated} from 'react-native';
-
-// Styled components imports
+import {View, Text, TouchableOpacity, Animated} from 'react-native';
+import React from 'react';
 import {
   Bottom,
   ClickToDismiss,
@@ -15,8 +12,10 @@ import {
   TopTextContainer,
   IconBase6,
 } from './Controls.styles';
-
-// Types imports
+import PlayPause from './PlayPause';
+import SkipTo from './SkipTo';
+import {BackButtonComponent} from '../../Shared';
+import ControlsSlider from './Slider';
 import {
   AnimeInfo,
   Aniskip,
@@ -24,21 +23,12 @@ import {
   SettingsOptionsGroup,
   SourceVideoOptions,
 } from '../../../@types';
-
-// Utilities imports
 import {utils} from '../../../utils';
+import {episodeSQLHelper} from '../../../utils/database';
 
-// Modals imports
 import {VideoEpisodesModal, VideoSettingsModal} from '../../../modals';
-
-// Controls components imports
-import PlayPause from './PlayPause';
-import SkipTo from './SkipTo';
-import ControlsSlider from './Slider';
 import SkipIntroOutro from './SkipIntroOutro';
-
-// Shared components imports
-import {BackButtonComponent} from '../../Shared';
+import {UPDATEDB} from '../../../screens/VideoPlayerScreen/helpers';
 
 interface Props {
   paused: boolean;
@@ -81,16 +71,15 @@ const PlayerControls = ({
   skipTimes,
   episodes,
 }: Props) => {
+  const [isAtIntro, setIsAtIntro] = React.useState<boolean>(false);
+  const [isAtOutro, setIsAtOutro] = React.useState<boolean>(false);
+  const [hideControls, setHideControls] = React.useState<boolean>(false);
   const actualTitle = utils.getTitle(anime_info.title);
-
-  const [spinValue] = useState(new Animated.Value(0));
-  const [hideControls, setHideControls] = useState(false);
-  const [openSettings, setOpenSettings] = useState(false);
-  const [openEpisodes, setOpenEpisodes] = useState(false);
-  const [isAtIntro, setIsAtIntro] = useState(false);
-  const [isAtOutro, setIsAtOutro] = useState(false);
-
   const [spinState, setSpinState] = React.useState<boolean>(false);
+  const spinValue = React.useRef(new Animated.Value(0)).current;
+
+  const [openSettings, setOpenSettings] = React.useState<boolean>(false);
+  const [openEpisodes, setOpenEpisodes] = React.useState<boolean>(false);
 
   const startSpinAnimation = () => {
     setSpinState((prev: boolean) => !prev);
@@ -112,10 +101,9 @@ const PlayerControls = ({
   });
 
   let hideControlsDuration: number = 7000;
-  let hideControlsTimeout: NodeJS.Timeout;
-
-  const handleInactive = (wantUpdate = true) => {
-    setHideControls(!hideControls);
+  let hideControlsTimeout: any;
+  const handleInactive = (wantUpdate: boolean = true) => {
+    setHideControls((prev: boolean) => !prev);
 
     clearTimeout(hideControlsTimeout);
     hideControlsTimeout = setTimeout(() => {
@@ -129,57 +117,57 @@ const PlayerControls = ({
   const sourcesSorted = utils.sortQualities(sources as any);
   const qualityOptions: SettingsOptionsGroup = {
     title: 'Quality',
-    options: sourcesSorted.map(source => ({
-      title: source.quality || '',
-      value: source.quality?.toLowerCase() || '',
+    options: sourcesSorted.map((source: SourceVideoOptions) => ({
+      title: source.quality ?? undefined,
+      value: source.quality?.toLowerCase(),
       onPress: () => {
-        if (source.quality !== selectedQuality.quality) {
+        if (source.quality !== selectedQuality.quality)
           setSelectedQuality(source);
-        }
         handleInactive(false);
-        setTimeout(checkIfWatched, 500);
+        setTimeout(() => {
+          checkIfWatched();
+        }, 500);
       },
     })),
   };
 
   const timeToCheckBefore = 5;
-  const checkPosition = (
-    startTime: number,
-    endTime: number,
-    positionTime: number,
-  ): boolean => {
-    return positionTime >= startTime && positionTime <= endTime;
-  };
+  React.useEffect(() => {
+    if (!skipTimes?.opening) return;
+    const openingStartTime =
+      skipTimes?.opening.interval.startTime - timeToCheckBefore;
+    const openingEndTime = skipTimes?.opening?.interval?.endTime;
 
-  const handleSkipTimeCheck = () => {
-    if (skipTimes?.opening) {
-      const openingStartTime =
-        skipTimes.opening.interval.startTime - timeToCheckBefore;
-      const openingEndTime = skipTimes.opening?.interval?.endTime;
+    const isCurrentPosAtOpening =
+      currentTime >= openingStartTime && currentTime <= openingEndTime;
+    const isCurrentPosAtOpeningEnd = currentTime >= openingEndTime;
 
-      setIsAtIntro(
-        checkPosition(openingStartTime, openingEndTime, currentTime) &&
-          !isAtIntro,
-      );
-      setIsAtOutro(!isAtIntro && currentTime >= openingEndTime);
+    if (isCurrentPosAtOpening && !isAtIntro) {
+      setIsAtIntro(true);
+      setIsAtOutro(false);
+    } else if (isCurrentPosAtOpeningEnd && isAtIntro) {
+      setIsAtIntro(false);
     }
 
-    if (skipTimes?.ending) {
-      const endingStartTime =
-        skipTimes.ending.interval.startTime - timeToCheckBefore;
-      const endingEndTime = skipTimes.ending?.interval?.endTime;
-
-      setIsAtOutro(
-        checkPosition(endingStartTime, endingEndTime, currentTime) &&
-          !isAtOutro,
-      );
-      setIsAtIntro(!isAtOutro && currentTime >= endingEndTime);
+    if (!skipTimes?.ending) return;
+    const endingStartTime =
+      skipTimes?.ending.interval.startTime - timeToCheckBefore;
+    const endingEndTime = skipTimes?.ending?.interval?.endTime;
+    const isCurrentPosAtEnding =
+      currentTime >= endingStartTime && currentTime <= endingEndTime;
+    const isCurrentPosAtEndingEnd = currentTime >= endingEndTime;
+    if (isCurrentPosAtEnding && !isAtOutro) {
+      setIsAtOutro(true);
+      setIsAtIntro(false);
+    } else if (isCurrentPosAtEndingEnd && isAtOutro) {
+      setIsAtOutro(false);
     }
-  };
-
-  useEffect(() => {
-    handleSkipTimeCheck();
   }, [currentTime]);
+
+  // React.useEffect(() => {
+  //   console.log(isAtIntro);
+  //   console.log(isAtOutro);
+  // }, [isAtIntro, isAtOutro]);
 
   return (
     <>

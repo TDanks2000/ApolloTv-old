@@ -86,6 +86,7 @@ const AiringScheduleComponent: React.FC = () => {
   };
 
   const renderAnimeContainers = (animeList: any[]) => {
+    console.log(selectedDay);
     return selectedDay === null ? (
       <AnimesContainer>
         {animeList.map(anime => {

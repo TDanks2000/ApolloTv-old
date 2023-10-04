@@ -9,9 +9,9 @@ const AccessTokenContext = createContext<IUseAcessToken | null>(null);
 export function useAccessToken() {
   const context = useContext(AccessTokenContext);
 
-  // if (context === null) {
-  //   throw new Error('useAccessToken must be used within a AccessTokenProvider');
-  // }
+  if (context === null) {
+    throw new Error('useAccessToken must be used within a AccessTokenProvider');
+  }
 
   return context;
 }

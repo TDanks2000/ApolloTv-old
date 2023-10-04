@@ -213,22 +213,30 @@ const VideoPlayerScreen: React.FC<Props> = ({route}): JSX.Element => {
     if (didUpdate) setWatchedAnilist(true);
   };
 
+  let timeout: NodeJS.Timeout | null = null;
+
   const onProgress = (data: OnProgressData) => {
     setCurrentTime(data?.currentTime ?? 0);
 
     if (duration) {
-      const watched = (data?.currentTime / duration) * 100;
+      const hasJustWatched = (data?.currentTime / duration) * 100;
 
-      if (watched > watchTimeBeforeSync && privateMode === 'off') {
+      if (hasJustWatched > watchTimeBeforeSync && privateMode === 'off') {
         updateAnilist();
       }
 
-      updateDB(
-        data?.currentTime ?? currentTime,
-        duration,
-        episode_info,
-        watched,
-      );
+      // Clear and reset the timeout for updateDB
+      if (timeout) clearTimeout(timeout);
+
+      if (!watched)
+        timeout = setTimeout(() => {
+          updateDB(
+            data?.currentTime ?? currentTime,
+            duration,
+            episode_info,
+            hasJustWatched,
+          );
+        }, 3000);
     }
   };
 
@@ -338,7 +346,6 @@ const VideoPlayerScreen: React.FC<Props> = ({route}): JSX.Element => {
         duration={duration ?? 0}
         episode_info={episode_info}
         anime_info={anime_info}
-        updateDB={updateDB}
         selectedQuality={selectedSource}
         sources={sources}
         setSelectedQuality={setSelectedSource}
