@@ -124,10 +124,11 @@ export const Search = async (queries: ASearchType) => {
   }
 
   queries = {type: 'ANIME', ...queries};
+  console.log(queries);
 
   Object.entries(queries).forEach(([key, value]) => {
     if (!value || value.length < 1) return;
-    if (key === 'genres' && value.length > 1) {
+    if (key === 'genres' && value.length >= 1) {
       value = `[${value.map((v: string) => `"${v}"`)}]`;
     }
     url.searchParams.append(key, value);
