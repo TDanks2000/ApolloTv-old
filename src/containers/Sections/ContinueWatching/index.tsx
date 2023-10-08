@@ -54,7 +54,9 @@ const ContuineWatchingContainer = () => {
           ),
         ).map(id => {
           return newList.find((item: any) => {
-            return item.anime_id ? item.anime_id === id : item.media.id === id;
+            return item.anime_id
+              ? item?.anime_id?.toString() === id?.toString()
+              : item?.media?.id.toString() === id!.toString();
           });
         })
       : null;
@@ -69,7 +71,7 @@ const ContuineWatchingContainer = () => {
   };
 
   const {isPending, isError, data, error} = useQuery({
-    queryKey: ['ContuineWatching'],
+    queryKey: ['ContuineWatching11111'],
     queryFn: fetcher,
   });
 

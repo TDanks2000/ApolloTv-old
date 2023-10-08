@@ -33,6 +33,7 @@ import {
 import {episodeSQLHelper} from '../../utils/database';
 import {Anilist} from '@tdanks2000/anilist-wrapper';
 import {updateDB, watchTimeBeforeSync} from './helpers';
+import axios from 'axios';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'VideoPlayer'>;
 
@@ -61,6 +62,8 @@ const VideoPlayerScreen: React.FC<Props> = ({route}): JSX.Element => {
   const [duration, setDuration] = useState(0);
   const [currentTime, setCurrentTime] = useState(0);
   const [isBuffering, setIsBuffering] = useState<boolean>(false);
+  const [skipData, setSkipData] = useState<any>();
+  const [skipDataPending, setSkipDataPending] = useState<boolean>(true);
 
   const [hasSkipedIntro, toggleHasSkippedIntro] = useReducer(s => !s, false);
   const [hasSkipedEnding, toggleHasSkippedEnding] = useReducer(s => !s, false);
@@ -76,30 +79,41 @@ const VideoPlayerScreen: React.FC<Props> = ({route}): JSX.Element => {
   } = route.params;
 
   const fetchAniskip = async () => {
-    const skipTimes: AniskipData = await api.fetcher(
+    const data = await api.fetcher<AniskipData>(
       `${API_BASE}/aniskip/${anime_info.malId}/${episode_info.episode_number}`,
     );
 
-    const ending = skipTimes.find(item => item.skipType === 'ed');
-    const opening = skipTimes.find(item => item.skipType === 'op');
+    if (!data) {
+      return {
+        ending: undefined,
+        opening: undefined,
+      };
+    }
+
+    const skipTimes: AniskipData = JSON.parse(JSON.stringify(data));
+
+    let opening;
+    let ending;
+    for await (const skipTime of Object.values(skipTimes)) {
+      if (skipTime?.skipType?.toLowerCase() === 'op') opening = skipTime;
+      if (skipTime?.skipType?.toLowerCase() === 'ed') ending = skipTime;
+      if (opening && ending) break; // Break if both opening and ending are found.
+    }
 
     const returnData = {
       ending,
       opening,
     };
 
-    return returnData;
+    setSkipData(returnData);
+    setSkipDataPending(false);
   };
 
-  const {
-    isPending: skipDataPending,
-    isError: isSkipDataErro,
-    data: skipData,
-    error: skipDataError,
-  } = useQuery({
-    queryKey: ['aniskip', episode_id],
-    queryFn: fetchAniskip,
-  });
+  useFocusEffect(
+    React.useCallback(() => {
+      fetchAniskip();
+    }, [episode_id, anime_info]),
+  );
 
   const {setShowNavBar}: any = useContext(NavigationContext);
 
@@ -221,30 +235,26 @@ const VideoPlayerScreen: React.FC<Props> = ({route}): JSX.Element => {
     if (duration) {
       const hasJustWatched = (data?.currentTime / duration) * 100;
 
-      if (hasJustWatched > watchTimeBeforeSync && privateMode === 'off') {
-        updateAnilist();
+      if (hasJustWatched > watchTimeBeforeSync) {
+        if (privateMode === 'off') updateAnilist();
+        updateDB(
+          data?.currentTime ?? currentTime,
+          duration,
+          episode_info,
+          hasJustWatched,
+        );
+        setWatched(true);
       }
-
-      // Clear and reset the timeout for updateDB
-      if (timeout) clearTimeout(timeout);
-
-      if (!watched)
-        timeout = setTimeout(() => {
-          updateDB(
-            data?.currentTime ?? currentTime,
-            duration,
-            episode_info,
-            hasJustWatched,
-          );
-        }, 3000);
     }
   };
 
   const onLoad = (data: OnLoadData) => {
+    if (!watched) updateDB(currentTime, duration, episode_info);
     setDuration(data.duration);
   };
 
   const onEnd = () => {
+    if (!watched) updateDB(currentTime, duration, episode_info);
     if (autoNextEpisode === 'off' || !autoNextEpisode) return;
     const current_episode = episode_info.episode_number!;
     const next_episode_number = current_episode + 1;
@@ -295,12 +305,13 @@ const VideoPlayerScreen: React.FC<Props> = ({route}): JSX.Element => {
       }
 
       return () => {
+        if (!watched) updateDB(currentTime, duration, episode_info);
         setShowNavBar(true);
         if (hasSkipedIntro === true) toggleHasSkippedIntro();
         if (hasSkipedEnding === true) toggleHasSkippedEnding();
         if (watched === true) setWatched(false);
       };
-    }, [data, isError, error]),
+    }, [data, isError, error, currentTime, duration, episode_info]),
   );
 
   const USER_AGENT = useMemo(
@@ -344,6 +355,7 @@ const VideoPlayerScreen: React.FC<Props> = ({route}): JSX.Element => {
         videoRef={videoRef}
         currentTime={currentTime ?? 0}
         duration={duration ?? 0}
+        updateDB={updateDB}
         episode_info={episode_info}
         anime_info={anime_info}
         selectedQuality={selectedSource}
@@ -363,7 +375,10 @@ const VideoPlayerScreen: React.FC<Props> = ({route}): JSX.Element => {
         onLoad={onLoad}
         onProgress={onProgress}
         onEnd={onEnd}
-        onBuffer={data => setIsBuffering(data.isBuffering)}
+        onBuffer={data => {
+          if (!watched) updateDB(currentTime, duration, episode_info);
+          setIsBuffering(data.isBuffering);
+        }}
         source={{
           uri: selectedSource.url,
           headers: {

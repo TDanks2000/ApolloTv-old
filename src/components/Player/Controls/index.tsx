@@ -40,6 +40,8 @@ import SkipIntroOutro from './SkipIntroOutro';
 // Shared components imports
 import {BackButtonComponent} from '../../Shared';
 
+import {UPDATEDB} from '../../../screens/VideoPlayerScreen/helpers';
+
 interface Props {
   paused: boolean;
   setPaused: (paused: boolean) => void;
@@ -47,6 +49,8 @@ interface Props {
   currentTime: number;
   duration: number;
   isBuffering: boolean;
+
+  updateDB: UPDATEDB;
 
   episode_info: EpisodeInfo;
   anime_info: AnimeInfo;
@@ -80,6 +84,7 @@ const PlayerControls = ({
   skipFunctions,
   skipTimes,
   episodes,
+  updateDB,
 }: Props) => {
   const actualTitle = utils.getTitle(anime_info.title);
 
@@ -115,6 +120,7 @@ const PlayerControls = ({
   let hideControlsTimeout: NodeJS.Timeout;
 
   const handleInactive = (wantUpdate = true) => {
+    if (wantUpdate) updateDB(currentTime, duration, episode_info);
     setHideControls(!hideControls);
 
     clearTimeout(hideControlsTimeout);

@@ -316,7 +316,9 @@ export type SettingsSectionsType = {
   }[];
 };
 
-export type AniskipData = Aniskip[];
+export type AniskipData = {
+  [x: string]: Aniskip;
+};
 
 export interface Aniskip {
   episodeLength: number;
