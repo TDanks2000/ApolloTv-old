@@ -281,7 +281,11 @@ const VideoPlayerScreen: React.FC<Props> = ({route}): JSX.Element => {
   };
 
   const fetcher = async () => {
-    return await api.fetcher(`${API_BASE}/anilist/watch/${episode_id}`);
+    try {
+      return await api.fetcher(`${API_BASE}/anilist/watch/${episode_id}`);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const {isPending, isError, data, error} = useQuery({
@@ -322,7 +326,7 @@ const VideoPlayerScreen: React.FC<Props> = ({route}): JSX.Element => {
   const referer = useMemo(() => data?.headers?.Referer ?? undefined, [data]);
 
   if (isPending) return <MiddleOfScreenLoadingComponent />;
-  if (isError) {
+  if (isError || error) {
     Toast.show({
       type: 'error',
       text1: 'Error',

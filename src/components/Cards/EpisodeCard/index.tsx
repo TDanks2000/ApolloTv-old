@@ -74,11 +74,18 @@ const EpisodeCard = (props: EpisodeCardProps) => {
     else setActualWatchedPercent(undefined);
   }, []);
 
+  const imageAlts = image ? image : anime_info.image;
+
+  console.log({
+    image: imageAlts,
+    anime_info: anime_info.image,
+  });
+
   return (
     <EpisodeContainer onPress={onPress}>
       <EpisodeImageBackground
         source={{
-          uri: image,
+          uri: imageAlts,
         }}>
         {/* @ts-ignore */}
         <Wrapper>

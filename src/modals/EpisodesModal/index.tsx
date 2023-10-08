@@ -123,6 +123,7 @@ const EpisodesModal = ({
                         id: anime_info.id,
                         title: anime_info.title,
                         malId: anime_info.malId,
+                        image: anime_info.image,
                       }}
                       episodes={episodes}
                     />

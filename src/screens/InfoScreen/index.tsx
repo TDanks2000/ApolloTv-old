@@ -176,6 +176,7 @@ const InfoScreen = ({route}: Props) => {
           id: data.id,
           title: data.title,
           malId: data.malId,
+          image: data.cover ?? data.image,
         }}
       />
       {/* <CollectionsModal /> */}
