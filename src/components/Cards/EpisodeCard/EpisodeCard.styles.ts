@@ -75,9 +75,9 @@ export const EpisodeTitle = styled.Text`
 export const PercentWatchedContainer = styled.View`
   width: 100%;
   background-color: ${({theme}) => rgba(theme.base.mainColor, 0.4)};
-  height: 5px;
+  height: 4px;
   position: absolute;
-  top: 0;
+  top: -4px;
   left: 0;
 `;
 
