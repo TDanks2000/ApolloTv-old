@@ -76,11 +76,6 @@ const EpisodeCard = (props: EpisodeCardProps) => {
 
   const imageAlts = image ? image : anime_info.image;
 
-  console.log({
-    image: imageAlts,
-    anime_info: anime_info.image,
-  });
-
   return (
     <EpisodeContainer onPress={onPress}>
       <EpisodeImageBackground
