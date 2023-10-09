@@ -1,7 +1,11 @@
 import React, {useEffect} from 'react';
 import {useWindowDimensions} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import {BannerComponent, TopBarComponent} from '../../components';
+import {
+  AiringScheduleComponent,
+  BannerComponent,
+  TopBarComponent,
+} from '../../components';
 import {GenericContainer, SectionContainer} from './HomeScreen.styles';
 import {
   AiringScheduleContainer,
@@ -71,8 +75,12 @@ const HomeScreen = ({route}: Props) => {
             type="MANGA"
           />
         </GenericContainer>
+
+        <GenericContainer>
+          <AiringScheduleComponent />
+        </GenericContainer>
+
         {/* <GenericContainer> */}
-        {/* <AiringScheduleContainer /> */}
         {/* </GenericContainer> */}
       </ScrollView>
     </SafeAreaView>

@@ -26,7 +26,7 @@ export interface ITitleLanguageOptions {
   userPreferred: string;
 }
 
-export type TitleType = string | ITitleLanguageOptions;
+export type TitleType = ITitleLanguageOptions | string;
 
 export type CardProps = {
   title: TitleType;
@@ -459,3 +459,5 @@ export enum MediaSeason {
   SUMMER = `SUMMER`,
   FALL = `FALL`,
 }
+
+export * from './Services';

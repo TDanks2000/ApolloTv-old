@@ -1,5 +1,9 @@
 import {styled} from 'styled-components/native';
-import {Text} from '../../styles/sharedStyles';
+import {Text, SharedContainer} from '../../styles/sharedStyles';
+
+export const Container = styled(SharedContainer)`
+  margin-top: 5px;
+`;
 
 type Props = {
   active?: boolean;
@@ -29,8 +33,11 @@ export const DayOfWeekText = styled(Text)`
 
 export const DaysContainer = styled.ScrollView.attrs({
   horizontal: true,
+  showsHorizontalScrollIndicator: false,
+  showsVerticalScrollIndicator: false,
   contentContainerStyle: {
     gap: 10,
+    paddingHorizontal: 20,
   },
 })``;
 
@@ -38,16 +45,16 @@ export const AnimesContainer = styled.ScrollView.attrs({
   showsHorizontalScrollIndicator: false,
   showsVerticalScrollIndicator: false,
   contentContainerStyle: {
-    gap: 5,
+    gap: 8,
   },
 })`
   width: 100%;
-  height: 235px;
+  /* height: 345px; */
   margin-top: 20px;
   overflow: hidden;
 `;
 
-export const AnimeContainer = styled.Pressable`
+export const AnimeContainer = styled.TouchableOpacity`
   width: 100%;
   flex-direction: row;
   justify-content: space-between;
@@ -56,10 +63,15 @@ export const AnimeContainer = styled.Pressable`
 `;
 
 export const AnimeTime = styled(Text)`
+  font-weight: bold;
   overflow: hidden;
+  /* color: ${({theme}) => theme.base.mainColor}; */
 `;
 
-export const AnimeTitle = styled(Text)`
+export const AnimeTitle = styled(Text).attrs({
+  numberOfLines: 1,
+})`
   flex: 1;
   overflow: hidden;
+  font-size: 14px;
 `;
