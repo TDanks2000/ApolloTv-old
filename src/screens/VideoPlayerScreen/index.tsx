@@ -66,8 +66,8 @@ const VideoPlayerScreen: React.FC<Props> = ({route}): JSX.Element => {
   const [skipData, setSkipData] = useState<any>();
   const [skipDataPending, setSkipDataPending] = useState<boolean>(true);
 
-  const [hasSkipedIntro, toggleHasSkippedIntro] = useReducer(s => !s, false);
-  const [hasSkipedEnding, toggleHasSkippedEnding] = useReducer(s => !s, false);
+  const [hasSkipedIntro, setHasSkippedIntro] = React.useState<boolean>(false);
+  const [hasSkipedEnding, setHasSkippedEnding] = React.useState<boolean>(false);
 
   const {
     episode_id,
@@ -135,38 +135,42 @@ const VideoPlayerScreen: React.FC<Props> = ({route}): JSX.Element => {
   useEffect(() => {
     checkIfWatched();
   }, [watched_percentage, duration]);
+  const skipIntro = (wantToUpdate: boolean = false) => {
+    if (!skipData?.opening?.interval) return;
+    const openingStartTime = skipData.opening.interval.startTime;
+    const isCurrentPosAtOpening = currentTime >= openingStartTime;
 
-  const skipSection = (type: 'op' | 'ed', wantToUpdate: boolean = false) => {
-    if (!skipData?.ending && !skipData?.opening) return;
+    const openingEndTime = skipData.opening.interval.endTime;
 
-    const skipItem = type === 'op' ? skipData.opening : skipData.ending;
-
-    if (!skipItem || !skipItem.interval) return;
-
-    const {startTime, endTime} = skipItem.interval;
-    const isCurrentPosAtStart = currentTime >= startTime;
-
-    if (isCurrentPosAtStart) {
-      if (
-        wantToUpdate &&
-        ((type === 'op' && !hasSkipedIntro) ||
-          (type === 'ed' && !hasSkipedEnding))
-      ) {
-        if (videoRef.current) {
-          toggleHasSkippedIntro();
-          toggleHasSkippedEnding();
-          videoRef.current.seek(endTime);
-        }
-      } else if (!wantToUpdate) {
-        if (videoRef.current) {
-          videoRef.current.seek(endTime);
-        }
+    if (!videoRef.current) return;
+    if (isCurrentPosAtOpening && wantToUpdate) {
+      if (!hasSkipedIntro) {
+        setHasSkippedIntro(true);
+        console.log(hasSkipedIntro);
+        videoRef.current.seek(openingEndTime + 5);
       }
+    } else if (isCurrentPosAtOpening && !wantToUpdate) {
+      videoRef.current.seek(openingEndTime);
     }
   };
 
-  const skipIntro = () => skipSection('op', true);
-  const skipOutro = () => skipSection('ed', true);
+  const skipOutro = (wantToUpdate: boolean = false) => {
+    if (!skipData?.ending?.interval) return;
+    const endingStartTime = skipData.ending.interval.startTime;
+    const isCurrentPosAtEnding = currentTime >= endingStartTime;
+
+    const endingEndTime = skipData.ending.interval.endTime;
+
+    if (!videoRef.current) return;
+    if (isCurrentPosAtEnding && wantToUpdate) {
+      if (!hasSkipedEnding) {
+        setHasSkippedEnding(true);
+        videoRef.current.seek(endingEndTime);
+      }
+    } else if (isCurrentPosAtEnding && !wantToUpdate) {
+      videoRef.current.seek(endingEndTime);
+    }
+  };
 
   useEffect(() => {
     if (!videoRef?.current) return;
@@ -175,11 +179,11 @@ const VideoPlayerScreen: React.FC<Props> = ({route}): JSX.Element => {
     if (skipDataPending) return;
 
     if (skipData?.opening?.interval && autoSkipIntro === 'on') {
-      skipIntro();
+      skipIntro(true);
     }
 
     if (skipData?.ending?.interval && autoSkipOutro === 'on') {
-      skipOutro();
+      skipOutro(true);
     }
   }, [currentTime, duration]);
 
@@ -227,8 +231,6 @@ const VideoPlayerScreen: React.FC<Props> = ({route}): JSX.Element => {
 
     if (didUpdate) setWatchedAnilist(true);
   };
-
-  let timeout: NodeJS.Timeout | null = null;
 
   const onProgress = (data: OnProgressData) => {
     setCurrentTime(data?.currentTime ?? 0);
@@ -308,15 +310,23 @@ const VideoPlayerScreen: React.FC<Props> = ({route}): JSX.Element => {
       if (isError) {
         setShowNavBar(true);
       }
+    }, [data, isError, error, currentTime, duration, episode_info]),
+  );
 
+  useFocusEffect(
+    useCallback(() => {
+      if (isError) {
+        setShowNavBar(true);
+      }
       return () => {
         if (!watched) updateDB(currentTime, duration, episode_info);
         setShowNavBar(true);
-        if (hasSkipedIntro === true) toggleHasSkippedIntro();
-        if (hasSkipedEnding === true) toggleHasSkippedEnding();
+
         if (watched === true) setWatched(false);
+        if (hasSkipedIntro === true) setHasSkippedIntro(false);
+        if (hasSkipedEnding === true) setHasSkippedEnding(false);
       };
-    }, [data, isError, error, currentTime, duration, episode_info]),
+    }, [data]),
   );
 
   const USER_AGENT = useMemo(
