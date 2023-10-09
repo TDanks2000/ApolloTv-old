@@ -65,13 +65,13 @@ const ControlsSlider = ({
         slideOnTap={true}
       />
       <TextContainer>
-        <WatchTimeText>{currentTimeFormatted}</WatchTimeText>
-        <TimeSeperator>/</TimeSeperator>
         <TouchableOpacity onPress={() => toggleTimeLeft()}>
-          <TotalTimeText>
-            {timeLeft ? timeLeftFormatted : durationTimeFormatted}
-          </TotalTimeText>
+          <WatchTimeText>
+            {timeLeft ? `-${timeLeftFormatted}` : currentTimeFormatted}
+          </WatchTimeText>
         </TouchableOpacity>
+        <TimeSeperator>/</TimeSeperator>
+        <TotalTimeText>{durationTimeFormatted}</TotalTimeText>
       </TextContainer>
     </Container>
   );

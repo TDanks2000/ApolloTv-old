@@ -295,7 +295,7 @@ const VideoPlayerScreen: React.FC<Props> = ({route}): JSX.Element => {
   });
 
   const sources: SourceVideoOptions[] = data?.sources;
-  const findHighestQuality = utils.findHighestQuality(sources, preferedQuality);
+  const findHighestQuality = utils.findQuality(sources, preferedQuality);
 
   useFocusEffect(
     useCallback(() => {

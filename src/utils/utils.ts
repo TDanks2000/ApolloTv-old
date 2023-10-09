@@ -78,7 +78,7 @@ export const groupBy = (array: any[], key: string) => {
   }, {});
 };
 
-export const findHighestQuality = (
+export const findQuality = (
   sources: SourceVideoOptions[],
   preferedQuality?: Quality,
 ): SourceVideoOptions => {

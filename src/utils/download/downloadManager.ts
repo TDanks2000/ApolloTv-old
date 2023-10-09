@@ -84,7 +84,7 @@ class DownloadManager {
     const findPreferedQuality = videoData.sources.find(
       source => source.quality === preferedQuality,
     );
-    const findHighestQuality = utils.findHighestQuality(videoData.sources);
+    const findHighestQuality = utils.findQuality(videoData.sources);
     this.url = findPreferedQuality
       ? findPreferedQuality.url
       : findHighestQuality.url;
