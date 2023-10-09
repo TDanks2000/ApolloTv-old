@@ -74,8 +74,8 @@ const AiringScheduleComponent: React.FC = () => {
               key={date}
               onPress={() => setSelectedDay(date)}
               active={selectedDay === date}>
-              <DayMonthText>{real_date.format('DD - MMM')}</DayMonthText>
               <DayOfWeekText>{real_date.format('dddd')}</DayOfWeekText>
+              <DayMonthText>{real_date.format('DD - MMM')}</DayMonthText>
             </DateView>
           );
         })}

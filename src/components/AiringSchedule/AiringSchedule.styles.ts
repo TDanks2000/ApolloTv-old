@@ -23,12 +23,14 @@ export const DateView = styled.TouchableOpacity<Props>`
 export const DayMonthText = styled(Text)`
   text-transform: uppercase;
   font-size: 16px;
+  letter-spacing: 1px;
 `;
 
 export const DayOfWeekText = styled(Text)`
   text-transform: uppercase;
   font-weight: bold;
   font-size: 16px;
+  letter-spacing: 2px;
 `;
 
 export const DaysContainer = styled.ScrollView.attrs({
