@@ -49,6 +49,7 @@ const VideoPlayerScreen: React.FC<Props> = ({route}): JSX.Element => {
     autoNextEpisode,
     changeAutoNextEpisode,
     privateMode,
+    preferedQuality,
   } = useContext(SettingsContext);
 
   const [watched, setWatched] = useState<boolean>(false);
@@ -94,7 +95,7 @@ const VideoPlayerScreen: React.FC<Props> = ({route}): JSX.Element => {
 
     let opening;
     let ending;
-    for await (const skipTime of Object.values(skipTimes)) {
+    for (const skipTime of Object.values(skipTimes)) {
       if (skipTime?.skipType?.toLowerCase() === 'op') opening = skipTime;
       if (skipTime?.skipType?.toLowerCase() === 'ed') ending = skipTime;
       if (opening && ending) break; // Break if both opening and ending are found.
@@ -294,7 +295,7 @@ const VideoPlayerScreen: React.FC<Props> = ({route}): JSX.Element => {
   });
 
   const sources: SourceVideoOptions[] = data?.sources;
-  const findHighestQuality = utils.findHighestQuality(sources);
+  const findHighestQuality = utils.findHighestQuality(sources, preferedQuality);
 
   useFocusEffect(
     useCallback(() => {

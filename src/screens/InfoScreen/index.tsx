@@ -92,11 +92,15 @@ const InfoScreen = ({route}: Props) => {
     const nextEpisodeNumber =
       (mediaListStatus?.progress || 0) + howManyEpisodesForward;
 
+    if (episodes?.length <= 0) return undefined;
+
     if (
       mediaListStatus?.status === 'COMPLETED' ||
-      (nextEpisodeNumber >= episodes.length && returnLastEpisodeIfFin)
+      (nextEpisodeNumber >= episodes?.length && returnLastEpisodeIfFin)
     ) {
-      return returnLastEpisodeIfFin ? episodes[episodes.length - 1] : undefined;
+      return returnLastEpisodeIfFin
+        ? episodes[episodes?.length - 1]
+        : undefined;
     }
 
     if (!returnLastEpisodeIfFin && nextEpisodeNumber >= episodes.length) {

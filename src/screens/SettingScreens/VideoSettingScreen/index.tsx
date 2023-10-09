@@ -61,6 +61,17 @@ const VideoSettingScreen = () => {
           <Seperator />
 
           <Settings.Setting
+            title="Preferred Quality"
+            descriptor="What Quality would you like to be auto selected"
+            selectedOption={preferedQuality ?? 'HIGEST'}
+            dropdown={true}
+            options={qualityOptions}
+            changeSetting={changePreferedQuality}
+          />
+
+          <Seperator />
+
+          <Settings.Setting
             title="Auto Next Episode"
             descriptor="Auto play the next Episode"
             selectedOption={autoNextEpisode ?? 'off'}
@@ -71,16 +82,6 @@ const VideoSettingScreen = () => {
             }
           />
 
-          <Seperator />
-
-          <Settings.Setting
-            title="Preferred Quality"
-            descriptor="What Quality would you like to be auto selected"
-            selectedOption={preferedQuality ?? 'HIGEST'}
-            dropdown={true}
-            options={qualityOptions}
-            changeSetting={changePreferedQuality}
-          />
           <Seperator />
         </ScrollView>
       </SharedContainer>

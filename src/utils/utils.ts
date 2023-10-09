@@ -1,5 +1,6 @@
 import {
   ITitleLanguageOptions,
+  Quality,
   SourceVideoOptions,
   TitleLanguageOptions,
 } from '../@types';
@@ -79,6 +80,7 @@ export const groupBy = (array: any[], key: string) => {
 
 export const findHighestQuality = (
   sources: SourceVideoOptions[],
+  preferedQuality?: Quality,
 ): SourceVideoOptions => {
   if (!sources)
     return {
@@ -88,11 +90,33 @@ export const findHighestQuality = (
   if (sources?.length < 1) return sources[0];
 
   const highest = sources.reduce((prevSource: any, currentSource: any) => {
-    const prevQuality = prevSource.quality.split('p')[0];
-    const currentQuality = currentSource.quality.split('p')[0];
+    const prevQuality = prevSource?.quality?.split('p')[0];
+    const currentQuality = currentSource?.quality?.split('p')[0];
 
-    if (parseInt(currentQuality) > parseInt(prevQuality)) return currentSource;
-    else return prevSource;
+    if (preferedQuality) {
+      const preferedQualityWithoutP = preferedQuality?.split('p')[0];
+      // find quality that matches prefered quality
+
+      if (preferedQuality === 'HIGHEST') {
+        if (parseInt(currentQuality) > parseInt(prevQuality))
+          return currentSource;
+        else return prevSource;
+      }
+
+      if (preferedQuality === 'LOWEST') {
+        if (parseInt(currentQuality) < parseInt(prevQuality))
+          return currentSource;
+        else return prevSource;
+      }
+
+      if (preferedQualityWithoutP === currentQuality) return currentSource;
+      if (preferedQualityWithoutP === prevQuality) return prevSource;
+      else return prevSource;
+    } else {
+      if (parseInt(currentQuality) > parseInt(prevQuality))
+        return currentSource;
+      else return prevSource;
+    }
   });
 
   return highest;
