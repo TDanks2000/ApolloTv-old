@@ -6,6 +6,7 @@ type Props = {
   numberOfTaps: number;
   tapFunction: () => void;
   singleTapFunction: () => void;
+  onGestureEvent?: () => void;
   children: React.ReactNode;
 };
 
@@ -14,6 +15,7 @@ const TapGesture: React.FC<Props> = ({
   numberOfTaps,
   tapFunction,
   singleTapFunction,
+  onGestureEvent,
 }) => {
   const doubleTapRef = React.useRef(null);
 
@@ -32,12 +34,13 @@ const TapGesture: React.FC<Props> = ({
   return (
     <TapGestureHandler
       onHandlerStateChange={onSingleTapEvent}
-      waitFor={doubleTapRef}
-      maxDelayMs={10}>
+      waitFor={doubleTapRef}>
       <TapGestureHandler
         ref={doubleTapRef}
         onHandlerStateChange={onDoubleTapEvent}
-        numberOfTaps={2}>
+        numberOfTaps={2}
+        onGestureEvent={onGestureEvent}
+        maxDelayMs={100}>
         {children}
       </TapGestureHandler>
     </TapGestureHandler>

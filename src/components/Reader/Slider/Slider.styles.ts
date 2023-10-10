@@ -33,4 +33,6 @@ export const SliderComponent = styled(Slider).attrs(({theme}) => ({
   minimumTrackTintColor: rgba(theme.base.mainColor, 0.9),
   trackHeight: 5,
   thumbSize: 15,
-}))``;
+}))`
+  width: 100%;
+`;

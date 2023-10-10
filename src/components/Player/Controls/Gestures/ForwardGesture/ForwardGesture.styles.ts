@@ -1,12 +1,15 @@
+import {Animated} from 'react-native';
 import styled from 'styled-components/native';
 
-export const Wrapper = styled.View`
+export const Wrapper = styled(Animated.View)`
   position: absolute;
   /* top: 50%; */
   right: 0;
-  height: 40%;
+  height: 100%;
   align-self: center;
   display: flex;
-  width: 90px;
+  width: 110px;
   z-index: 2;
+  border-top-left-radius: 99999px;
+  border-bottom-left-radius: 99999px;
 `;
