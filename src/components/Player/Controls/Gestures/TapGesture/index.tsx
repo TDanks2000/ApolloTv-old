@@ -32,7 +32,8 @@ const TapGesture: React.FC<Props> = ({
   return (
     <TapGestureHandler
       onHandlerStateChange={onSingleTapEvent}
-      waitFor={doubleTapRef}>
+      waitFor={doubleTapRef}
+      maxDelayMs={10}>
       <TapGestureHandler
         ref={doubleTapRef}
         onHandlerStateChange={onDoubleTapEvent}
