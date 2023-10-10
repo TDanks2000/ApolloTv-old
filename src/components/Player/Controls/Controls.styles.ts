@@ -13,18 +13,27 @@ interface HiddenProps {
   hidden?: boolean;
 }
 
-export const Container = styled.View<Props>`
-  opacity: ${({shouldShow}) => (!shouldShow ? 1 : 0)};
+export const Wrapper = styled.View`
   position: absolute;
   inset: 0;
   flex: 1;
   width: 100%;
   height: 100%;
-  display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   z-index: 100;
+`;
+
+export const Container = styled.View<Props>`
+  opacity: ${({shouldShow}) => (!shouldShow ? 1 : 0)};
+  position: absolute;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  display: flex;
 `;
 
 export const Button = styled.TouchableOpacity`

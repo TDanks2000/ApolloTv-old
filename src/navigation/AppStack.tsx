@@ -23,8 +23,14 @@ import {NavigationBar} from '../components';
 import {RootStackParamList} from '../@types';
 import {utils} from '../utils';
 import {SyncingSettingScreen} from '../screens/SettingScreens';
-import {OrientationLocker, LANDSCAPE, PORTRAIT} from 'react-native-orientation-locker';
+import {
+  OrientationLocker,
+  LANDSCAPE,
+  PORTRAIT,
+} from 'react-native-orientation-locker';
 import {StatusBar, Platform} from 'react-native';
+
+import {gestureHandlerRootHOC} from 'react-native-gesture-handler';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -46,7 +52,9 @@ const AppStack = () => {
   const [routeNameRef, setRouteNameRef] = useState<any>();
 
   React.useEffect(() => {
-    utils.ToggleSystemNavigation(!(routeNameRef === 'VideoPlayer' || routeNameRef === 'ReaderScreen'));  
+    utils.ToggleSystemNavigation(
+      !(routeNameRef === 'VideoPlayer' || routeNameRef === 'ReaderScreen'),
+    );
   }, [routeNameRef]);
 
   return (
@@ -82,7 +90,10 @@ const AppStack = () => {
         <Stack.Screen name="Settings" component={SettingsScreen} />
         <Stack.Screen name="Info" component={InfoScreen} />
         <Stack.Screen name="MangaInfo" component={MangaInfoScreen} />
-        <Stack.Screen name="VideoPlayer" component={VideoPlayerScreen} />
+        <Stack.Screen
+          name="VideoPlayer"
+          component={gestureHandlerRootHOC(VideoPlayerScreen)}
+        />
         <Stack.Screen name="ReaderScreen" component={ReaderScreen} />
         <Stack.Screen name="LoggingIn" component={LoggingInScreen} />
         <Stack.Screen name="testingScreen" component={TestingScreen} />

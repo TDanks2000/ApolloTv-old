@@ -14,6 +14,7 @@ import {
   TopText,
   TopTextContainer,
   IconBase6,
+  Wrapper,
 } from './Controls.styles';
 
 // Types imports
@@ -41,6 +42,9 @@ import SkipIntroOutro from './SkipIntroOutro';
 import {BackButtonComponent} from '../../Shared';
 
 import {UPDATEDB} from '../../../screens/VideoPlayerScreen/helpers';
+import TapeGesture from './Gestures/TapGesture';
+import RewindGesture from './Gestures/RewindGesture';
+import ForwardGesture from './Gestures/ForwardGesture';
 
 interface Props {
   paused: boolean;
@@ -120,11 +124,11 @@ const PlayerControls = ({
   let hideControlsTimeout: NodeJS.Timeout;
 
   const handleInactive = (wantUpdate = true) => {
-    if (wantUpdate) updateDB(currentTime, duration, episode_info);
     setHideControls(!hideControls);
 
     clearTimeout(hideControlsTimeout);
     hideControlsTimeout = setTimeout(() => {
+      if (wantUpdate) updateDB(currentTime, duration, episode_info);
       if (paused) return;
       setHideControls(true);
     }, hideControlsDuration);
@@ -188,9 +192,26 @@ const PlayerControls = ({
   }, [currentTime]);
 
   return (
-    <>
+    <Wrapper>
+      <RewindGesture
+        handleInactive={handleInactive}
+        videoRef={videoRef}
+        currentTime={currentTime}
+        isBuffering={isBuffering}
+        shouldShow={hideControls}
+      />
+
+      <ForwardGesture
+        handleInactive={handleInactive}
+        videoRef={videoRef}
+        currentTime={currentTime}
+        isBuffering={isBuffering}
+        shouldShow={hideControls}
+      />
+
       <Container shouldShow={hideControls}>
         <ClickToDismiss onPress={() => handleInactive()} />
+
         {/* @ts-ignore */}
         <Top hidden={hideControls}>
           <BackButtonComponent isModal={false} />
@@ -280,7 +301,7 @@ const PlayerControls = ({
           skipFunctions={skipFunctions}
         />
       ) : null}
-    </>
+    </Wrapper>
   );
 };
 
