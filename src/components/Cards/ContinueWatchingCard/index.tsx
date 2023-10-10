@@ -52,7 +52,10 @@ const ContinueWatchingCard = (
     <Container width={screenSize} onPress={onPress}>
       <ImageBackground
         source={{
-          uri: poster_image,
+          uri:
+            poster_image!?.length <= 0
+              ? 'https://i.pinimg.com/736x/b4/f2/23/b4f223cb37161662ec539a50507060b3.jpg'
+              : poster_image,
         }}>
         {/* @ts-ignore */}
         <Wrapper>
