@@ -124,9 +124,9 @@ const PlayerControls = ({
   let hideControlsTimeout: NodeJS.Timeout;
 
   const handleInactive = (wantUpdate = true) => {
+    clearTimeout(hideControlsTimeout);
     setHideControls(!hideControls);
 
-    clearTimeout(hideControlsTimeout);
     hideControlsTimeout = setTimeout(() => {
       if (wantUpdate) updateDB(currentTime, duration, episode_info);
       if (paused) return;

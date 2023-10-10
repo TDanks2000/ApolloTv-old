@@ -7,7 +7,7 @@ import {
   TotalTimeText,
   WatchTimeText,
 } from './Slider.styles';
-import {TouchableOpacity} from 'react-native';
+import {GestureResponderEvent, TouchableOpacity} from 'react-native';
 import {UPDATEDB} from '../../../../screens/VideoPlayerScreen/helpers';
 
 interface Props {
@@ -29,20 +29,18 @@ const ControlsSlider = ({
   );
 
   const timeToString = (timeInSeconds: number): string => {
-    const h = Math.floor(timeInSeconds / 3600);
-    const m = Math.floor((timeInSeconds % 3600) / 60);
-    const s = Math.floor((timeInSeconds % 3600) % 60);
+    const hour = Math.floor(timeInSeconds / 3600);
+    const minute = Math.floor((timeInSeconds % 3600) / 60);
+    const second = Math.floor((timeInSeconds % 3600) % 60);
 
-    const hDisplay = h > 0 ? (h < 10 ? '0' : '') + h + ':' : '';
-    const mDisplay = (m < 10 ? '0' : '') + m + ':';
-    const sDisplay = (s < 10 ? '0' : '') + s;
-    return hDisplay + mDisplay + sDisplay;
+    const hourDisplay = hour > 0 ? (hour < 10 ? '0' : '') + hour + ':' : '';
+    const minuteDisplay = (minute < 10 ? '0' : '') + minute + ':';
+    const secondDisplay = (second < 10 ? '0' : '') + second;
+    return hourDisplay + minuteDisplay + secondDisplay;
   };
 
   const durationTimeFormatted = timeToString(duration);
-
   const currentTimeFormatted = timeToString(currentTime);
-
   const timeLeftFormatted = timeToString(duration - currentTime);
 
   const onSlidingStart = () => {
