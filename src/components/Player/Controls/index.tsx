@@ -192,7 +192,7 @@ const PlayerControls = ({
       <Container shouldShow={hideControls}>
         <ClickToDismiss onPress={() => handleInactive()} />
         {/* @ts-ignore */}
-        <Top>
+        <Top hidden={hideControls}>
           <BackButtonComponent isModal={false} />
           <TopTextContainer>
             <TopText numberOfLines={1} weight="bold">
@@ -231,7 +231,7 @@ const PlayerControls = ({
             </View>
           </TopRight>
         </Top>
-        <Middle>
+        <Middle hidden={hideControls}>
           <SkipTo
             icon="backward"
             duration={-30}
@@ -254,7 +254,7 @@ const PlayerControls = ({
           />
         </Middle>
         {/* @ts-ignore */}
-        <Bottom>
+        <Bottom hidden={hideControls}>
           <ControlsSlider
             currentTime={currentTime}
             duration={duration}

@@ -1,5 +1,6 @@
 import {NavigationProp} from '@react-navigation/native';
 import {Chapter, FullMangaInfo} from './Manga';
+import React from 'react';
 
 export type MediaTypes = 'ANIME' | 'MANGA';
 
@@ -459,5 +460,7 @@ export enum MediaSeason {
   SUMMER = `SUMMER`,
   FALL = `FALL`,
 }
+
+export type UseStateType<T> = ReturnType<typeof React.useState<T>>;
 
 export * from './Services';

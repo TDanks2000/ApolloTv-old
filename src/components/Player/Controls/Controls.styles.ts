@@ -9,6 +9,10 @@ interface Props {
   shouldShow: boolean;
 }
 
+interface HiddenProps {
+  hidden?: boolean;
+}
+
 export const Container = styled.View<Props>`
   opacity: ${({shouldShow}) => (!shouldShow ? 1 : 0)};
   position: absolute;
@@ -31,6 +35,7 @@ export const Button = styled.TouchableOpacity`
 
   justify-content: center;
   align-items: center;
+  z-index: 200;
 `;
 
 export const ButtonIcon = styled(Icon)`
@@ -38,7 +43,7 @@ export const ButtonIcon = styled(Icon)`
   font-size: 23px;
 `;
 
-export const Top = styled(LinearGradient).attrs({
+export const Top = styled(LinearGradient).attrs<HiddenProps>({
   colors: ['rgba(0, 0, 0, 0)', 'rgba(0, 0, 0, 0.45)'],
   start: {x: 0, y: 1},
   end: {x: 0, y: 0},
@@ -54,6 +59,12 @@ export const Top = styled(LinearGradient).attrs({
   justify-content: flex-start;
   align-items: center;
   gap: 14px;
+
+  ${({hidden}) =>
+    hidden &&
+    `
+    pointer-events: none;
+  `}
 `;
 
 export const TopTextContainer = styled.View`
@@ -69,7 +80,7 @@ export const TopText = styled(Text)<TopTextProps>`
   font-size: 15px;
 `;
 
-export const Middle = styled.View`
+export const Middle = styled.View<HiddenProps>`
   position: relative;
   z-index: 1;
   /* flex: 1; */
@@ -78,9 +89,15 @@ export const Middle = styled.View`
   justify-content: center;
   align-items: center;
   gap: 50px;
+
+  ${({hidden}) =>
+    hidden &&
+    `
+    pointer-events: none;
+  `}
 `;
 
-export const Bottom = styled(LinearGradient).attrs({
+export const Bottom = styled(LinearGradient).attrs<HiddenProps>({
   colors: ['rgba(0, 0, 0, 0)', 'rgba(0, 0, 0, .5)'],
   start: {x: 0, y: 0},
   end: {x: 0, y: 1},
@@ -89,10 +106,16 @@ export const Bottom = styled(LinearGradient).attrs({
   bottom: 0;
   left: 0;
   right: 0;
-  z-index: 1;
+  z-index: 100;
   padding: 30px 15px;
   height: 150px;
   justify-content: flex-end;
+
+  ${({hidden}) =>
+    hidden &&
+    `
+    pointer-events: none;
+  `}
 `;
 
 export const ClickToDismiss = styled.Pressable`

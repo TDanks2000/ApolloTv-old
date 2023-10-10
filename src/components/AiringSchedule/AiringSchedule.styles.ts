@@ -12,6 +12,7 @@ type Props = {
 export const DateView = styled.TouchableOpacity<Props>`
   flex-direction: column;
   padding: 10px;
+  justify-content: center;
   ${({active, theme}) =>
     active &&
     `

@@ -1,13 +1,15 @@
 import {View, Text} from 'react-native';
-import React from 'react';
+import React, {Dispatch} from 'react';
 import {BackButtonIcon, BackButton} from './BackButton.styles';
 import {useNavigation} from '@react-navigation/native';
-import {StackNavigation} from '../../../@types';
+import {StackNavigation, UseStateType} from '../../../@types';
+
+type SetVisibleType = UseStateType<boolean>;
 
 interface Props {
   isModal: boolean;
-  visible?: boolean;
-  setVisible?: (value: boolean) => void;
+  visible?: SetVisibleType[0];
+  setVisible?: SetVisibleType[1];
 }
 
 const BackButtonComponent = ({isModal, setVisible, visible}: Props) => {
@@ -15,11 +17,11 @@ const BackButtonComponent = ({isModal, setVisible, visible}: Props) => {
 
   const goBack = () => {
     if (!isModal)
-      navigation.canGoBack()
+      return navigation.canGoBack()
         ? navigation.goBack()
         : navigation.navigate('Home', {});
-    if (isModal && setVisible && visible) setVisible(false);
-    if (isModal && setVisible && !visible) setVisible(true);
+
+    if (isModal && setVisible) return setVisible(prev => !prev);
   };
 
   return (
