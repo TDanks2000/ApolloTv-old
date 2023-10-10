@@ -76,7 +76,7 @@ const AiringScheduleComponent: React.FC = () => {
     const dates = Object.keys(formatted);
     return (
       <DaysContainer>
-        {dates.map(date => {
+        {dates.map((date, i) => {
           let real_date: any = dayjs(date, 'DD/MM/YYYY');
           const real_today = dayjs(today);
 
@@ -84,7 +84,7 @@ const AiringScheduleComponent: React.FC = () => {
 
           return (
             <DateView
-              key={date}
+              key={`date-i-${date}`}
               onPress={() => setSelectedDay(date)}
               active={selectedDay === date}>
               <DayOfWeekText>
@@ -104,12 +104,14 @@ const AiringScheduleComponent: React.FC = () => {
     if (!slectedAnime) return null;
     return (
       <AnimesContainer>
-        {slectedAnime.map(anime => {
+        {slectedAnime.map((anime, i) => {
           const title = utils.getTitle(anime.title);
           const date = dayjs(anime.airingAt * 1000).format('HH:mm');
 
           return (
-            <AnimeContainer onPress={() => navigate(anime.id)}>
+            <AnimeContainer
+              key={`anime-airing-${anime.id}-${i}`}
+              onPress={() => navigate(anime.id)}>
               <AnimeTime>{date} </AnimeTime>
               <AnimeTitle>{title}</AnimeTitle>
             </AnimeContainer>
