@@ -22,10 +22,10 @@ export const getTitle = (
     );
 
   return (
-    title.english ??
-    title.userPreferred ??
-    title.native ??
+    title?.english ??
     title?.romaji ??
+    title?.userPreferred ??
+    title?.native ??
     undefined
   );
 };
