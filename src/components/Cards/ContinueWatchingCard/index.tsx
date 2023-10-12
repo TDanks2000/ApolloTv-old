@@ -65,6 +65,7 @@ const ContinueWatchingCard = (
   return (
     <Container width={screenSize} onPress={onPress}>
       <ImageBackground
+        resizeMode="cover"
         source={{
           uri:
             poster_image!?.length <= 0

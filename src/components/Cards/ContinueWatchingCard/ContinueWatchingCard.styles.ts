@@ -8,7 +8,7 @@ interface ContainerProps {
 }
 
 export const Container = styled.TouchableOpacity<ContainerProps>`
-  background-color: ${({theme}) => theme.base.mainColor};
+  /* background-color: ${({theme}) => theme.base.mainColor}; */
   width: ${({width}) => width - 150}px;
   height: 150px;
   border-radius: 15px;
