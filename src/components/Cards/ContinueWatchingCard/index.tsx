@@ -53,11 +53,12 @@ const ContinueWatchingCard = (
     navigation.navigate('Info', {id});
   };
 
-  const current_episodes = nextAiringEpisode
-    ? nextAiringEpisode.episode - 1
-    : total_episodes
-    ? total_episodes
-    : undefined;
+  const current_episodes =
+    nextAiringEpisode !== null && nextAiringEpisode
+      ? nextAiringEpisode.episode - 1
+      : total_episodes
+      ? total_episodes
+      : 0;
 
   const progress = props?.progress;
 

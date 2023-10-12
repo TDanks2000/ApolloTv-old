@@ -57,7 +57,7 @@ export const ExtraTextContailer = styled.View`
 `;
 
 export const Seperator = styled.View`
-  width: 1px;
+  width: 1.5px;
   height: 80%;
   align-self: center;
   background-color: ${({theme}) => theme.text.secondary};

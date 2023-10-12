@@ -53,7 +53,7 @@ export const ExtraTextContailer = styled.View`
 `;
 
 export const Seperator = styled.View`
-  width: 1px;
+  width: 1.5px;
   height: 80%;
   align-self: center;
   background-color: ${({theme}) => theme.text.secondary};
@@ -61,11 +61,16 @@ export const Seperator = styled.View`
 
 type ExtraTextProps = {
   bold?: boolean;
-  color?: 'main' | 'secondary';
+  color?: 'main' | 'secondary' | 'custom';
+  custom_color?: string;
 };
 
 export const ExtraText = styled(Text)<ExtraTextProps>`
-  color: ${({theme, color}) =>
-    color === 'main' ? theme.base.mainColor : theme.text.secondary};
+  color: ${({theme, color, custom_color}) => {
+    if (color === 'main') return theme.base.mainColor;
+    if (color === 'secondary') return theme.text.secondary;
+    if (color === 'custom' && custom_color) return custom_color;
+    return theme.text.secondary;
+  }};
   font-weight: ${({bold}) => (bold ? 'bold' : 'normal')};
 `;
