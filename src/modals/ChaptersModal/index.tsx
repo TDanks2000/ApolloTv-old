@@ -118,7 +118,7 @@ const ChaptersModal = ({
                   return (
                     <TouchableOpacity
                       onPress={() => handlePress(chapter, indexInArray)}
-                      key={`chapter-modal-${chapter.id}`}>
+                      key={`chapter-modal-${chapter.id}-${index}`}>
                       <Text>
                         {chapter?.title?.length < 1
                           ? `Chapter ${indexInArray + 1}`

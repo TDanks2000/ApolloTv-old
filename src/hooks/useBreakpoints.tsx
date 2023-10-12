@@ -1,9 +1,10 @@
-import { useWindowDimensions } from "react-native";
+import {Platform} from 'react-native';
+import {useWindowDimensions} from 'react-native';
 
 export const useBreakpoints = () => {
-  const { width } = useWindowDimensions();
+  const {width} = useWindowDimensions();
 
-  const isMobile = width <= 700;
+  const isMobile = !Platform.isTV || width <= 700;
 
-  return { isMobile };
+  return {isMobile};
 };

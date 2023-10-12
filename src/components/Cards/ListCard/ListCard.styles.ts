@@ -39,14 +39,33 @@ export const Right = styled.View`
 `;
 
 export const Title = styled(Text).attrs({
-  numberOfLines: 1,
+  numberOfLines: 2,
   ellipsizeMode: 'tail',
 })`
   font-weight: bold;
   color: ${({theme}) => theme.text.primary};
-  font-size: 17px;
+  font-size: 16px;
 `;
 
-export const ExtraText = styled(Text)`
-  color: ${({theme}) => theme.text.secondary};
+export const ExtraTextContailer = styled.View`
+  flex-direction: row;
+  gap: 9px;
+`;
+
+export const Seperator = styled.View`
+  width: 1px;
+  height: 80%;
+  align-self: center;
+  background-color: ${({theme}) => theme.text.secondary};
+`;
+
+type ExtraTextProps = {
+  bold?: boolean;
+  color?: 'main' | 'secondary';
+};
+
+export const ExtraText = styled(Text)<ExtraTextProps>`
+  color: ${({theme, color}) =>
+    color === 'main' ? theme.base.mainColor : theme.text.secondary};
+  font-weight: ${({bold}) => (bold ? 'bold' : 'normal')};
 `;

@@ -7,10 +7,13 @@ import {
   BottomBannerSubText,
   BottomBannerText,
   Container,
+  ExtraText,
+  ExtraTextContailer,
   Image,
   ImageBackground,
   PercentWatched,
   PercentWatchedContainer,
+  Seperator,
   WhereAmIFromContainer,
   Wrapper,
 } from './ContinueWatchingCard.styles';
@@ -36,6 +39,8 @@ const ContinueWatchingCard = (
     watched_percentage,
     episode_number,
     from,
+    nextAiringEpisode,
+    total_episodes,
   } = props;
   const navigation: any = useNavigation();
 
@@ -47,6 +52,14 @@ const ContinueWatchingCard = (
   const onPress = () => {
     navigation.navigate('Info', {id});
   };
+
+  const current_episodes = nextAiringEpisode
+    ? nextAiringEpisode.episode - 1
+    : total_episodes
+    ? total_episodes
+    : undefined;
+
+  const progress = props?.progress;
 
   return (
     <Container width={screenSize} onPress={onPress}>
@@ -69,7 +82,27 @@ const ContinueWatchingCard = (
               </PercentWatchedContainer>
             )}
             <BottomBannerText>{actualTitle}</BottomBannerText>
-            <BottomBannerSubText>Episode {episode_number}</BottomBannerSubText>
+            {from === 'anilist' ? (
+              <ExtraTextContailer>
+                <ExtraText bold={true} color={'main'}>
+                  {progress ?? 0}
+                </ExtraText>
+                <Seperator />
+                {current_episodes === total_episodes ? (
+                  <ExtraText>{current_episodes}</ExtraText>
+                ) : (
+                  <>
+                    <ExtraText>{current_episodes}</ExtraText>
+                    <Seperator />
+                    <ExtraText>{total_episodes ?? 0}</ExtraText>
+                  </>
+                )}
+              </ExtraTextContailer>
+            ) : (
+              <BottomBannerSubText>
+                Episode {episode_number}
+              </BottomBannerSubText>
+            )}
           </BottomBanner>
         </Wrapper>
       </ImageBackground>

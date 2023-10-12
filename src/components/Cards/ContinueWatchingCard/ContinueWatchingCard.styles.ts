@@ -1,6 +1,7 @@
 import {rgba} from 'polished';
 import LinearGradient from 'react-native-linear-gradient';
 import {styled} from 'styled-components/native';
+import {Text} from '../../../styles/sharedStyles';
 
 interface ContainerProps {
   width: number;
@@ -48,6 +49,29 @@ export const BottomBannerText = styled.Text.attrs({
   padding: 0 15px;
   font-family: ${({theme}) => theme.text.fonts.NunitoSans};
   margin-top: 1px;
+`;
+
+export const ExtraTextContailer = styled.View`
+  flex-direction: row;
+  gap: 9px;
+`;
+
+export const Seperator = styled.View`
+  width: 1px;
+  height: 80%;
+  align-self: center;
+  background-color: ${({theme}) => theme.text.secondary};
+`;
+
+type ExtraTextProps = {
+  bold?: boolean;
+  color?: 'main' | 'secondary';
+};
+
+export const ExtraText = styled(Text)<ExtraTextProps>`
+  color: ${({theme, color}) =>
+    color === 'main' ? theme.base.mainColor : theme.text.secondary};
+  font-weight: ${({bold}) => (bold ? 'bold' : 'normal')};
 `;
 
 export const BottomBannerSubText = styled(BottomBannerText)`

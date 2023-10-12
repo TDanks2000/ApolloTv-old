@@ -74,34 +74,34 @@ const ListsScreen = () => {
 
   const selectedLisData = data[selectedList?.toLowerCase()];
 
-  const handleGesture = (evt: any) => {
-    const {nativeEvent} = evt;
+  // const handleGesture = (evt: any) => {
+  //   const {nativeEvent} = evt;
 
-    const findCurrentList = listTypes.find(
-      listType => listType.value === selectedList,
-    );
+  //   const findCurrentList = listTypes.find(
+  //     listType => listType.value === selectedList,
+  //   );
 
-    if (!findCurrentList) return;
+  //   if (!findCurrentList) return;
 
-    const indexOfCurrentList = listTypes.indexOf(findCurrentList);
+  //   const indexOfCurrentList = listTypes.indexOf(findCurrentList);
 
-    const nextList =
-      indexOfCurrentList + 1 > listTypes.length ? 0 : indexOfCurrentList + 1;
+  //   const nextList =
+  //     indexOfCurrentList + 1 > listTypes.length ? 0 : indexOfCurrentList + 1;
 
-    const prevList =
-      indexOfCurrentList - 1 < 0
-        ? listTypes.length - 1
-        : indexOfCurrentList - 1;
+  //   const prevList =
+  //     indexOfCurrentList - 1 < 0
+  //       ? listTypes.length - 1
+  //       : indexOfCurrentList - 1;
 
-    if (nativeEvent.velocityX > 0) {
-      // Swipe right
-      setSelectedList(listTypes[prevList].value);
-    } else {
-      // Swipe left
-      setSelectedList(listTypes[nextList].value);
-    }
-    console.log(selectedList);
-  };
+  //   if (nativeEvent.velocityX > 0) {
+  //     // Swipe right
+  //     setSelectedList(listTypes[prevList].value);
+  //   } else {
+  //     // Swipe left
+  //     setSelectedList(listTypes[nextList].value);
+  //   }
+  //   console.log(selectedList);
+  // };
 
   return (
     <SafeAreaView>
@@ -121,7 +121,7 @@ const ListsScreen = () => {
               <NoDataText>This list is empty!</NoDataText>
             </NoDataTextWrapper>
           ) : (
-            <ListContainer data={selectedLisData} />
+            <ListContainer data={selectedLisData} selectedList={selectedList} />
           )}
         </Wrapper>
       </SharedContainerRel>

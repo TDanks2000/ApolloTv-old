@@ -71,7 +71,7 @@ const ContuineWatchingContainer = () => {
   };
 
   const {isPending, isError, data, error} = useQuery({
-    queryKey: ['ContuineWatching11111'],
+    queryKey: ['ContuineWatching'],
     queryFn: fetcher,
   });
 
@@ -85,6 +85,8 @@ const ContuineWatchingContainer = () => {
         title={item.title ?? utils.getTitle(item.media.title)}
         id={item.anime_id ?? item.media.id}
         from={item?.media?.title ? 'anilist' : 'default'}
+        nextAiringEpisode={item?.media?.nextAiringEpisode}
+        total_episodes={item?.media?.episodes}
       />
     );
   };

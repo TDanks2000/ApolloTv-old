@@ -4,10 +4,13 @@ import {ListCard} from '../../components/Cards';
 import {utils} from '../../utils';
 import {useBreakpoints} from '../../hooks';
 
-const ListContainer = ({data}: any) => {
+const ListContainer = ({data, selectedList}: any) => {
   const {isMobile} = useBreakpoints();
-  const renderItem = ({media: item}: any) => {
+  const renderItem = (media: any) => {
+    const item = media?.media;
+    if (!item) return null;
     const actualTitle = utils.getTitle(item.title);
+
     return (
       <ListCard
         id={item.id}
@@ -15,9 +18,12 @@ const ListContainer = ({data}: any) => {
         color={item.coverImage.color}
         poster_image={item.coverImage.large}
         rating={item.averageScore}
+        nextAiringEpisode={item?.nextAiringEpisode}
         total_episodes={item.episodes}
         type={item.type}
         release_year={item.seasonYear}
+        progress={media.progress}
+        selectedList={selectedList}
       />
     );
   };

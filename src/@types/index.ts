@@ -30,6 +30,7 @@ export interface ITitleLanguageOptions {
 export type TitleType = ITitleLanguageOptions | string;
 
 export type CardProps = {
+  selectedList?: MediaListStatus;
   title: TitleType;
   id: string;
   poster_image?: string;
@@ -39,6 +40,15 @@ export type CardProps = {
   type?: string;
   release_year?: number;
   relation_type?: string;
+  progress?: number;
+  list_type?: string;
+  nextAiringEpisode?: {
+    id: number;
+    episode: number;
+    airingAt: number;
+    timeUntilAiring: number;
+    mediaId: number;
+  };
 };
 
 export type MangaCardProps = {
