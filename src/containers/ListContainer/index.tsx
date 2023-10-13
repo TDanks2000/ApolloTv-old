@@ -11,19 +11,23 @@ const ListContainer = ({data, selectedList}: any) => {
     if (!item) return null;
     const actualTitle = utils.getTitle(item.title);
 
+    console.log(item);
+
     return (
       <ListCard
         id={item.id}
         title={actualTitle as string}
         color={item.coverImage.color}
-        poster_image={item.coverImage.large}
+        poster_image={item?.coverImage?.extraLarge ?? item.coverImage?.large}
         rating={item.averageScore}
         nextAiringEpisode={item?.nextAiringEpisode}
         total_episodes={item.episodes}
         type={item.type}
-        release_year={item.seasonYear}
+        release_year={item?.seasonYear}
+        start_date={item?.startDate}
         progress={media.progress}
         selectedList={selectedList}
+        status={item?.status}
       />
     );
   };

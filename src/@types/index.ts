@@ -39,6 +39,7 @@ export type CardProps = {
   color?: string;
   type?: string;
   release_year?: number;
+  start_date?: StartDate;
   relation_type?: string;
   progress?: number;
   list_type?: string;
@@ -49,6 +50,7 @@ export type CardProps = {
     timeUntilAiring: number;
     mediaId: number;
   };
+  status?: MediaStatus;
 };
 
 export type MangaCardProps = {

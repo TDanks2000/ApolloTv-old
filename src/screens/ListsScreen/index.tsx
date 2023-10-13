@@ -74,6 +74,8 @@ const ListsScreen = () => {
 
   const selectedLisData = data[selectedList?.toLowerCase()];
 
+  console.log(JSON.stringify(selectedLisData));
+
   // const handleGesture = (evt: any) => {
   //   const {nativeEvent} = evt;
 

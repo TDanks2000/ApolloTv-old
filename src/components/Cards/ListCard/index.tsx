@@ -15,8 +15,9 @@ import {
 } from './ListCard.styles';
 import {useNavigation} from '@react-navigation/native';
 import {useBreakpoints} from '../../../hooks';
+import EpisodeStats from './EpisodeStats';
 
-const ListCard = ({
+const ListCard: React.FC<CardProps> = ({
   id,
   title,
   color,
@@ -25,11 +26,13 @@ const ListCard = ({
   total_episodes,
   type,
   release_year,
+  start_date,
   progress,
   list_type,
   nextAiringEpisode,
   selectedList,
-}: CardProps) => {
+  status,
+}) => {
   const {isMobile} = useBreakpoints();
   const navigation = useNavigation<StackNavigation>();
   const actualTitle = utils.getTitle(title);
@@ -47,7 +50,6 @@ const ListCard = ({
   };
 
   return (
-    // @ts-ignore
     <Container onPress={onPress} isMobile={isMobile}>
       <Wrapper>
         <Left>
@@ -55,26 +57,15 @@ const ListCard = ({
         </Left>
         <Right>
           <Title>{actualTitle}</Title>
-          <ExtraText>{release_year ? release_year : '??'}</ExtraText>
-          {/* {selectedList !== 'CURRENT' ? (
-            <ExtraText>Total Episodes {total_episodes}</ExtraText>
-          ) : ( */}
-          <ExtraTextContailer>
-            <ExtraText bold={true} color={'main'}>
-              {progress ?? 0}
-            </ExtraText>
-            <Seperator />
-            {current_episodes === total_episodes ? (
-              <ExtraText>{current_episodes}</ExtraText>
-            ) : (
-              <>
-                <ExtraText>{current_episodes}</ExtraText>
-                <Seperator />
-                <ExtraText>{total_episodes ?? 0}</ExtraText>
-              </>
-            )}
-          </ExtraTextContailer>
-          {/* )} */}
+
+          <EpisodeStats
+            progress={progress}
+            status={status}
+            total_episodes={total_episodes}
+            current_episodes={current_episodes}
+            start_date={start_date}
+            release_year={release_year}
+          />
         </Right>
       </Wrapper>
     </Container>
