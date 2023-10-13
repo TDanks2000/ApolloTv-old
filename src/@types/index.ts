@@ -10,7 +10,7 @@ export type TitleLanguageOptions =
   | 'romanji'
   | 'userPreferred';
 
-export type sourceProviders = 'gogoanime' | '9anime' | 'zoro' | 'kickassanime';
+export type sourceProviders = 'gogoanime' | 'animepahe';
 
 export type MediaListStatus =
   | 'CURRENT'

@@ -29,6 +29,7 @@ const Dropdown: FC<Props> = ({label, data, onSelect, selectedProp}) => {
   const [selected, setSelected] = React.useState<DataType | undefined>(
     selectedProp ?? undefined,
   );
+
   const DropdownButton = useRef<any>();
   const [dropdownTop, setDropdownTop] = React.useState(0);
   const [dropdownWidth, setDropdownWidth] = React.useState(0);
@@ -42,9 +43,9 @@ const Dropdown: FC<Props> = ({label, data, onSelect, selectedProp}) => {
   const openDropdown = (): void => {
     DropdownButton.current!.measure(
       (_fx: any, _fy: any, w: any, h: any, _px: any, py: any) => {
-        setDropdownTop(py + h);
+        setDropdownTop(py + h - 5);
         setDropdownWidth(w - 16);
-        setDropdownPadding(_px + 8);
+        setDropdownPadding(_px + 9);
       },
     );
     setVisible(true);
@@ -114,7 +115,7 @@ const Dropdown: FC<Props> = ({label, data, onSelect, selectedProp}) => {
       ) : null}
 
       <ButtonText>{(selected && selected.label) || label}</ButtonText>
-      <Icon name="chevron-down" color={'#fff'} />
+      <Icon name="chevron-down" color={'#000'} />
     </Button>
   );
 };

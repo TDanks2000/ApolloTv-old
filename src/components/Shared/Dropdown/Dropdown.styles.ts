@@ -1,13 +1,14 @@
 import {styled} from 'styled-components/native';
 import {Text} from '../../../styles/sharedStyles';
+import {rgba} from 'polished';
 
 export const Button = styled.TouchableOpacity`
   flex-direction: row;
   align-items: center;
-  background: rgba(255, 255, 255, 0.1);
-  height: 50px;
-  width: 90%;
-  padding: 0 10px;
+  background: ${({theme}) => theme.text.secondary};
+  /* height: 40px; */
+  width: 100%;
+  padding: 7px 15px;
   z-index: 1;
   border-radius: 8px;
 `;
@@ -15,6 +16,8 @@ export const Button = styled.TouchableOpacity`
 export const ButtonText = styled(Text)`
   flex: 1;
   text-align: center;
+  color: black;
+  font-weight: bold;
 `;
 
 export const ButtonImage = styled.Image`
@@ -24,8 +27,8 @@ export const ButtonImage = styled.Image`
 
 export const ButtonImageContainer = styled.View`
   left: 0;
-  width: 30px;
-  height: 30px;
+  width: 25px;
+  height: 25px;
   justify-content: center;
   align-items: center;
   overflow: hidden;
@@ -42,7 +45,7 @@ export const DropdownContainer = styled(Text)<Props>`
   flex: 1;
   width: ${props => props.width}px;
   margin-top: 10px;
-  background: ${({theme}) => theme.base.offDarkBg};
+  background: ${({theme}) => rgba(theme.text.secondary, 0.85)};
   border-radius: 8px;
 `;
 
@@ -54,7 +57,7 @@ export const ModalButton = styled.TouchableOpacity`
 
 export const Item = styled.TouchableOpacity`
   position: relative;
-  padding: 15px 10px;
+  padding: 10px 15px;
   width: 100%;
   flex-direction: row;
   align-items: center;
@@ -67,13 +70,15 @@ export const ItemText = styled(Text)`
   flex: 1;
   width: 100%;
   text-transform: capitalize;
+  color: black;
+  font-weight: 700;
   font-size: 15px;
 `;
 
 export const ItemImageContainer = styled.View`
   left: 0;
-  width: 30px;
-  height: 30px;
+  width: 25px;
+  height: 25px;
   justify-content: center;
   align-items: center;
   overflow: hidden;

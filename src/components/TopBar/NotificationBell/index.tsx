@@ -17,7 +17,7 @@ const NotificationBell = () => {
 
   return (
     <>
-      <IconItemContainer onPress={onPress} disabled>
+      <IconItemContainer onPress={onPress}>
         <IconItem name="bell" />
         {/* <NotificationStatus /> */}
       </IconItemContainer>

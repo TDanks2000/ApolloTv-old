@@ -90,36 +90,61 @@ export const findQuality = (
   if (sources?.length < 1) return sources[0];
 
   const highest = sources.reduce((prevSource: any, currentSource: any) => {
-    const prevQuality = prevSource?.quality?.split('p')[0];
-    const currentQuality = currentSource?.quality?.split('p')[0];
+    const prevQuality: string | undefined = prevSource?.quality?.split('p')[0];
+    const currentQuality: string | undefined =
+      currentSource?.quality?.split('p')[0];
+
+    const prevNumericOnly: string | undefined = prevQuality?.replace(/\D/g, '');
+    const currentNumericOnly: string | undefined = currentQuality?.replace(
+      /\D/g,
+      '',
+    );
 
     if (preferedQuality) {
       const preferedQualityWithoutP = preferedQuality?.split('p')[0];
       // find quality that matches prefered quality
 
       if (preferedQuality === 'HIGHEST') {
-        if (parseInt(currentQuality) > parseInt(prevQuality))
-          return currentSource;
-        else return prevSource;
+        if (parseInt(currentNumericOnly!) > parseInt(prevNumericOnly!))
+          return FormatSource(currentSource);
+        else return FormatSource(prevSource);
       }
 
       if (preferedQuality === 'LOWEST') {
-        if (parseInt(currentQuality) < parseInt(prevQuality))
-          return currentSource;
-        else return prevSource;
+        if (parseInt(currentNumericOnly!) < parseInt(prevNumericOnly!))
+          return FormatSource(currentSource);
+        else return FormatSource(prevSource);
       }
 
-      if (preferedQualityWithoutP === currentQuality) return currentSource;
-      if (preferedQualityWithoutP === prevQuality) return prevSource;
-      else return prevSource;
+      if (preferedQualityWithoutP === currentQuality)
+        return FormatSource(currentSource);
+      if (preferedQualityWithoutP === prevQuality)
+        return FormatSource(prevSource);
+      else return FormatSource(prevSource);
     } else {
-      if (parseInt(currentQuality) > parseInt(prevQuality))
-        return currentSource;
-      else return prevSource;
+      if (parseInt(currentNumericOnly!) > parseInt(prevNumericOnly!))
+        return FormatSource(currentSource);
+      else return FormatSource(prevSource);
     }
   });
 
   return highest;
+};
+
+export const FormatSource = (source: any) => {
+  return {
+    ...source,
+    url: source.url ?? '',
+    isM3U8: source?.isM3U8,
+    quality: source?.quality?.replace(/\D/g, '') + 'P' ?? 'UNKOWN',
+    isDub: source?.isDub,
+  };
+};
+
+export const isStringNullOrEmpty = (
+  str: string | null | undefined,
+): boolean => {
+  return str === null || str === undefined || str.trim() === '';
 };
 
 export const delay = (ms: number): Promise<void> => {

@@ -50,6 +50,8 @@ const VideoPlayerScreen: React.FC<Props> = ({route}): JSX.Element => {
     changeAutoNextEpisode,
     privateMode,
     preferedQuality,
+    sourceProvider,
+    preferedVoice,
   } = useContext(SettingsContext);
 
   const [watched, setWatched] = useState<boolean>(false);
@@ -285,18 +287,34 @@ const VideoPlayerScreen: React.FC<Props> = ({route}): JSX.Element => {
 
   const fetcher = async () => {
     try {
-      return await api.fetcher(`${API_BASE}/anilist/watch/${episode_id}`);
+      const data = await api.fetcher(
+        `${API_BASE}/anilist/watch?episodeId=${episode_id}&provider=${sourceProvider}`,
+      );
+
+      if (sourceProvider?.toLowerCase().includes('animepahe')) {
+        let returnData = data?.sources?.filter(
+          (source: any) => source.isDub === (preferedVoice === 'dub'),
+        );
+        returnData = {
+          headers: data?.headers,
+          sources: returnData,
+        };
+
+        if (returnData) return returnData;
+        return data;
+      }
+      return data;
     } catch (error) {
       console.log(error);
     }
   };
 
   const {isPending, isError, data, error} = useQuery({
-    queryKey: ['VideoPlayer', episode_id],
+    queryKey: ['VideoPlayer', episode_id, sourceProvider],
     queryFn: fetcher,
   });
 
-  const sources: SourceVideoOptions[] = data?.sources;
+  const sources: SourceVideoOptions[] = data?.sources ?? data;
   const findHighestQuality = utils.findQuality(sources, preferedQuality);
 
   useFocusEffect(
@@ -346,6 +364,7 @@ const VideoPlayerScreen: React.FC<Props> = ({route}): JSX.Element => {
   }
 
   if (!selectedSource) return <MiddleOfScreenLoadingComponent />;
+  console.log(selectedSource);
 
   const showError = (errorString?: string) => {
     Toast.show({
@@ -398,7 +417,7 @@ const VideoPlayerScreen: React.FC<Props> = ({route}): JSX.Element => {
           uri: selectedSource.url,
           headers: {
             'User-Agent': USER_AGENT,
-            Referrer: referer,
+            Referer: referer,
           },
         }}
         muted={false}

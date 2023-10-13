@@ -17,6 +17,7 @@ import {useNavigation} from '@react-navigation/native';
 import {ITitleLanguageOptions, SubOrDub} from '../../../@types';
 import {helpers, settingsHelper, utils} from '../../../utils';
 import {SettingsContext} from '../../../contexts';
+import {ChangeSourceProvider} from '../../../containers';
 
 interface Props {
   rating: number;
@@ -70,7 +71,8 @@ const Top = ({
             </TitleText>
             {type && type === 'MANGA' ? null : (
               <BottomBottomContainer>
-                <WatchNowComponent WatchText="Watch trailer" />
+                <ChangeSourceProvider width={200} />
+                {/* <WatchNowComponent WatchText="Watch trailer" /> */}
                 <Option
                   option={preferedVoice as string}
                   options={[

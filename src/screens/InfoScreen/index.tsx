@@ -19,7 +19,7 @@ import {
   useSettingsContext,
 } from '../../contexts';
 import {Anilist} from '@tdanks2000/anilist-wrapper';
-import {CardContainer} from '../../containers';
+import {CardContainer, ChangeSourceProvider} from '../../containers';
 import {useBreakpoints} from '../../hooks';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Info'>;
@@ -73,7 +73,7 @@ const InfoScreen = ({route}: Props) => {
     data: resData,
     error,
   }: QueryAnime = useQuery({
-    queryKey: ['info', id, dubOrSub],
+    queryKey: ['info', id, dubOrSub, sourceProvider],
     queryFn: fetcher,
   });
 
@@ -144,7 +144,6 @@ const InfoScreen = ({route}: Props) => {
           episodeLegth={data?.episodes?.length ?? 0}
           anime_info={data}
         />
-        {/* <Info.SourceSelector /> */}
         <Info.MetaInfo
           type={'ANIME'}
           data={data}

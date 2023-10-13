@@ -45,6 +45,7 @@ import {UPDATEDB} from '../../../screens/VideoPlayerScreen/helpers';
 import TapeGesture from './Gestures/TapGesture';
 import RewindGesture from './Gestures/RewindGesture';
 import ForwardGesture from './Gestures/ForwardGesture';
+import {isStringNullOrEmpty} from '../../../utils/utils';
 
 interface Props {
   paused: boolean;
@@ -140,11 +141,15 @@ const PlayerControls = ({
   const qualityOptions: SettingsOptionsGroup = {
     title: 'Quality',
     options: sourcesSorted.map(source => ({
-      title: source.quality || '',
-      value: source.quality?.toLowerCase() || '',
+      title: source.quality?.replace(/\D/g, '') + 'P' || '',
+      value: source.quality?.replace(/\D/g, '')?.toLowerCase() + 'P' || '',
       onPress: () => {
         if (source.quality !== selectedQuality.quality) {
-          setSelectedQuality(source);
+          setSelectedQuality({
+            quality: source?.quality?.replace(/\D/g, '') + 'P' || '',
+            url: source?.url,
+            isM3U8: source?.isM3U8,
+          });
         }
         handleInactive(false);
         setTimeout(checkIfWatched, 500);
@@ -191,6 +196,8 @@ const PlayerControls = ({
     handleSkipTimeCheck();
   }, [currentTime]);
 
+  console.log(episode_info?.title!?.length);
+
   return (
     <Wrapper>
       <RewindGesture
@@ -220,7 +227,13 @@ const PlayerControls = ({
               {actualTitle}
             </TopText>
             <TopText numberOfLines={1}>
-              {episode_info.episode_number} - {episode_info.title}
+              {isStringNullOrEmpty(episode_info.title) ? (
+                `Episode ${episode_info.episode_number}`
+              ) : (
+                <>
+                  {episode_info.episode_number} - {episode_info.title}
+                </>
+              )}
             </TopText>
           </TopTextContainer>
           <TopRight>

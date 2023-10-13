@@ -6,11 +6,14 @@ import {
   PopularContainer,
   GenericSection,
 } from './Sections';
+import ChangeSourceProvider from './ChangeSourceProvider';
 
 export {
+  ChangeSourceProvider,
   ContuineWatchingContainer,
   PopularContainer,
   GenericSection,
   ListContainer,
-  AiringScheduleContainer,CardContainer
+  AiringScheduleContainer,
+  CardContainer,
 };
