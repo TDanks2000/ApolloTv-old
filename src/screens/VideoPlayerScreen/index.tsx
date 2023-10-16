@@ -245,6 +245,7 @@ const VideoPlayerScreen: React.FC<Props> = ({route}): JSX.Element => {
         updateDB(
           data?.currentTime ?? currentTime,
           duration,
+          parseInt(anime_info.id),
           episode_info,
           hasJustWatched,
         );
@@ -254,12 +255,14 @@ const VideoPlayerScreen: React.FC<Props> = ({route}): JSX.Element => {
   };
 
   const onLoad = (data: OnLoadData) => {
-    if (!watched) updateDB(currentTime, duration, episode_info);
+    if (!watched)
+      updateDB(currentTime, duration, parseInt(anime_info.id), episode_info);
     setDuration(data.duration);
   };
 
   const onEnd = () => {
-    if (!watched) updateDB(currentTime, duration, episode_info);
+    if (!watched)
+      updateDB(currentTime, duration, parseInt(anime_info.id), episode_info);
     if (autoNextEpisode === 'off' || !autoNextEpisode) return;
     const current_episode = episode_info.episode_number!;
     const next_episode_number = current_episode + 1;
@@ -343,7 +346,13 @@ const VideoPlayerScreen: React.FC<Props> = ({route}): JSX.Element => {
         setShowNavBar(true);
       }
       return () => {
-        if (!watched) updateDB(currentTime, duration, episode_info);
+        if (!watched)
+          updateDB(
+            currentTime,
+            duration,
+            parseInt(anime_info.id),
+            episode_info,
+          );
         setShowNavBar(true);
 
         if (watched === true) setWatched(false);
@@ -416,7 +425,13 @@ const VideoPlayerScreen: React.FC<Props> = ({route}): JSX.Element => {
         onProgress={onProgress}
         onEnd={onEnd}
         onBuffer={data => {
-          if (!watched) updateDB(currentTime, duration, episode_info);
+          if (!watched)
+            updateDB(
+              currentTime,
+              duration,
+              parseInt(anime_info.id),
+              episode_info,
+            );
           setIsBuffering(data.isBuffering);
         }}
         source={{

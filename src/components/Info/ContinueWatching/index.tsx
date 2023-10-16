@@ -20,6 +20,7 @@ interface Props {
   nextEpisodeData: any;
   nextEpisodeNumber: number;
   episodes: EpisodeInfo[];
+  refreshing: boolean;
 }
 
 const ContinueWatching = ({
@@ -30,6 +31,7 @@ const ContinueWatching = ({
   nextEpisodeNumber,
   animeData,
   episodes,
+  refreshing,
 }: Props) => {
   const [watchedPercentage, setWatchedPercentage] = React.useState<number>(0);
   const navigation = useNavigation<StackNavigation>();
@@ -60,8 +62,10 @@ const ContinueWatching = ({
   const getContuineWatchingAmount = async () => {
     const data: any = await episodeSQLHelper.selectFromAnimeId(animeData.id);
     const findEpisode = data.find(
-      (item: any) => item.episode_number === currentEpisode,
+      (item: any) => item.episode_number === currentEpisode && item,
     );
+
+    console.log(findEpisode);
 
     return setWatchedPercentage(findEpisode?.watched_percentage ?? 0);
   };
@@ -69,7 +73,8 @@ const ContinueWatching = ({
   useFocusEffect(
     React.useCallback(() => {
       getContuineWatchingAmount();
-    }, [animeId, currentEpisode]),
+      if (refreshing) getContuineWatchingAmount();
+    }, [animeId, currentEpisode, refreshing]),
   );
 
   return (

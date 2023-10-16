@@ -62,13 +62,14 @@ export const insertEpisode = async (episode: SQLEpisodeData) => {
 };
 
 export const updateTable = async (episode: SQLUpdateEpisodeData) => {
-  const query = `UPDATE episodes SET watched = ?, watched_percentage = ?, watchedAt = CURRENT_TIMESTAMP WHERE id = ?`;
+  const query = `UPDATE episodes SET watched = ?, watched_percentage = ?, watchedAt = CURRENT_TIMESTAMP WHERE anime_id = ? AND episode_number = ?;`;
 
   return await sqlDB.transaction(tx => {
     return tx.executeSql(query, [
       episode.watched,
       episode?.watched_percentage ?? 0,
-      episode.id,
+      episode.anime_id,
+      episode.episode_number,
     ]);
   });
 };

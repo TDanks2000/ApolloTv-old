@@ -47,6 +47,7 @@ import RewindGesture from './Gestures/RewindGesture';
 import ForwardGesture from './Gestures/ForwardGesture';
 import {isStringNullOrEmpty} from '../../../utils/utils';
 import {SettingsContext} from '../../../contexts';
+import Skip85 from './Skip85';
 
 interface Props {
   paused: boolean;
@@ -134,7 +135,8 @@ const PlayerControls = ({
     setHideControls(!hideControls);
 
     hideControlsTimeout = setTimeout(() => {
-      if (wantUpdate) updateDB(currentTime, duration, episode_info);
+      if (wantUpdate)
+        updateDB(currentTime, duration, parseInt(anime_info.id), episode_info);
       if (paused) return;
       setHideControls(true);
     }, hideControlsDuration);
@@ -220,6 +222,14 @@ const PlayerControls = ({
 
       <Container shouldShow={hideControls}>
         <ClickToDismiss onPress={() => handleInactive()} />
+
+        <Skip85
+          videoRef={videoRef}
+          opSkipTimes={skipTimes?.opening}
+          edSkipTimes={skipTimes?.ending}
+          currentTime={currentTime}
+          duration={duration}
+        />
 
         {/* @ts-ignore */}
         <Top hidden={hideControls}>

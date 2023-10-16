@@ -6,6 +6,7 @@ export const watchTimeBeforeSync = 80;
 export const updateDB = async (
   currentTime: number,
   duration: number,
+  anime_id: number,
   episode_info: EpisodeInfo,
   watched_amount?: number,
 ) => {
@@ -16,13 +17,20 @@ export const updateDB = async (
   if (isNaN(watchedAmount)) return;
 
   await episodeSQLHelper.updateTable({
-    id: episode_info.id,
+    anime_id: anime_id,
+    episode_number: episode_info.episode_number,
     watched: watchedAmount > watchTimeBeforeSync,
     watched_percentage:
       watchedAmount > 0 && watchedAmount > watchTimeBeforeSync
         ? 100
         : watchedAmount,
   });
+
+  console.log(
+    watchedAmount > 0 && watchedAmount > watchTimeBeforeSync
+      ? 100
+      : watchedAmount,
+  );
 
   console.log(`Set watched to ${watchedAmount} for ${episode_info.id} in db`);
 };

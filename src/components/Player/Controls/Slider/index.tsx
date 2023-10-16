@@ -9,13 +9,14 @@ import {
 } from './Slider.styles';
 import {GestureResponderEvent, TouchableOpacity} from 'react-native';
 import {UPDATEDB} from '../../../../screens/VideoPlayerScreen/helpers';
+import Video from 'react-native-video';
 
 interface Props {
   currentTime: number;
   duration: number;
   setPaused: (paused: boolean) => void;
   setCurrentTime: (number: number) => void;
-  videoRef: any;
+  videoRef: React.RefObject<Video>;
 }
 
 const ControlsSlider = ({
@@ -49,8 +50,8 @@ const ControlsSlider = ({
     setPaused(true);
   };
 
-  const onSlidingComplete = (value: number) => {
-    videoRef.current.seek(value);
+  const onSlidingComplete = async (value: number) => {
+    await videoRef.current!.seek(value, 0);
     setPaused(false);
   };
 

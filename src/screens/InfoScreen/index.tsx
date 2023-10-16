@@ -150,6 +150,7 @@ const InfoScreen = ({route}: Props) => {
             nextEpisodeData={nextNextEpisode ?? {}}
             nextEpisodeNumber={nextNextEpisode?.number ?? 1}
             episodes={data.episodes}
+            refreshing={refreshing}
           />
         )}
         <Info.Options

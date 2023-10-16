@@ -282,11 +282,10 @@ export interface SQLEpisodeData {
   watched_percentage: number;
 }
 
-export interface SQLUpdateEpisodeData {
-  id: string;
-  watched: boolean;
-  watched_percentage: number;
-}
+export type SQLUpdateEpisodeData = Pick<
+  SQLEpisodeData,
+  'watched' | 'watched_percentage' | 'anime_id' | 'episode_number'
+>;
 
 export type Quality = '1080p' | '720p' | '480p' | '360p' | 'HIGHEST' | 'LOWEST';
 
