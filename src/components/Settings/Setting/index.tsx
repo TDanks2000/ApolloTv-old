@@ -1,4 +1,4 @@
-import {View, Text} from 'react-native';
+import {View, Text, KeyboardTypeOptions} from 'react-native';
 import React, {Component, ReactElement} from 'react';
 import {
   Container,
@@ -14,12 +14,17 @@ import {
   Wrapper,
 } from '../Settings.styles';
 import {useNavigation} from '@react-navigation/native';
+import {Input} from './Setting.styles';
+import {StackNavigation} from '../../../@types';
 
 type Props = {
   title: string;
   descriptor: string;
-  selectedOption: string;
+  selectedOption: string | number;
   onPress?: () => void;
+
+  typeOfSetting?: 'dropdown' | 'input' | 'click';
+  keyboardType?: KeyboardTypeOptions;
 
   dropdown?: boolean;
   options?: string[];
@@ -29,7 +34,7 @@ type Props = {
 const Setting = (props: Props) => {
   const [open, toggleOpen] = React.useReducer(s => !s, false);
   const {title, descriptor, selectedOption} = props;
-  const navigation: any = useNavigation();
+  const navigation = useNavigation<StackNavigation>();
 
   const handlePress = (change: any) => {
     if (props.changeSetting) {
@@ -42,6 +47,32 @@ const Setting = (props: Props) => {
     if (props.dropdown) toggleOpen();
     if (props.onPress) props.onPress();
   };
+
+  if (props.typeOfSetting && props.typeOfSetting === 'input') {
+    return (
+      <Wrapper>
+        <Container key={`${title}-setting`} disabled>
+          <LeftContainer>
+            <Title numberOfLines={1}>{title}</Title>
+            <Description numberOfLines={2}>{descriptor}</Description>
+          </LeftContainer>
+          <RightContainer>
+            <Input
+              maxLength={2}
+              keyboardType={props.keyboardType ?? 'numeric'}
+              defaultValue={selectedOption.toString()}
+              onChangeText={text => {
+                const number = parseInt(text);
+                if (isNaN(number)) return;
+                if (props.changeSetting)
+                  props.changeSetting(isNaN(number) ? 0 : number);
+              }}
+            />
+          </RightContainer>
+        </Container>
+      </Wrapper>
+    );
+  }
 
   return (
     <Wrapper>

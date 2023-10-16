@@ -348,7 +348,9 @@ export type settings =
   | 'prefered_voice'
   | 'prefered_quality'
   | 'source_provider'
-  | 'private_mode';
+  | 'private_mode'
+  | 'skip_forward_time'
+  | 'skip_behind_time';
 
 export type DropdownData<LabelType, ValueType> = {
   label: LabelType;

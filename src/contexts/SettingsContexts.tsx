@@ -12,12 +12,18 @@ export const SettingsContext = React.createContext<{
   preferedQuality?: Quality;
   sourceProvider?: sourceProviders;
   privateMode?: OnOrOff;
+  skipForwardTime?: number;
+  skipBehindTime?: number;
   changeAutoSkip?: (setting: 'auto_skip_intro' | 'auto_skip_outro') => void;
   changePreferedVoice?: () => void;
   changePreferedQuality?: (quality: Quality) => void;
   changeSourceProvider?: (provider: sourceProviders) => void;
   changeAutoNextEpisode?: (setting: 'auto_next_episode') => void;
   changePrivateMode?: () => void;
+  changeSkipTime?: (
+    setting: 'skip_forward_time' | 'skip_behind_time',
+    time: number,
+  ) => void;
 }>({});
 
 export const useSettingsContext = React.useContext(SettingsContext);
@@ -35,6 +41,11 @@ export const SettingsProvider = ({children}: any) => {
   const privateModeSetting = settingsHelper.getSetting<OnOrOff | undefined>(
     'private_mode',
   );
+  const skipForwardSetting =
+    settingsHelper.getSetting<number>('skip_forward_time');
+
+  const skipBehindSetting =
+    settingsHelper.getSetting<number>('skip_behind_time');
 
   const preferedVoiceSettings: any =
     settingsHelper.getSetting('prefered_voice');
@@ -64,6 +75,12 @@ export const SettingsProvider = ({children}: any) => {
   );
   const [privateMode, setPrivateMode] = React.useState(
     privateModeSetting ?? 'off',
+  );
+  const [skipForwardTime, setSkipForwardTime] = React.useState<number>(
+    skipForwardSetting ?? 30,
+  );
+  const [skipBehindTime, setSkipBehindTime] = React.useState<number>(
+    skipBehindSetting ?? 30,
   );
 
   const changeAutoSkip = (setting: 'auto_skip_intro' | 'auto_skip_outro') => {
@@ -107,6 +124,15 @@ export const SettingsProvider = ({children}: any) => {
     setPrivateMode(prev => (prev === 'off' ? 'on' : 'off'));
   };
 
+  const changeSkipTime = (
+    settingSkip: 'skip_forward_time' | 'skip_behind_time',
+    time: number,
+  ) => {
+    settingsHelper.setSetting(settingSkip, time);
+    if (settingSkip === 'skip_behind_time') setSkipBehindTime(time);
+    if (settingSkip === 'skip_forward_time') setSkipForwardTime(time);
+  };
+
   return (
     <SettingsContext.Provider
       value={{
@@ -117,12 +143,15 @@ export const SettingsProvider = ({children}: any) => {
         preferedQuality,
         sourceProvider,
         privateMode,
+        skipBehindTime,
+        skipForwardTime,
         changeAutoSkip,
         changePreferedVoice,
         changePreferedQuality,
         changeSourceProvider,
         changeAutoNextEpisode,
         changePrivateMode,
+        changeSkipTime: changeSkipTime,
       }}>
       {children}
     </SettingsContext.Provider>

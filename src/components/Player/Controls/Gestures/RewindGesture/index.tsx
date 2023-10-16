@@ -10,6 +10,7 @@ type Props = {
   videoRef: any;
 
   shouldShow: boolean;
+  time: number;
 };
 
 const RewindGesture: React.FC<Props> = ({
@@ -18,10 +19,11 @@ const RewindGesture: React.FC<Props> = ({
   isBuffering,
   videoRef,
   shouldShow,
+  time,
 }) => {
   const onGesture = () => {
     if (isBuffering) return;
-    videoRef.current.seek(currentTime + -30);
+    videoRef.current.seek(currentTime + parseInt(`-${time}`));
   };
 
   if (!shouldShow) return null;

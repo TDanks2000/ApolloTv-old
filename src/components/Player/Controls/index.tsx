@@ -46,6 +46,7 @@ import TapeGesture from './Gestures/TapGesture';
 import RewindGesture from './Gestures/RewindGesture';
 import ForwardGesture from './Gestures/ForwardGesture';
 import {isStringNullOrEmpty} from '../../../utils/utils';
+import {SettingsContext} from '../../../contexts';
 
 interface Props {
   paused: boolean;
@@ -101,6 +102,8 @@ const PlayerControls = ({
   const [isAtOutro, setIsAtOutro] = useState(false);
 
   const [spinState, setSpinState] = React.useState<boolean>(false);
+
+  const {skipBehindTime, skipForwardTime} = React.useContext(SettingsContext);
 
   const startSpinAnimation = () => {
     setSpinState((prev: boolean) => !prev);
@@ -206,6 +209,7 @@ const PlayerControls = ({
         currentTime={currentTime}
         isBuffering={isBuffering}
         shouldShow={hideControls}
+        time={skipBehindTime ?? 30}
       />
 
       <ForwardGesture
@@ -214,6 +218,7 @@ const PlayerControls = ({
         currentTime={currentTime}
         isBuffering={isBuffering}
         shouldShow={hideControls}
+        time={skipForwardTime ?? 30}
       />
 
       <Container shouldShow={hideControls}>
@@ -268,7 +273,7 @@ const PlayerControls = ({
         <Middle hidden={hideControls}>
           <SkipTo
             icon="backward"
-            duration={-30}
+            duration={parseInt(`-${skipBehindTime}`) ?? -30}
             videoRef={videoRef}
             currentTime={currentTime}
             isBuffering={isBuffering}
@@ -281,7 +286,7 @@ const PlayerControls = ({
           />
           <SkipTo
             icon="forward"
-            duration={30}
+            duration={skipForwardTime ?? 30}
             videoRef={videoRef}
             currentTime={currentTime}
             isBuffering={isBuffering}

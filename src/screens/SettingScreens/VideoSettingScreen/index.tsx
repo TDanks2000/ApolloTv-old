@@ -13,11 +13,13 @@ const VideoSettingScreen = () => {
     autoSkipIntro,
     autoSkipOutro,
     autoNextEpisode,
-
     preferedQuality,
+    skipBehindTime,
+    skipForwardTime,
     changePreferedQuality,
     changeAutoSkip,
     changeAutoNextEpisode,
+    changeSkipTime,
   } = React.useContext(SettingsContext);
 
   const qualityOptions: Quality[] = [
@@ -46,9 +48,7 @@ const VideoSettingScreen = () => {
               changeAutoSkip ? changeAutoSkip('auto_skip_intro') : undefined
             }
           />
-
           <Seperator />
-
           <Settings.Setting
             title="Auto Skip Outro"
             descriptor="Auto skip the ending outro"
@@ -57,9 +57,7 @@ const VideoSettingScreen = () => {
               changeAutoSkip ? changeAutoSkip('auto_skip_outro') : undefined
             }
           />
-
           <Seperator />
-
           <Settings.Setting
             title="Preferred Quality"
             descriptor="What Quality would you like to be auto selected"
@@ -80,6 +78,35 @@ const VideoSettingScreen = () => {
                 ? changeAutoNextEpisode('auto_next_episode')
                 : undefined
             }
+          />
+
+          <Seperator />
+
+          <Settings.Setting
+            title="Skip Forward Time"
+            descriptor="change the skip forawrd time"
+            selectedOption={skipForwardTime ?? 30}
+            typeOfSetting="input"
+            changeSetting={(number: number) => {
+              changeSkipTime
+                ? changeSkipTime('skip_forward_time', number)
+                : undefined;
+            }}
+          />
+
+          <Seperator />
+
+          <Settings.Setting
+            title="Rewind Time"
+            descriptor="change the rewind time"
+            selectedOption={skipBehindTime ?? 30}
+            typeOfSetting="input"
+            onPress={() => {}}
+            changeSetting={(number: number) => {
+              changeSkipTime
+                ? changeSkipTime('skip_behind_time', number)
+                : undefined;
+            }}
           />
 
           <Seperator />
