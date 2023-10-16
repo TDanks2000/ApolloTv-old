@@ -7,7 +7,7 @@ export const Wrapper = styled.View`
   height: 100%;
   align-self: center;
   display: flex;
-  width: 110px;
+  width: 40%;
   z-index: 2;
   border-top-right-radius: 99999px;
   border-bottom-right-radius: 99999px;

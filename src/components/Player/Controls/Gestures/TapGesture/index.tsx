@@ -40,7 +40,7 @@ const TapGesture: React.FC<Props> = ({
         onHandlerStateChange={onDoubleTapEvent}
         numberOfTaps={2}
         onGestureEvent={onGestureEvent}
-        maxDelayMs={100}>
+        maxDelayMs={200}>
         {children}
       </TapGestureHandler>
     </TapGestureHandler>

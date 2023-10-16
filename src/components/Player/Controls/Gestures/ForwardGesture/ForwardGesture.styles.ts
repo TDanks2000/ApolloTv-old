@@ -8,7 +8,7 @@ export const Wrapper = styled(Animated.View)`
   height: 100%;
   align-self: center;
   display: flex;
-  width: 110px;
+  width: 40%;
   z-index: 2;
   border-top-left-radius: 99999px;
   border-bottom-left-radius: 99999px;
