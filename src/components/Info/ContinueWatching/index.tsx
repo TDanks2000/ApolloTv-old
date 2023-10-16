@@ -65,8 +65,6 @@ const ContinueWatching = ({
       (item: any) => item.episode_number === currentEpisode && item,
     );
 
-    console.log(findEpisode);
-
     return setWatchedPercentage(findEpisode?.watched_percentage ?? 0);
   };
 

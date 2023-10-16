@@ -10,6 +10,8 @@ import {
   EpisodeImageBackground,
   EpisodeNumber,
   EpisodeTitle,
+  FillerContainer,
+  FillerText,
   PercentWatched,
   PercentWatchedContainer,
   Wrapper,
@@ -35,6 +37,7 @@ const EpisodeCard = (props: EpisodeCardProps) => {
     image,
     watched_percentage,
     episodes,
+    isFiller,
   } = props;
   const [actualWatchedPercent, setActualWatchedPercent] = React.useState<
     number | undefined
@@ -82,6 +85,11 @@ const EpisodeCard = (props: EpisodeCardProps) => {
         source={{
           uri: imageAlts,
         }}>
+        {isFiller ? (
+          <FillerContainer>
+            <FillerText>Filler</FillerText>
+          </FillerContainer>
+        ) : null}
         {/* @ts-ignore */}
         <Wrapper>
           <BottomBanner>

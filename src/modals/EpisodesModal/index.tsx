@@ -115,6 +115,7 @@ const EpisodesModal = ({
                       id={episode.id}
                       title={episode.title}
                       image={episode.image}
+                      isFiller={episode?.isFiller}
                       episode_number={episode.number}
                       setEpisodeModalVisible={setVisible}
                       episodeDBEntry={episodeFromDb}

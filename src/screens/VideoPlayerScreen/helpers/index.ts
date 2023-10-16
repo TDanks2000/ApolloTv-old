@@ -26,12 +26,6 @@ export const updateDB = async (
         : watchedAmount,
   });
 
-  console.log(
-    watchedAmount > 0 && watchedAmount > watchTimeBeforeSync
-      ? 100
-      : watchedAmount,
-  );
-
   console.log(`Set watched to ${watchedAmount} for ${episode_info.id} in db`);
 };
 

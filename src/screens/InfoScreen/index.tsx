@@ -43,7 +43,13 @@ const InfoScreen = ({route}: Props) => {
     const animeData = await api.fetcher(
       `${API_BASE}/anilist/info/${id}?dub=${
         dubOrSub === 'dub'
-      }&provider=${sourceProvider}`,
+      }&provider=${sourceProvider}&fetchFiller=true`,
+    );
+
+    console.log(
+      `${API_BASE}/anilist/info/${id}?dub=${
+        dubOrSub === 'dub'
+      }&provider=${sourceProvider}&fetchFiller=true`,
     );
 
     const mediaListStatus = mediaStatus?.data?.Media?.mediaListEntry;

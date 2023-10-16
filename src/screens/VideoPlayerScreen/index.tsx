@@ -148,7 +148,6 @@ const VideoPlayerScreen: React.FC<Props> = ({route}): JSX.Element => {
     if (isCurrentPosAtOpening && wantToUpdate) {
       if (!hasSkipedIntro) {
         setHasSkippedIntro(true);
-        console.log(hasSkipedIntro);
         videoRef.current.seek(openingEndTime + 5);
       }
     } else if (isCurrentPosAtOpening && !wantToUpdate) {

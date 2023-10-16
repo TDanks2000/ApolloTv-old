@@ -2,10 +2,12 @@ import {rgba} from 'polished';
 import LinearGradient from 'react-native-linear-gradient';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {styled} from 'styled-components/native';
+import {Text} from '../../../styles/sharedStyles';
 
 export const EpisodeContainer = styled.TouchableOpacity.attrs({
   activeOpacity: 0.8,
 })`
+  position: relative;
   width: 100%;
   height: 130px;
   border-radius: 8px;
@@ -112,4 +114,23 @@ export const DownloadButton = styled.TouchableOpacity`
 export const DownloadIcon = styled(Icon)`
   color: ${({theme}) => theme.text.primary};
   font-size: 20px;
+`;
+
+export const FillerContainer = styled.View`
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: ${({theme}) => theme.base.mainColor};
+  width: 75px;
+  height: 22px;
+  border-bottom-right-radius: 8px;
+  justify-content: center;
+  align-items: center;
+`;
+
+export const FillerText = styled(Text)`
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-size: 15px;
 `;

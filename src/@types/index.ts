@@ -70,6 +70,7 @@ export interface EpisodeCardProps {
   id: string;
   image?: string;
   episode_number?: number;
+  isFiller?: boolean;
   watched_percentage?: number;
   setEpisodeModalVisible: (value: boolean) => void;
 
@@ -86,6 +87,7 @@ export interface EpisodeInfo {
   title: string | undefined;
   image?: string;
   episode_number?: number;
+  isFiller?: boolean;
   [x: string]: any;
 }
 
