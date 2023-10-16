@@ -1,26 +1,21 @@
 import React from 'react';
-import {RefreshControl} from 'react-native';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import {QueryAnime, RootStackParamList, SubOrDub} from '../../@types';
+import {RootStackParamList, SubOrDub} from '../../@types';
 import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {Info} from '../../components';
 import {DescriptionComponent} from '../../components/Shared';
-import {ScrollView} from '../../styles/sharedStyles';
-import {CollectionsModal, EpisodesModal} from '../../modals';
+import {RefreshControlStyled, ScrollView} from '../../styles/sharedStyles';
+import {EpisodesModal} from '../../modals';
 import {API_BASE} from '@env';
 import {api, helpers} from '../../utils';
 import {useQuery} from '@tanstack/react-query';
 import {InfoPageSkeleton} from '../../components/Skeletons';
 import CharacterContainer from '../../containers/CastContainer';
-import {CWWrapper, Wrapper} from './InfoScreen.styles';
-import {
-  SettingsContext,
-  useAccessToken,
-  useSettingsContext,
-} from '../../contexts';
+import {Wrapper} from './InfoScreen.styles';
+import {SettingsContext, useAccessToken} from '../../contexts';
 import {Anilist} from '@tdanks2000/anilist-wrapper';
-import {CardContainer, ChangeSourceProvider} from '../../containers';
+import {CardContainer} from '../../containers';
 import {useBreakpoints} from '../../hooks';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Info'>;
@@ -87,6 +82,10 @@ const InfoScreen = ({route}: Props) => {
     }, []),
   );
 
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+  }, []);
+
   if (isPending) return <InfoPageSkeleton />;
 
   const data = resData?.animeData;
@@ -123,18 +122,14 @@ const InfoScreen = ({route}: Props) => {
     );
   };
 
-  const nextEpisode = findNextEpisode(data.episodes, 1, false);
-  const nextNextEpisode = findNextEpisode(data.episodes, 2, false);
-
-  const onRefresh = React.useCallback(() => {
-    setRefreshing(true);
-  }, []);
+  let nextEpisode = findNextEpisode(data.episodes, 1, false);
+  let nextNextEpisode = findNextEpisode(data.episodes, 2, false);
 
   return (
     <SafeAreaView>
       <ScrollView
         refreshControl={
-          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+          <RefreshControlStyled refreshing={refreshing} onRefresh={onRefresh} />
         }>
         <Info.Top
           title={data.title}

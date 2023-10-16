@@ -10,6 +10,7 @@ import {
 import {EpisodeInfo, FullAnimeInfo, StackNavigation} from '../../../@types';
 import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import {episodeSQLHelper} from '../../../utils/database';
+import {SettingsContext} from '../../../contexts';
 
 interface Props {
   animeId: number;
@@ -33,9 +34,11 @@ const ContinueWatching = ({
   const [watchedPercentage, setWatchedPercentage] = React.useState<number>(0);
   const navigation = useNavigation<StackNavigation>();
 
+  const {sourceProvider} = React.useContext(SettingsContext);
+
   const onPress = () => {
     navigation.navigate('VideoPlayer', {
-      source_provider: 'gogoanime',
+      source_provider: sourceProvider ? sourceProvider : 'gogoanime',
       episode_id: currentEpisodeData.id,
       episode_info: {
         id: currentEpisodeData.id,

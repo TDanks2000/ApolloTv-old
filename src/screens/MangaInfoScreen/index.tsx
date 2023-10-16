@@ -1,4 +1,4 @@
-import {View, Text} from 'react-native';
+import {RefreshControl} from 'react-native';
 import React from 'react';
 import {FullMangaInfo, QueryManga, RootStackParamList} from '../../@types';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
@@ -6,7 +6,7 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import {Info, MangaInfo, MiddleOfScreenTextComponent} from '../../components';
 import {MangaInfoData} from '../../utils/TestData';
 import CharacterContainer from '../../containers/CastContainer';
-import {ScrollView} from '../../styles/sharedStyles';
+import {RefreshControlStyled, ScrollView} from '../../styles/sharedStyles';
 import {API_BASE} from '@env';
 import {api} from '../../utils';
 import {useQuery} from '@tanstack/react-query';
@@ -20,6 +20,7 @@ type Props = NativeStackScreenProps<RootStackParamList, 'MangaInfo'>;
 
 const MangaInfoScreen: React.FC<Props> = ({route, navigation}) => {
   const [openModal, setOpenModal] = React.useState<boolean>(false);
+  const [refreshing, setRefreshing] = React.useState(false);
 
   const params = route?.params;
   const {id} = params;
@@ -39,10 +40,18 @@ const MangaInfoScreen: React.FC<Props> = ({route, navigation}) => {
     isError,
     data: resData,
     error,
-  }: QueryManga = useQuery({
+    refetch,
+  } = useQuery({
     queryKey: ['mangaInfo', id],
     queryFn: fetcher,
   });
+
+  React.useEffect(() => {
+    if (refreshing) {
+      refetch();
+      setRefreshing(isPending);
+    }
+  }, [refreshing]);
 
   if (isPending) return <InfoPageSkeleton />;
   if (!resData?.mangaData?.title)
@@ -50,9 +59,16 @@ const MangaInfoScreen: React.FC<Props> = ({route, navigation}) => {
       <MiddleOfScreenTextComponent text="There was an unexpected error " />
     );
 
+  const onRefresh = () => {
+    setRefreshing(true);
+  };
+
   return (
     <SafeAreaView>
-      <ScrollView>
+      <ScrollView
+        refreshControl={
+          <RefreshControlStyled refreshing={refreshing} onRefresh={onRefresh} />
+        }>
         <Info.Top
           type="MANGA"
           poster_image={resData?.mangaData?.cover ?? resData.mangaData?.image}

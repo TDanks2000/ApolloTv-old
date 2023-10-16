@@ -10,7 +10,7 @@ export type TitleLanguageOptions =
   | 'romanji'
   | 'userPreferred';
 
-export type sourceProviders = 'gogoanime' | 'animepahe';
+export type sourceProviders = 'gogoanime' | 'animepahe' | 'allanime';
 
 export type MediaListStatus =
   | 'CURRENT'
@@ -258,12 +258,10 @@ export interface QueryAnime {
 export interface QueryManga {
   isPending: boolean;
   isError: boolean;
-  data:
-    | {
-        mediaStatus: any;
-        mangaData: FullMangaInfo | undefined;
-      }
-    | undefined;
+  data: {
+    mediaStatus: any;
+    mangaData: FullMangaInfo | undefined;
+  };
   error: Error | null;
 }
 

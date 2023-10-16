@@ -34,3 +34,8 @@ export const Text = styled.Text`
 export const Title = styled(Text)`
   font-size: 19px;
 `;
+
+export const RefreshControlStyled = styled.RefreshControl.attrs(({theme}) => ({
+  colors: [theme.base.mainColor],
+  progressBackgroundColor: 'rgba(0,0,0,0.5)',
+}))``;
