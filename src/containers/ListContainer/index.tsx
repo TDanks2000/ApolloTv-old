@@ -11,8 +11,6 @@ const ListContainer = ({data, selectedList}: any) => {
     if (!item) return null;
     const actualTitle = utils.getTitle(item.title);
 
-    console.log(item);
-
     return (
       <ListCard
         id={item.id}

@@ -53,6 +53,7 @@ interface Props {
   setPaused: (paused: boolean) => void;
   videoRef: any;
   currentTime: number;
+  setCurrentTime: (number: number) => void;
   duration: number;
   isBuffering: boolean;
 
@@ -91,6 +92,7 @@ const PlayerControls = ({
   skipTimes,
   episodes,
   updateDB,
+  setCurrentTime,
 }: Props) => {
   const actualTitle = utils.getTitle(anime_info.title);
 
@@ -170,36 +172,31 @@ const PlayerControls = ({
   };
 
   const handleSkipTimeCheck = () => {
-    if (skipTimes?.opening) {
-      const openingStartTime =
-        skipTimes.opening.interval.startTime - timeToCheckBefore;
-      const openingEndTime = skipTimes.opening?.interval?.endTime;
-
-      setIsAtIntro(
-        checkPosition(openingStartTime, openingEndTime, currentTime) &&
-          !isAtIntro,
-      );
-      setIsAtOutro(!isAtIntro && currentTime >= openingEndTime);
-    }
-
-    if (skipTimes?.ending) {
-      const endingStartTime =
-        skipTimes.ending.interval.startTime - timeToCheckBefore;
-      const endingEndTime = skipTimes.ending?.interval?.endTime;
-
-      setIsAtOutro(
-        checkPosition(endingStartTime, endingEndTime, currentTime) &&
-          !isAtOutro,
-      );
-      setIsAtIntro(!isAtOutro && currentTime >= endingEndTime);
-    }
+    // if (skipTimes?.opening) {
+    //   const openingStartTime =
+    //     skipTimes.opening.interval.startTime - timeToCheckBefore;
+    //   const openingEndTime = skipTimes.opening?.interval?.endTime;
+    //   setIsAtIntro(
+    //     checkPosition(openingStartTime, openingEndTime, currentTime) &&
+    //       !isAtIntro,
+    //   );
+    //   setIsAtOutro(!isAtIntro && currentTime >= openingEndTime);
+    // }
+    // if (skipTimes?.ending) {
+    //   const endingStartTime =
+    //     skipTimes.ending.interval.startTime - timeToCheckBefore;
+    //   const endingEndTime = skipTimes.ending?.interval?.endTime;
+    //   // setIsAtOutro(
+    //   //   checkPosition(endingStartTime, endingEndTime, currentTime) &&
+    //   //     !isAtOutro,
+    //   // );
+    //   // setIsAtIntro(!isAtOutro && currentTime >= endingEndTime);
+    // }
   };
 
   useEffect(() => {
     handleSkipTimeCheck();
   }, [currentTime]);
-
-  console.log(episode_info?.title!?.length);
 
   return (
     <Wrapper>
@@ -296,13 +293,14 @@ const PlayerControls = ({
         <Bottom hidden={hideControls}>
           <ControlsSlider
             currentTime={currentTime}
+            setCurrentTime={setCurrentTime}
             duration={duration}
             setPaused={setPaused}
             videoRef={videoRef}
           />
         </Bottom>
       </Container>
-      {isAtOutro ? (
+      {/* {isAtOutro ? (
         <SkipIntroOutro
           isHidden={hideControls}
           duration={5000}
@@ -318,7 +316,7 @@ const PlayerControls = ({
           type="skip_intro"
           skipFunctions={skipFunctions}
         />
-      ) : null}
+      ) : null} */}
     </Wrapper>
   );
 };

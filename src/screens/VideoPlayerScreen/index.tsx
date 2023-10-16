@@ -370,7 +370,6 @@ const VideoPlayerScreen: React.FC<Props> = ({route}): JSX.Element => {
   }
 
   if (!selectedSource) return <MiddleOfScreenLoadingComponent />;
-  console.log(selectedSource);
 
   const showError = (errorString?: string) => {
     Toast.show({
@@ -394,6 +393,7 @@ const VideoPlayerScreen: React.FC<Props> = ({route}): JSX.Element => {
         setPaused={setPaused}
         videoRef={videoRef}
         currentTime={currentTime ?? 0}
+        setCurrentTime={setCurrentTime}
         duration={duration ?? 0}
         updateDB={updateDB}
         episode_info={episode_info}

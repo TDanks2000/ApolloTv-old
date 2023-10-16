@@ -14,6 +14,7 @@ interface Props {
   currentTime: number;
   duration: number;
   setPaused: (paused: boolean) => void;
+  setCurrentTime: (number: number) => void;
   videoRef: any;
 }
 
@@ -22,6 +23,7 @@ const ControlsSlider = ({
   duration,
   setPaused,
   videoRef,
+  setCurrentTime,
 }: Props) => {
   const [timeLeft, toggleTimeLeft] = React.useReducer(
     showTimeLeft => !showTimeLeft,
