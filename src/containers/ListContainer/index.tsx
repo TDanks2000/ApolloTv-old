@@ -3,8 +3,14 @@ import React from 'react';
 import {ListCard} from '../../components/Cards';
 import {utils} from '../../utils';
 import {useBreakpoints} from '../../hooks';
+import {RefreshControlStyled} from '../../styles/sharedStyles';
 
-const ListContainer = ({data, selectedList}: any) => {
+const ListContainer = ({
+  data,
+  selectedList,
+  refreshing,
+  setRefreshing,
+}: any) => {
   const {isMobile} = useBreakpoints();
   const renderItem = (media: any) => {
     const item = media?.media;
@@ -39,6 +45,15 @@ const ListContainer = ({data, selectedList}: any) => {
   if (!isMobile)
     return (
       <FlatList
+        refreshControl={
+          <RefreshControlStyled
+            enabled={true}
+            refreshing={refreshing}
+            onRefresh={() => {
+              setRefreshing(true);
+            }}
+          />
+        }
         key={`mobile-flatlist-lists`}
         data={combineData}
         renderItem={({item}) => renderItem(item)}
@@ -58,6 +73,15 @@ const ListContainer = ({data, selectedList}: any) => {
 
   return (
     <FlatList
+      refreshControl={
+        <RefreshControlStyled
+          enabled={true}
+          refreshing={refreshing}
+          onRefresh={() => {
+            setRefreshing(true);
+          }}
+        />
+      }
       key={`flatlist-lists`}
       data={combineData}
       renderItem={({item}) => renderItem(item)}

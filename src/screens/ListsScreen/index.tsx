@@ -25,6 +25,7 @@ import {api} from '../../utils';
 import {PanGestureHandler, Swipeable} from 'react-native-gesture-handler';
 
 const ListsScreen = () => {
+  const [refreshing, setRefreshing] = React.useState(false);
   const [selectedList, setSelectedList] =
     React.useState<MediaListStatus>('CURRENT');
   const {accessToken} = useAccessToken();
@@ -61,10 +62,17 @@ const ListsScreen = () => {
     },
   ];
 
-  const {isPending, isError, data, error} = useQuery({
+  const {isPending, isError, data, error, refetch} = useQuery({
     queryKey: ['user-lists'],
     queryFn: () => api.fetchAnilistLists(accessToken, anilist),
   });
+
+  React.useEffect(() => {
+    if (refreshing) {
+      refetch();
+      setRefreshing(isPending);
+    }
+  }, [refreshing]);
 
   if (isPending) return <MiddleOfScreenLoadingComponent />;
   if (data?.length <= 0)
@@ -123,7 +131,12 @@ const ListsScreen = () => {
               <NoDataText>This list is empty!</NoDataText>
             </NoDataTextWrapper>
           ) : (
-            <ListContainer data={selectedLisData} selectedList={selectedList} />
+            <ListContainer
+              data={selectedLisData}
+              selectedList={selectedList}
+              refreshing={refreshing}
+              setRefreshing={setRefreshing}
+            />
           )}
         </Wrapper>
       </SharedContainerRel>
