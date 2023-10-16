@@ -118,7 +118,13 @@ const EpisodesModal = ({
                       episode_number={episode.number}
                       setEpisodeModalVisible={setVisible}
                       episodeDBEntry={episodeFromDb}
-                      watched_percentage={episode.number <= progress ? 100 : 0}
+                      watched_percentage={
+                        episode.number <= progress
+                          ? 100
+                          : episodeFromDb
+                          ? episodeFromDb?.watched_percentage
+                          : 0
+                      }
                       anime_info={{
                         id: anime_info.id,
                         title: anime_info.title,
