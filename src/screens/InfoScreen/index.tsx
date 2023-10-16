@@ -139,6 +139,7 @@ const InfoScreen = ({route}: Props) => {
           key={`info-top-${data.id}`}
           dubOrSub={dubOrSub ?? 'sub'}
           setDubOrSub={setDubOrSub}
+          refreshing={refreshing}
         />
         {!nextEpisode ? null : (
           <Info.ContinueWatching

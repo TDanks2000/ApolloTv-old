@@ -1,5 +1,5 @@
 import {View} from 'react-native';
-import React, {PropsWithChildren} from 'react';
+import React, {PropsWithChildren, useEffect} from 'react';
 import {
   Dropdown,
   MiddleOfScreenLoadingComponent,
@@ -19,11 +19,13 @@ import {API_BASE} from '@env';
 type Props = {
   width: number | `${number}%`;
   type?: 'anime' | 'manga';
+  refreshing?: boolean;
 };
 
 const ChangeSourceProvider: React.FC<PropsWithChildren<Props>> = ({
   width,
   type = 'anime',
+  refreshing,
 }) => {
   const {sourceProvider, changeSourceProvider} =
     React.useContext(SettingsContext);
@@ -40,10 +42,16 @@ const ChangeSourceProvider: React.FC<PropsWithChildren<Props>> = ({
     return data;
   };
 
-  const {data, isError, error, isPending} = useQuery<DataType[]>({
+  const {data, isError, error, isPending, refetch} = useQuery<DataType[]>({
     queryKey: ['sourceDropdown', type],
     queryFn: fetcher,
   });
+
+  React.useEffect(() => {
+    if (refreshing) {
+      refetch();
+    }
+  }, [refreshing]);
 
   if (isPending) return <MiddleOfScreenLoadingComponent />;
   if (isError)
