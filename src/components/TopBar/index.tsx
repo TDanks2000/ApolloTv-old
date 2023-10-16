@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {
   Container,
   IconContainer,
@@ -22,9 +22,15 @@ import NotificationBell from './NotificationBell';
 
 type Props = {
   hasJustLoggedIn?: boolean;
+  refreshing: boolean;
+  setRefreshing: (refreshing: boolean) => void;
 };
 
-const TopBarComponent = ({hasJustLoggedIn}: Props) => {
+const TopBarComponent = ({
+  hasJustLoggedIn,
+  refreshing,
+  setRefreshing,
+}: Props) => {
   let accessToken = useAccessToken().accessToken;
   const navigation = useNavigation<StackNavigation>();
 
@@ -37,10 +43,17 @@ const TopBarComponent = ({hasJustLoggedIn}: Props) => {
     return (data as any)?.data;
   };
 
-  const {isPending, isError, data, error} = useQuery({
+  const {isPending, isError, data, error, refetch} = useQuery({
     queryKey: ['Top-Bar'],
     queryFn: fetcher,
   });
+
+  React.useEffect(() => {
+    if (refreshing) {
+      refetch();
+      setRefreshing(isPending);
+    }
+  }, [refreshing]);
 
   if (isPending) return null;
 
@@ -69,7 +82,7 @@ const TopBarComponent = ({hasJustLoggedIn}: Props) => {
         )}
 
         <IconContainer>
-          {Platform.isTV &&
+          {Platform.isTV && (
             <>
               <IconItemContainer onPress={() => navigation.navigate('Search')}>
                 <IconItem name="search" />
@@ -78,16 +91,16 @@ const TopBarComponent = ({hasJustLoggedIn}: Props) => {
                 <IconItem name="list-ul" />
               </IconItemContainer>
             </>
-          }
+          )}
           <IconItemContainer onPress={() => navigation.navigate('news', {})}>
             <IconItem name="newspaper" />
           </IconItemContainer>
           <NotificationBell />
-          {Platform.isTV &&
+          {Platform.isTV && (
             <IconItemContainer onPress={() => navigation.navigate('Settings')}>
               <IconItem name="cog" />
             </IconItemContainer>
-          }
+          )}
         </IconContainer>
       </Container>
     </>

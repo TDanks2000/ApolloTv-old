@@ -13,7 +13,7 @@ import {
   GenericSection,
   PopularContainer,
 } from '../../containers';
-import {ScrollView} from '../../styles/sharedStyles';
+import {RefreshControlStyled, ScrollView} from '../../styles/sharedStyles';
 import {helpers, storage} from '../../utils';
 import {RootStackParamList} from '../../@types';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
@@ -26,6 +26,7 @@ import {addToAnalytics} from '../../utils/api';
 type Props = NativeStackScreenProps<RootStackParamList, 'Home'>;
 
 const HomeScreen = ({route}: Props) => {
+  const [refreshing, setRefreshing] = React.useState(false);
   const genericContext = React.useContext(GenericContext);
   const hasJustLoggedIn = route?.params?.hasJustLoggedIn;
   const {width} = useWindowDimensions();
@@ -35,21 +36,35 @@ const HomeScreen = ({route}: Props) => {
   React.useEffect(() => {
     episodeSQLHelper.createTable();
     addToAnalytics(width);
-    if (hasLaunchedBefore) return;
-    genericContext?.openAlert(
-      'Welcome to ApolloTv',
-      'This app is still in early alpha so some features may not be working as of yet',
-      'error',
-      {
-        duration: 10000,
-      },
-    );
+    if (!hasLaunchedBefore) {
+      genericContext?.openAlert(
+        'Welcome to ApolloTv',
+        'This app is still in early alpha so some features may not be working as of yet',
+        'error',
+        {
+          duration: 10000,
+        },
+      );
+    }
   }, []);
 
   return (
     <SafeAreaView>
-      <ScrollView style={{marginTop: 15}}>
-        <TopBarComponent hasJustLoggedIn={hasJustLoggedIn} />
+      <ScrollView
+        style={{marginTop: 15}}
+        refreshControl={
+          <RefreshControlStyled
+            refreshing={refreshing}
+            onRefresh={() => {
+              setRefreshing(true);
+            }}
+          />
+        }>
+        <TopBarComponent
+          hasJustLoggedIn={hasJustLoggedIn}
+          refreshing={refreshing}
+          setRefreshing={setRefreshing}
+        />
         <SectionContainer>
           <BannerComponent />
         </SectionContainer>
