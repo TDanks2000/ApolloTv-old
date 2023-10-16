@@ -309,7 +309,13 @@ const VideoPlayerScreen: React.FC<Props> = ({route}): JSX.Element => {
     }
   };
 
-  const {isPending, isError, data, error} = useQuery({
+  const {
+    isPending,
+    isError,
+    data,
+    error,
+    refetch: refetchVideoData,
+  } = useQuery({
     queryKey: ['VideoPlayer', episode_id, sourceProvider],
     queryFn: fetcher,
   });

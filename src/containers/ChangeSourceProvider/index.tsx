@@ -1,20 +1,30 @@
 import {View} from 'react-native';
 import React, {PropsWithChildren} from 'react';
-import {Dropdown} from '../../components';
+import {
+  Dropdown,
+  MiddleOfScreenLoadingComponent,
+  MiddleOfScreenTextComponent,
+} from '../../components';
 import {DropdownData} from '../../@types';
 import {AiringSchedule} from '../../utils/TestData';
 
 import {Circle, Svg} from 'react-native-svg';
-import {helpers, utils} from '../../utils';
+import {api, helpers, utils} from '../../utils';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import {SharedContainer} from '../../styles/sharedStyles';
+import {SharedContainer, Text} from '../../styles/sharedStyles';
 import {SettingsContext} from '../../contexts';
+import {useQuery} from '@tanstack/react-query';
+import {API_BASE} from '@env';
 
 type Props = {
   width: number | `${number}%`;
+  type?: 'anime' | 'manga';
 };
 
-const ChangeSourceProvider: React.FC<PropsWithChildren<Props>> = ({width}) => {
+const ChangeSourceProvider: React.FC<PropsWithChildren<Props>> = ({
+  width,
+  type = 'anime',
+}) => {
   const {sourceProvider, changeSourceProvider} =
     React.useContext(SettingsContext);
 
@@ -23,19 +33,25 @@ const ChangeSourceProvider: React.FC<PropsWithChildren<Props>> = ({width}) => {
     undefined,
   );
 
-  const data: DataType[] = [
-    {
-      label: 'gogoanime',
-      value: '1',
-      image:
-        'https://play-lh.googleusercontent.com/MaGEiAEhNHAJXcXKzqTNgxqRmhuKB1rCUgb15UrN_mWUNRnLpO5T1qja64oRasO7mn0',
-    },
-    {
-      label: 'animepahe',
-      value: '2',
-      image: 'https://animepahe.ru/apple-touch-icon.png',
-    },
-  ];
+  const fetcher = async () => {
+    const data = await api.fetcher<DataType[]>(
+      `${API_BASE}/app/extensions/${type.toLowerCase()}`,
+    );
+    return data;
+  };
+
+  const {data, isError, error, isPending} = useQuery<DataType[]>({
+    queryKey: ['sourceDropdown', type],
+    queryFn: fetcher,
+  });
+
+  if (isPending) return <MiddleOfScreenLoadingComponent />;
+  if (isError)
+    return (
+      <MiddleOfScreenTextComponent
+        text={error?.message ? error.message : 'There was an unexpected error!'}
+      />
+    );
 
   const findSelected = () => {
     if (!sourceProvider)

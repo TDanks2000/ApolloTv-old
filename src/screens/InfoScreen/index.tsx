@@ -1,4 +1,5 @@
 import React from 'react';
+import {RefreshControl} from 'react-native';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {QueryAnime, RootStackParamList, SubOrDub} from '../../@types';
 import {useFocusEffect, useNavigation} from '@react-navigation/native';
@@ -33,19 +34,12 @@ const InfoScreen = ({route}: Props) => {
   const navigate: any = useNavigation();
   const {id} = route.params;
 
+  const [refreshing, setRefreshing] = React.useState(false);
   const [showEpisodesModal, setShowEpisodesModal] = React.useState(false);
   const [showTrailerModal, setShowTrailerModal] = React.useState(false);
 
   const [dubOrSub, setDubOrSub] = React.useState<SubOrDub>(
     preferedVoice as SubOrDub,
-  );
-
-  useFocusEffect(
-    React.useCallback(() => {
-      if (!id) return navigate.navigate('Home');
-
-      setDubOrSub(helpers.getSubOrDub());
-    }, []),
   );
 
   const fetcher = async () => {
@@ -72,10 +66,26 @@ const InfoScreen = ({route}: Props) => {
     isError,
     data: resData,
     error,
-  }: QueryAnime = useQuery({
+    refetch,
+  } = useQuery({
     queryKey: ['info', id, dubOrSub, sourceProvider],
     queryFn: fetcher,
   });
+
+  React.useEffect(() => {
+    if (refreshing) {
+      refetch();
+      setRefreshing(isPending);
+    }
+  }, [refreshing]);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      if (!id) return navigate.navigate('Home');
+
+      setDubOrSub(helpers.getSubOrDub());
+    }, []),
+  );
 
   if (isPending) return <InfoPageSkeleton />;
 
@@ -116,9 +126,16 @@ const InfoScreen = ({route}: Props) => {
   const nextEpisode = findNextEpisode(data.episodes, 1, false);
   const nextNextEpisode = findNextEpisode(data.episodes, 2, false);
 
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+  }, []);
+
   return (
     <SafeAreaView>
-      <ScrollView>
+      <ScrollView
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }>
         <Info.Top
           title={data.title}
           episode_title={nextEpisode ? nextEpisode.title : undefined}

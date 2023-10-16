@@ -248,12 +248,10 @@ export interface Episode {
 export interface QueryAnime {
   isPending: boolean;
   isError: boolean;
-  data:
-    | {
-        mediaStatus: any;
-        animeData: FullAnimeInfo | undefined;
-      }
-    | undefined;
+  data: {
+    mediaStatus: any;
+    animeData: FullAnimeInfo | undefined;
+  };
   error: Error | null;
 }
 

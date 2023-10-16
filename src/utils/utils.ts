@@ -78,6 +78,7 @@ export const groupBy = (array: any[], key: string) => {
   }, {});
 };
 
+// TODO: add support for allanime
 export const findQuality = (
   sources: SourceVideoOptions[],
   preferedQuality?: Quality,
