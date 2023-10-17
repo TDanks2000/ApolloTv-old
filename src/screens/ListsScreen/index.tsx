@@ -25,6 +25,7 @@ import {api} from '../../utils';
 import {PanGestureHandler, Swipeable} from 'react-native-gesture-handler';
 
 const ListsScreen = () => {
+  const [type, setType] = React.useState<'ANIME' | 'MANGA'>('ANIME');
   const [refreshing, setRefreshing] = React.useState(false);
   const [selectedList, setSelectedList] =
     React.useState<MediaListStatus>('CURRENT');
@@ -36,11 +37,11 @@ const ListsScreen = () => {
     value: MediaListStatus;
   }[] = [
     {
-      name: 'Watching',
+      name: type === 'ANIME' ? 'Watching' : 'Reading',
       value: 'CURRENT',
     },
     {
-      name: 'Plan to Watch',
+      name: type === 'ANIME' ? 'Plan to Watch' : 'Plan to Read',
       value: 'PLANNING',
     },
     {
@@ -49,7 +50,7 @@ const ListsScreen = () => {
     },
 
     {
-      name: 'Re Watching',
+      name: type === 'ANIME' ? 'Re Watching' : 'Re Reading',
       value: 'REPEATING',
     },
     {
@@ -63,8 +64,8 @@ const ListsScreen = () => {
   ];
 
   const {isPending, isError, data, error, refetch} = useQuery({
-    queryKey: ['user-lists'],
-    queryFn: () => api.fetchAnilistLists(accessToken, anilist),
+    queryKey: ['user-lists', type],
+    queryFn: () => api.fetchAnilistLists(accessToken, anilist, type),
   });
 
   React.useEffect(() => {
@@ -115,12 +116,17 @@ const ListsScreen = () => {
     <SafeAreaView>
       <SharedContainerRel>
         <SelectorContainer>
+          <Lists.TypeSelector
+            type={type}
+            setType={setType}
+            selectedColor={data?.color}
+          />
           <Lists.Selector
             data={data}
             listTypes={listTypes}
             selectedList={selectedList}
             setSelectedList={setSelectedList}
-            selectedColor={data.color}
+            selectedColor={data?.color}
           />
         </SelectorContainer>
         <Wrapper>
@@ -134,6 +140,7 @@ const ListsScreen = () => {
               selectedList={selectedList}
               refreshing={refreshing}
               setRefreshing={setRefreshing}
+              type={type}
             />
           )}
         </Wrapper>

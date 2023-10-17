@@ -27,7 +27,7 @@
     "@react-navigation/native-stack": "^6.9.14",
     "@sharcoux/slider": "^7.0.5",
     "@tanstack/react-query": "^5.0.0-rc.12",
-    "@tdanks2000/anilist-wrapper": "^1.0.21",
+    "@tdanks2000/anilist-wrapper": "^1.0.22",
     "@types/sanitize-html": "^2.9.2",
     "add": "^2.0.6",
     "axios": "^1.5.1",

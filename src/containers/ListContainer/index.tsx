@@ -1,6 +1,6 @@
 import {View, FlatList} from 'react-native';
 import React from 'react';
-import {ListCard} from '../../components/Cards';
+import {ListCard, MangaListCard} from '../../components/Cards';
 import {utils} from '../../utils';
 import {useBreakpoints} from '../../hooks';
 import {RefreshControlStyled} from '../../styles/sharedStyles';
@@ -10,6 +10,7 @@ const ListContainer = ({
   selectedList,
   refreshing,
   setRefreshing,
+  type,
 }: any) => {
   const {isMobile} = useBreakpoints();
   const renderItem = (media: any) => {
@@ -17,11 +18,11 @@ const ListContainer = ({
     if (!item) return null;
     const actualTitle = utils.getTitle(item.title);
 
-    return (
+    return type === 'ANIME' ? (
       <ListCard
         id={item.id}
         title={actualTitle as string}
-        color={item.coverImage.color}
+        color={item.coverImage?.color}
         poster_image={item?.coverImage?.extraLarge ?? item.coverImage?.large}
         rating={item.averageScore}
         nextAiringEpisode={item?.nextAiringEpisode}
@@ -32,6 +33,16 @@ const ListContainer = ({
         progress={media.progress}
         selectedList={selectedList}
         status={item?.status}
+      />
+    ) : (
+      <MangaListCard
+        id={item?.id}
+        title={actualTitle as string}
+        total_chapters={item?.chapters}
+        poster_image={item?.coverImage?.extraLarge ?? item.coverImage?.large}
+        release_year={
+          item.startDate?.year ?? item?.seasonYear ?? item?.releaseYear
+        }
       />
     );
   };

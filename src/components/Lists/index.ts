@@ -1,3 +1,4 @@
 import Selector from './ListSelector';
+import TypeSelector from './TypeSelector';
 
-export {Selector};
+export {TypeSelector, Selector};

@@ -46,6 +46,7 @@ export const fetcher = async <T = any>(url: string): Promise<T> => {
 export const fetchAnilistLists = async (
   accessToken: string | undefined,
   anilist: Anilist,
+  type: 'MANGA' | 'ANIME' = 'ANIME',
 ) => {
   if (!accessToken) return [];
 
@@ -53,12 +54,30 @@ export const fetchAnilistLists = async (
   if (!ViewerData) return [];
   const name = ViewerData.Viewer.name;
 
-  const CURRENTData = anilist.lists.anime(name, 'CURRENT') as any; // current = 0
-  const PLANNINGData = anilist.lists.anime(name, 'PLANNING') as any; // planning = 1
-  const COMPLETEDData = anilist.lists.anime(name, 'COMPLETED') as any; // completed = 2
-  const DROPPEDData = anilist.lists.anime(name, 'DROPPED') as any; // dropped = 3
-  const PAUSEDData = anilist.lists.anime(name, 'PAUSED') as any; // paused = 4
-  const REPEATINGData = anilist.lists.anime(name, 'REPEATING') as any; // repeating = 5
+  const CURRENTData =
+    type === 'ANIME'
+      ? (anilist.lists.anime(name, 'CURRENT') as any)
+      : (anilist.lists.manga(name, 'CURRENT') as any); // current = 0
+  const PLANNINGData =
+    type === 'ANIME'
+      ? (anilist.lists.anime(name, 'PLANNING') as any)
+      : (anilist.lists.manga(name, 'PLANNING') as any); // planning = 1
+  const COMPLETEDData =
+    type === 'ANIME'
+      ? (anilist.lists.anime(name, 'COMPLETED') as any)
+      : (anilist.lists.manga(name, 'COMPLETED') as any); // completed = 2
+  const DROPPEDData =
+    type === 'ANIME'
+      ? (anilist.lists.anime(name, 'DROPPED') as any)
+      : (anilist.lists.manga(name, 'DROPPED') as any); // dropped = 3
+  const PAUSEDData =
+    type === 'ANIME'
+      ? (anilist.lists.anime(name, 'PAUSED') as any)
+      : (anilist.lists.manga(name, 'PAUSED') as any); // paused = 4
+  const REPEATINGData =
+    type === 'ANIME'
+      ? (anilist.lists.anime(name, 'REPEATING') as any)
+      : (anilist.lists.manga(name, 'REPEATING') as any); // repeating = 5
 
   const returnData: any = {
     current: await (await CURRENTData)?.data?.MediaListCollection?.lists,

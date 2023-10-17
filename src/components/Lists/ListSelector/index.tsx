@@ -1,7 +1,7 @@
 import {FlatList, View} from 'react-native';
 import React from 'react';
 import {MediaListStatus} from '../../../@types/index';
-import {PillContainer, PillLength, PillText} from './ListSelector.styles';
+import {PillContainer, PillLength, PillText} from '../Lists.shared.styles';
 
 interface SelectorProps {
   selectedList: MediaListStatus;

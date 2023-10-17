@@ -1,5 +1,5 @@
 import {styled} from 'styled-components/native';
-import {Text} from '../../../styles/sharedStyles';
+import {Text} from '../../styles/sharedStyles';
 import {rgba} from 'polished';
 
 interface PillProps {
