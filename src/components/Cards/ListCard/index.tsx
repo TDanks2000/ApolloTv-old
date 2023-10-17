@@ -17,7 +17,11 @@ import {useNavigation} from '@react-navigation/native';
 import {useBreakpoints} from '../../../hooks';
 import EpisodeStats from './EpisodeStats';
 
-const ListCard: React.FC<CardProps> = ({
+type Props = {
+  typeOfCard?: 'search' | 'normal';
+};
+
+const ListCard: React.FC<CardProps & Props> = ({
   id,
   title,
   color,
@@ -32,6 +36,7 @@ const ListCard: React.FC<CardProps> = ({
   nextAiringEpisode,
   selectedList,
   status,
+  typeOfCard,
 }) => {
   const {isMobile} = useBreakpoints();
   const navigation = useNavigation<StackNavigation>();
@@ -65,6 +70,7 @@ const ListCard: React.FC<CardProps> = ({
             current_episodes={current_episodes}
             start_date={start_date}
             release_year={release_year}
+            typeOfCard={typeOfCard}
           />
         </Right>
       </Wrapper>

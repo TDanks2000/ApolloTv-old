@@ -8,6 +8,7 @@ type Props = Pick<
   'progress' | 'status' | 'total_episodes' | 'start_date' | 'release_year'
 > & {
   current_episodes?: number;
+  typeOfCard?: 'search' | 'normal';
 };
 
 const EpisodeStats: React.FC<Props> = ({
@@ -17,7 +18,27 @@ const EpisodeStats: React.FC<Props> = ({
   current_episodes,
   start_date,
   release_year,
+  typeOfCard,
 }) => {
+  if (typeOfCard === 'search') {
+    return (
+      <>
+        <ExtraText>
+          {status && status === MediaStatus.NOT_YET_AIRED
+            ? 'TBA'
+            : release_year ?? '??'}
+        </ExtraText>
+        <ExtraText>
+          {status && status === MediaStatus.NOT_YET_AIRED
+            ? 'Not Aired'
+            : total_episodes! > 0
+            ? `Episodes ${total_episodes}`
+            : '??'}
+        </ExtraText>
+      </>
+    );
+  }
+
   if (status && status === MediaStatus.NOT_YET_AIRED) {
     return (
       <>

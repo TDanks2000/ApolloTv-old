@@ -11,12 +11,18 @@ const SearchResults = ({data, type}: any) => {
       poster_image: item.image,
       rating: item.rating,
       type: item.type,
-      release_year: item.releaseDate,
+      release_year: item.releaseDate ?? item?.startDate?.year,
     };
 
     if (type === 'manga')
       return <MangaListCard {...props} total_chapters={item.totalChapters} />;
-    return <ListCard {...props} total_episodes={item.totalEpisodes} />;
+    return (
+      <ListCard
+        {...props}
+        total_episodes={item.totalEpisodes}
+        typeOfCard={'search'}
+      />
+    );
   };
 
   return (

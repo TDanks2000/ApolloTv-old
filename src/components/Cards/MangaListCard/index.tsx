@@ -43,10 +43,10 @@ const MangaListCard = ({
         </Left>
         <Right>
           <Title>{actualTitle}</Title>
+          <ExtraText>{release_year ? release_year : '??'}</ExtraText>
           <ExtraText>
             {total_chapters ? `Chapters ${total_chapters}` : `??`}
           </ExtraText>
-          <ExtraText>{release_year ? release_year : '??'}</ExtraText>
         </Right>
       </Wrapper>
     </Container>
