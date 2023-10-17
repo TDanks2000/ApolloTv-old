@@ -109,7 +109,7 @@ const ReaderScreen: React.FC<Props> = ({route, navigation}) => {
   );
 
   const viewabilityConfig = {
-    itemVisiblePercentThreshold: 5,
+    itemVisiblePercentThreshold: 95,
   };
 
   if (isPending) return <MiddleOfScreenLoadingComponent />;
@@ -126,8 +126,8 @@ const ReaderScreen: React.FC<Props> = ({route, navigation}) => {
           zIndex: 2,
         }}
         getItemLayout={(data, index) => ({
-          length: width,
-          offset: width * index,
+          length: ltr ? width : height,
+          offset: ltr ? width * index : height * index,
           index,
         })}
         ref={flatListRef}
@@ -139,6 +139,7 @@ const ReaderScreen: React.FC<Props> = ({route, navigation}) => {
         renderItem={({item}) => renderItem(item)}
         keyExtractor={item => `page-image-${item.page}`}
         onViewableItemsChanged={onViewRef.current}
+        viewabilityConfig={viewabilityConfig}
       />
 
       <TopMetaInfo show={hideControls}>
@@ -166,7 +167,7 @@ const ReaderScreen: React.FC<Props> = ({route, navigation}) => {
       <PangeChangeContainer>
         <Reader.PageChange
           current_page={currentPage}
-          icon_name="step-backward"
+          icon_name={ltr ? 'angle-left' : 'angle-up'}
           page_change_amount={-1}
           total_pages={pagesLength}
           setCurrentPage={setCurrentPage}
@@ -175,10 +176,11 @@ const ReaderScreen: React.FC<Props> = ({route, navigation}) => {
             if (currentPage === 1) return true;
             return false;
           }}
+          ltr={ltr}
         />
         <Reader.PageChange
           current_page={currentPage}
-          icon_name="step-forward"
+          icon_name={ltr ? 'angle-right' : 'angle-down'}
           page_change_amount={1}
           total_pages={pagesLength}
           setCurrentPage={setCurrentPage}
@@ -187,6 +189,7 @@ const ReaderScreen: React.FC<Props> = ({route, navigation}) => {
             if (currentPage === pagesLength) return true;
             return false;
           }}
+          ltr={ltr}
         />
       </PangeChangeContainer>
     </Container>

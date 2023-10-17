@@ -27,7 +27,7 @@ import {
 } from '../../../@types';
 
 // Utilities imports
-import {utils} from '../../../utils';
+import {helpers, utils} from '../../../utils';
 
 // Modals imports
 import {VideoEpisodesModal, VideoSettingsModal} from '../../../modals';
@@ -144,12 +144,20 @@ const PlayerControls = ({
     if (spinState) startSpinAnimation();
   };
 
-  const sourcesSorted = utils.sortQualities(sources as any);
+  const isQualityANumber = (quality: any) => {
+    return parseInt(quality) > 1;
+  };
+
+  const sourcesSorted = helpers.sortQualities(sources as any);
   const qualityOptions: SettingsOptionsGroup = {
     title: 'Quality',
     options: sourcesSorted.map(source => ({
-      title: source.quality?.replace(/\D/g, '') + 'P' || '',
-      value: source.quality?.replace(/\D/g, '')?.toLowerCase() + 'P' || '',
+      title: isQualityANumber(source.quality)
+        ? source.quality?.replace(/\D/g, '') + 'P' || ''
+        : source.quality.toUpperCase() ?? '',
+      value: isQualityANumber(source.quality)
+        ? source.quality?.replace(/\D/g, '') + 'P' || ''
+        : source.quality.toUpperCase() ?? '',
       onPress: () => {
         if (source.quality !== selectedQuality.quality) {
           setSelectedQuality({

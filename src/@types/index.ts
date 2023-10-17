@@ -290,11 +290,12 @@ export type SQLUpdateEpisodeData = Pick<
 >;
 
 export type Quality = '1080p' | '720p' | '480p' | '360p' | 'HIGHEST' | 'LOWEST';
+export type AbnormalQuality = 'mp4' | 'hls';
 
 export interface SourceVideoOptions {
   url: string;
   isM3U8?: boolean;
-  quality: Quality | string;
+  quality: Quality | AbnormalQuality | string;
 }
 
 export type SettingsOptions = {

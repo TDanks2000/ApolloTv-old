@@ -23,7 +23,7 @@ import {
   SourceVideoOptions,
   StackNavigation,
 } from '../../@types';
-import {api, settingsHelper, utils} from '../../utils';
+import {api, helpers, settingsHelper, utils} from '../../utils';
 import {API_BASE} from '@env';
 import {
   NavigationContext,
@@ -323,7 +323,7 @@ const VideoPlayerScreen: React.FC<Props> = ({route}): JSX.Element => {
   });
 
   const sources: SourceVideoOptions[] = data?.sources ?? data;
-  const findHighestQuality = utils.findQuality(sources, preferedQuality);
+  const findHighestQuality = helpers.findQuality(sources, preferedQuality);
 
   useFocusEffect(
     useCallback(() => {

@@ -10,6 +10,7 @@ import {
 } from '../../@types';
 import * as utils from '../utils';
 import {AnimeTrending, InfoData} from '../TestData';
+import {helpers} from '..';
 
 type VideoData = {
   data: FullAnimeInfo;
@@ -84,7 +85,7 @@ class DownloadManager {
     const findPreferedQuality = videoData.sources.find(
       source => source.quality === preferedQuality,
     );
-    const findHighestQuality = utils.findQuality(videoData.sources);
+    const findHighestQuality = helpers.findQuality(videoData.sources);
     this.url = findPreferedQuality
       ? findPreferedQuality.url
       : findHighestQuality.url;

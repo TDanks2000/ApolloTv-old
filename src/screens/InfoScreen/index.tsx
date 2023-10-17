@@ -118,14 +118,14 @@ const InfoScreen = ({route}: Props) => {
         : undefined;
     }
 
-    if (!returnLastEpisodeIfFin && nextEpisodeNumber >= episodes.length) {
+    if (!returnLastEpisodeIfFin && nextEpisodeNumber >= episodes?.length) {
       return undefined;
     }
 
-    return (
-      episodes.find(episode => episode.number === nextEpisodeNumber) ||
-      episodes[0]
-    );
+    return episodes?.find(episode => episode?.number === nextEpisodeNumber) ??
+      episodes?.length >= 1
+      ? episodes[0]
+      : undefined ?? undefined;
   };
 
   let nextEpisode = findNextEpisode(data.episodes, 1, false);
@@ -177,12 +177,12 @@ const InfoScreen = ({route}: Props) => {
             subOrDub={dubOrSub}
           />
         </Wrapper>
-        {data?.relations.length > 0 ? (
+        {data?.relations?.length > 0 ? (
           <Wrapper>
             <CardContainer title="Related" data={data?.relations} />
           </Wrapper>
         ) : null}
-        {data?.recommendations.length > 0 ? (
+        {data?.recommendations?.length > 0 ? (
           <Wrapper>
             <CardContainer
               title="You may also like"

@@ -11,7 +11,7 @@ import {
   StackNavigation,
 } from '../../@types';
 import {useQuery} from '@tanstack/react-query';
-import {api, settingsHelper, utils} from '../../utils';
+import {api, helpers, settingsHelper, utils} from '../../utils';
 import {API_BASE} from '@env';
 import {
   NavigationContext,
@@ -299,7 +299,7 @@ const VideoPlayerScreen: React.FC<Props> = ({route}): JSX.Element => {
   });
 
   const sources: SourceVideoOptions[] = data?.sources;
-  const findHighestQuality = utils.findQuality(sources);
+  const findHighestQuality = helpers.findQuality(sources);
 
   useFocusEffect(
     React.useCallback(() => {

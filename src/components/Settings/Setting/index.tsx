@@ -16,6 +16,7 @@ import {
 import {useNavigation} from '@react-navigation/native';
 import {Input} from './Setting.styles';
 import {StackNavigation} from '../../../@types';
+import {capitalizeFirstLetter} from '../../../utils/utils';
 
 type Props = {
   title: string;
@@ -54,7 +55,9 @@ const Setting = (props: Props) => {
         <Container key={`${title}-setting`} disabled>
           <LeftContainer>
             <Title numberOfLines={1}>{title}</Title>
-            <Description numberOfLines={2}>{descriptor}</Description>
+            <Description numberOfLines={2}>
+              {capitalizeFirstLetter(descriptor)}
+            </Description>
           </LeftContainer>
           <RightContainer>
             <Input
@@ -79,7 +82,9 @@ const Setting = (props: Props) => {
       <Container onPress={handleSettingPress} key={`${title}-setting`}>
         <LeftContainer>
           <Title numberOfLines={1}>{title}</Title>
-          <Description numberOfLines={2}>{descriptor}</Description>
+          <Description numberOfLines={2}>
+            {capitalizeFirstLetter(descriptor)}
+          </Description>
         </LeftContainer>
         <RightContainer>
           <SelectedOption>{selectedOption}</SelectedOption>

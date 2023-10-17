@@ -57,15 +57,6 @@ const VideoSettingScreen = () => {
               changeAutoSkip ? changeAutoSkip('auto_skip_outro') : undefined
             }
           />
-          <Seperator />
-          <Settings.Setting
-            title="Preferred Quality"
-            descriptor="What Quality would you like to be auto selected"
-            selectedOption={preferedQuality ?? 'HIGEST'}
-            dropdown={true}
-            options={qualityOptions}
-            changeSetting={changePreferedQuality}
-          />
 
           <Seperator />
 
@@ -78,6 +69,17 @@ const VideoSettingScreen = () => {
                 ? changeAutoNextEpisode('auto_next_episode')
                 : undefined
             }
+          />
+
+          <Seperator />
+
+          <Settings.Setting
+            title="Preferred Quality"
+            descriptor="What Quality would you like to be auto selected"
+            selectedOption={preferedQuality ?? 'HIGEST'}
+            dropdown={true}
+            options={qualityOptions}
+            changeSetting={changePreferedQuality}
           />
 
           <Seperator />

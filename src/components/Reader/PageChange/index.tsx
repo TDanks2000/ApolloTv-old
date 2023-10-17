@@ -11,6 +11,8 @@ type Props = {
 
   flatlistRef: React.RefObject<FlatList>;
   disableFN: () => boolean;
+
+  ltr: boolean;
 };
 
 const PageChange: React.FC<Props> = ({
