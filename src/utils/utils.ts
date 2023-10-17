@@ -76,10 +76,10 @@ export const delay = (ms: number): Promise<void> => {
 export const ToggleSystemNavigation = (show: boolean) => {
   switch (show) {
     case true:
-      SystemNavigationBar.immersive();
+      SystemNavigationBar.lowProfile(true);
       break;
     case false:
-      SystemNavigationBar.leanBack(true);
+      SystemNavigationBar.immersive();
       break;
   }
 };

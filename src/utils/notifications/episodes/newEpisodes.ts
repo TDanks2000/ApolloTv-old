@@ -13,9 +13,7 @@ export class NewEpisodes {
   }
 
   async check() {
-    const response = await fetch(
-      `${API_BASE}/anilist/episodes/${this.media_id}`,
-    );
+    const response = await fetch(`${API_BASE}/anilist/info/${this.media_id}`);
 
     const data = await response.json();
 

@@ -122,10 +122,12 @@ const InfoScreen = ({route}: Props) => {
       return undefined;
     }
 
-    return episodes?.find(episode => episode?.number === nextEpisodeNumber) ??
-      episodes?.length >= 1
-      ? episodes[0]
-      : undefined ?? undefined;
+    console.log(episodes?.length >= 1);
+
+    return (
+      episodes.find(episode => episode.number === nextEpisodeNumber) ||
+      episodes[0]
+    );
   };
 
   let nextEpisode = findNextEpisode(data.episodes, 1, false);

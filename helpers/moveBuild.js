@@ -2,6 +2,8 @@ const fs = require('node:fs/promises');
 const path = require('node:path');
 const {version} = require('../package.json');
 
+const {exec} = require('node:child_process');
+
 const androidOutputPath = path.resolve(
   __dirname,
   '../android/app/build/outputs/apk/release',
@@ -32,6 +34,7 @@ const checkForFile = async fileName => {
           path.resolve(newOutputPath, `apollotv-v${version}.apk`),
         );
 
+        await exec(`start ${newOutputPath}`);
         console.log('Release APK moved');
       } catch (error) {
         console.log(error);
