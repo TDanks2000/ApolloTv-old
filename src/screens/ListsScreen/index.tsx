@@ -1,16 +1,12 @@
-import {FlatList} from 'react-native';
 import React from 'react';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {ScrollView, SharedContainerRel} from '../../styles/sharedStyles';
-import {AnimeTrending} from '../../utils/TestData';
 import {
   NoDataText,
   NoDataTextWrapper,
   SelectorContainer,
-  Title,
   Wrapper,
 } from './ListScreen.styles';
-import {ListCard} from '../../components/Cards';
 import {ListContainer} from '../../containers';
 import {useQuery} from '@tanstack/react-query';
 import {useAccessToken} from '../../contexts';
@@ -22,7 +18,7 @@ import {
 } from '../../components';
 import {MediaListStatus} from '../../@types';
 import {api} from '../../utils';
-import {PanGestureHandler, Swipeable} from 'react-native-gesture-handler';
+import {View} from 'react-native';
 
 const ListsScreen = () => {
   const [type, setType] = React.useState<'ANIME' | 'MANGA'>('ANIME');
@@ -114,7 +110,10 @@ const ListsScreen = () => {
 
   return (
     <SafeAreaView>
-      <SharedContainerRel>
+      <View
+        style={{
+          marginTop: 25,
+        }}>
         <SelectorContainer>
           <Lists.TypeSelector
             type={type}
@@ -144,7 +143,7 @@ const ListsScreen = () => {
             />
           )}
         </Wrapper>
-      </SharedContainerRel>
+      </View>
     </SafeAreaView>
   );
 };

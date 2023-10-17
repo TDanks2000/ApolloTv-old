@@ -13,7 +13,7 @@ const TypeSelector: React.FC<Props> = ({type, setType, selectedColor}) => {
     <ScrollView
       horizontal={true}
       showsHorizontalScrollIndicator={false}
-      contentContainerStyle={{gap: 15}}
+      contentContainerStyle={{gap: 15, paddingHorizontal: 20}}
       style={{
         marginBottom: 15,
       }}>

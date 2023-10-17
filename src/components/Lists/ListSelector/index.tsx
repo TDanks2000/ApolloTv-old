@@ -49,6 +49,7 @@ const Selector = ({
       renderItem={renderItem}
       contentContainerStyle={{
         gap: 15,
+        paddingHorizontal: 20,
       }}
     />
   );

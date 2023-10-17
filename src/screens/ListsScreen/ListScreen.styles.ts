@@ -7,7 +7,9 @@ export const Title = styled(Text)`
   margin-bottom: 5px;
 `;
 
-export const Wrapper = styled.View``;
+export const Wrapper = styled.View`
+  margin: 0 ${({theme}) => theme.spacing.paddingLeft};
+`;
 
 export const SelectorContainer = styled.View`
   padding-bottom: 15px;
