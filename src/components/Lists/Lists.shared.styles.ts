@@ -5,11 +5,12 @@ import {rgba} from 'polished';
 interface PillProps {
   selected?: boolean;
   selectedColor?: string;
+  br?: `${number}px`;
 }
 
 export const PillContainer = styled.TouchableOpacity<PillProps>`
-  padding: 10px 20px;
-  border-radius: 20px;
+  padding: 5px 13px;
+  border-radius: ${({br}) => (br ? br : '20px')};
   flex-direction: row;
   gap: 3px;
   background-color: ${({selected, selectedColor, theme}) =>

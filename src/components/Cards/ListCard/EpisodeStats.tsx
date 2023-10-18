@@ -2,6 +2,7 @@ import {View, Text} from 'react-native';
 import React from 'react';
 import {ExtraText, ExtraTextContailer, Seperator} from './ListCard.styles';
 import {CardProps, MediaStatus} from '../../../@types';
+import {helpers} from '../../../utils';
 
 type Props = Pick<
   CardProps,
@@ -45,6 +46,31 @@ const EpisodeStats: React.FC<Props> = ({
         <ExtraText>TBA</ExtraText>
         <ExtraTextContailer>
           <ExtraText>Not Aired</ExtraText>
+        </ExtraTextContailer>
+      </>
+    );
+  }
+
+  const areAllTheNumbersTheSame = helpers.areAllNumbersSame(
+    current_episodes ?? 0,
+    progress ?? 0,
+    total_episodes ?? 0,
+  );
+
+  if (areAllTheNumbersTheSame !== null) {
+    return (
+      <>
+        <ExtraText>
+          {release_year
+            ? release_year
+            : start_date?.year
+            ? start_date.year
+            : '??'}
+        </ExtraText>
+        <ExtraTextContailer>
+          <ExtraText bold={true} color={'main'}>
+            {areAllTheNumbersTheSame}
+          </ExtraText>
         </ExtraTextContailer>
       </>
     );

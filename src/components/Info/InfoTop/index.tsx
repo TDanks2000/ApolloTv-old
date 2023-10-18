@@ -72,10 +72,14 @@ const Top = ({
             <TitleText numberOfLines={2}>
               {actualTitle && !episode_title ? actualTitle : episode_title}
             </TitleText>
-            {type && type === 'MANGA' ? null : (
-              <BottomBottomContainer>
-                <ChangeSourceProvider width={200} refreshing={refreshing} />
-                {/* <WatchNowComponent WatchText="Watch trailer" /> */}
+            <BottomBottomContainer>
+              <ChangeSourceProvider
+                width={200}
+                refreshing={refreshing}
+                type={type}
+              />
+              {/* <WatchNowComponent WatchText="Watch trailer" /> */}
+              {type && type === 'MANGA' ? null : (
                 <Option
                   option={preferedVoice as string}
                   options={[
@@ -89,8 +93,8 @@ const Top = ({
                     changePreferedVoice ? changePreferedVoice() : null
                   }
                 />
-              </BottomBottomContainer>
-            )}
+              )}
+            </BottomBottomContainer>
           </BottomContainer>
         </Wrapper>
       </ImageBackground>

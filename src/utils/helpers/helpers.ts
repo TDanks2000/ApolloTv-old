@@ -135,3 +135,19 @@ export const structureAiringSchedule = (results: any[]): AnimeByDate => {
 
   return structuredObject;
 };
+
+export const areAllNumbersSame = (...numbers: number[]): number | null => {
+  if (numbers.length === 0) {
+    return null;
+  }
+
+  const firstNumber = numbers[0];
+
+  for (let i = 1; i < numbers.length; i++) {
+    if (numbers[i] !== firstNumber) {
+      return null;
+    }
+  }
+
+  return firstNumber;
+};

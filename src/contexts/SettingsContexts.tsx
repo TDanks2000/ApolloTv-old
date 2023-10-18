@@ -1,5 +1,10 @@
 import React from 'react';
-import {EpisodeInfo, Quality, sourceProviders} from '../@types';
+import {
+  EpisodeInfo,
+  Quality,
+  mangaSourceProviders,
+  sourceProviders,
+} from '../@types';
 import {settingsHelper} from '../utils';
 
 type OnOrOff = 'on' | 'off';
@@ -11,13 +16,17 @@ export const SettingsContext = React.createContext<{
   preferedVoice?: 'sub' | 'dub';
   preferedQuality?: Quality;
   sourceProvider?: sourceProviders;
+  sourceProviderManga?: mangaSourceProviders;
   privateMode?: OnOrOff;
   skipForwardTime?: number;
   skipBehindTime?: number;
   changeAutoSkip?: (setting: 'auto_skip_intro' | 'auto_skip_outro') => void;
   changePreferedVoice?: () => void;
   changePreferedQuality?: (quality: Quality) => void;
-  changeSourceProvider?: (provider: sourceProviders) => void;
+  changeSourceProvider?: (
+    provider: sourceProviders,
+    type?: 'ANIME' | 'MANGA',
+  ) => void;
   changeAutoNextEpisode?: (setting: 'auto_next_episode') => void;
   changePrivateMode?: () => void;
   changeSkipTime?: (
@@ -54,6 +63,9 @@ export const SettingsProvider = ({children}: any) => {
   const sourceProviderSetting = settingsHelper.getSetting(
     'source_provider',
   ) as sourceProviders;
+  const sourceProviderSettingManga = settingsHelper.getSetting(
+    'source_provider_manga',
+  ) as mangaSourceProviders;
 
   const [autoSkipIntro, setAutoSkipIntro] = React.useState(
     autoSkipIntroSetting ?? 'off',
@@ -73,6 +85,11 @@ export const SettingsProvider = ({children}: any) => {
   const [sourceProvider, setSourceprovider] = React.useState<sourceProviders>(
     sourceProviderSetting ?? 'gogoanime',
   );
+  const [sourceProviderManga, setSourceproviderManga] =
+    React.useState<mangaSourceProviders>(
+      sourceProviderSettingManga ?? 'mangadex',
+    );
+
   const [privateMode, setPrivateMode] = React.useState(
     privateModeSetting ?? 'off',
   );
@@ -111,9 +128,22 @@ export const SettingsProvider = ({children}: any) => {
     setPreferedQuality(quality);
   };
 
-  const changeSourceProvider = (provider: sourceProviders) => {
-    settingsHelper.setSetting('source_provider', provider);
-    setSourceprovider(provider);
+  const changeSourceProvider = (
+    provider: sourceProviders | mangaSourceProviders,
+    type: 'MANGA' | 'ANIME' = 'ANIME',
+  ) => {
+    switch (type) {
+      case 'ANIME':
+        settingsHelper.setSetting('source_provider', provider);
+        setSourceprovider(provider as sourceProviders);
+        break;
+      case 'MANGA':
+        settingsHelper.setSetting('source_provider_manga', provider);
+        setSourceproviderManga(provider as mangaSourceProviders);
+        break;
+      default:
+        break;
+    }
   };
 
   const changePrivateMode = () => {
@@ -142,6 +172,7 @@ export const SettingsProvider = ({children}: any) => {
         preferedVoice,
         preferedQuality,
         sourceProvider,
+        sourceProviderManga,
         privateMode,
         skipBehindTime,
         skipForwardTime,

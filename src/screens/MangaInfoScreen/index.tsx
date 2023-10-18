@@ -15,6 +15,7 @@ import ChaptersModal from '../../modals/ChaptersModal';
 import {DescriptionComponent} from '../../components/Shared';
 
 import {Wrapper} from '../InfoScreen/InfoScreen.styles';
+import {SettingsContext} from '../../contexts';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'MangaInfo'>;
 
@@ -22,11 +23,18 @@ const MangaInfoScreen: React.FC<Props> = ({route, navigation}) => {
   const [openModal, setOpenModal] = React.useState<boolean>(false);
   const [refreshing, setRefreshing] = React.useState(false);
 
+  const {sourceProviderManga} = React.useContext(SettingsContext);
+
+  console.log(sourceProviderManga);
   const params = route?.params;
   const {id} = params;
 
   const fetcher = async () => {
-    const mangaData = await api.fetcher(`${API_BASE}/anilist-manga/info/${id}`);
+    const mangaData = await api.fetcher(
+      `${API_BASE}/anilist-manga/info/${id}?provider=${
+        sourceProviderManga ?? 'mangadex'
+      }`,
+    );
 
     const returnData = {
       mangaData: mangaData,
@@ -42,7 +50,7 @@ const MangaInfoScreen: React.FC<Props> = ({route, navigation}) => {
     error,
     refetch,
   } = useQuery({
-    queryKey: ['mangaInfo', id],
+    queryKey: ['mangaInfo', id, sourceProviderManga],
     queryFn: fetcher,
   });
 

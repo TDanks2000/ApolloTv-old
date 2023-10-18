@@ -1,6 +1,6 @@
 import React from 'react';
 import {FlatList, Image, useWindowDimensions, ViewToken} from 'react-native';
-import {NavigationContext} from '../../contexts';
+import {NavigationContext, SettingsContext} from '../../contexts';
 import {useFocusEffect} from '@react-navigation/native';
 import {
   Container,
@@ -17,11 +17,12 @@ import {
   MiddleOfScreenTextComponent,
   Reader,
 } from '../../components';
-import {MangaPage, RootStackParamList} from '../../@types';
+import {LayoutMode, MangaPage, RootStackParamList} from '../../@types';
 import {api, utils} from '../../utils';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {useQuery} from '@tanstack/react-query';
 import {API_BASE} from '@env';
+import {ReaderContainer} from '../../containers';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'ReaderScreen'>;
 
@@ -38,12 +39,20 @@ const ReaderScreen: React.FC<Props> = ({route, navigation}) => {
     params;
   const actualTitle = utils.getTitle(manga_info?.title);
 
+  // Reader Settings
+  const {sourceProviderManga} = React.useContext(SettingsContext);
+
   const [hideControls, toggleControls] = React.useReducer(
     controls => !controls,
     true,
   );
-  const [currentPage, setCurrentPage] = React.useState<number>(1);
   const [ltr, setLtr] = React.useState(true);
+  const [layoutMode, setLayoutMode] = React.useState<LayoutMode>(
+    LayoutMode.Horizontal,
+  );
+
+  const [currentPage, setCurrentPage] = React.useState<number>(1);
+
   const {setShowNavBar}: any = React.useContext(NavigationContext);
 
   const flatListRef = React.useRef<FlatList>(null);
@@ -52,7 +61,9 @@ const ReaderScreen: React.FC<Props> = ({route, navigation}) => {
 
   const fetcher = async () => {
     return await api.fetcher(
-      `${API_BASE}/anilist-manga/read?id=${manga_id}&chapterId=${chapter_id}`,
+      `${API_BASE}/anilist-manga/read?id=${manga_id}&chapterId=${chapter_id}&provider=${
+        sourceProviderManga ?? 'mangadex'
+      }`,
     );
   };
 
@@ -70,76 +81,29 @@ const ReaderScreen: React.FC<Props> = ({route, navigation}) => {
     }, []),
   );
 
-  const renderItem = (item: MangaPage) => {
-    return (
-      <TouchableOpacity
-        style={{width, height}}
-        onLongPress={toggleControls}
-        delayLongPress={300}>
-        <Image
-          resizeMode="contain"
-          style={{
-            width: '100%',
-            height: '100%',
-          }}
-          source={{
-            uri: item.img,
-            headers: {
-              Referer: item?.headerForImage?.Referer,
-            },
-          }}
-        />
-      </TouchableOpacity>
-    );
-  };
-
-  const onViewRef = React.useRef(
-    async ({
-      viewableItems,
-      changed,
-    }: {
-      viewableItems: ViewToken[];
-      changed: ViewToken[];
-    }) => {
-      const page = viewableItems.pop();
-      if (!page?.index && !(page?.index! + 1)) return;
-
-      setCurrentPage(page!.index! + 1);
-    },
-  );
-
-  const viewabilityConfig = {
-    itemVisiblePercentThreshold: 95,
-  };
-
   if (isPending) return <MiddleOfScreenLoadingComponent />;
   if (error)
     return <MiddleOfScreenTextComponent text={error?.message ?? 'Error!'} />;
 
   const pagesLength = data?.length!;
 
+  console.log(data?.length!);
+
+  if (pagesLength <= 0)
+    return (
+      <MiddleOfScreenTextComponent text={'There was an unexpected Error!'} />
+    );
+
   return (
     <Container>
-      <FlatList
-        style={{
-          position: 'relative',
-          zIndex: 2,
-        }}
-        getItemLayout={(data, index) => ({
-          length: ltr ? width : height,
-          offset: ltr ? width * index : height * index,
-          index,
-        })}
-        ref={flatListRef}
-        showsHorizontalScrollIndicator={false}
-        showsVerticalScrollIndicator={false}
-        horizontal={ltr}
-        pagingEnabled={true}
+      <ReaderContainer.FlatListContainer
+        currentPage={currentPage}
+        setCurrentPage={setCurrentPage}
         data={data}
-        renderItem={({item}) => renderItem(item)}
-        keyExtractor={item => `page-image-${item.page}`}
-        onViewableItemsChanged={onViewRef.current}
-        viewabilityConfig={viewabilityConfig}
+        flatListRef={flatListRef}
+        layoutMode={layoutMode}
+        ltr={ltr}
+        toggleControls={toggleControls}
       />
 
       <TopMetaInfo show={hideControls}>

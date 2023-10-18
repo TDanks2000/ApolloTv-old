@@ -18,6 +18,7 @@ const TypeSelector: React.FC<Props> = ({type, setType, selectedColor}) => {
         marginBottom: 15,
       }}>
       <PillContainer
+        br="8px"
         selected={type === 'ANIME'}
         selectedColor={selectedColor}
         onPress={() => {
@@ -26,6 +27,7 @@ const TypeSelector: React.FC<Props> = ({type, setType, selectedColor}) => {
         <PillText>ANIME</PillText>
       </PillContainer>
       <PillContainer
+        br="8px"
         selected={type === 'MANGA'}
         selectedColor={selectedColor}
         onPress={() => {

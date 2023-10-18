@@ -11,6 +11,7 @@ export type TitleLanguageOptions =
   | 'userPreferred';
 
 export type sourceProviders = 'gogoanime' | 'animepahe' | 'allanime';
+export type mangaSourceProviders = 'mangadex' | 'mangasee' | 'mangakaklot';
 
 export type MediaListStatus =
   | 'CURRENT'
@@ -350,6 +351,7 @@ export type settings =
   | 'prefered_voice'
   | 'prefered_quality'
   | 'source_provider'
+  | 'source_provider_manga'
   | 'private_mode'
   | 'skip_forward_time'
   | 'skip_behind_time';
@@ -476,3 +478,4 @@ export enum MediaSeason {
 export type UseStateType<T> = ReturnType<typeof React.useState<T>>;
 
 export * from './Services';
+export * from './Reader';

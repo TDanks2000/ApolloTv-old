@@ -18,16 +18,16 @@ import {API_BASE} from '@env';
 
 type Props = {
   width: number | `${number}%`;
-  type?: 'anime' | 'manga';
+  type?: 'ANIME' | 'MANGA';
   refreshing?: boolean;
 };
 
 const ChangeSourceProvider: React.FC<PropsWithChildren<Props>> = ({
   width,
-  type = 'anime',
+  type = 'ANIME',
   refreshing,
 }) => {
-  const {sourceProvider, changeSourceProvider} =
+  const {sourceProvider, changeSourceProvider, sourceProviderManga} =
     React.useContext(SettingsContext);
 
   type DataType = DropdownData<string, string>;
@@ -62,16 +62,26 @@ const ChangeSourceProvider: React.FC<PropsWithChildren<Props>> = ({
     );
 
   const findSelected = () => {
-    if (!sourceProvider)
+    if (!sourceProvider && type === 'ANIME')
       return data.find(val => val.label.toLowerCase().includes('gogo'));
+    if (!sourceProviderManga && type === 'MANGA')
+      return data.find(val => val.label.toLowerCase().includes('mangadex'));
 
-    return data.find(val => val.label.toLowerCase().includes(sourceProvider));
+    if (sourceProvider && type === 'ANIME')
+      return data.find(val => val.label.toLowerCase().includes(sourceProvider));
+    if (sourceProviderManga && type === 'MANGA')
+      return data.find(val =>
+        val.label.toLowerCase().includes(sourceProviderManga),
+      );
+    return undefined;
   };
 
   const onSelect = (item: any) => {
     setSelected(item);
-    if (changeSourceProvider) changeSourceProvider(item.label);
+    if (changeSourceProvider) changeSourceProvider(item.label, type);
   };
+
+  console.log(data.find(val => val.label.toLowerCase().includes('mangadex')));
 
   return (
     <View

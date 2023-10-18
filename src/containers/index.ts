@@ -8,7 +8,10 @@ import {
 } from './Sections';
 import ChangeSourceProvider from './ChangeSourceProvider';
 
+import * as ReaderContainer from './ReaderContainer';
+
 export {
+  ReaderContainer,
   ChangeSourceProvider,
   ContuineWatchingContainer,
   PopularContainer,
