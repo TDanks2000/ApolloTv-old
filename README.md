@@ -104,6 +104,6 @@ Contributions to the ApolloTv are welcome! If you find a bug, have a feature sug
 
 ## ❤️
 
-ApolloTv is made with the love and passion that I have for anime and manga. I hope you enjoy it as much as I do. If you have any suggestions or feedback, please contact me on discord (Prostarz)
+ApolloTv is made with the love and passion that I have for anime and manga. I hope you enjoy it as much as I do. If you have any suggestions or feedback, please contact me on <a href="https://discord.gg/ysZtjn6ED3">discord</a>
 <br /> <br />
 Reminder that <strong><i>you are great, you are enough, and your presence is valued.</i></strong> If you are struggling with your mental health, please reach out to someone you love and consult a professional. You are not alone.
