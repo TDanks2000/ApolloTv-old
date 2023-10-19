@@ -34,6 +34,7 @@ The app is still in alpha, so it may not work as expected. If you find any bugs,
 - [x] Anilist Collection support (Plant to watch, watching, watched, ReWatching, Dropped etc)
 - [X] Sync with anilist
 - [X] Manga support
+- [X] multi source providers
 
 Future features
 - [ ] Download
