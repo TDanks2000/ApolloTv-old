@@ -36,13 +36,11 @@ import {VideoEpisodesModal, VideoSettingsModal} from '../../../modals';
 import PlayPause from './PlayPause';
 import SkipTo from './SkipTo';
 import ControlsSlider from './Slider';
-import SkipIntroOutro from './SkipIntroOutro';
 
 // Shared components imports
 import {BackButtonComponent} from '../../Shared';
 
 import {UPDATEDB} from '../../../screens/VideoPlayerScreen/helpers';
-import TapeGesture from './Gestures/TapGesture';
 import RewindGesture from './Gestures/RewindGesture';
 import ForwardGesture from './Gestures/ForwardGesture';
 import {isStringNullOrEmpty} from '../../../utils/utils';

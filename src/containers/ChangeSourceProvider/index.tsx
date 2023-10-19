@@ -81,8 +81,6 @@ const ChangeSourceProvider: React.FC<PropsWithChildren<Props>> = ({
     if (changeSourceProvider) changeSourceProvider(item.label, type);
   };
 
-  console.log(data.find(val => val.label.toLowerCase().includes('mangadex')));
-
   return (
     <View
       style={{

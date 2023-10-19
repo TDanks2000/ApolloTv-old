@@ -1,6 +1,6 @@
-import {View, Text, FlatList} from 'react-native';
+import {FlatList} from 'react-native';
 import React from 'react';
-import {ScrollView, SharedContainer, Title} from '../../styles/sharedStyles';
+import {SharedContainer, Title} from '../../styles/sharedStyles';
 import {useQuery} from '@tanstack/react-query';
 import {ANNRecentFeed, RootStackParamList} from '../../@types';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';

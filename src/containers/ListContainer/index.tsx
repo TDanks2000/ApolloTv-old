@@ -1,5 +1,4 @@
-import {View, FlatList} from 'react-native';
-import React from 'react';
+import {FlatList} from 'react-native';
 import {ListCard, MangaListCard} from '../../components/Cards';
 import {utils} from '../../utils';
 import {useBreakpoints} from '../../hooks';

@@ -1,5 +1,3 @@
-import {View, Text} from 'react-native';
-import React, {Component, ReactElement} from 'react';
 import {
   Container,
   Description,

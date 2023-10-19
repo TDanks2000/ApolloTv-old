@@ -1,5 +1,4 @@
 import {View, FlatList} from 'react-native';
-import React from 'react';
 import {MangaListCard, ListCard} from '../../Cards';
 
 const SearchResults = ({data, type}: any) => {

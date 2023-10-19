@@ -22,7 +22,7 @@ export const ProfileContainer = styled.TouchableOpacity`
 export const ProfileImage = styled.Image`
   width: 40px;
   height: 40px;
-  border-radius: 50px;
+  border-radius: 999px;
 `;
 
 export const ProfileTextContainer = styled.View`

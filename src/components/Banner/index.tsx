@@ -1,15 +1,6 @@
-import {View, useWindowDimensions} from 'react-native';
-import React from 'react';
-import {
-  Circle,
-  Circles,
-  Container,
-  SelectedCircle,
-  Wrapper,
-} from './Banner.styles';
-import {AnimeTrending} from '../../utils/TestData';
+import {View} from 'react-native';
+import {Container, Wrapper} from './Banner.styles';
 import BannerCard from './BannerItem';
-import {NativeSyntheticEvent, NativeScrollEvent} from 'react-native';
 import {api} from '../../utils';
 import {useQuery} from '@tanstack/react-query';
 import {useBreakpoints} from '../../hooks';

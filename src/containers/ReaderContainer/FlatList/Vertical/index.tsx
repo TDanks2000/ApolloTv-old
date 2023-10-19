@@ -1,14 +1,12 @@
 import React from 'react';
 import {
-  View,
-  Text,
   TouchableOpacity,
-  Image,
   ViewToken,
   useWindowDimensions,
   FlatList,
 } from 'react-native';
 import {MangaPage, ReaderFlatListProps} from '../../../../@types';
+import {ImageZoom} from '@likashefqet/react-native-image-zoom';
 
 const VerticalFlatList: React.FC<ReaderFlatListProps> = ({
   flatListRef,
@@ -47,7 +45,7 @@ const VerticalFlatList: React.FC<ReaderFlatListProps> = ({
         style={{width, height}}
         onLongPress={toggleControls}
         delayLongPress={300}>
-        <Image
+        <ImageZoom
           resizeMode="contain"
           style={{
             width: '100%',

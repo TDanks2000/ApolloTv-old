@@ -1,10 +1,8 @@
-import {View, Text} from 'react-native';
 import React from 'react';
 import {ScrollView, SharedContainer, Title} from '../../../styles/sharedStyles';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {TextContainer} from '../SettingScreens.styles';
 import {BackButtonComponent, Settings} from '../../../components';
-import {Seperator} from '../../../styles/settings.shared.styles';
 import {SettingsContext} from '../../../contexts';
 
 const SyncingSettingScreen = () => {

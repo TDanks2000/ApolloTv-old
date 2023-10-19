@@ -1,11 +1,7 @@
-import {View, Text} from 'react-native';
 import React from 'react';
 import {
   BottomBanner,
   BottomBannerTextContainer,
-  DownloadButton,
-  DownloadIcon,
-  DownloadWrapper,
   EpisodeContainer,
   EpisodeImageBackground,
   EpisodeNumber,
@@ -16,15 +12,8 @@ import {
   PercentWatchedContainer,
   Wrapper,
 } from './EpisodeCard.styles';
-import {
-  EpisodeCardProps,
-  EpisodeInfo,
-  RootStackParamList,
-  StackNavigation,
-} from '../../../@types';
-import {NavigationProp, useNavigation} from '@react-navigation/native';
-import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import {CircleProgress} from '../../Shared';
+import {EpisodeCardProps, StackNavigation} from '../../../@types';
+import {useNavigation} from '@react-navigation/native';
 
 const EpisodeCard = (props: EpisodeCardProps) => {
   let {

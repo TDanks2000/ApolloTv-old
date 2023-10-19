@@ -1,5 +1,4 @@
-import {useWindowDimensions, Text} from 'react-native';
-import React from 'react';
+import {useWindowDimensions} from 'react-native';
 import {
   Container,
   ImageBackground,

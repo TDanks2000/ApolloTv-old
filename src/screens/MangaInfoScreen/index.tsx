@@ -1,10 +1,8 @@
-import {RefreshControl} from 'react-native';
 import React from 'react';
-import {FullMangaInfo, QueryManga, RootStackParamList} from '../../@types';
+import {RootStackParamList} from '../../@types';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {Info, MangaInfo, MiddleOfScreenTextComponent} from '../../components';
-import {MangaInfoData} from '../../utils/TestData';
 import CharacterContainer from '../../containers/CastContainer';
 import {RefreshControlStyled, ScrollView} from '../../styles/sharedStyles';
 import {API_BASE} from '@env';

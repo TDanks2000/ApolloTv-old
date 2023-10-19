@@ -1,8 +1,4 @@
-import {View, Text} from 'react-native';
-import React from 'react';
 import {Button, ButtonIcon} from '../Controls.styles';
-import {episodeSQLHelper} from '../../../../utils/database';
-import {ActivityIndicator} from 'react-native';
 import {Buffering} from './PlayPause.styles';
 
 interface Props {

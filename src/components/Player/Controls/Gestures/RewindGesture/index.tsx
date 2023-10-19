@@ -1,4 +1,3 @@
-import {View, Text} from 'react-native';
 import React from 'react';
 import {Wrapper} from './RewindGesture.styles';
 import TapGesture from '../TapGesture';

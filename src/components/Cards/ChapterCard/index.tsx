@@ -1,17 +1,6 @@
-import {
-  BottomBanner,
-  BottomBannerTextContainer,
-  EpisodeContainer,
-  EpisodeImageBackground,
-  EpisodeNumber,
-  EpisodeTitle,
-  PercentWatched,
-  PercentWatchedContainer,
-  Wrapper,
-} from './ChapterCard';
+import {EpisodeContainer, Wrapper} from './ChapterCard';
 import {Chapter, FullMangaInfo, StackNavigation} from '../../../@types';
 import {useNavigation} from '@react-navigation/native';
-import {Text} from '../../../styles/sharedStyles';
 
 type Props = {
   manga_info: FullMangaInfo;

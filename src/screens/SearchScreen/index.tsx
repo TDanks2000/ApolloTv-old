@@ -4,7 +4,6 @@ import {SharedContainer} from '../../styles/sharedStyles';
 import {MiddleOfScreenLoadingComponent, Search} from '../../components';
 import {useDebounceSearch} from '../../hooks';
 import {api} from '../../utils';
-import {API_BASE} from '@env';
 import {useQuery} from '@tanstack/react-query';
 import {SearchFilterOptions} from '../../modals';
 

@@ -1,5 +1,5 @@
 import React, {FC, ReactElement, useRef} from 'react';
-import {View, Text, Modal, FlatList, TouchableOpacity} from 'react-native';
+import {Modal, FlatList} from 'react-native';
 import {
   Button,
   ButtonImage,
@@ -14,7 +14,6 @@ import {
   ModalButton,
 } from './Dropdown.styles';
 import Icon from 'react-native-vector-icons/FontAwesome5';
-import {DropdownData} from '../../../@types';
 
 type DataType = any;
 

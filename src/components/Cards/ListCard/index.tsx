@@ -1,18 +1,7 @@
-import {View, Text} from 'react-native';
 import React from 'react';
 import {CardProps, StackNavigation} from '../../../@types';
 import {utils} from '../../../utils';
-import {
-  Container,
-  ExtraText,
-  ExtraTextContailer,
-  Image,
-  Left,
-  Right,
-  Seperator,
-  Title,
-  Wrapper,
-} from './ListCard.styles';
+import {Container, Image, Left, Right, Title, Wrapper} from './ListCard.styles';
 import {useNavigation} from '@react-navigation/native';
 import {useBreakpoints} from '../../../hooks';
 import EpisodeStats from './EpisodeStats';

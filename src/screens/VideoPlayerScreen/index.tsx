@@ -3,11 +3,10 @@ import React, {
   useEffect,
   useRef,
   useCallback,
-  useReducer,
   useContext,
   useMemo,
 } from 'react';
-import {View, Text, StatusBar, Platform} from 'react-native';
+import {View, StatusBar} from 'react-native';
 import Video, {OnLoadData, OnProgressData} from 'react-native-video';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {useQuery} from '@tanstack/react-query';
@@ -18,12 +17,11 @@ import Toast from 'react-native-toast-message';
 import {MiddleOfScreenLoadingComponent, Player} from '../../components';
 import {
   AniskipData,
-  Episode,
   RootStackParamList,
   SourceVideoOptions,
   StackNavigation,
 } from '../../@types';
-import {api, helpers, settingsHelper, utils} from '../../utils';
+import {api, helpers} from '../../utils';
 import {API_BASE} from '@env';
 import {
   NavigationContext,
@@ -33,7 +31,6 @@ import {
 import {episodeSQLHelper} from '../../utils/database';
 import {Anilist} from '@tdanks2000/anilist-wrapper';
 import {updateDB, watchTimeBeforeSync} from './helpers';
-import axios from 'axios';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'VideoPlayer'>;
 

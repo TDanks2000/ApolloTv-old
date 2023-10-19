@@ -10,10 +10,7 @@ import {
   Option,
   OptionText,
   TitleContainer,
-  IconContainer,
 } from './Alert.styles';
-
-import Icon from 'react-native-vector-icons/FontAwesome5';
 
 type Props = {
   alertState: AlertState;

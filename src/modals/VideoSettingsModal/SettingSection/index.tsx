@@ -1,13 +1,5 @@
-import {View, Text, FlatList} from 'react-native';
-import React from 'react';
-import {
-  Container,
-  Section,
-  SectionIcon,
-  SectionRight,
-  SectionTitle,
-  SelectedOption,
-} from '../VideoSettingsModal.shared.styles';
+import {View, FlatList} from 'react-native';
+import {Section, SectionTitle} from '../VideoSettingsModal.shared.styles';
 import {SettingsOptions, SettingsOptionsGroup} from '../../../@types';
 
 type Props = {

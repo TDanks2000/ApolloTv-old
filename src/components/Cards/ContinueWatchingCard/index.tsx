@@ -1,5 +1,4 @@
-import {View, Text, useWindowDimensions} from 'react-native';
-import React from 'react';
+import {useWindowDimensions} from 'react-native';
 import {CardProps} from '../../../@types';
 import {utils} from '../../../utils';
 import {

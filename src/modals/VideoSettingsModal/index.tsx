@@ -1,11 +1,11 @@
-import {View, Text, Modal, Animated, TouchableOpacity} from 'react-native';
+import {Modal, TouchableOpacity} from 'react-native';
 import React from 'react';
 import {
   SettingsOptionsGroup,
   SettingsSectionsType,
   SourceVideoOptions,
 } from '../../@types';
-import {Container, SettingsIconLeft} from './VideoSettingsModal.shared.styles';
+import {SettingsIconLeft} from './VideoSettingsModal.shared.styles';
 import {
   SettingsContainer,
   SettingsWrapper,
@@ -14,7 +14,6 @@ import {
 } from './VideoSettingsModal.styles';
 import SettingsSection from './SettingSection';
 import SettingsSections from './SettingsSections';
-import {settingsHelper} from '../../utils';
 import {SettingsContext} from '../../contexts';
 import DeviceBrightness from '@adrianso/react-native-device-brightness';
 

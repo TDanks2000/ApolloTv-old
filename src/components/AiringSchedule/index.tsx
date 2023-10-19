@@ -1,12 +1,5 @@
 import React, {useState, useEffect} from 'react';
 import {
-  View,
-  Text,
-  ScrollView,
-  Pressable,
-  TouchableOpacity,
-} from 'react-native';
-import {
   AnimeContainer,
   AnimesContainer,
   AnimeTime,

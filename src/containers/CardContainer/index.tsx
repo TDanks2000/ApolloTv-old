@@ -1,14 +1,10 @@
 import {View, FlatList} from 'react-native';
-import React from 'react';
 import {
-  SectionContainer,
   SectionTitle,
   SectionTitleContainer,
   SectionWrapper,
 } from '../Sections/Sections.shared.styles';
-import {AnimeTrending} from '../../utils/TestData';
 import {RectangleCard} from '../../components';
-import {FullAnimeInfo} from '../../@types';
 
 interface Props {
   title: string;

@@ -1,4 +1,3 @@
-import React from 'react';
 import {Container, Loading} from './MiddleOfScreenLoading.styles';
 
 const MiddleOfScreenLoadingComponent = () => {

@@ -1,4 +1,3 @@
-import {View, Text, Animated} from 'react-native';
 import React from 'react';
 import {Wrapper} from './ForwardGesture.styles';
 import TapGesture from '../TapGesture';

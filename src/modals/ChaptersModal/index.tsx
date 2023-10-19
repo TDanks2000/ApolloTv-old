@@ -10,17 +10,9 @@ import {
   TopContainer,
 } from './EpisodesModal.styles';
 
-import {EpisodeCard} from '../../components/Cards';
-import {
-  AnimeInfo,
-  Chapter,
-  EpisodeInfo,
-  FullMangaInfo,
-  StackNavigation,
-} from '../../@types';
+import {Chapter, FullMangaInfo, StackNavigation} from '../../@types';
 import {utils} from '../../utils';
 import {Paginate} from '../../components';
-import {episodeSQLHelper} from '../../utils/database';
 import {useAccessToken} from '../../contexts';
 import {Anilist} from '@tdanks2000/anilist-wrapper';
 import {useQuery} from '@tanstack/react-query';

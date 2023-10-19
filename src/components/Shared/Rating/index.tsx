@@ -1,5 +1,3 @@
-import {View, Text} from 'react-native';
-import React from 'react';
 import {RatingContainer, RatingIcon, RatingText} from './Rating.styles';
 
 interface Props {

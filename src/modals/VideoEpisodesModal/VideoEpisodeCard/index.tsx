@@ -1,7 +1,3 @@
-import {View, Text} from 'react-native';
-import React from 'react';
-import {api} from '../../../utils';
-import {API_BASE} from '@env';
 import {AnimeInfo, EpisodeInfo, StackNavigation} from '../../../@types';
 import {
   Container,

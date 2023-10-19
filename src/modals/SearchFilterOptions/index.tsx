@@ -1,4 +1,3 @@
-import {Modal, Text} from 'react-native';
 import React from 'react';
 import BaseModal from '../BaseModal';
 import {

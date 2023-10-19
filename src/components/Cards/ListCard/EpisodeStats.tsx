@@ -1,4 +1,3 @@
-import {View, Text} from 'react-native';
 import React from 'react';
 import {ExtraText, ExtraTextContailer, Seperator} from './ListCard.styles';
 import {CardProps, MediaStatus} from '../../../@types';

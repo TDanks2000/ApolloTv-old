@@ -1,5 +1,3 @@
-import {View, Text} from 'react-native';
-import React, {Dispatch} from 'react';
 import {BackButtonIcon, BackButton} from './BackButton.styles';
 import {useNavigation} from '@react-navigation/native';
 import {StackNavigation, UseStateType} from '../../../@types';

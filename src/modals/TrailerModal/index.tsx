@@ -1,5 +1,4 @@
-import {View, Text, Modal} from 'react-native';
-import React from 'react';
+import {View, Modal} from 'react-native';
 
 type Props = {
   showModal: boolean;

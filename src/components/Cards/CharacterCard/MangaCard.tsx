@@ -1,14 +1,10 @@
-import {View, Text} from 'react-native';
-import React from 'react';
-import {Character, MangaCharacter, SubOrDub, VoiceActor} from '../../../@types';
+import {MangaCharacter} from '../../../@types';
 import {
   ActorName,
   BottomContainer,
   CharacterName,
   Container,
   ImageBackground,
-  TopContainer,
-  VoiceActorImage,
   Wrapper,
 } from './CharacterCard.styles';
 

@@ -1,4 +1,4 @@
-import {View, Text, FlatList} from 'react-native';
+import {View, FlatList} from 'react-native';
 import React from 'react';
 import {MediaStatuss} from '../../../utils/constants';
 import {MediaStatus} from '../../../@types';

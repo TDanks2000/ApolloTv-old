@@ -1,11 +1,7 @@
-import {View, Text} from 'react-native';
 import React from 'react';
 import {
   Container,
   OptionContainer,
-  OptionDropDown,
-  OptionDropDownItem,
-  OptionDropDownItemText,
   OptionIcon,
   OptionIconContainer,
   OptionText,

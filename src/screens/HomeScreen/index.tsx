@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import {useWindowDimensions} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {
@@ -7,18 +7,11 @@ import {
   TopBarComponent,
 } from '../../components';
 import {GenericContainer, SectionContainer} from './HomeScreen.styles';
-import {
-  AiringScheduleContainer,
-  ContuineWatchingContainer,
-  GenericSection,
-  PopularContainer,
-} from '../../containers';
+import {ContuineWatchingContainer, GenericSection} from '../../containers';
 import {RefreshControlStyled, ScrollView} from '../../styles/sharedStyles';
-import {helpers, storage} from '../../utils';
+import {helpers} from '../../utils';
 import {RootStackParamList} from '../../@types';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import {useFocusEffect} from '@react-navigation/native';
-import {useQueryClient} from '@tanstack/react-query';
 import {GenericContext} from '../../contexts';
 import {episodeSQLHelper} from '../../utils/database';
 import {addToAnalytics} from '../../utils/api';

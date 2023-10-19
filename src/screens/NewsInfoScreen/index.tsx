@@ -10,7 +10,6 @@ import {
   MiddleOfScreenLoadingComponent,
   MiddleOfScreenTextComponent,
 } from '../../components';
-import {SafeAreaView} from 'react-native-safe-area-context';
 import {SharedContainer} from '../../styles/sharedStyles';
 import {
   Container,

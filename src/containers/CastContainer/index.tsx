@@ -1,5 +1,4 @@
 import {FlatList, View} from 'react-native';
-import React from 'react';
 import {Character, MangaCharacter, MediaTypes, SubOrDub} from '../../@types';
 import {CharacterCard, MangaCharacterCard} from '../../components';
 import {
@@ -48,7 +47,7 @@ const CharacterContainer = ({characters, subOrDub, type}: Props) => {
         <FlatList
           horizontal
           showsHorizontalScrollIndicator={false}
-          data={characters}
+          data={characters as any}
           renderItem={({item}: {item: MangaCharacter | Character}) =>
             renderItem(item)
           }

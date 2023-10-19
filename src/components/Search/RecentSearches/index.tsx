@@ -1,9 +1,7 @@
 import {View} from 'react-native';
 import React from 'react';
 import {Container, PillContainer, PillTitle} from './RecentSearches.styles';
-import {RecentSearchs} from '../../../@types';
 import {helpers} from '../../../utils';
-import {useNavigation} from '@react-navigation/native';
 
 interface Props {
   searchText: string;

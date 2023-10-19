@@ -1,4 +1,4 @@
-import {Modal, Pressable, Text} from 'react-native';
+import {Modal, Pressable} from 'react-native';
 import React, {PropsWithChildren} from 'react';
 
 type Props = {

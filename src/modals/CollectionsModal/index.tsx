@@ -1,5 +1,4 @@
-import {View, Text, Modal} from 'react-native';
-import React from 'react';
+import {Modal} from 'react-native';
 import {Container, TopBanner, Wrapper} from './CollectionsModal.styles';
 
 const CollectionsModal = () => {

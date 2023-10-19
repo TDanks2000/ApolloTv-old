@@ -1,14 +1,8 @@
-import {
-  View,
-  Text,
-  FlatList,
-  ViewToken,
-  TouchableOpacity,
-  useWindowDimensions,
-  Image,
-} from 'react-native';
+import {FlatList, ViewToken, useWindowDimensions} from 'react-native';
 import React from 'react';
-import {LayoutMode, MangaPage, ReaderFlatListProps} from '../../../../@types';
+import {MangaPage, ReaderFlatListProps} from '../../../../@types';
+import {ImageZoom} from '@likashefqet/react-native-image-zoom';
+import {Pressable} from 'react-native';
 
 const HorizontalFlatList: React.FC<ReaderFlatListProps> = ({
   flatListRef,
@@ -43,11 +37,11 @@ const HorizontalFlatList: React.FC<ReaderFlatListProps> = ({
 
   const renderItem = (item: MangaPage) => {
     return (
-      <TouchableOpacity
+      <Pressable
         style={{width, height}}
         onLongPress={toggleControls}
         delayLongPress={300}>
-        <Image
+        <ImageZoom
           resizeMode="contain"
           style={{
             width: '100%',
@@ -60,7 +54,7 @@ const HorizontalFlatList: React.FC<ReaderFlatListProps> = ({
             },
           }}
         />
-      </TouchableOpacity>
+      </Pressable>
     );
   };
 

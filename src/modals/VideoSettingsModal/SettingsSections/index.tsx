@@ -1,19 +1,15 @@
-import {View, Text, FlatList} from 'react-native';
+import {FlatList} from 'react-native';
 import React from 'react';
 import {
-  Container,
   Section,
   SectionIcon,
   SectionRight,
-  SectionSeperator,
   SectionTitle,
   SelectedOption,
   SettingsIconRight,
 } from '../VideoSettingsModal.shared.styles';
 import {SettingsSectionsType, SourceVideoOptions} from '../../../@types';
 import {Option} from '../../../components';
-import {settingsHelper} from '../../../utils';
-import {Slider} from '@sharcoux/slider';
 
 type Props = {
   selectedQuality: SourceVideoOptions;

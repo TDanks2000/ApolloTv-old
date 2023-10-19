@@ -1,4 +1,3 @@
-import {Dimensions, View, TouchableOpacity, Text} from 'react-native';
 import {Container, CircleProgressComponent} from './CircleProgress.styles';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {FC} from 'react';

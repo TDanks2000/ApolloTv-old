@@ -1,6 +1,4 @@
-import {View, Text} from 'react-native';
-import React from 'react';
-import {CardProps, MangaCardProps, StackNavigation} from '../../../@types';
+import {MangaCardProps, StackNavigation} from '../../../@types';
 import {utils} from '../../../utils';
 import {
   Container,

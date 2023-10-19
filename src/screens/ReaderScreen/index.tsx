@@ -1,5 +1,5 @@
 import React from 'react';
-import {FlatList, Image, useWindowDimensions, ViewToken} from 'react-native';
+import {FlatList, useWindowDimensions} from 'react-native';
 import {NavigationContext, SettingsContext} from '../../contexts';
 import {useFocusEffect} from '@react-navigation/native';
 import {
@@ -9,7 +9,6 @@ import {
   TopMetaSubTitle,
   TopMetaTextContainer,
   TopMetaTitle,
-  TouchableOpacity,
 } from './Reader.styles';
 import {
   BackButtonComponent,
@@ -86,8 +85,6 @@ const ReaderScreen: React.FC<Props> = ({route, navigation}) => {
     return <MiddleOfScreenTextComponent text={error?.message ?? 'Error!'} />;
 
   const pagesLength = data?.length!;
-
-  console.log(data?.length!);
 
   if (pagesLength <= 0)
     return (

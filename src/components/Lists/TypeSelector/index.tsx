@@ -1,4 +1,4 @@
-import {View, Text, ScrollView} from 'react-native';
+import {ScrollView} from 'react-native';
 import React from 'react';
 import {PillContainer, PillText} from '../Lists.shared.styles';
 

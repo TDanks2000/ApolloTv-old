@@ -1,4 +1,4 @@
-import {View, Text, NativeSyntheticEvent} from 'react-native';
+import {NativeSyntheticEvent} from 'react-native';
 import React from 'react';
 import {
   TextBoxContainer,

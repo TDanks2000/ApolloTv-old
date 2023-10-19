@@ -94,9 +94,12 @@ const AppStack = () => {
           name="VideoPlayer"
           component={gestureHandlerRootHOC(VideoPlayerScreen)}
         />
-        <Stack.Screen name="ReaderScreen" component={ReaderScreen} />
+        <Stack.Screen
+          name="ReaderScreen"
+          component={gestureHandlerRootHOC(ReaderScreen)}
+        />
         <Stack.Screen name="LoggingIn" component={LoggingInScreen} />
-        <Stack.Screen name="testingScreen" component={TestingScreen} />
+        {/* <Stack.Screen name="testingScreen" component={TestingScreen} /> */}
         <Stack.Screen name="news" component={NewsScreen} />
         <Stack.Screen name="newsInfo" component={NewsInfoScreen} />
 

@@ -1,8 +1,6 @@
-import {View, Text} from 'react-native';
 import React from 'react';
-import {IconItemContainer, NotificationStatus} from './NotificationBell.styles';
+import {IconItemContainer} from './NotificationBell.styles';
 import {IconItem} from '../TopBar.styles';
-import {NotificationsModal} from '../../../modals';
 import {StackNavigation} from '../../../@types';
 import {useNavigation} from '@react-navigation/native';
 

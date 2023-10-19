@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Linking} from 'react-native';
+import {Linking} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {ScrollView, SharedContainer, Title} from '../../styles/sharedStyles';
 import {
@@ -15,11 +15,10 @@ import {
 } from './SettingsScreen.styles';
 import {Settings} from '../../components';
 import {GenericContext, SettingsContext} from '../../contexts';
-import {settingsHelper, storage} from '../../utils';
+import {storage} from '../../utils';
 import {ANILIST_ACCESS_TOKEN_STORAGE} from '../../utils/constants';
 
 import Toast from 'react-native-toast-message';
-import {useNavigation} from '@react-navigation/native';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {RootStackParamList} from '../../@types';
 import {useQueryClient} from '@tanstack/react-query';

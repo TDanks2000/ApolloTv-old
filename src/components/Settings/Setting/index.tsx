@@ -1,5 +1,5 @@
-import {View, Text, KeyboardTypeOptions} from 'react-native';
-import React, {Component, ReactElement} from 'react';
+import {KeyboardTypeOptions} from 'react-native';
+import React from 'react';
 import {
   Container,
   Description,

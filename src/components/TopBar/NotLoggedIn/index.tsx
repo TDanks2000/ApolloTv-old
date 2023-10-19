@@ -1,4 +1,3 @@
-import React from 'react';
 import {Button, Container, ButtonText} from './NotLoggedIn.styles';
 import {ANILIST_TOKEN_URL} from '@env';
 import {Linking} from 'react-native';

@@ -1,4 +1,4 @@
-import {View, Text, FlatList} from 'react-native';
+import {View, FlatList} from 'react-native';
 import React from 'react';
 import {MediaSeasons} from '../../../utils/constants';
 import {MediaSeason} from '../../../@types';

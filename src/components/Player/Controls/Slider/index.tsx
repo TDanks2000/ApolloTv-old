@@ -7,8 +7,7 @@ import {
   TotalTimeText,
   WatchTimeText,
 } from './Slider.styles';
-import {GestureResponderEvent, TouchableOpacity} from 'react-native';
-import {UPDATEDB} from '../../../../screens/VideoPlayerScreen/helpers';
+import {TouchableOpacity} from 'react-native';
 import Video from 'react-native-video';
 
 interface Props {
