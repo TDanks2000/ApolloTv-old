@@ -15,6 +15,7 @@ import {api, utils} from '../../../utils';
 import {useAccessToken} from '../../../contexts';
 import {Anilist} from '@tdanks2000/anilist-wrapper';
 import {GenericContainer} from '../../../screens/HomeScreen/HomeScreen.styles';
+import {ContinueWatchingSectionSkeleton} from '../../../components/Skeletons';
 
 const ContuineWatchingContainer = () => {
   const {accessToken} = useAccessToken();
@@ -91,7 +92,8 @@ const ContuineWatchingContainer = () => {
     );
   };
 
-  if (isPending || isError) return null;
+  if (isPending) return <ContinueWatchingSectionSkeleton />;
+  if (isError) return null;
   if (data && data?.length <= 0) return null;
 
   return (

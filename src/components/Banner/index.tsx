@@ -4,6 +4,7 @@ import BannerCard from './BannerItem';
 import {api} from '../../utils';
 import {useQuery} from '@tanstack/react-query';
 import {useBreakpoints} from '../../hooks';
+import {BannerSkeleton} from '../Skeletons';
 
 const BannerComponent = () => {
   const {isMobile} = useBreakpoints();
@@ -31,7 +32,8 @@ const BannerComponent = () => {
     );
   };
 
-  if (isPending || isError) return null;
+  if (isPending) return <BannerSkeleton />;
+  if (isError) return null;
 
   // const onScroll = (e: NativeSyntheticEvent<NativeScrollEvent>) => {
   //   const totalWidth = e.nativeEvent.layoutMeasurement.width;

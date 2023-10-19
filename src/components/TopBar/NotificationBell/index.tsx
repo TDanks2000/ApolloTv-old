@@ -4,7 +4,11 @@ import {IconItem} from '../TopBar.styles';
 import {StackNavigation} from '../../../@types';
 import {useNavigation} from '@react-navigation/native';
 
-const NotificationBell = () => {
+type Props = {
+  loadingComp?: boolean;
+};
+
+const NotificationBell: React.FC<Props> = ({loadingComp = false}) => {
   const navigation = useNavigation<StackNavigation>();
   const [visible, setVisible] = React.useState<boolean>(false);
 
@@ -15,8 +19,8 @@ const NotificationBell = () => {
 
   return (
     <>
-      <IconItemContainer onPress={onPress} disabled>
-        <IconItem name="bell" />
+      <IconItemContainer onPress={onPress}>
+        <IconItem name="bell" loading={loadingComp} />
         {/* <NotificationStatus /> */}
       </IconItemContainer>
 

@@ -11,6 +11,7 @@ import {RectangleCard} from '../../../components';
 import {api} from '../../../utils';
 import {useQuery} from '@tanstack/react-query';
 import {SectionTypes} from '../../../@types';
+import {GenericSectionSkeleton} from '../../../components/Skeletons';
 
 interface Props {
   sectionTitle: string;
@@ -45,7 +46,8 @@ const GenericSection = ({sectionTitle, sectionType, type = 'ANIME'}: Props) => {
     );
   };
 
-  if (isPending || isError) return null;
+  if (isPending) return <GenericSectionSkeleton />;
+  if (isError) return null;
 
   return (
     <SectionContainer>

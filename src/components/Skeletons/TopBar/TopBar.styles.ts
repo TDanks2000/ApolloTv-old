@@ -1,8 +1,9 @@
 import {styled} from 'styled-components/native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import {rgba} from 'polished';
+import {Animated} from 'react-native';
 
-export const Container = styled.View`
+export const Container = styled(Animated.View)`
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -12,7 +13,7 @@ export const Container = styled.View`
   margin: 0 20px;
 `;
 
-export const ProfileContainer = styled.TouchableOpacity`
+export const ProfileContainer = styled.View`
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
@@ -20,30 +21,30 @@ export const ProfileContainer = styled.TouchableOpacity`
   width: 60%;
 `;
 
-export const ProfileImage = styled.Image`
+export const ProfileImage = styled.View`
   width: 40px;
   height: 40px;
   border-radius: 999px;
+  background: ${({theme}) => rgba(theme.text.offWhite, 0.2)};
 `;
 
 export const ProfileTextContainer = styled.View`
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-between;
+  align-items: flex-start;
   margin-left: 10px;
-  gap: -3px;
+  gap: 10px;
 `;
 
-interface TextProps {
-  color?: string;
-  isProfileName?: boolean;
-}
+export const ProfileText = styled.View`
+  width: 55px;
+  height: 12px;
+  background: ${({theme}) => rgba(theme.text.offWhite, 0.2)};
+`;
 
-export const ProfileText = styled.Text<TextProps>`
-  color: ${({color}) => color ?? 'white'};
-  font-size: 15px;
-  font-family: ${({theme}) => theme.text.fonts.NunitoSans};
-  font-weight: ${({isProfileName}) => (isProfileName ? 'bold' : 'normal')};
+export const SubProfileText = styled(ProfileText)`
+  width: 100px;
 `;
 
 export const IconContainer = styled.View`
@@ -56,12 +57,7 @@ export const IconContainer = styled.View`
 
 export const IconItemContainer = styled.TouchableOpacity``;
 
-type Props = {
-  loading?: boolean;
-};
-
-export const IconItem = styled(Icon)<Props>`
+export const IconItem = styled(Icon)`
   font-size: 18px;
-  color: ${({loading, theme}) =>
-    !loading ? 'white' : rgba(theme.text.offWhite, 0.2)};
+  color: ${({theme}) => rgba(theme.text.offWhite, 0.2)};
 `;

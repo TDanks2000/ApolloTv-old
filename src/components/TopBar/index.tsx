@@ -19,6 +19,7 @@ import {Linking, Platform} from 'react-native';
 import {storage} from '../../utils';
 import {ANILIST_ACCESS_TOKEN_STORAGE} from '../../utils/constants';
 import NotificationBell from './NotificationBell';
+import {TopBarSkeleton} from '../Skeletons';
 
 type Props = {
   hasJustLoggedIn?: boolean;
@@ -55,7 +56,7 @@ const TopBarComponent = ({
     }
   }, [refreshing]);
 
-  if (isPending) return null;
+  if (isPending) return <TopBarSkeleton />;
 
   return (
     <>
