@@ -1,4 +1,4 @@
-import {FlatList} from 'react-native';
+import {FlatList, TouchableOpacity} from 'react-native';
 import React from 'react';
 import {
   Section,
@@ -70,6 +70,18 @@ const SettingsSections = ({
         </React.Fragment>
       );
     };
+
+    if (item.optionType === 'pressable' && item.onPress) {
+      return (
+        <Section
+          onPress={() => {
+            if (item.onPress) item.onPress();
+            setSelectedSetting(item.value);
+          }}>
+          <SectionComponent />
+        </Section>
+      );
+    }
 
     return (
       <Section onPress={() => setSelectedSetting(item.value)}>

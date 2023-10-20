@@ -114,7 +114,9 @@ const ChaptersModal = ({
                       <Text>
                         {chapter?.title?.length < 1
                           ? `Chapter ${indexInArray + 1}`
-                          : chapter.title}
+                          : `${(indexInArray + 1).toString()} - ${
+                              chapter.title
+                            }`}
                       </Text>
                     </TouchableOpacity>
                   );

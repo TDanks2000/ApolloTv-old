@@ -17,6 +17,7 @@ import Toast from 'react-native-toast-message';
 import {MiddleOfScreenLoadingComponent, Player} from '../../components';
 import {
   AniskipData,
+  ResizeOptions,
   RootStackParamList,
   SourceVideoOptions,
   StackNavigation,
@@ -51,6 +52,7 @@ const VideoPlayerScreen: React.FC<Props> = ({route}): JSX.Element => {
     preferedVoice,
   } = useContext(SettingsContext);
 
+  const [resizeMode, setResizeMode] = useState<ResizeOptions>('contain');
   const [watched, setWatched] = useState<boolean>(false);
   const [watchedAnilist, setWatchedAnilist] = useState<boolean>(false);
   const [selectedSource, setSelectedSource] = useState<
@@ -395,6 +397,8 @@ const VideoPlayerScreen: React.FC<Props> = ({route}): JSX.Element => {
       <StatusBar hidden={true} />
       <Player.PlayerControls
         paused={paused}
+        resizeMode={resizeMode}
+        setResizeMode={setResizeMode}
         setPaused={setPaused}
         videoRef={videoRef}
         currentTime={currentTime ?? 0}
@@ -419,7 +423,9 @@ const VideoPlayerScreen: React.FC<Props> = ({route}): JSX.Element => {
         ref={videoRef}
         onLoad={onLoad}
         onProgress={onProgress}
+        progressUpdateInterval={1000}
         onEnd={onEnd}
+        resizeMode={resizeMode}
         onBuffer={data => {
           if (!watched)
             updateDB(

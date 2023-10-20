@@ -14,14 +14,9 @@ export const SliderContainer = styled.View<Props>`
       display: none;
     `}
   pointer-events: auto;
-  position: absolute;
-  bottom: 70px;
-  left: 7.5%;
-  right: 0;
   align-items: center;
-  align-self: center;
   background: rgba(0, 0, 0, 0.8);
-  width: 85%;
+  width: 100%;
   padding: 5px 15px;
   border-radius: 9999px;
   z-index: 11;
@@ -34,5 +29,7 @@ export const SliderComponent = styled(Slider).attrs(({theme}) => ({
   trackHeight: 5,
   thumbSize: 15,
 }))`
+  position: relative;
   width: 100%;
+  z-index: 13;
 `;

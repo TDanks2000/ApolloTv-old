@@ -1,14 +1,18 @@
-import React from 'react';
+import React, {useRef} from 'react';
 import {FlatList, useWindowDimensions} from 'react-native';
 import {NavigationContext, SettingsContext} from '../../contexts';
 import {useFocusEffect} from '@react-navigation/native';
 import {
+  BottomContainer,
   Container,
+  IconContainer,
   PangeChangeContainer,
   TopMetaInfo,
   TopMetaSubTitle,
   TopMetaTextContainer,
   TopMetaTitle,
+  TouchableOpacity,
+  UnderSLider,
 } from './Reader.styles';
 import {
   BackButtonComponent,
@@ -22,6 +26,8 @@ import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {useQuery} from '@tanstack/react-query';
 import {API_BASE} from '@env';
 import {ReaderContainer} from '../../containers';
+import Icon from 'react-native-vector-icons/FontAwesome5';
+import BottomSheet from '@gorhom/bottom-sheet';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'ReaderScreen'>;
 
@@ -33,6 +39,8 @@ type QueryData = {
 };
 
 const ReaderScreen: React.FC<Props> = ({route, navigation}) => {
+  const bottomSheetRef = useRef<BottomSheet>(null);
+
   const params = route?.params;
   const {chapter_id, chapter_info, manga_id, manga_info, chapter_number} =
     params;
@@ -91,69 +99,89 @@ const ReaderScreen: React.FC<Props> = ({route, navigation}) => {
       <MiddleOfScreenTextComponent text={'There was an unexpected Error!'} />
     );
 
+  const onSettingsPress = () => {
+    bottomSheetRef.current?.expand({
+      stiffness: 65,
+      damping: 13,
+    });
+  };
+
   return (
-    <Container>
-      <ReaderContainer.FlatListContainer
-        currentPage={currentPage}
-        setCurrentPage={setCurrentPage}
-        data={data}
-        flatListRef={flatListRef}
-        layoutMode={layoutMode}
-        ltr={ltr}
-        toggleControls={toggleControls}
-      />
-
-      <TopMetaInfo show={hideControls}>
-        <BackButtonComponent isModal={false} />
-        <TopMetaTextContainer>
-          <TopMetaTitle numberOfLines={1}>{actualTitle}</TopMetaTitle>
-          <TopMetaSubTitle>
-            {chapter_info.title?.length < 1
-              ? `Chapter ${chapter_number}`
-              : chapter_info.title}
-          </TopMetaSubTitle>
-        </TopMetaTextContainer>
-        <Reader.PageIndicator page={currentPage} hideControls={hideControls} />
-      </TopMetaInfo>
-
-      <Reader.Slider
-        minimumValue={0}
-        maximumValue={pagesLength}
-        flatlistRef={flatListRef}
-        currentPage={currentPage}
-        setCurrentPage={setCurrentPage}
-        hideControls={hideControls}
-      />
-
-      <PangeChangeContainer>
-        <Reader.PageChange
-          current_page={currentPage}
-          icon_name={ltr ? 'angle-left' : 'angle-up'}
-          page_change_amount={-1}
-          total_pages={pagesLength}
+    <>
+      <Container>
+        <ReaderContainer.FlatListContainer
+          currentPage={currentPage}
           setCurrentPage={setCurrentPage}
-          flatlistRef={flatListRef}
-          disableFN={() => {
-            if (currentPage === 1) return true;
-            return false;
-          }}
+          data={data}
+          flatListRef={flatListRef}
+          layoutMode={layoutMode}
           ltr={ltr}
+          toggleControls={toggleControls}
         />
-        <Reader.PageChange
-          current_page={currentPage}
-          icon_name={ltr ? 'angle-right' : 'angle-down'}
-          page_change_amount={1}
-          total_pages={pagesLength}
-          setCurrentPage={setCurrentPage}
-          flatlistRef={flatListRef}
-          disableFN={() => {
-            if (currentPage === pagesLength) return true;
-            return false;
-          }}
-          ltr={ltr}
-        />
-      </PangeChangeContainer>
-    </Container>
+
+        <TopMetaInfo show={hideControls}>
+          <BackButtonComponent isModal={false} />
+          <TopMetaTextContainer>
+            <TopMetaTitle numberOfLines={1}>{actualTitle}</TopMetaTitle>
+            <TopMetaSubTitle>
+              {chapter_info.title?.length < 1
+                ? `Chapter ${chapter_number}`
+                : chapter_info.title}
+            </TopMetaSubTitle>
+          </TopMetaTextContainer>
+          <Reader.PageIndicator
+            page={currentPage}
+            hideControls={hideControls}
+          />
+        </TopMetaInfo>
+
+        <BottomContainer>
+          <Reader.Slider
+            minimumValue={0}
+            maximumValue={pagesLength}
+            flatlistRef={flatListRef}
+            currentPage={currentPage}
+            setCurrentPage={setCurrentPage}
+            hideControls={hideControls}
+          />
+
+          <UnderSLider>
+            <IconContainer onPress={onSettingsPress}>
+              <Icon name={'cog'} color={'white'} size={15} />
+            </IconContainer>
+            <PangeChangeContainer>
+              <Reader.PageChange
+                current_page={currentPage}
+                icon_name={ltr ? 'angle-left' : 'angle-up'}
+                page_change_amount={-1}
+                total_pages={pagesLength}
+                setCurrentPage={setCurrentPage}
+                flatlistRef={flatListRef}
+                disableFN={() => {
+                  if (currentPage === 1) return true;
+                  return false;
+                }}
+                ltr={ltr}
+              />
+              <Reader.PageChange
+                current_page={currentPage}
+                icon_name={ltr ? 'angle-right' : 'angle-down'}
+                page_change_amount={1}
+                total_pages={pagesLength}
+                setCurrentPage={setCurrentPage}
+                flatlistRef={flatListRef}
+                disableFN={() => {
+                  if (currentPage === pagesLength) return true;
+                  return false;
+                }}
+                ltr={ltr}
+              />
+            </PangeChangeContainer>
+          </UnderSLider>
+        </BottomContainer>
+      </Container>
+      <Reader.BottomSheet bottomSheetRef={bottomSheetRef} />
+    </>
   );
 };
 

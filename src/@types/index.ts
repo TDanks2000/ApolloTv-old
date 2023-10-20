@@ -319,7 +319,7 @@ export type SettingsSectionsType = {
   onPress?: () => void;
 
   hasSubOptions?: boolean;
-  optionType?: 'option' | 'subOption' | 'slider';
+  optionType?: 'option' | 'subOption' | 'slider' | 'pressable';
   minValue?: number;
   maxValue?: number;
   options?: {
@@ -479,3 +479,4 @@ export type UseStateType<T> = ReturnType<typeof React.useState<T>>;
 
 export * from './Services';
 export * from './Reader';
+export * from './Video';

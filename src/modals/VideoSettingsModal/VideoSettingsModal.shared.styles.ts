@@ -43,7 +43,6 @@ export const SelectedOption = styled(Text).attrs({
   numberOfLines: 1,
 })`
   margin-top: -3px;
-  max-width: 55px;
   overflow: hidden;
 
   color: ${({theme}) => theme.text.secondary};

@@ -22,5 +22,5 @@ export const PageChangeContainer = styled.TouchableOpacity`
 
 export const PageChangeIcon = styled(Icon)`
   color: ${({theme}) => theme.text.primary};
-  font-size: 15px;
+  font-size: 17px;
 `;

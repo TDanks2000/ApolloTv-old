@@ -1,6 +1,7 @@
 import {Modal, TouchableOpacity} from 'react-native';
 import React from 'react';
 import {
+  ResizeOptions,
   SettingsOptionsGroup,
   SettingsSectionsType,
   SourceVideoOptions,
@@ -19,6 +20,8 @@ import DeviceBrightness from '@adrianso/react-native-device-brightness';
 
 type Props = {
   shouldOpen: boolean;
+  resizeMode: ResizeOptions;
+  setResizeMode: (resizeMode: ResizeOptions) => void;
 
   selectedQuality: SourceVideoOptions;
   options: SettingsOptionsGroup[];
@@ -31,6 +34,8 @@ const VideoSettingsModal = ({
   selectedQuality,
   shouldOpen,
   closeFunction,
+  resizeMode,
+  setResizeMode,
 }: Props) => {
   const {
     autoSkipOutro,
@@ -53,6 +58,9 @@ const VideoSettingsModal = ({
   React.useEffect(() => {
     getBrightness();
   }, []);
+  React.useEffect(() => {
+    console.log(resizeMode);
+  }, [resizeMode]);
 
   const findSelectedSetting = (): SettingsOptionsGroup => {
     const selectedSection = options.find(
@@ -60,6 +68,22 @@ const VideoSettingsModal = ({
     );
 
     return selectedSection as SettingsOptionsGroup;
+  };
+
+  const handleResizeOptions = () => {
+    const resizeOptions: ResizeOptions[] = [
+      'contain',
+      'stretch',
+      'cover',
+      'none',
+    ];
+    const currentResizeModeIndex = resizeOptions.indexOf(resizeMode);
+    const nextResizeModeIndex = currentResizeModeIndex + 1;
+    if (nextResizeModeIndex >= resizeOptions.length) {
+      setResizeMode(resizeOptions[0]);
+    } else {
+      setResizeMode(resizeOptions[nextResizeModeIndex]);
+    }
   };
 
   const sections: SettingsSectionsType[] = [
@@ -70,6 +94,15 @@ const VideoSettingsModal = ({
       selectedOption: selectedQuality.quality,
       hasSubOptions: true,
       optionType: 'subOption',
+    },
+    {
+      name: 'Resize Mode',
+      value: 'resize_mode',
+      iconName: 'arrows-alt',
+      selectedOption: resizeMode?.toString()!,
+      hasSubOptions: false,
+      optionType: 'pressable',
+      onPress: handleResizeOptions,
     },
     {
       name: 'Auto Skip Intro',

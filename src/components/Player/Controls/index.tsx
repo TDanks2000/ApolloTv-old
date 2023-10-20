@@ -22,6 +22,7 @@ import {
   AnimeInfo,
   Aniskip,
   EpisodeInfo,
+  ResizeOptions,
   SettingsOptionsGroup,
   SourceVideoOptions,
 } from '../../../@types';
@@ -55,6 +56,9 @@ interface Props {
   setCurrentTime: (number: number) => void;
   duration: number;
   isBuffering: boolean;
+
+  resizeMode: ResizeOptions;
+  setResizeMode: (resizeMode: ResizeOptions) => void;
 
   updateDB: UPDATEDB;
 
@@ -92,6 +96,8 @@ const PlayerControls = ({
   episodes,
   updateDB,
   setCurrentTime,
+  resizeMode,
+  setResizeMode,
 }: Props) => {
   const actualTitle = utils.getTitle(anime_info.title);
 
@@ -279,6 +285,8 @@ const PlayerControls = ({
                 closeFunction={startSpinAnimation}
                 selectedQuality={selectedQuality}
                 options={[qualityOptions]}
+                resizeMode={resizeMode}
+                setResizeMode={setResizeMode}
               />
             </View>
           </TopRight>

@@ -5,18 +5,12 @@ export const Container = styled.View`
   width: 100%;
   height: 100%;
   position: relative;
+  background-color: transparent;
+  justify-content: space-between;
+  align-items: center;
 `;
 
 export const TouchableOpacity = styled.Pressable``;
-
-export const PangeChangeContainer = styled.View`
-  position: absolute;
-  bottom: 30px;
-  right: 7.5%;
-  flex-direction: row;
-  gap: 15px;
-  z-index: 2;
-`;
 
 type Props = {
   show: boolean;
@@ -55,3 +49,29 @@ export const TopMetaSubTitle = styled(Text)`
   font-size: 14px;
   color: ${({theme}) => theme.text.offWhite};
 `;
+
+export const BottomContainer = styled.View`
+  position: absolute;
+  bottom: 25px;
+  width: 85%;
+  position: relative;
+  flex-direction: column;
+  gap: 15px;
+  z-index: 11;
+  align-self: center;
+`;
+
+export const UnderSLider = styled.View`
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 0 10px;
+`;
+
+export const PangeChangeContainer = styled.View`
+  flex-direction: row;
+  gap: 15px;
+  z-index: 2;
+  align-self: flex-end;
+`;
+
+export const IconContainer = styled.TouchableOpacity``;
