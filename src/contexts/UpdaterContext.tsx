@@ -18,7 +18,7 @@ type Props = {
 export const UpdaterProvider = ({children}: Props) => {
   const updater = new UpdateAPK.UpdateAPK({
     apkVersionUrl:
-      'https://raw.githubusercontent.com/ApolloTv-team/ApolloTv/master/VersionChecker.txt',
+      'https://raw.githubusercontent.com/ApolloTv-team/ApolloTv/master/release.json',
     fileProviderAuthority: 'com.apollotv.provider',
     forceUpdateApp: () => {},
     notNeedUpdateApp: () => {

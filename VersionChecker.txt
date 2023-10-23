@@ -1,5 +1,0 @@
-{
-  "versionName":"0.1.8",
-  "apkUrl":"https://github.com/ApolloTv-team/ApolloTv/releases/download/v0.1.8-alpha/apollotv-v0.1.8.apk",
-  "forceUpdate": true
-}
