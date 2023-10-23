@@ -14,7 +14,7 @@ type SettingsSectionType =
   | 'navigation'
   | 'prefered_voice'
   | 'log_out'
-  | 'check_for_update';
+  | 'pressable';
 
 type Props = {
   title: string;
@@ -24,7 +24,7 @@ type Props = {
   selectedOption?: string;
 } & (
   | {
-      type: 'log_out' | 'check_for_update';
+      type: 'log_out' | 'pressable';
       onPress: () => void;
     }
   | {
@@ -41,7 +41,11 @@ const Section = (props: Props) => {
   const navigation: any = useNavigation();
   const {title, descriptor} = props;
   const handlePress = () => {
-    if (props.type === 'log_out' || props.type === 'prefered_voice')
+    if (
+      props.type === 'log_out' ||
+      props.type === 'pressable' ||
+      props.type === 'prefered_voice'
+    )
       props.onPress();
     if (props.type === 'navigation') navigation.navigate(props.settingsScreen);
   };

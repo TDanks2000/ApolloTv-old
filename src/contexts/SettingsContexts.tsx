@@ -20,6 +20,7 @@ export const SettingsContext = React.createContext<{
   privateMode?: OnOrOff;
   skipForwardTime?: number;
   skipBehindTime?: number;
+  autoUpdate?: boolean;
   changeAutoSkip?: (setting: 'auto_skip_intro' | 'auto_skip_outro') => void;
   changePreferedVoice?: () => void;
   changePreferedQuality?: (quality: Quality) => void;
@@ -33,6 +34,7 @@ export const SettingsContext = React.createContext<{
     setting: 'skip_forward_time' | 'skip_behind_time',
     time: number,
   ) => void;
+  changeAutoUpdate?: (setting: boolean) => void;
 }>({});
 
 export const useSettingsContext = React.useContext(SettingsContext);
@@ -49,6 +51,9 @@ export const SettingsProvider = ({children}: any) => {
   );
   const privateModeSetting = settingsHelper.getSetting<OnOrOff | undefined>(
     'private_mode',
+  );
+  const autoUpdateSetting = settingsHelper.getSetting<boolean | undefined>(
+    'auto_update',
   );
   const skipForwardSetting =
     settingsHelper.getSetting<number>('skip_forward_time');
@@ -98,6 +103,10 @@ export const SettingsProvider = ({children}: any) => {
   );
   const [skipBehindTime, setSkipBehindTime] = React.useState<number>(
     skipBehindSetting ?? 30,
+  );
+
+  const [autoUpdate, setAutoUpdate] = React.useState<boolean>(
+    autoUpdateSetting ?? false,
   );
 
   const changeAutoSkip = (setting: 'auto_skip_intro' | 'auto_skip_outro') => {
@@ -163,6 +172,11 @@ export const SettingsProvider = ({children}: any) => {
     if (settingSkip === 'skip_forward_time') setSkipForwardTime(time);
   };
 
+  const changeAutoUpdate = (setting: boolean) => {
+    settingsHelper.setSetting('auto_update', setting);
+    setAutoUpdate(setting);
+  };
+
   return (
     <SettingsContext.Provider
       value={{
@@ -176,6 +190,7 @@ export const SettingsProvider = ({children}: any) => {
         privateMode,
         skipBehindTime,
         skipForwardTime,
+        autoUpdate,
         changeAutoSkip,
         changePreferedVoice,
         changePreferedQuality,
@@ -183,6 +198,7 @@ export const SettingsProvider = ({children}: any) => {
         changeAutoNextEpisode,
         changePrivateMode,
         changeSkipTime: changeSkipTime,
+        changeAutoUpdate,
       }}>
       {children}
     </SettingsContext.Provider>

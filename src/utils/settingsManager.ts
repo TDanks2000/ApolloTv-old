@@ -11,8 +11,7 @@ export const setSetting = (setting: Settings, value: any): void => {
 
 export const getSetting = <T>(setting: Settings): T => {
   const settingName = `setting-${setting}`;
-  if (setting.includes('time')) {
-    return storage.getNumber(settingName) as T;
-  }
+  if (setting.includes('time')) return storage.getNumber(settingName) as T;
+  if (setting === 'auto_update') return storage.getBoolean(settingName) as T;
   return storage.getString(settingName) as T;
 };

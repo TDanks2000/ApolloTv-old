@@ -28,11 +28,11 @@ import {UpdaterContext} from '../../contexts/UpdaterContext';
 type Props = NativeStackScreenProps<RootStackParamList, 'Settings'>;
 
 const SettingsScreen = ({navigation}: Props) => {
-  const {preferedVoice, changePreferedVoice} =
+  const {preferedVoice, changePreferedVoice, autoUpdate, changeAutoUpdate} =
     React.useContext(SettingsContext);
   const queryClient = useQueryClient();
   const genericContext = React.useContext(GenericContext);
-  const {checkUpdate} = React.useContext(UpdaterContext);
+  const {updater} = React.useContext(UpdaterContext);
 
   const onPress = (url: string) => {
     Linking.openURL(url);
@@ -51,7 +51,6 @@ const SettingsScreen = ({navigation}: Props) => {
             settingsScreen={'VideoSettings'}
           />
           <Seperator />
-
           <Settings.Section
             key={'Syncing-settings'}
             title="Syncing"
@@ -59,9 +58,7 @@ const SettingsScreen = ({navigation}: Props) => {
             type="navigation"
             settingsScreen={'SyncingSettings'}
           />
-
           <Seperator />
-
           <Settings.Section
             key={'voice-settings'}
             title="Preferred Voice"
@@ -72,9 +69,7 @@ const SettingsScreen = ({navigation}: Props) => {
             }}
             selectedOption={preferedVoice === 'dub' ? 'DUB (EN)' : 'SUB (JP)'}
           />
-
           <Seperator />
-
           <Settings.Section
             key={'log-out-settings'}
             title="Log Out"
@@ -123,9 +118,23 @@ const SettingsScreen = ({navigation}: Props) => {
             key={'check-for-update-setting'}
             title="Check for update"
             descriptor="Check for a new version of the app"
-            type="check_for_update"
+            type="pressable"
             onPress={async () => {
-              if (checkUpdate) await checkUpdate();
+              if (updater) await updater.checkUpdate();
+            }}
+          />
+
+          <Seperator />
+
+          <Settings.Section
+            key={'auto-update-setting'}
+            title="Auto update"
+            descriptor="Toggle the checking of a new update, when opening the app"
+            type="pressable"
+            selectedOption={autoUpdate ? 'ON' : 'OFF'}
+            onPress={async () => {
+              if (changeAutoUpdate)
+                changeAutoUpdate(autoUpdate === true ? false : true);
             }}
           />
 

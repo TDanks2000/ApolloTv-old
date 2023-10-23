@@ -19,6 +19,7 @@ import {Toast} from 'react-native-toast-message/lib/src/Toast';
 import {toastConfig} from './src/styles/toastconfig';
 import {Alert} from './src/components';
 import {UpdaterProvider} from './src/contexts/UpdaterContext';
+import useCheckForUpdate from './src/hooks/useCheckForUpdate';
 
 const queryClient = new QueryClient();
 
@@ -28,7 +29,11 @@ const App = (): JSX.Element => {
   return (
     <AccessTokenProvider>
       <GenericContextProvider>
-        <InnerApp />
+        <SettingsProvider>
+          <UpdaterProvider>
+            <InnerApp />
+          </UpdaterProvider>
+        </SettingsProvider>
       </GenericContextProvider>
     </AccessTokenProvider>
   );
@@ -37,16 +42,13 @@ const App = (): JSX.Element => {
 const InnerApp = () => {
   const {checkedForToken, accessToken} = useAccessToken();
   const genericContext = React.useContext(GenericContext);
+  useCheckForUpdate();
 
   return (
     <ThemeProvider theme={defaultTheme}>
       <QueryClientProvider client={queryClient}>
         <NavigationProvixer>
-          <SettingsProvider>
-            <UpdaterProvider>
-              <AppStack />
-            </UpdaterProvider>
-          </SettingsProvider>
+          <AppStack />
         </NavigationProvixer>
       </QueryClientProvider>
       <Toast autoHide={true} config={toastConfig} />

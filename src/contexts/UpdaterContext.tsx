@@ -3,9 +3,10 @@ import {Alert} from 'react-native';
 import Toast from 'react-native-toast-message';
 
 import * as UpdateAPK from 'rn-update-apk';
+import {settingsHelper} from '../utils';
 
 export const UpdaterContext = createContext<{
-  checkUpdate?: () => void;
+  updater?: UpdateAPK.UpdateAPK;
 }>({});
 
 type Props = {
@@ -22,16 +23,20 @@ export const UpdaterProvider = ({children}: Props) => {
       Toast.show({
         type: 'info',
         autoHide: true,
+        visibilityTime: 5000,
         position: 'top',
-        text1: 'App is Up-to-date',
+        text1: 'App is already up to date 🎉',
+        text2: 'No need to update',
       });
     },
     downloadApkStart: () => {
       Toast.show({
         type: 'info',
         autoHide: true,
+        visibilityTime: 5000,
         position: 'top',
-        text1: 'Up-date Started.',
+        text1: 'Update Commencing 🚀 ',
+        text2: 'Please wait',
       });
     },
     downloadApkProgress: (progress: any) => {},
@@ -40,8 +45,10 @@ export const UpdaterProvider = ({children}: Props) => {
       Toast.show({
         type: 'error',
         autoHide: true,
+        visibilityTime: 5000,
         position: 'top',
-        text1: 'Auto-update Faield',
+        text1: 'Auto Update failed ❌',
+        text2: 'Please try again later',
       });
     },
 
@@ -64,19 +71,11 @@ export const UpdaterProvider = ({children}: Props) => {
     },
   });
 
-  const checkUpdate = async () => {
-    await updater.checkUpdate();
-  };
-
-  useEffect(() => {
-    checkUpdate();
-  }, []);
-
   return (
     <UpdaterContext.Provider
       value={{
         // this can be used to check for updates with a button in settings screen
-        checkUpdate,
+        updater,
       }}>
       {children}
     </UpdaterContext.Provider>
