@@ -18,6 +18,7 @@ import {
 import {Toast} from 'react-native-toast-message/lib/src/Toast';
 import {toastConfig} from './src/styles/toastconfig';
 import {Alert} from './src/components';
+import {UpdaterProvider} from './src/contexts/UpdaterContext';
 
 const queryClient = new QueryClient();
 
@@ -42,7 +43,11 @@ const InnerApp = () => {
       <QueryClientProvider client={queryClient}>
         <NavigationProvixer>
           <SettingsProvider>
-            <AppStack />
+            <UpdaterProvider>
+              <>
+                <AppStack />
+              </>
+            </UpdaterProvider>
           </SettingsProvider>
         </NavigationProvixer>
       </QueryClientProvider>
