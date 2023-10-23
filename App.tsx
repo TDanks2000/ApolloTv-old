@@ -44,9 +44,7 @@ const InnerApp = () => {
         <NavigationProvixer>
           <SettingsProvider>
             <UpdaterProvider>
-              <>
-                <AppStack />
-              </>
+              <AppStack />
             </UpdaterProvider>
           </SettingsProvider>
         </NavigationProvixer>

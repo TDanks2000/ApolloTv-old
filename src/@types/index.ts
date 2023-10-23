@@ -299,35 +299,6 @@ export interface SourceVideoOptions {
   quality: Quality | AbnormalQuality | string;
 }
 
-export type SettingsOptions = {
-  title: string;
-  value: string;
-  onPress: () => void;
-};
-
-export type SettingsOptionsGroup = {
-  title: string;
-  options: SettingsOptions[];
-};
-
-export type SettingsSectionsType = {
-  name: string;
-  value: string;
-  iconName?: string;
-  selectedOption: string;
-  setOption?: (value: any) => void;
-  onPress?: () => void;
-
-  hasSubOptions?: boolean;
-  optionType?: 'option' | 'subOption' | 'slider' | 'pressable';
-  minValue?: number;
-  maxValue?: number;
-  options?: {
-    value: string;
-    label: string;
-  }[];
-};
-
 export type AniskipData = {
   [x: string]: Aniskip;
 };
@@ -343,18 +314,6 @@ export interface AniskipInterval {
   endTime: number;
   startTime: number;
 }
-
-export type settings =
-  | 'auto_skip_intro'
-  | 'auto_skip_outro'
-  | 'auto_next_episode'
-  | 'prefered_voice'
-  | 'prefered_quality'
-  | 'source_provider'
-  | 'source_provider_manga'
-  | 'private_mode'
-  | 'skip_forward_time'
-  | 'skip_behind_time';
 
 export type DropdownData<LabelType, ValueType> = {
   label: LabelType;
@@ -480,3 +439,4 @@ export type UseStateType<T> = ReturnType<typeof React.useState<T>>;
 export * from './Services';
 export * from './Reader';
 export * from './Video';
+export * from './Settings';

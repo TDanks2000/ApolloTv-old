@@ -4,12 +4,9 @@ import Toast from 'react-native-toast-message';
 
 import * as UpdateAPK from 'rn-update-apk';
 
-export const UpdaterContext = createContext<
-  | {
-      checkUpdate: () => void;
-    }
-  | undefined
->(undefined);
+export const UpdaterContext = createContext<{
+  checkUpdate?: () => void;
+}>({});
 
 type Props = {
   children: JSX.Element;
@@ -47,6 +44,7 @@ export const UpdaterProvider = ({children}: Props) => {
         text1: 'Auto-update Faield',
       });
     },
+
     needUpdateApp: performUpdate => {
       // TODO: create a custom Alert
       Alert.alert(
@@ -66,8 +64,8 @@ export const UpdaterProvider = ({children}: Props) => {
     },
   });
 
-  const checkUpdate = () => {
-    updater.checkUpdate();
+  const checkUpdate = async () => {
+    await updater.checkUpdate();
   };
 
   useEffect(() => {

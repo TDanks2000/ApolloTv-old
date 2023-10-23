@@ -10,7 +10,11 @@ import {
 import {useNavigation} from '@react-navigation/native';
 import {RootStackParamList} from '../../../@types';
 
-type SettingsSectionType = 'navigation' | 'prefered_voice' | 'log_out';
+type SettingsSectionType =
+  | 'navigation'
+  | 'prefered_voice'
+  | 'log_out'
+  | 'check_for_update';
 
 type Props = {
   title: string;
@@ -20,7 +24,7 @@ type Props = {
   selectedOption?: string;
 } & (
   | {
-      type: 'log_out';
+      type: 'log_out' | 'check_for_update';
       onPress: () => void;
     }
   | {

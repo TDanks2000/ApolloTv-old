@@ -23,6 +23,7 @@ import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {RootStackParamList} from '../../@types';
 import {useQueryClient} from '@tanstack/react-query';
 import {Seperator} from '../../styles/settings.shared.styles';
+import {UpdaterContext} from '../../contexts/UpdaterContext';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Settings'>;
 
@@ -31,6 +32,7 @@ const SettingsScreen = ({navigation}: Props) => {
     React.useContext(SettingsContext);
   const queryClient = useQueryClient();
   const genericContext = React.useContext(GenericContext);
+  const {checkUpdate} = React.useContext(UpdaterContext);
 
   const onPress = (url: string) => {
     Linking.openURL(url);
@@ -113,6 +115,18 @@ const SettingsScreen = ({navigation}: Props) => {
                 },
               )
             }
+          />
+
+          <Seperator />
+
+          <Settings.Section
+            key={'check-for-update-setting'}
+            title="Check for update"
+            descriptor="Check for a new version of the app"
+            type="check_for_update"
+            onPress={async () => {
+              if (checkUpdate) await checkUpdate();
+            }}
           />
 
           <Seperator />
