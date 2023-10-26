@@ -37,7 +37,7 @@ const SettingsScreen = ({navigation}: Props) => {
     <SafeAreaView>
       <SharedContainer>
         <Title>Settings</Title>
-        <ScrollView style={{paddingTop: 30, marginTop: 15}}>
+        <ScrollView style={{paddingTop: 20, marginTop: 10}}>
           <Settings.Section
             key={'Video-settings'}
             title="Video"

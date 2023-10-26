@@ -27,7 +27,7 @@ const SyncingSettingScreen = ({navigation}: Props) => {
           <Title>Syncing Settings</Title>
         </TextContainer>
 
-        <ScrollView style={{paddingTop: 30, marginTop: 15}}>
+        <ScrollView style={{paddingTop: 20, marginTop: 10}}>
           <Settings.Setting
             title="Private mode"
             descriptor="Keep your watch history between you and yourself only"
