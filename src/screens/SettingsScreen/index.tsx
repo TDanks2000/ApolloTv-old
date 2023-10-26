@@ -15,13 +15,10 @@ import {
 } from './SettingsScreen.styles';
 import {Settings} from '../../components';
 import {GenericContext, SettingsContext} from '../../contexts';
-import {storage} from '../../utils';
-import {ANILIST_ACCESS_TOKEN_STORAGE} from '../../utils/constants';
 
 import Toast from 'react-native-toast-message';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {RootStackParamList} from '../../@types';
-import {useQueryClient} from '@tanstack/react-query';
 import {Seperator} from '../../styles/settings.shared.styles';
 import {UpdaterContext} from '../../contexts/UpdaterContext';
 
@@ -30,8 +27,6 @@ type Props = NativeStackScreenProps<RootStackParamList, 'Settings'>;
 const SettingsScreen = ({navigation}: Props) => {
   const {preferedVoice, changePreferedVoice, autoUpdate, changeAutoUpdate} =
     React.useContext(SettingsContext);
-  const queryClient = useQueryClient();
-  const genericContext = React.useContext(GenericContext);
   const {updater} = React.useContext(UpdaterContext);
 
   const onPress = (url: string) => {
@@ -69,49 +64,6 @@ const SettingsScreen = ({navigation}: Props) => {
             }}
             selectedOption={preferedVoice === 'dub' ? 'DUB (EN)' : 'SUB (JP)'}
           />
-          <Seperator />
-          <Settings.Section
-            key={'log-out-settings'}
-            title="Log Out"
-            descriptor="Log out of anilist"
-            type="log_out"
-            onPress={() =>
-              genericContext!.openAlert(
-                'Logout',
-                'Are you sure you want to log out?',
-                'info',
-                {
-                  options: [
-                    {
-                      text: 'Cancel',
-                      onPress: () => {},
-                      style: 'default',
-                    },
-                    {
-                      text: 'Confirm',
-                      onPress: async () => {
-                        storage.delete(ANILIST_ACCESS_TOKEN_STORAGE);
-                        Toast.show({
-                          type: 'success',
-                          text1: 'Logged out successfully',
-                        });
-                        navigation.navigate('Home', {
-                          hasJustLoggedIn: false,
-                        });
-
-                        queryClient.invalidateQueries({queryKey: ['Top-Bar']});
-                        queryClient.invalidateQueries({
-                          queryKey: ['user-lists'],
-                        });
-                      },
-                      style: 'default',
-                    },
-                  ],
-                },
-              )
-            }
-          />
-
           <Seperator />
 
           <Settings.Section

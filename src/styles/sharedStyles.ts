@@ -5,7 +5,7 @@ export const ScrollView = styled.ScrollView.attrs({
   showsHorizontalScrollIndicator: false,
   showsVerticalScrollIndicator: false,
   contentContainerStyle: {
-    paddingBottom: Platform.isTV ? 25 : 100,
+    paddingBottom: Platform.isTV ? 25 : 200,
   },
 })``;
 

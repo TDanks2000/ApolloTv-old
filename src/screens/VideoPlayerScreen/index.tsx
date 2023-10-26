@@ -6,8 +6,12 @@ import React, {
   useContext,
   useMemo,
 } from 'react';
-import {View, StatusBar} from 'react-native';
-import Video, {OnLoadData, OnProgressData} from 'react-native-video';
+import {View, StatusBar, TVEventHandler} from 'react-native';
+import Video, {
+  OnLoadData,
+  OnProgressData,
+  OnSeekData,
+} from 'react-native-video';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {useQuery} from '@tanstack/react-query';
 import {OrientationLocker, LANDSCAPE} from 'react-native-orientation-locker';
@@ -39,6 +43,7 @@ const VideoPlayerScreen: React.FC<Props> = ({route}): JSX.Element => {
   const navigation = useNavigation<StackNavigation>();
   const {accessToken} = useAccessToken();
   const anilist = new Anilist(accessToken);
+  let _tvEventHandler = new TVEventHandler();
 
   const {
     autoSkipOutro,
@@ -50,6 +55,8 @@ const VideoPlayerScreen: React.FC<Props> = ({route}): JSX.Element => {
     preferedQuality,
     sourceProvider,
     preferedVoice,
+    playInBackground,
+    playWhenInactive,
   } = useContext(SettingsContext);
 
   const [resizeMode, setResizeMode] = useState<ResizeOptions>('contain');
@@ -252,6 +259,10 @@ const VideoPlayerScreen: React.FC<Props> = ({route}): JSX.Element => {
     }
   };
 
+  const onSeek = (data: OnSeekData) => {
+    setCurrentTime(data?.seekTime ?? 0);
+  };
+
   const onLoad = (data: OnLoadData) => {
     if (!watched)
       updateDB(currentTime, duration, parseInt(anime_info.id), episode_info);
@@ -320,6 +331,44 @@ const VideoPlayerScreen: React.FC<Props> = ({route}): JSX.Element => {
     queryKey: ['VideoPlayer', episode_id, sourceProvider],
     queryFn: fetcher,
   });
+
+  // TV EVENT HANDLER
+  const _enableTVEventHandler = () => {
+    let time = currentTime;
+    _tvEventHandler.enable(this, function (cmp, evt) {
+      const eventType = evt.eventType?.toLowerCase();
+      if (evt && eventType === 'playPause') {
+        // Handle play/pause event
+        setPaused(prev => !prev);
+      } else if (evt && eventType === 'fastForward') {
+        // TODO: Handle fast forward event
+      } else if (evt && eventType === 'rewind') {
+        // TODO: Handle rewind event
+      } else if (evt && (eventType === 'select' || eventType === 'tag')) {
+        setPaused(prev => !prev);
+      } else if (evt && eventType === 'left') {
+        // TODO: handle rewind
+        if (!videoRef?.current) return;
+      } else if (evt && eventType === 'right') {
+        // TODO: handle fast forward
+        if (!videoRef?.current) return;
+      }
+      console.log(evt);
+    });
+  };
+
+  let _disableTVEventHandler = () => {
+    if (_tvEventHandler) {
+      _tvEventHandler.disable();
+    }
+  };
+
+  useEffect(() => {
+    _enableTVEventHandler();
+    return () => {
+      _disableTVEventHandler();
+    };
+  }, [data]);
 
   const sources: SourceVideoOptions[] = data?.sources ?? data;
   const findHighestQuality = helpers.findQuality(sources, preferedQuality);
@@ -424,7 +473,9 @@ const VideoPlayerScreen: React.FC<Props> = ({route}): JSX.Element => {
         onLoad={onLoad}
         onProgress={onProgress}
         progressUpdateInterval={1000}
+        currentTime={currentTime}
         onEnd={onEnd}
+        onSeek={onSeek}
         resizeMode={resizeMode}
         onBuffer={data => {
           if (!watched)
@@ -447,8 +498,8 @@ const VideoPlayerScreen: React.FC<Props> = ({route}): JSX.Element => {
         volume={1}
         paused={paused}
         pictureInPicture={true}
-        playInBackground={true}
-        playWhenInactive={true}
+        playInBackground={playInBackground === 'off' ? false : true}
+        playWhenInactive={playWhenInactive === 'off' ? false : true}
         style={{
           width: '100%',
           height: '100%',

@@ -22,13 +22,11 @@ const HomeScreen = ({route}: Props) => {
   const [refreshing, setRefreshing] = React.useState(false);
   const genericContext = React.useContext(GenericContext);
   const hasJustLoggedIn = route?.params?.hasJustLoggedIn;
-  const {width} = useWindowDimensions();
 
   const hasLaunchedBefore = helpers.launchedBefore();
 
   React.useEffect(() => {
     episodeSQLHelper.createTable();
-    addToAnalytics(width);
     if (!hasLaunchedBefore) {
       genericContext?.openAlert(
         'Welcome to ApolloTv',

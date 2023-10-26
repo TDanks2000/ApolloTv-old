@@ -19,6 +19,10 @@ const VideoSettingScreen = () => {
     changeAutoSkip,
     changeAutoNextEpisode,
     changeSkipTime,
+    playInBackground,
+    playWhenInactive,
+    changePlayInBackground,
+    changePlayWhenInactive,
   } = React.useContext(SettingsContext);
 
   const qualityOptions: Quality[] = [
@@ -108,6 +112,28 @@ const VideoSettingScreen = () => {
                 ? changeSkipTime('skip_behind_time', number)
                 : undefined;
             }}
+          />
+
+          <Seperator />
+
+          <Settings.Setting
+            title="Play in background"
+            descriptor="Continue playing while the app is in the background."
+            selectedOption={playInBackground ?? 'off'}
+            onPress={() =>
+              changePlayInBackground ? changePlayInBackground() : undefined
+            }
+          />
+
+          <Seperator />
+
+          <Settings.Setting
+            title="Play when inactive"
+            descriptor="Continue playing when notifications are in front of the video"
+            selectedOption={playWhenInactive ?? 'off'}
+            onPress={() =>
+              changePlayWhenInactive ? changePlayWhenInactive() : undefined
+            }
           />
 
           <Seperator />

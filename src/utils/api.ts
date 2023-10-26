@@ -1,6 +1,7 @@
 import {API_BASE, ANALYTICS_URL} from '@env';
 import {SectionTypes} from '../@types';
 import {Anilist} from '@tdanks2000/anilist-wrapper';
+import axios from 'axios';
 
 export const getSectionUrl = (
   type: SectionTypes,
@@ -110,13 +111,14 @@ export const getAiringSchedule = async (
   return combine;
 };
 
-export const addToAnalytics = async (screen_width: number) => {
-  // let uuid = getUUID() ? createUUID() : getUUID();
-
-  await fetch(`${ANALYTICS_URL}`, {
-    headers: {
-      'x-screen-width': screen_width.toString(),
-    },
+export const addToAnalytics = async (screen_width: number, uuid: string) => {
+  await axios.request({
+    url: ANALYTICS_URL,
+    method: 'POST',
+    data: JSON.stringify({
+      uuid: uuid,
+      screen_width: screen_width,
+    }),
   });
 };
 

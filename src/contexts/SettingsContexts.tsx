@@ -5,10 +5,12 @@ import {
   mangaSourceProviders,
   sourceProviders,
 } from '../@types';
-import {settingsHelper} from '../utils';
+import {settingsHelper, storage} from '../utils';
 
+// Define a type for the 'on' and 'off' values.
 type OnOrOff = 'on' | 'off';
 
+// Create a React context to store and provide user settings.
 export const SettingsContext = React.createContext<{
   autoSkipIntro?: OnOrOff;
   autoSkipOutro?: OnOrOff;
@@ -21,6 +23,8 @@ export const SettingsContext = React.createContext<{
   skipForwardTime?: number;
   skipBehindTime?: number;
   autoUpdate?: boolean;
+  playInBackground?: OnOrOff;
+  playWhenInactive?: OnOrOff;
   changeAutoSkip?: (setting: 'auto_skip_intro' | 'auto_skip_outro') => void;
   changePreferedVoice?: () => void;
   changePreferedQuality?: (quality: Quality) => void;
@@ -35,11 +39,18 @@ export const SettingsContext = React.createContext<{
     time: number,
   ) => void;
   changeAutoUpdate?: (setting: boolean) => void;
+  uuid?: string;
+  changeUUID?: (uuid: string) => void;
+  changePlayInBackground?: () => void;
+  changePlayWhenInactive?: () => void;
 }>({});
 
+// Create a custom hook for using the SettingsContext.
 export const useSettingsContext = React.useContext(SettingsContext);
 
+// Define a React component for providing and managing user settings.
 export const SettingsProvider = ({children}: any) => {
+  // Retrieve settings from local storage or use default values.
   const autoSkipIntroSetting = settingsHelper.getSetting<OnOrOff | undefined>(
     'auto_skip_intro',
   );
@@ -57,10 +68,8 @@ export const SettingsProvider = ({children}: any) => {
   );
   const skipForwardSetting =
     settingsHelper.getSetting<number>('skip_forward_time');
-
   const skipBehindSetting =
     settingsHelper.getSetting<number>('skip_behind_time');
-
   const preferedVoiceSettings: any =
     settingsHelper.getSetting('prefered_voice');
   const preferedQualitySetting: any =
@@ -72,6 +81,18 @@ export const SettingsProvider = ({children}: any) => {
     'source_provider_manga',
   ) as mangaSourceProviders;
 
+  const playInBackgroundSetting = settingsHelper.getSetting(
+    'play_in_background',
+  ) as OnOrOff;
+
+  const playWhenInactiveSetting = settingsHelper.getSetting(
+    'play_when_inactive',
+  ) as OnOrOff;
+
+  // Retrieve and set UUID from local storage.
+  const uuidStorage = storage.getString('device-uuid');
+
+  // Initialize state variables for user settings.
   const [autoSkipIntro, setAutoSkipIntro] = React.useState(
     autoSkipIntroSetting ?? 'off',
   );
@@ -94,7 +115,6 @@ export const SettingsProvider = ({children}: any) => {
     React.useState<mangaSourceProviders>(
       sourceProviderSettingManga ?? 'mangadex',
     );
-
   const [privateMode, setPrivateMode] = React.useState(
     privateModeSetting ?? 'off',
   );
@@ -104,11 +124,20 @@ export const SettingsProvider = ({children}: any) => {
   const [skipBehindTime, setSkipBehindTime] = React.useState<number>(
     skipBehindSetting ?? 30,
   );
-
   const [autoUpdate, setAutoUpdate] = React.useState<boolean>(
     autoUpdateSetting ?? false,
   );
+  const [uuid, setUuid] = React.useState<string | undefined>(
+    uuidStorage ?? undefined,
+  );
+  const [playInBackground, setPlayInBackground] = React.useState<OnOrOff>(
+    playInBackgroundSetting ?? 'off',
+  );
+  const [playWhenInactive, setPlayWhenInactive] = React.useState<OnOrOff>(
+    playWhenInactiveSetting ?? 'on',
+  );
 
+  // Define functions for changing user settings.
   const changeAutoSkip = (setting: 'auto_skip_intro' | 'auto_skip_outro') => {
     if (setting === 'auto_skip_intro') {
       settingsHelper.setSetting(setting, autoSkipIntro === 'on' ? 'off' : 'on');
@@ -177,6 +206,28 @@ export const SettingsProvider = ({children}: any) => {
     setAutoUpdate(setting);
   };
 
+  const changeUUID = (uuid: string) => {
+    setUuid(uuid);
+    storage.set('device-uuid', uuid);
+  };
+
+  const changePlayInBackground = () => {
+    settingsHelper.setSetting(
+      'play_in_background',
+      playInBackground === 'off' ? 'on' : 'off',
+    );
+    setPlayInBackground(prev => (prev === 'off' ? 'on' : 'off'));
+  };
+
+  const changePlayWhenInactive = () => {
+    settingsHelper.setSetting(
+      'play_when_inactive',
+      playWhenInactive === 'off' ? 'on' : 'off',
+    );
+    setPlayWhenInactive(prev => (prev === 'off' ? 'on' : 'off'));
+  };
+
+  // Return the SettingsContext.Provider with the state and update functions.
   return (
     <SettingsContext.Provider
       value={{
@@ -199,6 +250,12 @@ export const SettingsProvider = ({children}: any) => {
         changePrivateMode,
         changeSkipTime: changeSkipTime,
         changeAutoUpdate,
+        uuid,
+        changeUUID,
+        playInBackground,
+        changePlayInBackground,
+        playWhenInactive,
+        changePlayWhenInactive,
       }}>
       {children}
     </SettingsContext.Provider>

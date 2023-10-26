@@ -19,7 +19,7 @@ import {Toast} from 'react-native-toast-message/lib/src/Toast';
 import {toastConfig} from './src/styles/toastconfig';
 import {Alert} from './src/components';
 import {UpdaterProvider} from './src/contexts/UpdaterContext';
-import useCheckForUpdate from './src/hooks/useCheckForUpdate';
+import {useCheckForUpdate, useAnalytics} from './src/hooks';
 
 const queryClient = new QueryClient();
 
@@ -43,6 +43,7 @@ const InnerApp = () => {
   const {checkedForToken, accessToken} = useAccessToken();
   const genericContext = React.useContext(GenericContext);
   useCheckForUpdate();
+  useAnalytics();
 
   return (
     <ThemeProvider theme={defaultTheme}>
