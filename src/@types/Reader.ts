@@ -20,6 +20,8 @@ export enum OrientationType {
   locked_portrait = 'locked_portrait',
   landscape = 'landscape',
   locked_landscape = 'locked_landscape',
+  landscape_left = 'landscape_left',
+  landscape_right = 'landscape_right',
 }
 
 export type ReaderFlatListProps = {

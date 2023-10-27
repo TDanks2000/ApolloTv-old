@@ -33,6 +33,13 @@ const ScreenOrientation = () => {
       default:
         // Default or unlocked
         Orientation.unlockAllOrientations();
+      case OrientationType.landscape_left:
+        // landscape left
+        Orientation.lockToLandscapeLeft();
+        break;
+      case OrientationType.landscape_right:
+        // landscape right
+        Orientation.lockToLandscapeRight();
         break;
     }
   }, [screenOrientation]);
@@ -69,6 +76,16 @@ const ScreenOrientation = () => {
           active={screenOrientation === OrientationType.landscape}
           onPress={() => setScreenOrientation(OrientationType.landscape)}>
           <PillText>Landscape</PillText>
+        </PillContainer>
+        <PillContainer
+          active={screenOrientation === OrientationType.landscape_left}
+          onPress={() => setScreenOrientation(OrientationType.landscape_left)}>
+          <PillText>Landscape (left)</PillText>
+        </PillContainer>
+        <PillContainer
+          active={screenOrientation === OrientationType.landscape_right}
+          onPress={() => setScreenOrientation(OrientationType.landscape_right)}>
+          <PillText>Landscape (right)</PillText>
         </PillContainer>
       </PillsContainer>
     </View>
