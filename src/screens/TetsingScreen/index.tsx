@@ -1,13 +1,5 @@
-import {
-  GenericSectionSkeleton,
-  MainCardSkeleton,
-  TopBarSkeleton,
-  BannerSkeleton,
-} from '../../components/Skeletons';
-import ContinueWatchingCardSkeleton from '../../components/Skeletons/cards/ContinueWatchingCard';
-
 const TestingScreen = () => {
-  return <GenericSectionSkeleton />;
+  return <></>;
 };
 
 export default TestingScreen;

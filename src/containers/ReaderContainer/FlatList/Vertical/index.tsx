@@ -4,6 +4,7 @@ import {
   ViewToken,
   useWindowDimensions,
   FlatList,
+  Pressable,
 } from 'react-native';
 import {MangaPage, ReaderFlatListProps} from '../../../../@types';
 import {ImageZoom} from '@likashefqet/react-native-image-zoom';
@@ -11,7 +12,6 @@ import {ImageZoom} from '@likashefqet/react-native-image-zoom';
 const VerticalFlatList: React.FC<ReaderFlatListProps> = ({
   flatListRef,
   currentPage,
-  ltr,
   setCurrentPage,
   toggleControls,
   data,
@@ -41,7 +41,7 @@ const VerticalFlatList: React.FC<ReaderFlatListProps> = ({
 
   const renderItem = (item: MangaPage) => {
     return (
-      <TouchableOpacity
+      <Pressable
         style={{width, height}}
         onLongPress={toggleControls}
         delayLongPress={300}>
@@ -58,7 +58,7 @@ const VerticalFlatList: React.FC<ReaderFlatListProps> = ({
             },
           }}
         />
-      </TouchableOpacity>
+      </Pressable>
     );
   };
 

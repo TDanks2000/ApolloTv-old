@@ -20,7 +20,12 @@ import {
   MiddleOfScreenTextComponent,
   Reader,
 } from '../../components';
-import {LayoutMode, MangaPage, RootStackParamList} from '../../@types';
+import {
+  HorizontalType,
+  LayoutMode,
+  MangaPage,
+  RootStackParamList,
+} from '../../@types';
 import {api, utils} from '../../utils';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {useQuery} from '@tanstack/react-query';
@@ -53,7 +58,10 @@ const ReaderScreen: React.FC<Props> = ({route, navigation}) => {
     controls => !controls,
     true,
   );
-  const [ltr, setLtr] = React.useState(true);
+  const [horizontalType, setHorizontalType] = React.useState<HorizontalType>(
+    HorizontalType.disabled,
+  );
+
   const [layoutMode, setLayoutMode] = React.useState<LayoutMode>(
     LayoutMode.Horizontal,
   );
@@ -115,8 +123,9 @@ const ReaderScreen: React.FC<Props> = ({route, navigation}) => {
           data={data}
           flatListRef={flatListRef}
           layoutMode={layoutMode}
-          ltr={ltr}
+          horizontalType={horizontalType}
           toggleControls={toggleControls}
+          inverted={horizontalType === HorizontalType.rtl}
         />
 
         <TopMetaInfo show={hideControls}>
@@ -152,7 +161,11 @@ const ReaderScreen: React.FC<Props> = ({route, navigation}) => {
             <PangeChangeContainer>
               <Reader.PageChange
                 current_page={currentPage}
-                icon_name={ltr ? 'angle-left' : 'angle-up'}
+                icon_name={
+                  layoutMode === LayoutMode.Horizontal
+                    ? 'angle-left'
+                    : 'angle-up'
+                }
                 page_change_amount={-1}
                 total_pages={pagesLength}
                 setCurrentPage={setCurrentPage}
@@ -161,11 +174,14 @@ const ReaderScreen: React.FC<Props> = ({route, navigation}) => {
                   if (currentPage === 1) return true;
                   return false;
                 }}
-                ltr={ltr}
               />
               <Reader.PageChange
                 current_page={currentPage}
-                icon_name={ltr ? 'angle-right' : 'angle-down'}
+                icon_name={
+                  layoutMode === LayoutMode.Horizontal
+                    ? 'angle-right'
+                    : 'angle-down'
+                }
                 page_change_amount={1}
                 total_pages={pagesLength}
                 setCurrentPage={setCurrentPage}
@@ -174,13 +190,18 @@ const ReaderScreen: React.FC<Props> = ({route, navigation}) => {
                   if (currentPage === pagesLength) return true;
                   return false;
                 }}
-                ltr={ltr}
               />
             </PangeChangeContainer>
           </UnderSLider>
         </BottomContainer>
       </Container>
-      <Reader.BottomSheet bottomSheetRef={bottomSheetRef} />
+      <Reader.BottomSheet
+        bottomSheetRef={bottomSheetRef}
+        layoutMode={layoutMode}
+        setLayoutMode={setLayoutMode}
+        horizontalType={horizontalType}
+        setHorizontalType={setHorizontalType}
+      />
     </>
   );
 };

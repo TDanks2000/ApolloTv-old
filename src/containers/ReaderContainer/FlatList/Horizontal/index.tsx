@@ -7,7 +7,6 @@ import {Pressable} from 'react-native';
 const HorizontalFlatList: React.FC<ReaderFlatListProps> = ({
   flatListRef,
   currentPage,
-  ltr,
   setCurrentPage,
   toggleControls,
   data,
@@ -60,6 +59,8 @@ const HorizontalFlatList: React.FC<ReaderFlatListProps> = ({
 
   return (
     <FlatList
+      horizontal={true}
+      inverted={inverted}
       style={{
         position: 'relative',
         zIndex: 2,
@@ -72,7 +73,6 @@ const HorizontalFlatList: React.FC<ReaderFlatListProps> = ({
       ref={flatListRef}
       showsHorizontalScrollIndicator={false}
       showsVerticalScrollIndicator={false}
-      horizontal={ltr}
       pagingEnabled={true}
       data={data}
       renderItem={({item}) => renderItem(item)}

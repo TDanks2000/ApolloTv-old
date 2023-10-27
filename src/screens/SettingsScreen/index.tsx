@@ -14,9 +14,8 @@ import {
   VersionNumber,
 } from './SettingsScreen.styles';
 import {Settings} from '../../components';
-import {GenericContext, SettingsContext} from '../../contexts';
+import {SettingsContext} from '../../contexts';
 
-import Toast from 'react-native-toast-message';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {RootStackParamList} from '../../@types';
 import {Seperator} from '../../styles/settings.shared.styles';

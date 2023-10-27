@@ -1,10 +1,5 @@
 import React from 'react';
-import {
-  EpisodeInfo,
-  Quality,
-  mangaSourceProviders,
-  sourceProviders,
-} from '../@types';
+import {Quality, mangaSourceProviders, sourceProviders} from '../@types';
 import {settingsHelper, storage} from '../utils';
 
 // Define a type for the 'on' and 'off' values.

@@ -14,7 +14,6 @@ import VerticalFlatList from './Vertical';
 import MultipleFlatList from './Multiple';
 
 const FlatListContainer: React.FC<ReaderFlatListProps> = ({
-  ltr,
   inverted,
   layoutMode,
   data,
@@ -22,11 +21,12 @@ const FlatListContainer: React.FC<ReaderFlatListProps> = ({
   setCurrentPage,
   flatListRef,
   toggleControls,
+  horizontalType,
 }) => {
   if (layoutMode === LayoutMode.Horizontal) {
     return (
       <HorizontalFlatList
-        ltr={ltr}
+        horizontalType={horizontalType}
         inverted={inverted}
         layoutMode={layoutMode}
         data={data}
@@ -40,7 +40,7 @@ const FlatListContainer: React.FC<ReaderFlatListProps> = ({
   if (layoutMode === LayoutMode.Vertical) {
     return (
       <VerticalFlatList
-        ltr={ltr}
+        horizontalType={horizontalType}
         inverted={inverted}
         layoutMode={layoutMode}
         data={data}
@@ -54,7 +54,7 @@ const FlatListContainer: React.FC<ReaderFlatListProps> = ({
   if (layoutMode === LayoutMode.Multiple) {
     return (
       <MultipleFlatList
-        ltr={ltr}
+        horizontalType={horizontalType}
         inverted={inverted}
         layoutMode={layoutMode}
         data={data}

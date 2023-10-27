@@ -8,7 +8,7 @@ export const Container = styled.Pressable`
 `;
 
 export const SettingTitle = styled(Text)`
-  font-size: 18px;
+  font-size: 17px;
 `;
 
 export const PillsContainer = styled.View`
