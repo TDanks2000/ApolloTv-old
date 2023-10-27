@@ -39,7 +39,7 @@ const ReadingMode: React.FC<Props> = ({
           onPress={() => {
             onPress(LayoutMode.Horizontal);
           }}>
-          <PillText>Default</PillText>
+          <PillText>Horizontal</PillText>
         </PillContainer>
         <PillContainer
           active={
