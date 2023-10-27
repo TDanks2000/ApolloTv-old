@@ -30,6 +30,10 @@ const CardContainer = ({title, data}: Props) => {
 
   if (!data) return null;
 
+  data = data.filter(item => !['novel'].includes(item?.type?.toLowerCase()));
+
+  if (!data?.length) return null;
+
   return (
     <>
       <SectionTitleContainer>

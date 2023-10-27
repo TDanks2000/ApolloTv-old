@@ -52,6 +52,7 @@ export type CardProps = {
     mediaId: number;
   };
   status?: MediaStatus;
+  media_type?: 'ANIME' | 'MANGA';
 };
 
 export type MangaCardProps = {

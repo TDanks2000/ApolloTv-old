@@ -14,6 +14,7 @@ import {DescriptionComponent} from '../../components/Shared';
 
 import {Wrapper} from '../InfoScreen/InfoScreen.styles';
 import {SettingsContext} from '../../contexts';
+import {CardContainer} from '../../containers';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'MangaInfo'>;
 
@@ -69,6 +70,8 @@ const MangaInfoScreen: React.FC<Props> = ({route, navigation}) => {
     setRefreshing(true);
   };
 
+  const data = resData?.mangaData;
+
   return (
     <SafeAreaView>
       <ScrollView
@@ -99,6 +102,20 @@ const MangaInfoScreen: React.FC<Props> = ({route, navigation}) => {
             characters={resData?.mangaData?.characters}
           />
         </Wrapper>
+
+        {data?.relations?.length > 0 ? (
+          <Wrapper>
+            <CardContainer title="Related" data={data?.relations} />
+          </Wrapper>
+        ) : null}
+        {data?.recommendations?.length > 0 ? (
+          <Wrapper>
+            <CardContainer
+              title="You may also like"
+              data={data?.recommendations}
+            />
+          </Wrapper>
+        ) : null}
       </ScrollView>
 
       <ChaptersModal
