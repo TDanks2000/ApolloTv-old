@@ -124,7 +124,7 @@ const styles = StyleSheet.create({
   },
   indicator: {
     position: 'absolute',
-    width: 12,
+    width: 13,
     height: 4,
     backgroundColor: '#999',
   },

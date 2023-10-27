@@ -24,7 +24,7 @@ type Props = {
 };
 
 export const PillContainer = styled.TouchableOpacity<Props>`
-  padding: 7px 12px;
+  padding: 6px 10px;
   border-radius: 8px;
   background-color: ${({active, theme}) =>
     active ? rgba(theme.text.secondary, 0.5) : 'transparent'};
