@@ -5,24 +5,24 @@ import TapGesture from '../TapGesture';
 type Props = {
   handleInactive: () => void;
   currentTime: number;
-  isBuffering: boolean;
-  videoRef: any;
+  buffering: boolean;
 
   shouldShow: boolean;
   time: number;
+  seekTo: (time: number) => void;
 };
 
 const ForwardGesture: React.FC<Props> = ({
   handleInactive,
   currentTime,
-  isBuffering,
-  videoRef,
   shouldShow,
   time,
+  seekTo,
+  buffering,
 }) => {
   const onGesture = () => {
-    if (isBuffering) return;
-    videoRef.current.seek(currentTime + time);
+    if (buffering) return;
+    seekTo(currentTime + time);
   };
 
   if (!shouldShow) return null;

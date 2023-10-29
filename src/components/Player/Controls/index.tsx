@@ -49,60 +49,66 @@ import {SettingsContext} from '../../../contexts';
 import Skip85 from './Skip85';
 
 interface Props {
-  paused: boolean;
-  setPaused: (paused: boolean) => void;
-  videoRef: any;
+  // time state props
   currentTime: number;
-  setCurrentTime: (number: number) => void;
   duration: number;
-  isBuffering: boolean;
+  paused: boolean;
 
+  // seek to prop
+  seekTo: (time: number) => void;
+
+  // anime info prop
+  anime_info: AnimeInfo;
+
+  // episode info prop
+  episode_info: EpisodeInfo;
+
+  // episodes array prop
+  episodes: EpisodeInfo[];
+
+  // resize mode state props
   resizeMode: ResizeOptions;
   setResizeMode: (resizeMode: ResizeOptions) => void;
 
-  updateDB: UPDATEDB;
-
-  episode_info: EpisodeInfo;
-  anime_info: AnimeInfo;
-
+  // quality props
   selectedQuality: SourceVideoOptions;
   setSelectedQuality: (quality: SourceVideoOptions) => void;
   sources: SourceVideoOptions[];
-  checkIfWatched: () => void;
 
-  skipTimes: {opening?: Aniskip; ending?: Aniskip} | undefined;
-  skipFunctions: {
-    skipIntro: () => void;
-    skipOutro: () => void;
-  };
-  episodes: EpisodeInfo[];
+  resetControlTimeout: () => void;
+  showControls: boolean;
+  onScreenTouch: () => void;
+
+  togglePlayPause: () => void;
+  setPaused: (paused: boolean) => void;
+  buffering: boolean;
+  setScrubbing: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const PlayerControls = ({
-  paused,
-  setPaused,
-  videoRef,
+  anime_info,
+  episode_info,
+  episodes,
+  resizeMode,
+  selectedQuality,
+  setResizeMode,
+  setSelectedQuality,
+  sources,
+  resetControlTimeout,
+  showControls,
+  onScreenTouch,
   currentTime,
   duration,
-  episode_info,
-  anime_info,
-  selectedQuality,
-  sources,
-  setSelectedQuality,
-  checkIfWatched,
-  isBuffering,
-  skipFunctions,
-  skipTimes,
-  episodes,
-  updateDB,
-  setCurrentTime,
-  resizeMode,
-  setResizeMode,
+  seekTo,
+  togglePlayPause,
+  paused,
+  setPaused,
+  buffering,
+  setScrubbing,
 }: Props) => {
   const actualTitle = utils.getTitle(anime_info.title);
 
   const [spinValue] = useState(new Animated.Value(0));
-  const [hideControls, setHideControls] = useState(false);
   const [openSettings, setOpenSettings] = useState(false);
   const [openEpisodes, setOpenEpisodes] = useState(false);
   const [isAtIntro, setIsAtIntro] = useState(false);
@@ -131,22 +137,22 @@ const PlayerControls = ({
     outputRange: !spinState ? ['180deg', '0deg'] : ['0deg', '180deg'],
   });
 
-  let hideControlsDuration: number = 7000;
-  let hideControlsTimeout: NodeJS.Timeout;
+  // let hideControlsDuration: number = 7000;
+  // let hideControlsTimeout: NodeJS.Timeout;
 
-  const handleInactive = (wantUpdate = true) => {
-    clearTimeout(hideControlsTimeout);
-    setHideControls(!hideControls);
+  // const handleInactive = (wantUpdate = true) => {
+  //   clearTimeout(hideControlsTimeout);
+  //   setHideControls(!hideControls);
 
-    hideControlsTimeout = setTimeout(() => {
-      if (wantUpdate)
-        updateDB(currentTime, duration, parseInt(anime_info.id), episode_info);
-      if (paused) return;
-      setHideControls(true);
-    }, hideControlsDuration);
+  //   hideControlsTimeout = setTimeout(() => {
+  //     if (wantUpdate)
+  //       updateDB(currentTime, duration, parseInt(anime_info.id), episode_info);
+  //     if (paused) return;
+  //     setHideControls(true);
+  //   }, hideControlsDuration);
 
-    if (spinState) startSpinAnimation();
-  };
+  //   if (spinState) startSpinAnimation();
+  // };
 
   const isQualityANumber = (quality: any) => {
     return parseInt(quality) > 1;
@@ -170,81 +176,72 @@ const PlayerControls = ({
             isM3U8: source?.isM3U8,
           });
         }
-        handleInactive(false);
-        setTimeout(checkIfWatched, 500);
+        // handleInactive(false);
+        // setTimeout(checkIfWatched, 500);
       },
     })),
   };
 
-  const timeToCheckBefore = 5;
-  const checkPosition = (
-    startTime: number,
-    endTime: number,
-    positionTime: number,
-  ): boolean => {
-    return positionTime >= startTime && positionTime <= endTime;
-  };
+  // const timeToCheckBefore = 5;
+  // const checkPosition = (
+  //   startTime: number,
+  //   endTime: number,
+  //   positionTime: number,
+  // ): boolean => {
+  //   return positionTime >= startTime && positionTime <= endTime;
+  // };
 
-  const handleSkipTimeCheck = () => {
-    // if (skipTimes?.opening) {
-    //   const openingStartTime =
-    //     skipTimes.opening.interval.startTime - timeToCheckBefore;
-    //   const openingEndTime = skipTimes.opening?.interval?.endTime;
-    //   setIsAtIntro(
-    //     checkPosition(openingStartTime, openingEndTime, currentTime) &&
-    //       !isAtIntro,
-    //   );
-    //   setIsAtOutro(!isAtIntro && currentTime >= openingEndTime);
-    // }
-    // if (skipTimes?.ending) {
-    //   const endingStartTime =
-    //     skipTimes.ending.interval.startTime - timeToCheckBefore;
-    //   const endingEndTime = skipTimes.ending?.interval?.endTime;
-    //   // setIsAtOutro(
-    //   //   checkPosition(endingStartTime, endingEndTime, currentTime) &&
-    //   //     !isAtOutro,
-    //   // );
-    //   // setIsAtIntro(!isAtOutro && currentTime >= endingEndTime);
-    // }
-  };
+  // const handleSkipTimeCheck = () => {
+  //   // if (skipTimes?.opening) {
+  //   //   const openingStartTime =
+  //   //     skipTimes.opening.interval.startTime - timeToCheckBefore;
+  //   //   const openingEndTime = skipTimes.opening?.interval?.endTime;
+  //   //   setIsAtIntro(
+  //   //     checkPosition(openingStartTime, openingEndTime, currentTime) &&
+  //   //       !isAtIntro,
+  //   //   );
+  //   //   setIsAtOutro(!isAtIntro && currentTime >= openingEndTime);
+  //   // }
+  //   // if (skipTimes?.ending) {
+  //   //   const endingStartTime =
+  //   //     skipTimes.ending.interval.startTime - timeToCheckBefore;
+  //   //   const endingEndTime = skipTimes.ending?.interval?.endTime;
+  //   //   // setIsAtOutro(
+  //   //   //   checkPosition(endingStartTime, endingEndTime, currentTime) &&
+  //   //   //     !isAtOutro,
+  //   //   // );
+  //   //   // setIsAtIntro(!isAtOutro && currentTime >= endingEndTime);
+  //   // }
+  // };
 
-  useEffect(() => {
-    handleSkipTimeCheck();
-  }, [currentTime]);
+  // useEffect(() => {
+  //   handleSkipTimeCheck();
+  // }, [currentTime]);
 
   return (
     <Wrapper>
       <RewindGesture
-        handleInactive={handleInactive}
-        videoRef={videoRef}
+        handleInactive={onScreenTouch}
         currentTime={currentTime}
-        isBuffering={isBuffering}
-        shouldShow={hideControls}
+        buffering={buffering}
+        shouldShow={showControls}
         time={skipBehindTime ?? 30}
+        seekTo={seekTo}
       />
 
       <ForwardGesture
-        handleInactive={handleInactive}
-        videoRef={videoRef}
+        handleInactive={onScreenTouch}
         currentTime={currentTime}
-        isBuffering={isBuffering}
-        shouldShow={hideControls}
+        buffering={buffering}
+        shouldShow={showControls}
         time={skipForwardTime ?? 30}
+        seekTo={seekTo}
       />
 
-      <Container shouldShow={hideControls}>
-        <ClickToDismiss onPress={() => handleInactive()} />
-
-        <Skip85
-          videoRef={videoRef}
-          opSkipTimes={skipTimes?.opening}
-          edSkipTimes={skipTimes?.ending}
-          currentTime={currentTime}
-          duration={duration}
-        />
-
+      <Container shouldShow={showControls}>
+        <ClickToDismiss onPress={() => onScreenTouch()} />
         {/* @ts-ignore */}
-        <Top hidden={hideControls}>
+        <Top hidden={showControls}>
           <BackButtonComponent isModal={false} />
           <TopTextContainer>
             <TopText numberOfLines={1} weight="bold">
@@ -291,56 +288,39 @@ const PlayerControls = ({
             </View>
           </TopRight>
         </Top>
-        <Middle hidden={hideControls}>
+        <Middle hidden={showControls}>
           <SkipTo
             icon="backward"
             duration={parseInt(`-${skipBehindTime}`) ?? -30}
-            videoRef={videoRef}
             currentTime={currentTime}
-            isBuffering={isBuffering}
+            seekTo={seekTo}
+            buffering={buffering}
           />
           <PlayPause
             paused={paused}
-            setPaused={setPaused}
-            handleInactive={handleInactive}
-            isBuffering={isBuffering}
+            togglePlayPause={togglePlayPause}
+            handleInactive={onScreenTouch}
+            buffering={buffering}
           />
           <SkipTo
             icon="forward"
             duration={skipForwardTime ?? 30}
-            videoRef={videoRef}
             currentTime={currentTime}
-            isBuffering={isBuffering}
+            seekTo={seekTo}
+            buffering={buffering}
           />
         </Middle>
         {/* @ts-ignore */}
-        <Bottom hidden={hideControls}>
+        <Bottom hidden={showControls}>
           <ControlsSlider
             currentTime={currentTime}
-            setCurrentTime={setCurrentTime}
             duration={duration}
             setPaused={setPaused}
-            videoRef={videoRef}
+            seekTo={seekTo}
+            setScrubbing={setScrubbing}
           />
         </Bottom>
       </Container>
-      {/* {isAtOutro ? (
-        <SkipIntroOutro
-          isHidden={hideControls}
-          duration={5000}
-          title="Skip Outro"
-          type="skip_outro"
-          skipFunctions={skipFunctions}
-        />
-      ) : isAtIntro ? (
-        <SkipIntroOutro
-          isHidden={hideControls}
-          duration={5000}
-          title="Skip Intro"
-          type="skip_intro"
-          skipFunctions={skipFunctions}
-        />
-      ) : null} */}
     </Wrapper>
   );
 };

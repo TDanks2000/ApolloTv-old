@@ -5,26 +5,20 @@ interface Props {
   icon: string;
   currentTime: number;
   duration: number;
-  isBuffering: boolean;
-
-  videoRef: any;
+  seekTo: (time: number) => void;
+  buffering: boolean;
 }
 
-const SkipTo = ({
-  icon,
-  duration,
-  videoRef,
-  currentTime,
-  isBuffering,
-}: Props) => {
-  const [shouldDebounce, setShouldDebounce] = React.useState<boolean>(false);
+const SkipTo = ({icon, duration, currentTime, seekTo, buffering}: Props) => {
+  // const [shouldDebounce, setShouldDebounce] = React.useState<boolean>(false);
 
   const onPress = () => {
-    videoRef.current.seek(currentTime + duration);
+    if (buffering) return;
+    seekTo(currentTime + duration);
   };
 
   return (
-    <Button onPress={onPress} disabled={isBuffering}>
+    <Button onPress={onPress}>
       <ButtonIcon name={icon} />
     </Button>
   );

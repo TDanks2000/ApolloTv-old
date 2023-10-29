@@ -124,7 +124,7 @@ const VideoPlayerScreen: React.FC<Props> = ({route}): JSX.Element => {
     }, [episode_id, anime_info]),
   );
 
-  const {setShowNavBar}: any = useContext(NavigationContext);
+  const {setShowNavBar} = useContext(NavigationContext);
 
   const createAndUpdateDB = async () => {
     await episodeSQLHelper.createTable();

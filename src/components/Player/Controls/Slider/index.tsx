@@ -14,16 +14,17 @@ interface Props {
   currentTime: number;
   duration: number;
   setPaused: (paused: boolean) => void;
-  setCurrentTime: (number: number) => void;
-  videoRef: React.RefObject<Video>;
+  seekTo: (number: number) => void;
+
+  setScrubbing: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const ControlsSlider = ({
   currentTime,
   duration,
   setPaused,
-  videoRef,
-  setCurrentTime,
+  seekTo,
+  setScrubbing,
 }: Props) => {
   const [timeLeft, toggleTimeLeft] = React.useReducer(
     showTimeLeft => !showTimeLeft,
@@ -47,11 +48,13 @@ const ControlsSlider = ({
 
   const onSlidingStart = () => {
     setPaused(true);
+    setScrubbing(true);
   };
 
   const onSlidingComplete = async (value: number) => {
-    await videoRef.current!.seek(value, 0);
+    seekTo(value);
     setPaused(false);
+    setScrubbing(false);
   };
 
   return (
