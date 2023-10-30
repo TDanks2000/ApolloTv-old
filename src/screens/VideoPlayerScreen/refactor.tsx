@@ -1,5 +1,6 @@
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {
+  EpisodeInfo,
   ResizeOptions,
   RootStackParamList,
   SourceVideoOptions,
@@ -22,14 +23,7 @@ import Video, {
   OnProgressData,
   OnSeekData,
 } from 'react-native-video';
-import {
-  PanResponder,
-  PanResponderInstance,
-  PanResponderStatic,
-  Pressable,
-  StatusBar,
-} from 'react-native';
-import {Container} from './VideoPlayerScreen.styles';
+import {PanResponder, PanResponderStatic, StatusBar} from 'react-native';
 import {helpers} from '../../utils';
 import {LANDSCAPE, OrientationLocker} from 'react-native-orientation-locker';
 import {MiddleOfScreenLoadingComponent, Player} from '../../components';
@@ -52,6 +46,7 @@ interface IPlayer {
   volumePanResponder: React.MutableRefObject<PanResponderStatic>;
   seekPanResponder: React.MutableRefObject<PanResponderStatic>;
   ref: React.RefObject<Video>;
+  sources: SourceVideoOptions[];
   [x: string]: any;
 }
 
@@ -60,8 +55,6 @@ const VideoPlayerScreen: React.FC<Props> = ({route}) => {
   const navigation = useNavigation<StackNavigation>();
   // access token
   const {accessToken} = useAccessToken();
-  // anilist wrapper
-  const anilist = new Anilist(accessToken);
 
   // Settings
   const {
@@ -92,6 +85,9 @@ const VideoPlayerScreen: React.FC<Props> = ({route}) => {
     episodes,
   } = route.params;
 
+  // set episode id to a state so i can update it forcing the next episode sources to be refetched
+  const [episodeId, setEpisodeId] = useState<string>(episode_id);
+
   // fetch video links
   const {
     isPending,
@@ -100,13 +96,9 @@ const VideoPlayerScreen: React.FC<Props> = ({route}) => {
     error,
     refetch: refetchVideoData,
   } = useQuery({
-    queryKey: ['VideoPlayer', episode_id, sourceProvider],
+    queryKey: ['VideoPlayer', episodeId, sourceProvider],
     queryFn: () =>
-      fetcher(
-        episode_id,
-        sourceProvider ?? 'gogoanime',
-        preferedVoice ?? 'sub',
-      ),
+      fetcher(episodeId, sourceProvider ?? 'gogoanime', preferedVoice ?? 'sub'),
   });
 
   // skip Data
@@ -115,15 +107,15 @@ const VideoPlayerScreen: React.FC<Props> = ({route}) => {
 
   useFocusEffect(
     useCallback(() => {
-      fetchAniskip(anime_info, episode_info, setSkipData, setSkipDataPending);
-    }, [episode_id, anime_info]),
+      fetchAniskip(anime_info, episodeInfo, setSkipData, setSkipDataPending);
+    }, [episodeId, anime_info]),
   );
 
   // State variables for video playback controls
   const [paused, setPaused] = useState(false); // State for video pause status
   const [muted, setMuted] = useState(false); // State for video mute status
   const [volume, setVolume] = useState(100); // State for video volume level
-  const [rate, setRate] = useState(0); // State for video playback rate
+  const [rate, setRate] = useState(1.0); // State for video playback rate
 
   // State variables for skipping intro and ending
   const [hasSkipedIntro, setHasSkippedIntro] = useState<boolean>(false); // State for whether the intro has been skipped
@@ -145,6 +137,11 @@ const VideoPlayerScreen: React.FC<Props> = ({route}) => {
   // Other state variables related to video player UI and source selection
   const [showControls, setShowControls] = useState(false); // State for whether to show video controls
   const [resizeMode, setResizeMode] = useState<ResizeOptions>('contain'); // Resize mode of the video player
+
+  const [episodeInfo, setEpisodeInfo] = useState<EpisodeInfo>(episode_info); // set episode info to a state so i can update it forcing a ui update
+  const [nextEpisodeId, setNextEpisodeId] = useState<string | undefined>(
+    next_episode_id,
+  ); // set next episode id to a state so i can easily update it
   const [selectedSource, setSelectedSource] = useState<
     SourceVideoOptions | undefined
   >(undefined); // Selected source of the video player
@@ -159,7 +156,7 @@ const VideoPlayerScreen: React.FC<Props> = ({route}) => {
     tapActionTimeout: null,
     ref: useRef<Video>(null),
     scrubbingTimeStep: scrubbing,
-    // tapAnywhereToPause,
+    sources: data.sources,
   };
 
   // check if watched
@@ -170,7 +167,7 @@ const VideoPlayerScreen: React.FC<Props> = ({route}) => {
     );
     if (checkInDb?.length < 1) return;
     const findEpisode = checkInDb.find(
-      (episode: any) => episode.episode_number === episode_info.episode_number,
+      (episode: any) => episode.episode_number === episodeInfo.episode_number,
     );
 
     if (findEpisode && findEpisode?.watched_percentage) {
@@ -203,14 +200,14 @@ const VideoPlayerScreen: React.FC<Props> = ({route}) => {
     if (!scrubbing) {
       setCurrentTime(data.currentTime);
 
-      if (duration) {
+      if (duration && !loading) {
         const hasJustWatched = (data?.currentTime / duration) * 100;
 
         if (hasJustWatched > watchTimeBeforeSync) {
           if (!watchedAnilist && privateMode === 'off') {
             updateAnilist(
               anime_info,
-              episode_info,
+              episodeInfo,
               watchedAnilist,
               setWatchedAnilist,
               privateMode,
@@ -222,7 +219,7 @@ const VideoPlayerScreen: React.FC<Props> = ({route}) => {
               data?.currentTime ?? currentTime,
               duration,
               parseInt(anime_info.id),
-              episode_info,
+              episodeInfo,
               hasJustWatched,
             );
             setWatched(true);
@@ -241,23 +238,59 @@ const VideoPlayerScreen: React.FC<Props> = ({route}) => {
         currentTime,
         duration,
         parseInt(anime_info.id),
-        episode_info,
+        episodeInfo,
         data.currentTime,
       );
     }
   };
 
   // on end event
-  const onEnd = () => {};
+  const onEnd = () => {
+    if (!watched) {
+      updateDB(currentTime, duration, parseInt(anime_info.id), episodeInfo);
+    }
+    if (autoNextEpisode === 'off' || !autoNextEpisode) return;
+    const current_episode = episodeInfo.episode_number!;
+    const next_episode_number = current_episode + 1;
+    const next_episode =
+      episodes.find(episode => episode.number === next_episode_number) ?? null;
+    const next_next_episode =
+      episodes.find(episode => episode.number === next_episode_number + 1) ??
+      null;
+
+    if (!next_episode) return;
+    setEpisodeId(next_episode.id);
+    setEpisodeInfo(next_episode);
+    setNextEpisodeId(next_next_episode ? next_next_episode.id : undefined);
+    setLoading(true);
+  };
 
   // error event
   const onError = (err: LoadError) => {
     if (setShowNavBar) setShowNavBar(true);
+
+    const errorString = err.error.errorString;
+
+    Toast.show({
+      type: 'error',
+      text1: 'Error playing video',
+      text2: !errorString
+        ? 'please try again later'
+        : `${errorString
+            ?.split(':')[1]
+            ?.replaceAll('_', ' ')
+            ?.replace(' ', '')}`,
+    });
   };
 
   // on buffering event
   const onBuffer = (data: OnBufferData) => {
     setBuffering(data.isBuffering);
+  };
+
+  // callback function that is called when the audio is about to become 'noisy' due to a change in audio outputs.
+  const onAudioBecomingNoisy = () => {
+    setPaused(true);
   };
 
   // on screen touch event
@@ -266,13 +299,9 @@ const VideoPlayerScreen: React.FC<Props> = ({route}) => {
     setShowControls(prev => !prev);
 
     player.controlTimeout = setTimeout(() => {
-      // if (wantUpdate)
-      //   updateDB(currentTime, duration, parseInt(anime_info.id), episode_info);
       if (paused) return;
       setShowControls(true);
     }, player.controlTimeoutTime);
-
-    // if (spinState) startSpinAnimation();
   };
 
   // set control timeout
@@ -319,7 +348,7 @@ const VideoPlayerScreen: React.FC<Props> = ({route}) => {
       currentTime,
       duration,
       parseInt(anime_info.id),
-      episode_info,
+      episodeInfo,
       currentTime,
     );
   };
@@ -379,13 +408,13 @@ const VideoPlayerScreen: React.FC<Props> = ({route}) => {
   // referer
   const referer = useMemo(() => data?.headers?.Referer ?? undefined, [data]);
 
-  // sources
-  const sources: SourceVideoOptions[] = data?.sources ?? data;
-
   // find the highest quality or prefered quality (if setting is set)
-  const findHighestQuality = helpers.findQuality(sources, preferedQuality);
+  const findHighestQuality = helpers.findQuality(
+    player.sources,
+    preferedQuality,
+  );
 
-  // focus effect that runs when any of these [data, isError, error, duration, episode_info] changes
+  // focus effect that runs when any of these [data, isError, error, duration, episodeInfo] changes
   useFocusEffect(
     useCallback(() => {
       if (setShowNavBar) setShowNavBar(false);
@@ -395,18 +424,18 @@ const VideoPlayerScreen: React.FC<Props> = ({route}) => {
       if (isError && setShowNavBar) {
         setShowNavBar(true);
       }
-    }, [data, isError, error, duration, episode_info]),
+    }, [data, isError, error, duration, episodeInfo]),
   );
 
-  // focus effect that runs when any of these [data, isError, error, currentTime, duration, episode_info] changes
+  // focus effect that runs when any of these [data, isError, error, currentTime, duration, episodeInfo] changes
   useFocusEffect(
     useCallback(() => {
       if (!data) return;
-      createAndUpdateDB(anime_info, episode_info, next_episode_id);
-      checkIfWatchedFromDB(anime_info, episode_info, setWatched);
+      createAndUpdateDB(anime_info, episodeInfo, nextEpisodeId);
+      checkIfWatchedFromDB(anime_info, episodeInfo, setWatched);
 
       autoSkip();
-    }, [data, isError, error, currentTime, duration, episode_info]),
+    }, [data, isError, error, currentTime, duration, episodeInfo]),
   );
 
   // data is pending from the useQuery (getting the srcs)
@@ -430,13 +459,13 @@ const VideoPlayerScreen: React.FC<Props> = ({route}) => {
       <StatusBar hidden={true} />
       <Player.PlayerControls
         anime_info={anime_info}
-        episode_info={episode_info}
+        episode_info={episodeInfo}
         episodes={episodes}
         resizeMode={resizeMode}
         setResizeMode={setResizeMode}
         selectedQuality={selectedSource!}
         setSelectedQuality={setSelectedSource}
-        sources={sources}
+        sources={player.sources}
         resetControlTimeout={resetControlTimeout}
         showControls={showControls}
         onScreenTouch={onScreenTouch}
@@ -465,6 +494,7 @@ const VideoPlayerScreen: React.FC<Props> = ({route}) => {
         onEnd={onEnd}
         onSeek={onSeek}
         onBuffer={onBuffer}
+        onAudioBecomingNoisy={onAudioBecomingNoisy}
         source={{
           uri: selectedSource.url,
           headers: {
