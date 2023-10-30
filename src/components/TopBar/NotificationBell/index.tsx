@@ -19,7 +19,7 @@ const NotificationBell: React.FC<Props> = ({loadingComp = false}) => {
 
   return (
     <>
-      <IconItemContainer onPress={onPress}>
+      <IconItemContainer onPress={onPress} disabled>
         <IconItem name="bell" loading={loadingComp} />
         {/* <NotificationStatus /> */}
       </IconItemContainer>
