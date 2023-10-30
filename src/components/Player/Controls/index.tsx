@@ -83,6 +83,9 @@ interface Props {
   setPaused: (paused: boolean) => void;
   buffering: boolean;
   setScrubbing: React.Dispatch<React.SetStateAction<boolean>>;
+  skipPart: (part: 'opening' | 'ending', wantToUpdate?: boolean) => void;
+
+  skipTimes: {opening?: Aniskip; ending?: Aniskip} | undefined;
 }
 
 const PlayerControls = ({
@@ -105,15 +108,14 @@ const PlayerControls = ({
   setPaused,
   buffering,
   setScrubbing,
+  skipPart,
+  skipTimes,
 }: Props) => {
   const actualTitle = utils.getTitle(anime_info.title);
 
   const [spinValue] = useState(new Animated.Value(0));
   const [openSettings, setOpenSettings] = useState(false);
   const [openEpisodes, setOpenEpisodes] = useState(false);
-  const [isAtIntro, setIsAtIntro] = useState(false);
-  const [isAtOutro, setIsAtOutro] = useState(false);
-
   const [spinState, setSpinState] = React.useState<boolean>(false);
 
   const {skipBehindTime, skipForwardTime} = React.useContext(SettingsContext);
@@ -240,6 +242,16 @@ const PlayerControls = ({
 
       <Container shouldShow={showControls}>
         <ClickToDismiss onPress={() => onScreenTouch()} />
+
+        <Skip85
+          opSkipTimes={skipTimes?.opening}
+          edSkipTimes={skipTimes?.ending}
+          currentTime={currentTime}
+          duration={duration}
+          seekTo={seekTo}
+          skipPart={skipPart}
+        />
+
         {/* @ts-ignore */}
         <Top hidden={showControls}>
           <BackButtonComponent isModal={false} />

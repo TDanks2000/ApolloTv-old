@@ -12,7 +12,7 @@ import {
   useAccessToken,
 } from '../../contexts';
 import {Anilist} from '@tdanks2000/anilist-wrapper';
-import {fetcher} from './helpers/fetcher';
+import {fetchAniskip, fetcher} from './helpers/fetcher';
 import {useQuery} from '@tanstack/react-query';
 import {useCallback, useContext, useMemo, useRef, useState} from 'react';
 import Video, {
@@ -34,7 +34,14 @@ import {helpers} from '../../utils';
 import {LANDSCAPE, OrientationLocker} from 'react-native-orientation-locker';
 import {MiddleOfScreenLoadingComponent, Player} from '../../components';
 import Toast from 'react-native-toast-message';
-import {checkIfWatchedFromDB, createAndUpdateDB, updateDB} from './helpers';
+import {
+  checkIfWatchedFromDB,
+  createAndUpdateDB,
+  updateAnilist,
+  updateDB,
+  watchTimeBeforeSync,
+} from './helpers';
+import {episodeSQLHelper} from '../../utils/database';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'VideoPlayer'>;
 
@@ -102,34 +109,45 @@ const VideoPlayerScreen: React.FC<Props> = ({route}) => {
       ),
   });
 
-  // state
-  const [paused, setPaused] = useState(false);
-  const [muted, setMuted] = useState(false);
-  const [volume, setVolume] = useState(100);
-  const [rate, setRate] = useState(0);
+  // skip Data
+  const [skipData, setSkipData] = useState<any>();
+  const [skipDataPending, setSkipDataPending] = useState<boolean>(true);
 
-  // watched states
-  const [watched, setWatched] = useState(false);
+  useFocusEffect(
+    useCallback(() => {
+      fetchAniskip(anime_info, episode_info, setSkipData, setSkipDataPending);
+    }, [episode_id, anime_info]),
+  );
 
-  const [volumeTrackWidth, setVolumeTrackWidth] = useState(0);
-  const [volumeFillWidth, setVolumeFillWidth] = useState(0);
-  const [seekerFillWidth, setSeekerFillWidth] = useState(0);
-  const [volumePosition, setVolumePosition] = useState(0);
-  const [seekerPosition, setSeekerPosition] = useState(0);
-  const [volumeOffset, setVolumeOffset] = useState(0);
-  const [seekerOffset, setSeekerOffset] = useState(0);
-  const [seeking, setSeeking] = useState(false);
-  const [originallyPaused, setOriginallyPaused] = useState(false);
-  const [scrubbing, setScrubbing] = useState(false);
-  const [buffering, setBuffering] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [currentTime, setCurrentTime] = useState(0);
-  const [duration, setDuration] = useState(0);
-  const [showControls, setShowControls] = useState(false);
-  const [resizeMode, setResizeMode] = useState<ResizeOptions>('contain');
+  // State variables for video playback controls
+  const [paused, setPaused] = useState(false); // State for video pause status
+  const [muted, setMuted] = useState(false); // State for video mute status
+  const [volume, setVolume] = useState(100); // State for video volume level
+  const [rate, setRate] = useState(0); // State for video playback rate
+
+  // State variables for skipping intro and ending
+  const [hasSkipedIntro, setHasSkippedIntro] = useState<boolean>(false); // State for whether the intro has been skipped
+  const [hasSkipedEnding, setHasSkippedEnding] = useState<boolean>(false); // State for whether the ending has been skipped
+
+  // State variable for watched status
+  const [watched, setWatched] = useState<boolean>(false); // State for whether the video has been watched
+  const [watchedAnilist, setWatchedAnilist] = useState<boolean>(false); // State for whether the video has been marked as watched on anilist
+
+  // Other state variables related to video playback and UI controls
+  const [scrubbing, setScrubbing] = useState(false); // State for whether scrubbing is in progress
+  const [buffering, setBuffering] = useState(false); // State for whether buffering is in progress
+  const [loading, setLoading] = useState(false); // State for whether loading is in progress
+
+  // State variables related to video time and duration
+  const [currentTime, setCurrentTime] = useState(0); // Current time of the video playback
+  const [duration, setDuration] = useState(0); // Total duration of the video
+
+  // Other state variables related to video player UI and source selection
+  const [showControls, setShowControls] = useState(false); // State for whether to show video controls
+  const [resizeMode, setResizeMode] = useState<ResizeOptions>('contain'); // Resize mode of the video player
   const [selectedSource, setSelectedSource] = useState<
     SourceVideoOptions | undefined
-  >(undefined);
+  >(undefined); // Selected source of the video player
 
   // player
   const player: IPlayer = {
@@ -144,15 +162,36 @@ const VideoPlayerScreen: React.FC<Props> = ({route}) => {
     // tapAnywhereToPause,
   };
 
+  // check if watched
+  const checkIfWatched = async () => {
+    if (!duration) return;
+    const checkInDb: any = await episodeSQLHelper.selectFromAnimeId(
+      anime_info.id,
+    );
+    if (checkInDb?.length < 1) return;
+    const findEpisode = checkInDb.find(
+      (episode: any) => episode.episode_number === episode_info.episode_number,
+    );
+
+    if (findEpisode && findEpisode?.watched_percentage) {
+      const watchedSeekTo = (findEpisode.watched_percentage * duration) / 100;
+      seekTo(watchedSeekTo);
+    } else if (watched_percentage && watched_percentage > 0) {
+      const watchedSeekTo = (watched_percentage * duration) / 100;
+      seekTo(watchedSeekTo);
+    }
+  };
+
   // on load start event
   const onLoadStart = () => {
     setLoading(true);
   };
 
   // on load event
-  const onLoad = (data: OnLoadData) => {
+  const onLoad = async (data: OnLoadData) => {
     setDuration(data.duration);
     setLoading(false);
+    await checkIfWatched();
 
     if (showControls) {
       setControlTimeout();
@@ -163,6 +202,33 @@ const VideoPlayerScreen: React.FC<Props> = ({route}) => {
   const onProgress = (data: OnProgressData) => {
     if (!scrubbing) {
       setCurrentTime(data.currentTime);
+
+      if (duration) {
+        const hasJustWatched = (data?.currentTime / duration) * 100;
+
+        if (hasJustWatched > watchTimeBeforeSync) {
+          if (!watchedAnilist && privateMode === 'off') {
+            updateAnilist(
+              anime_info,
+              episode_info,
+              watchedAnilist,
+              setWatchedAnilist,
+              privateMode,
+              accessToken,
+            );
+          }
+          if (!watched) {
+            updateDB(
+              data?.currentTime ?? currentTime,
+              duration,
+              parseInt(anime_info.id),
+              episode_info,
+              hasJustWatched,
+            );
+            setWatched(true);
+          }
+        }
+      }
     }
   };
 
@@ -264,6 +330,45 @@ const VideoPlayerScreen: React.FC<Props> = ({route}) => {
     player.ref.current?.seek(time);
   };
 
+  // skip intro/outro
+  const skipPart = (
+    part: 'opening' | 'ending',
+    wantToUpdate: boolean = false,
+  ) => {
+    if (!skipData?.[part]?.interval) return;
+    const partStartTime = skipData[part].interval.startTime;
+    const isCurrentPosAtPart = currentTime >= partStartTime;
+
+    const partEndTime = skipData[part].interval.endTime;
+
+    if (isCurrentPosAtPart && wantToUpdate) {
+      if (part === 'opening' && !hasSkipedIntro) {
+        setHasSkippedIntro(true);
+        seekTo(partEndTime + 5);
+      } else if (part === 'ending' && !hasSkipedEnding) {
+        setHasSkippedEnding(true);
+        seekTo(partEndTime);
+      }
+    } else if (isCurrentPosAtPart && !wantToUpdate) {
+      seekTo(partEndTime);
+    }
+  };
+
+  // auto skip
+  const autoSkip = () => {
+    if (!currentTime || !duration) return;
+
+    if (skipDataPending) return;
+
+    if (skipData?.opening?.interval && autoSkipIntro === 'on') {
+      skipPart('opening', true);
+    }
+
+    if (skipData?.ending?.interval && autoSkipOutro === 'on') {
+      skipPart('ending', true);
+    }
+  };
+
   // user agent
   const USER_AGENT = useMemo(
     () =>
@@ -280,13 +385,12 @@ const VideoPlayerScreen: React.FC<Props> = ({route}) => {
   // find the highest quality or prefered quality (if setting is set)
   const findHighestQuality = helpers.findQuality(sources, preferedQuality);
 
+  // focus effect that runs when any of these [data, isError, error, duration, episode_info] changes
   useFocusEffect(
     useCallback(() => {
       if (setShowNavBar) setShowNavBar(false);
       if (!data) return;
       setSelectedSource(findHighestQuality);
-      // createAndUpdateDB();
-      // checkIfWatchedFromDB();
 
       if (isError && setShowNavBar) {
         setShowNavBar(true);
@@ -294,15 +398,21 @@ const VideoPlayerScreen: React.FC<Props> = ({route}) => {
     }, [data, isError, error, duration, episode_info]),
   );
 
+  // focus effect that runs when any of these [data, isError, error, currentTime, duration, episode_info] changes
   useFocusEffect(
     useCallback(() => {
       if (!data) return;
       createAndUpdateDB(anime_info, episode_info, next_episode_id);
       checkIfWatchedFromDB(anime_info, episode_info, setWatched);
+
+      autoSkip();
     }, [data, isError, error, currentTime, duration, episode_info]),
   );
 
+  // data is pending from the useQuery (getting the srcs)
   if (isPending) return <MiddleOfScreenLoadingComponent />;
+
+  // if the use query returns an error
   if (isError || error) {
     Toast.show({
       type: 'error',
@@ -311,6 +421,7 @@ const VideoPlayerScreen: React.FC<Props> = ({route}) => {
     });
   }
 
+  // if failed to select a source
   if (!selectedSource) return <MiddleOfScreenLoadingComponent />;
 
   return (
@@ -337,6 +448,8 @@ const VideoPlayerScreen: React.FC<Props> = ({route}) => {
         setPaused={setPaused}
         buffering={buffering}
         setScrubbing={setScrubbing}
+        skipPart={skipPart}
+        skipTimes={skipData}
       />
       <Video
         ref={player.ref}

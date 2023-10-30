@@ -7,33 +7,36 @@ import Video from 'react-native-video';
 import {Aniskip} from '../../../../@types';
 
 type Props = {
-  videoRef: React.RefObject<Video>;
   currentTime: number;
   duration: number;
   opSkipTimes: Aniskip | undefined;
   edSkipTimes: Aniskip | undefined;
+
+  skipPart: (part: 'opening' | 'ending', wantToUpdate?: boolean) => void;
+  seekTo: (time: number) => void;
 };
 
 const Skip85: React.FC<Props> = ({
-  videoRef,
   currentTime,
   duration,
   opSkipTimes,
   edSkipTimes,
+  skipPart,
+  seekTo,
 }) => {
   const {isMobile} = useBreakpoints();
 
   const [changeSkip, setChangeSkip] = useState<'op' | 'ed' | false>(false);
   const handleSkip = () => {
     if (changeSkip === 'op') {
-      videoRef.current!.seek(opSkipTimes?.interval?.endTime!);
+      skipPart('ending', true);
     }
 
     // if (changeSkip === 'ed') {
     //   videoRef.current!.seek(edSkipTimes?.interval?.endTime!, 0);
     // }
 
-    videoRef.current!.seek(currentTime + 85, 0);
+    seekTo(currentTime + 85);
   };
 
   // useEffect(() => {

@@ -48,12 +48,12 @@ export const checkIfWatchedFromDB = async (
 };
 
 export const updateAnilist = async (
-  privateMode: 'on' | 'off',
-  accessToken: string,
-  watchedAnilist: boolean,
-  setWatchedAnilist: (watched: boolean) => void,
   anime_info: AnimeInfo,
   episode_info: EpisodeInfo,
+  watchedAnilist: boolean,
+  setWatchedAnilist: (watched: boolean) => void,
+  privateMode: 'on' | 'off',
+  accessToken?: string,
 ) => {
   if (privateMode === 'on') return false;
   if (!accessToken || watchedAnilist) return false;

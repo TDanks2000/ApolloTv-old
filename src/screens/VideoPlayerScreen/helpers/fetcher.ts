@@ -1,6 +1,11 @@
 import {API_BASE} from '@env';
 import {api} from '../../../utils';
-import {sourceProviders} from '../../../@types';
+import {
+  AnimeInfo,
+  AniskipData,
+  EpisodeInfo,
+  sourceProviders,
+} from '../../../@types';
 
 export const fetcher = async (
   episode_id: string,
@@ -28,4 +33,40 @@ export const fetcher = async (
   } catch (error) {
     console.log(error);
   }
+};
+
+export const fetchAniskip = async (
+  anime_info: AnimeInfo,
+  episode_info: EpisodeInfo,
+  setSkipData: (data: any) => void,
+  setSkipDataPending: (pending: boolean) => void,
+) => {
+  const data = await api.fetcher<AniskipData>(
+    `${API_BASE}/aniskip/${anime_info.malId}/${episode_info.episode_number}`,
+  );
+
+  if (!data) {
+    return {
+      ending: undefined,
+      opening: undefined,
+    };
+  }
+
+  const skipTimes: AniskipData = JSON.parse(JSON.stringify(data));
+
+  let opening;
+  let ending;
+  for (const skipTime of Object.values(skipTimes)) {
+    if (skipTime?.skipType?.toLowerCase() === 'op') opening = skipTime;
+    if (skipTime?.skipType?.toLowerCase() === 'ed') ending = skipTime;
+    if (opening && ending) break; // Break if both opening and ending are found.
+  }
+
+  const returnData = {
+    ending,
+    opening,
+  };
+
+  setSkipData(returnData);
+  setSkipDataPending(false);
 };
