@@ -133,6 +133,14 @@ const InfoScreen = ({route}: Props) => {
   let nextEpisode = findNextEpisode(data.episodes, 1, false);
   let nextNextEpisode = findNextEpisode(data.episodes, 2, false);
 
+  const filterRelations = (data: any) => {
+    return data.filter(
+      (relation: any) => !['novel'].includes(relation.type?.toLowerCase()),
+    );
+  };
+
+  const relations = filterRelations(data?.relations);
+
   return (
     <SafeAreaView>
       <ScrollView
@@ -179,9 +187,9 @@ const InfoScreen = ({route}: Props) => {
             subOrDub={dubOrSub}
           />
         </Wrapper>
-        {data?.relations?.length > 0 ? (
+        {relations?.length > 0 ? (
           <Wrapper>
-            <CardContainer title="Related" data={data?.relations} />
+            <CardContainer title="Related" data={relations} />
           </Wrapper>
         ) : null}
         {data?.recommendations?.length > 0 ? (

@@ -72,6 +72,14 @@ const MangaInfoScreen: React.FC<Props> = ({route, navigation}) => {
 
   const data = resData?.mangaData;
 
+  const filterRelations = (data: any) => {
+    return data.filter(
+      (relation: any) => !['novel'].includes(relation.type?.toLowerCase()),
+    );
+  };
+
+  const relations = filterRelations(data?.relations);
+
   return (
     <SafeAreaView>
       <ScrollView
@@ -103,9 +111,9 @@ const MangaInfoScreen: React.FC<Props> = ({route, navigation}) => {
           />
         </Wrapper>
 
-        {data?.relations?.length > 0 ? (
+        {relations?.length > 0 ? (
           <Wrapper>
-            <CardContainer title="Related" data={data?.relations} />
+            <CardContainer title="Related" data={relations} />
           </Wrapper>
         ) : null}
         {data?.recommendations?.length > 0 ? (
