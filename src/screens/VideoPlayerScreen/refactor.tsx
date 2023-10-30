@@ -15,7 +15,14 @@ import {
 import {Anilist} from '@tdanks2000/anilist-wrapper';
 import {fetchAniskip, fetcher} from './helpers/fetcher';
 import {useQuery} from '@tanstack/react-query';
-import {useCallback, useContext, useMemo, useRef, useState} from 'react';
+import {
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import Video, {
   LoadError,
   OnBufferData,
@@ -120,6 +127,7 @@ const VideoPlayerScreen: React.FC<Props> = ({route}) => {
   // State variables for skipping intro and ending
   const [hasSkipedIntro, setHasSkippedIntro] = useState<boolean>(false); // State for whether the intro has been skipped
   const [hasSkipedEnding, setHasSkippedEnding] = useState<boolean>(false); // State for whether the ending has been skipped
+  const [checkedIfWatched, setCheckedIfWatched] = useState<boolean>(false);
 
   // State variable for watched status
   const [watched, setWatched] = useState<boolean>(false); // State for whether the video has been watched
@@ -156,16 +164,16 @@ const VideoPlayerScreen: React.FC<Props> = ({route}) => {
     tapActionTimeout: null,
     ref: useRef<Video>(null),
     scrubbingTimeStep: scrubbing,
-    sources: data.sources,
+    sources: data?.sources ?? [],
   };
 
   // check if watched
   const checkIfWatched = async () => {
-    if (!duration) return;
+    if (!duration) return setCheckedIfWatched(true);
     const checkInDb: any = await episodeSQLHelper.selectFromAnimeId(
       anime_info.id,
     );
-    if (checkInDb?.length < 1) return;
+    if (checkInDb?.length < 1) return setCheckedIfWatched(true);
     const findEpisode = checkInDb.find(
       (episode: any) => episode.episode_number === episodeInfo.episode_number,
     );
@@ -173,9 +181,11 @@ const VideoPlayerScreen: React.FC<Props> = ({route}) => {
     if (findEpisode && findEpisode?.watched_percentage) {
       const watchedSeekTo = (findEpisode.watched_percentage * duration) / 100;
       seekTo(watchedSeekTo);
+      setCheckedIfWatched(true);
     } else if (watched_percentage && watched_percentage > 0) {
       const watchedSeekTo = (watched_percentage * duration) / 100;
       seekTo(watchedSeekTo);
+      setCheckedIfWatched(true);
     }
   };
 
@@ -210,7 +220,9 @@ const VideoPlayerScreen: React.FC<Props> = ({route}) => {
               episodeInfo,
               watchedAnilist,
               setWatchedAnilist,
+              checkedIfWatched,
               privateMode,
+
               accessToken,
             );
           }
@@ -220,7 +232,7 @@ const VideoPlayerScreen: React.FC<Props> = ({route}) => {
               duration,
               parseInt(anime_info.id),
               episodeInfo,
-              hasJustWatched,
+              checkedIfWatched,
             );
             setWatched(true);
           }
@@ -235,11 +247,11 @@ const VideoPlayerScreen: React.FC<Props> = ({route}) => {
       setScrubbing(false);
       setCurrentTime(data.currentTime);
       updateDB(
-        currentTime,
+        data.currentTime,
         duration,
         parseInt(anime_info.id),
         episodeInfo,
-        data.currentTime,
+        checkedIfWatched,
       );
     }
   };
@@ -247,7 +259,13 @@ const VideoPlayerScreen: React.FC<Props> = ({route}) => {
   // on end event
   const onEnd = () => {
     if (!watched) {
-      updateDB(currentTime, duration, parseInt(anime_info.id), episodeInfo);
+      updateDB(
+        currentTime,
+        duration,
+        parseInt(anime_info.id),
+        episodeInfo,
+        checkedIfWatched,
+      );
     }
     if (autoNextEpisode === 'off' || !autoNextEpisode) return;
     const current_episode = episodeInfo.episode_number!;
@@ -349,7 +367,7 @@ const VideoPlayerScreen: React.FC<Props> = ({route}) => {
       duration,
       parseInt(anime_info.id),
       episodeInfo,
-      currentTime,
+      checkedIfWatched,
     );
   };
 
@@ -432,10 +450,23 @@ const VideoPlayerScreen: React.FC<Props> = ({route}) => {
     useCallback(() => {
       if (!data) return;
       createAndUpdateDB(anime_info, episodeInfo, nextEpisodeId);
-      checkIfWatchedFromDB(anime_info, episodeInfo, setWatched);
+      checkIfWatchedFromDB(
+        anime_info,
+        episodeInfo,
+        setWatched,
+        checkedIfWatched,
+      );
 
       autoSkip();
     }, [data, isError, error, currentTime, duration, episodeInfo]),
+  );
+
+  useFocusEffect(
+    useCallback(() => {
+      return () => {
+        if (setShowNavBar) setShowNavBar(true);
+      };
+    }, [data, isError, error, episodeInfo]),
   );
 
   // data is pending from the useQuery (getting the srcs)

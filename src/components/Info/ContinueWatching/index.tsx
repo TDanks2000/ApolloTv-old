@@ -80,7 +80,7 @@ const ContinueWatching = ({
       <Wrapper onPress={onPress}>
         <PercentWatched
           watched_amount={
-            currentEpisode <= 1
+            currentEpisode <= 0
               ? 100
               : watchedPercentage
               ? Math.floor(watchedPercentage)
@@ -90,7 +90,7 @@ const ContinueWatching = ({
         <TextContainer>
           <TextIcon name="play-circle-o" />
           <Text>
-            {currentEpisode <= 1
+            {currentEpisode <= 0
               ? 'start watching'
               : `resume episode ${currentEpisode}`}
           </Text>

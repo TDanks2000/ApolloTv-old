@@ -9,11 +9,11 @@ export const updateDB = async (
   duration: number,
   anime_id: number,
   episode_info: EpisodeInfo,
-  watched_amount?: number,
+  checkedIfWatched: boolean,
 ) => {
-  const watchedAmount = parseFloat(
-    (watched_amount ?? (currentTime / duration) * 100).toFixed(2),
-  );
+  if (!checkedIfWatched) return;
+
+  const watchedAmount = parseFloat(((currentTime / duration) * 100).toFixed(2));
 
   if (isNaN(watchedAmount)) return;
 
@@ -36,7 +36,9 @@ export const checkIfWatchedFromDB = async (
   anime_info: AnimeInfo,
   episode_info: EpisodeInfo,
   setWatched: (watched: boolean) => void,
+  checkedIfWatched: boolean,
 ) => {
+  if (!checkedIfWatched) return false;
   const checkInDb: any = await episodeSQLHelper.selectFromAnimeId(
     anime_info.id,
   );
@@ -52,11 +54,13 @@ export const updateAnilist = async (
   episode_info: EpisodeInfo,
   watchedAnilist: boolean,
   setWatchedAnilist: (watched: boolean) => void,
+  checkedIfWatched: boolean,
   privateMode: 'on' | 'off',
   accessToken?: string,
 ) => {
   if (privateMode === 'on') return false;
   if (!accessToken || watchedAnilist) return false;
+  if (!checkedIfWatched) return false;
   const anilist = new Anilist(accessToken);
   const didUpdate = await anilist.user.updateShow({
     mediaId: parseInt(anime_info.id),
