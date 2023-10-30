@@ -5,7 +5,7 @@ export const ScrollView = styled.ScrollView.attrs({
   showsHorizontalScrollIndicator: false,
   showsVerticalScrollIndicator: false,
   contentContainerStyle: {
-    paddingBottom: Platform.isTV ? 25 : 200,
+    paddingBottom: Platform.isTV ? 25 : 100,
   },
 })``;
 
@@ -19,6 +19,7 @@ export const ModalContainer = styled.View`
 export const SharedContainer = styled.View`
   margin: 25px ${({theme}) => theme.spacing.paddingLeft};
   overflow: hidden;
+  flex: 1;
 `;
 
 export const SharedContainerRel = styled(SharedContainer)`

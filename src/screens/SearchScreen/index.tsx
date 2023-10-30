@@ -61,7 +61,7 @@ const SearchScreen = () => {
 
   return (
     <>
-      <SafeAreaView>
+      <SafeAreaView style={{flex: 1}}>
         <SharedContainer>
           <Search.SearchBar
             search_text={searchText}

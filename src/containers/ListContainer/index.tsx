@@ -3,6 +3,7 @@ import {ListCard, MangaListCard} from '../../components/Cards';
 import {utils} from '../../utils';
 import {useBreakpoints} from '../../hooks';
 import {RefreshControlStyled} from '../../styles/sharedStyles';
+import {SafeAreaView} from 'react-native-safe-area-context';
 
 const ListContainer = ({
   data,
@@ -70,7 +71,7 @@ const ListContainer = ({
         showsVerticalScrollIndicator={false}
         numColumns={2}
         contentContainerStyle={{
-          paddingBottom: 250,
+          paddingBottom: 100,
           paddingTop: 20,
           gap: 25,
         }}
@@ -97,7 +98,7 @@ const ListContainer = ({
       renderItem={({item}) => renderItem(item)}
       showsVerticalScrollIndicator={false}
       contentContainerStyle={{
-        paddingBottom: 250,
+        paddingBottom: 100,
         paddingTop: 20,
         gap: 25,
       }}

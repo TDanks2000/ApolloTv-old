@@ -9,6 +9,7 @@ export const Title = styled(Text)`
 
 export const Wrapper = styled.View`
   margin: 0 ${({theme}) => theme.spacing.paddingLeft};
+  flex: 1;
 `;
 
 export const SelectorContainer = styled.View`

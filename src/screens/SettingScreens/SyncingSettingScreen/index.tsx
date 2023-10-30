@@ -20,7 +20,7 @@ const SyncingSettingScreen = ({navigation}: Props) => {
   const genericContext = React.useContext(GenericContext);
 
   return (
-    <SafeAreaView>
+    <SafeAreaView style={{flex: 1}}>
       <SharedContainer>
         <TextContainer>
           <BackButtonComponent isModal={false} />

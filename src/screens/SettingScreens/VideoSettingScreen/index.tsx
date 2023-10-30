@@ -35,14 +35,14 @@ const VideoSettingScreen = () => {
   ];
 
   return (
-    <SafeAreaView>
+    <SafeAreaView style={{flex: 1}}>
       <SharedContainer>
         <TextContainer>
           <BackButtonComponent isModal={false} />
           <Title>Video Settings</Title>
         </TextContainer>
 
-        <ScrollView style={{paddingTop: 20, marginTop: 10}}>
+        <ScrollView style={{paddingTop: 20, marginTop: 10, flex: 1}}>
           <Settings.Setting
             title="Auto Skip Intro"
             descriptor="Auto skip the opening intro"

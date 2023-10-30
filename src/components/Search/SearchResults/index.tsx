@@ -30,7 +30,7 @@ const SearchResults = ({data, type}: any) => {
       renderItem={({item}) => renderItem(item)}
       showsVerticalScrollIndicator={false}
       ItemSeparatorComponent={() => <View style={{height: 25}} />}
-      contentContainerStyle={{paddingBottom: 300, paddingTop: 20}}
+      contentContainerStyle={{paddingBottom: 100, paddingTop: 20}}
     />
   );
 };

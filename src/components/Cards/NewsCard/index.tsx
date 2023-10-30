@@ -42,8 +42,12 @@ const NewsCard: React.FC<Props> = ({preview, id, image, title, topics}) => {
         source={{
           uri: image,
         }}>
-        <Topic onPress={handleTopicPress}>
-          <TopicText numberOfLines={1}>{topic.split('-').join(' ')}</TopicText>
+        <Topic
+          onPress={handleTopicPress}
+          disabled={topic?.length >= 1 ? false : true}>
+          <TopicText numberOfLines={1}>
+            {topic?.length >= 1 ? topic.split('-').join(' ') : '??'}
+          </TopicText>
         </Topic>
       </ImageBackground>
 

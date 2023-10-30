@@ -33,7 +33,7 @@ const SettingsScreen = ({navigation}: Props) => {
   };
 
   return (
-    <SafeAreaView>
+    <SafeAreaView style={{flex: 1}}>
       <SharedContainer>
         <Title>Settings</Title>
         <ScrollView style={{paddingTop: 20, marginTop: 10}}>

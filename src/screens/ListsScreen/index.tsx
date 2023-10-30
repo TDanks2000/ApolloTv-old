@@ -108,9 +108,13 @@ const ListsScreen = () => {
   // };
 
   return (
-    <SafeAreaView>
+    <SafeAreaView
+      style={{
+        flex: 1,
+      }}>
       <View
         style={{
+          flex: 1,
           marginTop: 25,
         }}>
         <SelectorContainer>
