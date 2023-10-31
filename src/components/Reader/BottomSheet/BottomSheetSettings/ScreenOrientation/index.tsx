@@ -1,4 +1,4 @@
-import {View, Text} from 'react-native';
+import { View, Text } from 'react-native';
 import React from 'react';
 import {
   PillContainer,
@@ -7,41 +7,49 @@ import {
   SettingTitle,
 } from '../BottomSheetSettings.styles';
 import Orientation from 'react-native-orientation-locker';
-import {OrientationType} from '../../../../../@types';
+import { OrientationType } from '../../../../../@types';
 
 const ScreenOrientation = () => {
   const [screenOrientation, setScreenOrientation] =
     React.useState<OrientationType>(OrientationType.unlocked);
 
-  React.useEffect(() => {
+  const changeOrientation = React.useCallback(() => {
     // screenOrientation
-    switch (screenOrientation) {
-      case OrientationType.landscape:
-      case OrientationType.locked_landscape:
-        // Locked to landscape
-        Orientation.lockToLandscape();
-        break;
-      case OrientationType.portrait_reverse:
-        Orientation.lockToPortraitUpsideDown();
-        break;
-      case OrientationType.locked_portrait:
-      case OrientationType.portrait:
-        // Portrait
-        Orientation.lockToPortrait();
-        break;
-      case OrientationType.unlocked:
-      default:
-        // Default or unlocked
-        Orientation.unlockAllOrientations();
-      case OrientationType.landscape_left:
-        // landscape left
-        Orientation.lockToLandscapeLeft();
-        break;
-      case OrientationType.landscape_right:
-        // landscape right
-        Orientation.lockToLandscapeRight();
-        break;
+    if (
+      screenOrientation === OrientationType.landscape ||
+      screenOrientation === OrientationType.locked_landscape
+    ) {
+      // Locked to landscape
+      Orientation.lockToLandscape();
+    } else if (screenOrientation === OrientationType.portrait_reverse) {
+      Orientation.lockToPortraitUpsideDown();
+    } else if (
+      screenOrientation === OrientationType.locked_portrait ||
+      screenOrientation === OrientationType.portrait
+    ) {
+      // Portrait
+      Orientation.lockToPortrait();
+    } else if (screenOrientation === OrientationType.unlocked) {
+      // Default or unlocked
+      Orientation.unlockAllOrientations();
+    } else if (screenOrientation === OrientationType.landscape_left) {
+      // landscape left
+      Orientation.lockToLandscapeLeft();
+    } else if (screenOrientation === OrientationType.landscape_right) {
+      // landscape right
+      Orientation.lockToLandscapeRight();
+    } else {
+      // Handle the case for an unrecognized orientation
+      // This block is executed for any unrecognized or unexpected value
+      // You might add specific handling here if needed
+      console.log('Unrecognized screen orientation:', screenOrientation);
+      // Perform a default action if necessary
+      Orientation.unlockAllOrientations();
     }
+  }, [screenOrientation])
+
+  React.useEffect(() => {
+    changeOrientation()
   }, [screenOrientation]);
 
   React.useEffect(() => {
