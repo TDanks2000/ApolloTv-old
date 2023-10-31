@@ -1,4 +1,4 @@
-import {createContext, useEffect, useState} from 'react';
+import {PropsWithChildren, createContext, useEffect, useState} from 'react';
 import {Alert} from 'react-native';
 import Toast from 'react-native-toast-message';
 
@@ -9,11 +9,7 @@ export const UpdaterContext = createContext<{
   updater?: UpdateAPK.UpdateAPK;
 }>({});
 
-type Props = {
-  children: JSX.Element;
-};
-
-export const UpdaterProvider = ({children}: Props) => {
+export const UpdaterProvider = ({children}: PropsWithChildren) => {
   const updater = new UpdateAPK.UpdateAPK({
     apkVersionUrl:
       'https://raw.githubusercontent.com/ApolloTv-team/ApolloTv/master/release.json',

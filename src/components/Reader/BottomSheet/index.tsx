@@ -4,23 +4,13 @@ import BottomSheet from '@gorhom/bottom-sheet';
 import CustomBackground from './CustomBackground';
 import Handle from './CustomHandle';
 import BottomSheetSettings from './BottomSheetSettings';
-import {HorizontalType, LayoutMode} from '../../../@types';
+import {HorizontalType, LayoutMode, OrientationType} from '../../../@types';
 
 type Props = {
   bottomSheetRef: React.Ref<BottomSheet>;
-  layoutMode: LayoutMode;
-  setLayoutMode: React.Dispatch<React.SetStateAction<LayoutMode>>;
-  horizontalType: HorizontalType;
-  setHorizontalType: React.Dispatch<React.SetStateAction<HorizontalType>>;
 };
 
-const ReaderBottomSheet: React.FC<Props> = ({
-  bottomSheetRef,
-  layoutMode,
-  setLayoutMode,
-  horizontalType,
-  setHorizontalType,
-}) => {
+const ReaderBottomSheet: React.FC<Props> = ({bottomSheetRef}) => {
   const snapPoints = React.useMemo(() => ['25%', '55%'], []);
   return (
     <BottomSheet
@@ -30,12 +20,7 @@ const ReaderBottomSheet: React.FC<Props> = ({
       ref={bottomSheetRef}
       backgroundComponent={CustomBackground}
       handleComponent={Handle}>
-      <BottomSheetSettings
-        layoutMode={layoutMode}
-        setLayoutMode={setLayoutMode}
-        horizontalType={horizontalType}
-        setHorizontalType={setHorizontalType}
-      />
+      <BottomSheetSettings />
     </BottomSheet>
   );
 };

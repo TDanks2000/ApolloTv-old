@@ -27,10 +27,6 @@ export enum OrientationType {
 export type ReaderFlatListProps = {
   currentPage: number;
   setCurrentPage: (page: number) => void;
-  horizontalType: HorizontalType;
-  inverted?: boolean;
-  layoutMode?: LayoutMode;
   data?: MangaPage[];
   flatListRef: React.RefObject<FlatList>;
-  toggleControls: React.DispatchWithoutAction;
 };

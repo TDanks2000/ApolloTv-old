@@ -1,6 +1,7 @@
 import {View, Text, FlatList} from 'react-native';
 import React, {useEffect} from 'react';
 import {SliderComponent, SliderContainer} from './Slider.styles';
+import {ReaderSettingsContext} from '../../../contexts/ReaderSettingsContext';
 
 type Props = {
   minimumValue: number;
@@ -9,8 +10,6 @@ type Props = {
 
   currentPage: number;
   setCurrentPage: (page: number) => void;
-
-  hideControls: boolean;
 };
 
 const PageSlider: React.FC<Props> = ({
@@ -19,8 +18,9 @@ const PageSlider: React.FC<Props> = ({
   flatlistRef,
   currentPage,
   setCurrentPage,
-  hideControls,
 }) => {
+  const {hideControls} = React.useContext(ReaderSettingsContext);
+
   const onScrollEnd = async (page: number) => {
     if (flatlistRef && !flatlistRef.current) return;
     flatlistRef.current?.scrollToIndex({
@@ -34,7 +34,7 @@ const PageSlider: React.FC<Props> = ({
   };
 
   return (
-    <SliderContainer show={hideControls}>
+    <SliderContainer show={hideControls === true}>
       <SliderComponent
         value={currentPage - 1}
         minimumValue={minimumValue}

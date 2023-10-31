@@ -7,24 +7,18 @@ import {
   SettingTitle,
 } from '../BottomSheetSettings.styles';
 import {HorizontalType, LayoutMode} from '../../../../../@types';
+import {ReaderSettingsContext} from '../../../../../contexts/ReaderSettingsContext';
 
-type Props = {
-  layoutMode: LayoutMode;
-  setLayoutMode: React.Dispatch<React.SetStateAction<LayoutMode>>;
-  horizontalType: HorizontalType;
-  setHorizontalType: React.Dispatch<React.SetStateAction<HorizontalType>>;
-};
+type Props = {};
 
-const ReadingMode: React.FC<Props> = ({
-  layoutMode,
-  setLayoutMode,
-  horizontalType,
-  setHorizontalType,
-}) => {
+const ReadingMode: React.FC<Props> = ({}) => {
+  const {setLayoutMode, setHorizontalType, layoutMode, horizontalType} =
+    React.useContext(ReaderSettingsContext);
+
   const onPress = (mode: LayoutMode, type?: HorizontalType) => {
-    setLayoutMode(mode);
-    if (type) setHorizontalType(type);
-    else setHorizontalType(HorizontalType.disabled);
+    if (setLayoutMode) setLayoutMode(mode);
+    if (type && setHorizontalType) setHorizontalType(type);
+    else if (setHorizontalType) setHorizontalType(HorizontalType.disabled);
   };
 
   return (

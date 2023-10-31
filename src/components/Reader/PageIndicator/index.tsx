@@ -3,15 +3,16 @@ import {
   PageIndicatorContainer,
   PageIndicatorText,
 } from './PageIndicator.styles';
+import {ReaderSettingsContext} from '../../../contexts/ReaderSettingsContext';
 
 type Props = {
   page: number;
-  hideControls: boolean;
 };
 
-const PageIndicator: React.FC<Props> = ({page, hideControls}) => {
+const PageIndicator: React.FC<Props> = ({page}) => {
+  const {hideControls} = React.useContext(ReaderSettingsContext);
   return (
-    <PageIndicatorContainer show={hideControls}>
+    <PageIndicatorContainer show={hideControls === true}>
       <PageIndicatorText>{page}</PageIndicatorText>
     </PageIndicatorContainer>
   );

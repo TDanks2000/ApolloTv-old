@@ -6,18 +6,23 @@ import {
   FlatList,
   Pressable,
 } from 'react-native';
-import {MangaPage, ReaderFlatListProps} from '../../../../@types';
+import {
+  HorizontalType,
+  MangaPage,
+  ReaderFlatListProps,
+} from '../../../../@types';
 import {ImageZoom} from '@likashefqet/react-native-image-zoom';
+import {ReaderSettingsContext} from '../../../../contexts/ReaderSettingsContext';
 
 const VerticalFlatList: React.FC<ReaderFlatListProps> = ({
   flatListRef,
   currentPage,
   setCurrentPage,
-  toggleControls,
   data,
-  inverted,
-  layoutMode,
 }) => {
+  const {hideControls, layoutMode, horizontalType, toggleControls} =
+    React.useContext(ReaderSettingsContext);
+
   const viewabilityConfig = {
     itemVisiblePercentThreshold: 95,
   };
@@ -64,7 +69,7 @@ const VerticalFlatList: React.FC<ReaderFlatListProps> = ({
 
   return (
     <FlatList
-      inverted={inverted}
+      inverted={horizontalType === HorizontalType.rtl}
       style={{
         position: 'relative',
         zIndex: 2,

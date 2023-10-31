@@ -1,5 +1,5 @@
-import { View, Text } from 'react-native';
-import React from 'react';
+import {View, Text} from 'react-native';
+import React, {useCallback, useEffect} from 'react';
 import {
   PillContainer,
   PillText,
@@ -7,56 +7,58 @@ import {
   SettingTitle,
 } from '../BottomSheetSettings.styles';
 import Orientation from 'react-native-orientation-locker';
-import { OrientationType } from '../../../../../@types';
+import {OrientationType} from '../../../../../@types';
+import {useFocusEffect} from '@react-navigation/native';
+import {ReaderSettingsContext} from '../../../../../contexts/ReaderSettingsContext';
 
-const ScreenOrientation = () => {
-  const [screenOrientation, setScreenOrientation] =
-    React.useState<OrientationType>(OrientationType.unlocked);
+type Props = {};
 
-  const changeOrientation = React.useCallback(() => {
+const ScreenOrientation: React.FC<Props> = () => {
+  const {screenOrientation, setScreenOrientation} = React.useContext(
+    ReaderSettingsContext,
+  );
+
+  const onPress = useCallback((type: OrientationType) => {
+    if (setScreenOrientation) setScreenOrientation(type);
+
     // screenOrientation
     if (
-      screenOrientation === OrientationType.landscape ||
-      screenOrientation === OrientationType.locked_landscape
+      type === OrientationType.landscape ||
+      type === OrientationType.locked_landscape
     ) {
       // Locked to landscape
-      Orientation.lockToLandscape();
-    } else if (screenOrientation === OrientationType.portrait_reverse) {
-      Orientation.lockToPortraitUpsideDown();
-    } else if (
-      screenOrientation === OrientationType.locked_portrait ||
-      screenOrientation === OrientationType.portrait
+      return Orientation.lockToLandscape();
+    }
+    if (type === OrientationType.portrait_reverse) {
+      return Orientation.lockToPortraitUpsideDown();
+    }
+    if (
+      type === OrientationType.locked_portrait ||
+      type === OrientationType.portrait
     ) {
       // Portrait
-      Orientation.lockToPortrait();
-    } else if (screenOrientation === OrientationType.unlocked) {
-      // Default or unlocked
-      Orientation.unlockAllOrientations();
-    } else if (screenOrientation === OrientationType.landscape_left) {
-      // landscape left
-      Orientation.lockToLandscapeLeft();
-    } else if (screenOrientation === OrientationType.landscape_right) {
-      // landscape right
-      Orientation.lockToLandscapeRight();
-    } else {
-      // Handle the case for an unrecognized orientation
-      // This block is executed for any unrecognized or unexpected value
-      // You might add specific handling here if needed
-      console.log('Unrecognized screen orientation:', screenOrientation);
-      // Perform a default action if necessary
-      Orientation.unlockAllOrientations();
+      return Orientation.lockToPortrait();
     }
-  }, [screenOrientation])
+    if (type === OrientationType.unlocked) {
+      // Default or unlocked
+      return Orientation.unlockAllOrientations();
+    }
+    if (type === OrientationType.landscape_left) {
+      // landscape left
+      return Orientation.lockToLandscapeLeft();
+    }
 
-  React.useEffect(() => {
-    changeOrientation()
-  }, [screenOrientation]);
+    if (type === OrientationType.landscape_right) {
+      // landscape right
+      return Orientation.lockToLandscapeRight();
+    }
 
-  React.useEffect(() => {
-    return () => {
-      Orientation.unlockAllOrientations();
-      setScreenOrientation(OrientationType.unlocked);
-    };
+    // Handle the case for an unrecognized orientation
+    // This block is executed for any unrecognized or unexpected value
+    // You might add specific handling here if needed
+    console.log('Unrecognized screen orientation:', screenOrientation);
+    // Perform a default action if necessary
+    Orientation.unlockAllOrientations();
   }, []);
 
   return (
@@ -65,34 +67,35 @@ const ScreenOrientation = () => {
       <PillsContainer>
         <PillContainer
           active={screenOrientation === OrientationType.unlocked}
-          onPress={() => setScreenOrientation(OrientationType.unlocked)}>
+          onPress={() => onPress(OrientationType.unlocked)}>
           <PillText>Unlocked</PillText>
         </PillContainer>
         <PillContainer
-          active={screenOrientation === OrientationType.portrait}
-          onPress={() => setScreenOrientation(OrientationType.portrait)}>
+          active={
+            screenOrientation === OrientationType.portrait ||
+            screenOrientation === undefined
+          }
+          onPress={() => onPress(OrientationType.portrait)}>
           <PillText>Portrait</PillText>
         </PillContainer>
         <PillContainer
           active={screenOrientation === OrientationType.portrait_reverse}
-          onPress={() =>
-            setScreenOrientation(OrientationType.portrait_reverse)
-          }>
+          onPress={() => onPress(OrientationType.portrait_reverse)}>
           <PillText>Portrait upside down</PillText>
         </PillContainer>
         <PillContainer
           active={screenOrientation === OrientationType.landscape}
-          onPress={() => setScreenOrientation(OrientationType.landscape)}>
+          onPress={() => onPress(OrientationType.landscape)}>
           <PillText>Landscape</PillText>
         </PillContainer>
         <PillContainer
           active={screenOrientation === OrientationType.landscape_left}
-          onPress={() => setScreenOrientation(OrientationType.landscape_left)}>
+          onPress={() => onPress(OrientationType.landscape_left)}>
           <PillText>Landscape (left)</PillText>
         </PillContainer>
         <PillContainer
           active={screenOrientation === OrientationType.landscape_right}
-          onPress={() => setScreenOrientation(OrientationType.landscape_right)}>
+          onPress={() => onPress(OrientationType.landscape_right)}>
           <PillText>Landscape (right)</PillText>
         </PillContainer>
       </PillsContainer>

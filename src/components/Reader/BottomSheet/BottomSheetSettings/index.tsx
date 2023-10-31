@@ -5,32 +5,17 @@ import {Text} from '../../../../styles/sharedStyles';
 import ReadingMode from './ReadingMode';
 import ScreenOrientation from './ScreenOrientation';
 import {BottomSheetScrollView} from '@gorhom/bottom-sheet';
-import {HorizontalType, LayoutMode} from '../../../../@types';
+import {HorizontalType, LayoutMode, OrientationType} from '../../../../@types';
 
-type Props = {
-  layoutMode: LayoutMode;
-  setLayoutMode: React.Dispatch<React.SetStateAction<LayoutMode>>;
-  horizontalType: HorizontalType;
-  setHorizontalType: React.Dispatch<React.SetStateAction<HorizontalType>>;
-};
+type Props = {};
 
-const BottomSheetSettings: React.FC<Props> = ({
-  layoutMode,
-  setLayoutMode,
-  horizontalType,
-  setHorizontalType,
-}) => {
+const BottomSheetSettings: React.FC<Props> = ({}) => {
   return (
     <BottomSheetScrollView
       horizontal={false}
       showsVerticalScrollIndicator={false}>
       <Container>
-        <ReadingMode
-          layoutMode={layoutMode}
-          setLayoutMode={setLayoutMode}
-          horizontalType={horizontalType}
-          setHorizontalType={setHorizontalType}
-        />
+        <ReadingMode />
         <ScreenOrientation />
       </Container>
     </BottomSheetScrollView>

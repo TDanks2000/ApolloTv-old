@@ -24,6 +24,7 @@ import {
   HorizontalType,
   LayoutMode,
   MangaPage,
+  OrientationType,
   RootStackParamList,
 } from '../../@types';
 import {api, utils} from '../../utils';
@@ -33,6 +34,10 @@ import {API_BASE} from '@env';
 import {ReaderContainer} from '../../containers';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import BottomSheet from '@gorhom/bottom-sheet';
+import {
+  ReaderSettingsContext,
+  ReaderSettingsProvider,
+} from '../../contexts/ReaderSettingsContext';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'ReaderScreen'>;
 
@@ -43,7 +48,17 @@ type QueryData = {
   error: Error | null;
 };
 
-const ReaderScreen: React.FC<Props> = ({route, navigation}) => {
+// FIXME: States being reset when closing settings bottoms sheet
+
+const ReaderScreen: React.FC<Props> = props => {
+  return (
+    <ReaderSettingsProvider>
+      <ReaderScreenInside {...props} />
+    </ReaderSettingsProvider>
+  );
+};
+
+const ReaderScreenInside: React.FC<Props> = ({route, navigation}) => {
   const bottomSheetRef = useRef<BottomSheet>(null);
 
   const params = route?.params;
@@ -54,17 +69,7 @@ const ReaderScreen: React.FC<Props> = ({route, navigation}) => {
   // Reader Settings
   const {sourceProviderManga} = React.useContext(SettingsContext);
 
-  const [hideControls, toggleControls] = React.useReducer(
-    controls => !controls,
-    true,
-  );
-  const [horizontalType, setHorizontalType] = React.useState<HorizontalType>(
-    HorizontalType.disabled,
-  );
-
-  const [layoutMode, setLayoutMode] = React.useState<LayoutMode>(
-    LayoutMode.Horizontal,
-  );
+  const {hideControls, layoutMode} = React.useContext(ReaderSettingsContext);
 
   const [currentPage, setCurrentPage] = React.useState<number>(1);
 
@@ -122,13 +127,9 @@ const ReaderScreen: React.FC<Props> = ({route, navigation}) => {
           setCurrentPage={setCurrentPage}
           data={data}
           flatListRef={flatListRef}
-          layoutMode={layoutMode}
-          horizontalType={horizontalType}
-          toggleControls={toggleControls}
-          inverted={horizontalType === HorizontalType.rtl}
         />
 
-        <TopMetaInfo show={hideControls}>
+        <TopMetaInfo show={hideControls === true}>
           <BackButtonComponent isModal={false} />
           <TopMetaTextContainer>
             <TopMetaTitle numberOfLines={1}>{actualTitle}</TopMetaTitle>
@@ -138,10 +139,7 @@ const ReaderScreen: React.FC<Props> = ({route, navigation}) => {
                 : chapter_info.title}
             </TopMetaSubTitle>
           </TopMetaTextContainer>
-          <Reader.PageIndicator
-            page={currentPage}
-            hideControls={hideControls}
-          />
+          <Reader.PageIndicator page={currentPage} />
         </TopMetaInfo>
 
         <BottomContainer>
@@ -151,7 +149,6 @@ const ReaderScreen: React.FC<Props> = ({route, navigation}) => {
             flatlistRef={flatListRef}
             currentPage={currentPage}
             setCurrentPage={setCurrentPage}
-            hideControls={hideControls}
           />
 
           <UnderSLider>
@@ -195,13 +192,7 @@ const ReaderScreen: React.FC<Props> = ({route, navigation}) => {
           </UnderSLider>
         </BottomContainer>
       </Container>
-      <Reader.BottomSheet
-        bottomSheetRef={bottomSheetRef}
-        layoutMode={layoutMode}
-        setLayoutMode={setLayoutMode}
-        horizontalType={horizontalType}
-        setHorizontalType={setHorizontalType}
-      />
+      <Reader.BottomSheet bottomSheetRef={bottomSheetRef} />
     </>
   );
 };
