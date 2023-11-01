@@ -11,8 +11,10 @@ export const Container = styled.View`
   height: 100%;
   justify-content: center;
   align-items: center;
+  padding: 0 30px;
 `;
 
 export const MiddleText = styled(Text)`
   font-size: 18px;
+  text-align: center;
 `;

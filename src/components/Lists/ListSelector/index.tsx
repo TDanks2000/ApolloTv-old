@@ -27,6 +27,7 @@ const Selector = ({
     const combineData = selectedLisData.reduce((acc: any, list: any) => {
       return acc.concat(list.entries);
     }, []);
+
     return (
       <PillContainer
         selected={item.value === selectedList}

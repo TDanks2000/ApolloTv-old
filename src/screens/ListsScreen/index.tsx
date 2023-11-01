@@ -71,41 +71,30 @@ const ListsScreen = () => {
   }, [refreshing]);
 
   if (isPending) return <MiddleOfScreenLoadingComponent />;
-  if (data?.length <= 0)
+  if (data?.length >= 0)
     return (
       <MiddleOfScreenTextComponent text="Seems like you are not logged in!" />
     );
 
+  if (
+    !(
+      data?.completed &&
+      data?.current &&
+      data?.dropped &&
+      data?.paused &&
+      data?.planning &&
+      data?.repeating
+    )
+  ) {
+    return (
+      <MiddleOfScreenTextComponent
+        text="It appears that your list is either empty or set to private."
+        numberOfLines={2}
+      />
+    );
+  }
+
   const selectedLisData = data[selectedList?.toLowerCase()];
-
-  // const handleGesture = (evt: any) => {
-  //   const {nativeEvent} = evt;
-
-  //   const findCurrentList = listTypes.find(
-  //     listType => listType.value === selectedList,
-  //   );
-
-  //   if (!findCurrentList) return;
-
-  //   const indexOfCurrentList = listTypes.indexOf(findCurrentList);
-
-  //   const nextList =
-  //     indexOfCurrentList + 1 > listTypes.length ? 0 : indexOfCurrentList + 1;
-
-  //   const prevList =
-  //     indexOfCurrentList - 1 < 0
-  //       ? listTypes.length - 1
-  //       : indexOfCurrentList - 1;
-
-  //   if (nativeEvent.velocityX > 0) {
-  //     // Swipe right
-  //     setSelectedList(listTypes[prevList].value);
-  //   } else {
-  //     // Swipe left
-  //     setSelectedList(listTypes[nextList].value);
-  //   }
-  //   console.log(selectedList);
-  // };
 
   return (
     <SafeAreaView
