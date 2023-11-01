@@ -501,9 +501,9 @@ const VideoPlayerScreen: React.FC<Props> = ({route}): JSX.Element => {
         playInBackground={playInBackground === 'off' ? false : true}
         playWhenInactive={playWhenInactive === 'off' ? false : true}
         style={{
-          width: '100%',
-          height: '100%',
+          flex: 1,
           backgroundColor: 'black',
+          // aspectRatio: 16 / 9,
         }}
         onError={error => {
           showError(error.error.errorString);
