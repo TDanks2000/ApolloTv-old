@@ -272,7 +272,7 @@ const PlayerControls = ({
           <TopRight>
             <View>
               <TouchableOpacity onPress={() => setOpenEpisodes(true)}>
-                <IconBase6 name="rectangle-list" />
+                <IconBase6 name="card-multiple-outline" />
               </TouchableOpacity>
               <VideoEpisodesModal
                 episodes={episodes}

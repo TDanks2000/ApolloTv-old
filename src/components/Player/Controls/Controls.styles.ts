@@ -1,6 +1,6 @@
 import Icon from 'react-native-vector-icons/FontAwesome5';
 // @ts-ignore
-import Icon6 from 'react-native-vector-icons/FontAwesome6';
+import Icon6 from 'react-native-vector-icons/MaterialCommunityIcons';
 import {styled} from 'styled-components/native';
 import {Text} from '../../../styles/sharedStyles';
 import LinearGradient from 'react-native-linear-gradient';
