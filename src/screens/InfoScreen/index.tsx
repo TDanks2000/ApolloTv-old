@@ -99,6 +99,8 @@ const InfoScreen = ({route}: Props) => {
 
   if (!data) return <InfoPageSkeleton />;
 
+  const subOrDub = data?.subOrDub;
+
   const findNextEpisode = (
     episodes: any[],
     howManyEpisodesForward: number,
@@ -135,11 +137,19 @@ const InfoScreen = ({route}: Props) => {
 
   const filterRelations = (data: any) => {
     return data.filter(
-      (relation: any) => !['novel'].includes(relation.type?.toLowerCase()),
+      (relation: any) =>
+        !['novel'].includes(relation.type?.toLowerCase() || !relation?.id),
+    );
+  };
+
+  const filterRecommendations = (data: any) => {
+    return data.filter(
+      (recommendation: any) => recommendation?.id?.toString()?.length >= 1,
     );
   };
 
   const relations = filterRelations(data?.relations);
+  const recommendations = filterRecommendations(data?.recommendations);
 
   return (
     <SafeAreaView>
@@ -156,6 +166,7 @@ const InfoScreen = ({route}: Props) => {
           dubOrSub={dubOrSub ?? 'sub'}
           setDubOrSub={setDubOrSub}
           refreshing={refreshing}
+          subOrDub={subOrDub}
         />
         {!nextEpisode ? null : (
           <Info.ContinueWatching
@@ -192,12 +203,9 @@ const InfoScreen = ({route}: Props) => {
             <CardContainer title="Related" data={relations} />
           </Wrapper>
         ) : null}
-        {data?.recommendations?.length > 0 ? (
+        {recommendations?.length > 0 ? (
           <Wrapper>
-            <CardContainer
-              title="You may also like"
-              data={data?.recommendations}
-            />
+            <CardContainer title="You may also like" data={recommendations} />
           </Wrapper>
         ) : null}
       </ScrollView>

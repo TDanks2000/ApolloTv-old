@@ -30,6 +30,7 @@ interface Props {
   type?: 'MANGA' | 'ANIME';
 
   refreshing?: boolean;
+  subOrDub?: 'sub' | 'dub';
 }
 
 const Top = ({
@@ -41,6 +42,7 @@ const Top = ({
   episode_title,
   type,
   refreshing = false,
+  subOrDub,
 }: Props) => {
   const actualTitle = utils.getTitle(title);
 
@@ -81,7 +83,7 @@ const Top = ({
               {/* <WatchNowComponent WatchText="Watch trailer" /> */}
               {type && type === 'MANGA' ? null : (
                 <Option
-                  option={preferedVoice as string}
+                  option={subOrDub || (preferedVoice as string)}
                   options={[
                     {label: 'SUB', value: 'sub'},
                     {label: 'DUB', value: 'dub'},
