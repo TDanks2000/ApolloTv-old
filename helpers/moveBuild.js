@@ -16,7 +16,7 @@ const checkForFile = async fileName => {
     await fs.access(path.resolve(androidOutputPath, fileName));
     return true;
   } catch (err) {
-    console.error(`Error accessing file ${fileName}:`, err);
+    throw new Error(`Error accessing file ${fileName}:`, err);
     return false;
   }
 };
@@ -41,12 +41,12 @@ const checkForFile = async fileName => {
 
         console.log('Release APK moved');
       } catch (error) {
-        console.error('Error moving or renaming file:', error);
+        throw new Error('Error moving or renaming file:', error);
       }
     } catch (error) {
-      console.error('Error creating directory:', error);
+      throw new Error('Error creating directory:', error);
     }
   } else {
-    console.log('No release APK found');
+    throw new Error('No release APK found');
   }
 })();

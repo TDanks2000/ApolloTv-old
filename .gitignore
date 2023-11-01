@@ -71,3 +71,7 @@ yarn-error.log
 # helpers
 helpers/builds
 helpers/builds/*
+
+releasenotes.**.**
+releasenotes-**.**
+releasenotes.**

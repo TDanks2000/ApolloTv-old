@@ -8,7 +8,7 @@ function getVersionFromNpm() {
     const packageJson = JSON.parse(fs.readFileSync(inputFile, 'utf8'));
     return packageJson['version'];
   } catch (error) {
-    console.error('Error reading version from package.json:', error);
+    throw new Error('Error reading version from package.json:', error);
   }
 }
 
@@ -20,7 +20,7 @@ function getNumericVersionFromNpm() {
     const [major, minor, hotfix] = parts.map(part => parseInt(part));
     return major * 100000 + minor * 1000 + hotfix;
   } catch (error) {
-    console.error('Error converting version name to numeric version:', error);
+    throw new Error('Error converting version name to numeric version:', error);
   }
 }
 
@@ -46,6 +46,6 @@ function getNumericVersionFromNpm() {
     console.log('DONE!!!');
     console.log('new release', data);
   } catch (error) {
-    console.error('Error updating release.json:', error);
+    throw new Error('Error updating release.json');
   }
 })();

@@ -1,6 +1,6 @@
 {
   "name": "apollotv",
-  "version": "0.1.10",
+  "version": "0.1.11",
   "private": true,
   "repository": {
     "type": "git",
@@ -12,8 +12,8 @@
     "lint": "eslint .",
     "start": "react-native start",
     "test": "jest",
-    "postversion": "cd android && ./gradlew assemble && cd .. && node ./helpers/updateRelease.js && node ./helpers/moveBuild.js",
-    "release": "cd android && ./gradlew assemble && cd .. && node ./helpers/updateRelease.js && node ./helpers/moveBuild.js",
+    "postversion": "cd android && ./gradlew assemble && cd .. && node ./helpers/doARelease.js",
+    "release": "cd android && ./gradlew assemble && cd .. && node ./helpers/doARelease.js",
     "build": "cd android && ./gradlew bundleRelease",
     "buildApk": "cd android && ./gradlew assemble",
     "buildDevApk": "cd android && ./gradlew assembleDebug",
@@ -34,6 +34,7 @@
     "axios": "^1.5.1",
     "dayjs": "^1.11.10",
     "m3u-parser-generator": "^1.4.0",
+    "octokit": "^3.1.1",
     "polished": "^4.2.2",
     "react": "18.2.0",
     "react-native": "npm:react-native-tvos@0.72.5-0",
