@@ -1996,10 +1996,10 @@
   dependencies:
     "@tanstack/query-core" "5.4.3"
 
-"@tdanks2000/anilist-wrapper@^1.0.22":
-  version "1.0.22"
-  resolved "https://registry.yarnpkg.com/@tdanks2000/anilist-wrapper/-/anilist-wrapper-1.0.22.tgz#4f09e8ffcaa1924c21ed0bb95e675e4c7a88c994"
-  integrity sha512-4p9eQkAnPHk46o3ozUDqRoGQipWsFkSIdJtyZ0fmGc+LDO8IFoD9YKfjgZJWU1wHwbBA0edKvF7x9qy63B0jHA==
+"@tdanks2000/anilist-wrapper@^1.0.23":
+  version "1.0.23"
+  resolved "https://registry.yarnpkg.com/@tdanks2000/anilist-wrapper/-/anilist-wrapper-1.0.23.tgz#a706209196d0a7374f03c851296b00f0c6fea986"
+  integrity sha512-KZrz4VG0830IDHIWt1MOoWgO4EPn2tXg81MUHxiZto3knifLkptXVpXz1YjjdfxeeUuYmND+shyyIY6lzxDddA==
   dependencies:
     abort-controller "^3.0.0"
 

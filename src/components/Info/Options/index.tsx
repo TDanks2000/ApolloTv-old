@@ -1,5 +1,5 @@
 import {View, Text} from 'react-native';
-import React from 'react';
+import React, {useMemo, useState} from 'react';
 import {
   Container,
   OptionContainer,
@@ -7,6 +7,7 @@ import {
   OptionDropDownItem,
   OptionDropDownItemText,
   OptionIcon,
+  OptionIcon2,
   OptionIconContainer,
   OptionText,
   OptionWrapper,
@@ -18,6 +19,8 @@ import {Anilist} from '@tdanks2000/anilist-wrapper';
 import {useAccessToken} from '../../../contexts';
 import {useQuery, useQueryClient} from '@tanstack/react-query';
 import Toast from 'react-native-toast-message';
+import {RateModal} from '../../../modals';
+import {MiddleOfScreenLoadingComponent} from '../../Shared';
 
 interface Props {
   openEpisodesModal: () => void;
@@ -50,6 +53,8 @@ const Options = ({openEpisodesModal, episodeLegth, anime_info}: Props) => {
     false,
   );
 
+  const [openRateModal, setOpenRateModal] = React.useState<boolean>(false);
+
   const fetchLists = async () => {
     const returnData = await anilist.media.anime(parseInt(anime_info.id));
     return returnData;
@@ -60,31 +65,39 @@ const Options = ({openEpisodesModal, episodeLegth, anime_info}: Props) => {
     isError,
     data: anime_data,
     error,
-  } = useQuery({
-    queryKey: ['get_info_from_anilist'],
+  } = useQuery<any>({
+    queryKey: ['get_info_from_anilist', anime_info.id],
     queryFn: fetchLists,
   });
 
   const {isMobile} = useBreakpoints();
 
-  const animeStatus = (
-    anime_data as any
-  )?.data?.Media?.mediaListEntry?.status?.toLowerCase();
+  const animeStatus =
+    anime_data?.data?.Media?.mediaListEntry?.status?.toLowerCase();
+
+  const animeScore = anime_data?.data?.Media?.mediaListEntry?.score;
+  const isFavourite = anime_data?.data?.Media?.isFavourite;
 
   const actualAnimeStatus = collectionOptions.find(
     option => option.status.toLowerCase() === animeStatus,
   );
 
+  const invalidateQuery = async () => {
+    await queryClient.invalidateQueries({
+      queryKey: ['get_info_from_anilist', anime_info.id],
+      exact: true,
+    });
+  };
+
   const onCollectionOptionPress = async (option: CollectionOptions) => {
     try {
-      await anilist.user.updateShow({
+      await anilist.user.updateMedia({
         mediaId: parseInt(anime_info.id),
         status: option.status,
       });
-      queryClient.invalidateQueries({
-        queryKey: ['get_info_from_anilist'],
-        exact: true,
-      });
+
+      await invalidateQuery();
+
       Toast.show({
         type: 'success',
         autoHide: true,
@@ -104,68 +117,103 @@ const Options = ({openEpisodesModal, episodeLegth, anime_info}: Props) => {
     }
   };
 
+  const onFavoruiteOptionPress = async () => {
+    try {
+      await anilist.media.favouriteAnime(parseInt(anime_info.id));
+
+      await invalidateQuery();
+
+      Toast.show({
+        type: 'success',
+        autoHide: true,
+        position: 'top',
+        text1: isFavourite ? '🎉 Show Un Favorited' : '🎉 Show Favorited',
+        text2: isFavourite
+          ? `show has been Un Favorited!`
+          : `show has been Favorited!`,
+      });
+    } catch (error) {
+      return Toast.show({
+        type: 'error',
+        autoHide: true,
+        position: 'top',
+        text1: '❌ Favorited Update Error',
+        text2: `Failed to favorite show`,
+      });
+    }
+  };
+
   return (
-    <Container>
-      <Wrapper isMobile={isMobile}>
-        <OptionContainer>
-          <OptionWrapper
-            onPress={openEpisodesModal}
-            disabled={episodeLegth === 0}>
-            <OptionIconContainer>
-              <OptionIcon name="arrow-circle-o-down" />
-            </OptionIconContainer>
-            <OptionText>Episodes</OptionText>
-          </OptionWrapper>
-        </OptionContainer>
+    <>
+      <Container>
+        <Wrapper isMobile={isMobile}>
+          <OptionContainer>
+            <OptionWrapper
+              onPress={openEpisodesModal}
+              disabled={episodeLegth === 0}>
+              <OptionIconContainer>
+                <OptionIcon2 name="card-multiple-outline" />
+              </OptionIconContainer>
+              <OptionText>Episodes</OptionText>
+            </OptionWrapper>
+          </OptionContainer>
 
-        <OptionContainer>
-          <OptionWrapper
-            onPress={toggleCollectionsDropDown}
-            disabled={!accessToken || isPending}>
-            <OptionIconContainer>
-              <OptionIcon name="list-ul" />
-            </OptionIconContainer>
-            <OptionText>
-              {animeStatus && actualAnimeStatus
-                ? actualAnimeStatus.name
-                : 'Collections'}
-            </OptionText>
-          </OptionWrapper>
-          <OptionDropDown isOpen={openCollection}>
-            {collectionOptions.map((option, index) => {
-              const isSelected = option.status.toLowerCase() === animeStatus;
-              return (
-                <OptionDropDownItem
-                  disabled={isSelected}
-                  active={isSelected}
-                  key={`${option.name}-${index}`}
-                  onPress={() => onCollectionOptionPress(option)}>
-                  <OptionDropDownItemText>{option.name}</OptionDropDownItemText>
-                </OptionDropDownItem>
-              );
-            })}
-          </OptionDropDown>
-        </OptionContainer>
+          <OptionContainer>
+            <OptionWrapper
+              onPress={toggleCollectionsDropDown}
+              disabled={!accessToken || isPending}>
+              <OptionIconContainer>
+                <OptionIcon name="list-ul" />
+              </OptionIconContainer>
+              <OptionText>
+                {animeStatus && actualAnimeStatus
+                  ? actualAnimeStatus.name
+                  : 'Collections'}
+              </OptionText>
+            </OptionWrapper>
+            <OptionDropDown isOpen={openCollection}>
+              {collectionOptions.map((option, index) => {
+                const isSelected = option.status.toLowerCase() === animeStatus;
+                return (
+                  <OptionDropDownItem
+                    disabled={isSelected}
+                    active={isSelected}
+                    key={`${option.name}-${index}`}
+                    onPress={() => onCollectionOptionPress(option)}>
+                    <OptionDropDownItemText>
+                      {option.name}
+                    </OptionDropDownItemText>
+                  </OptionDropDownItem>
+                );
+              })}
+            </OptionDropDown>
+          </OptionContainer>
 
-        <OptionContainer>
-          <OptionWrapper disabled>
-            <OptionIconContainer>
-              <OptionIcon name="ban" />
-            </OptionIconContainer>
-            <OptionText style={{textTransform: 'uppercase'}}>W.I.P</OptionText>
-          </OptionWrapper>
-        </OptionContainer>
+          <OptionContainer>
+            <OptionWrapper onPress={() => setOpenRateModal(true)}>
+              <OptionIconContainer>
+                <OptionIcon name="star" />
+              </OptionIconContainer>
+              <OptionText>
+                {animeScore
+                  ? parseInt(animeScore) >= 100
+                    ? animeScore
+                    : `${String(animeScore).padEnd(2, '0')}/100`
+                  : 'Rate'}
+              </OptionText>
+            </OptionWrapper>
+          </OptionContainer>
 
-        <OptionContainer>
-          <OptionWrapper disabled>
-            <OptionIconContainer>
-              <OptionIcon name="ban" />
-            </OptionIconContainer>
-            <OptionText style={{textTransform: 'uppercase'}}>W.I.P</OptionText>
-          </OptionWrapper>
-        </OptionContainer>
+          <OptionContainer>
+            <OptionWrapper onPress={onFavoruiteOptionPress}>
+              <OptionIconContainer>
+                <OptionIcon name={isFavourite ? 'heart' : 'heart-o'} />
+              </OptionIconContainer>
+              <OptionText>Favourite</OptionText>
+            </OptionWrapper>
+          </OptionContainer>
 
-        {/* <OptionContainer>
+          {/* <OptionContainer>
           <OptionWrapper disabled>
             <OptionIconContainer>
               <OptionIcon name="download" />
@@ -182,8 +230,15 @@ const Options = ({openEpisodesModal, episodeLegth, anime_info}: Props) => {
             <OptionText>Related</OptionText>
           </OptionWrapper>
         </OptionContainer> */}
-      </Wrapper>
-    </Container>
+        </Wrapper>
+      </Container>
+      <RateModal
+        visible={openRateModal}
+        closeFunction={() => setOpenRateModal(false)}
+        anime_info={anime_info}
+        score={animeScore}
+      />
+    </>
   );
 };
 

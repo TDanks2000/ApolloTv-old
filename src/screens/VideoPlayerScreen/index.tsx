@@ -231,7 +231,7 @@ const VideoPlayerScreen: React.FC<Props> = ({route}): JSX.Element => {
   const updateAnilist = async () => {
     if (privateMode === 'on') return false;
     if (!accessToken || watchedAnilist) return false;
-    const didUpdate = await anilist.user.updateShow({
+    const didUpdate = await anilist.user.updateMedia({
       mediaId: parseInt(anime_info.id),
       progress: episode_info.episode_number,
     });

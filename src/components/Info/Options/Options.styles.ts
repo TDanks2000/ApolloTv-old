@@ -1,4 +1,5 @@
 import Icon from 'react-native-vector-icons/FontAwesome';
+import Icon2 from 'react-native-vector-icons/MaterialCommunityIcons';
 import {styled} from 'styled-components/native';
 import {Text} from '../../../styles/sharedStyles';
 import {rgba} from 'polished';
@@ -44,6 +45,12 @@ export const OptionIconContainer = styled.View`
 `;
 
 export const OptionIcon = styled(Icon)`
+  color: white;
+  font-size: 18px;
+  margin-left: -1px;
+`;
+
+export const OptionIcon2 = styled(Icon2)`
   color: white;
   font-size: 18px;
   margin-left: -1px;

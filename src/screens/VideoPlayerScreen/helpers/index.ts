@@ -62,7 +62,7 @@ export const updateAnilist = async (
   if (!accessToken || watchedAnilist) return false;
   if (!checkedIfWatched) return false;
   const anilist = new Anilist(accessToken);
-  const didUpdate = await anilist.user.updateShow({
+  const didUpdate = await anilist.user.updateMedia({
     mediaId: parseInt(anime_info.id),
     progress: episode_info.episode_number,
   });
