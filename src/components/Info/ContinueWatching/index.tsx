@@ -91,8 +91,8 @@ const ContinueWatching = ({
           <TextIcon name="play-circle-o" />
           <Text>
             {currentEpisode <= 0
-              ? 'start watching'
-              : `resume episode ${currentEpisode}`}
+              ? 'Start watching'
+              : `Resume episode ${currentEpisode}`}
           </Text>
         </TextContainer>
       </Wrapper>
