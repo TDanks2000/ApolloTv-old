@@ -1,5 +1,5 @@
 // React and React Native imports
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import {View, TouchableOpacity, Animated} from 'react-native';
 
 // Styled components imports
@@ -117,6 +117,34 @@ const PlayerControls = ({
   const [openSettings, setOpenSettings] = useState(false);
   const [openEpisodes, setOpenEpisodes] = useState(false);
   const [spinState, setSpinState] = React.useState<boolean>(false);
+
+  const [bounceValue] = useState(new Animated.Value(0));
+  const [bounceState, setBounceState] = React.useState<boolean>(false);
+
+  const startBounceAnimation = () => {
+    setBounceState(prev => !prev);
+    setOpenEpisodes(prev => !prev);
+
+    Animated.spring(bounceValue, {
+      toValue: 1,
+      friction: 8,
+      tension: 0.2,
+      useNativeDriver: true,
+    }).start(() => {
+      bounceValue.setValue(0);
+    });
+  };
+
+  const animatedBounceStyles = {
+    transform: [
+      {
+        scale: bounceValue.interpolate({
+          inputRange: [0, 0.5, 1],
+          outputRange: bounceState ? [1, 1.5, 1] : [1, 0.5, 1],
+        }),
+      },
+    ],
+  };
 
   const {skipBehindTime, skipForwardTime} = React.useContext(SettingsContext);
 
@@ -271,15 +299,17 @@ const PlayerControls = ({
           </TopTextContainer>
           <TopRight>
             <View>
-              <TouchableOpacity onPress={() => setOpenEpisodes(true)}>
-                <IconBase6 name="card-multiple-outline" />
+              <TouchableOpacity onPress={startBounceAnimation}>
+                <Animated.View style={animatedBounceStyles}>
+                  <IconBase6 name="card-multiple-outline" />
+                </Animated.View>
               </TouchableOpacity>
               <VideoEpisodesModal
                 episodes={episodes}
                 anime_info={anime_info}
                 visible={openEpisodes}
                 onClose={() => {}}
-                closeFunction={() => setOpenEpisodes(false)}
+                closeFunction={startBounceAnimation}
                 currentEpisode={episode_info.episode_number ?? 1}
               />
             </View>

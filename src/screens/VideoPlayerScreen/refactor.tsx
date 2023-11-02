@@ -30,7 +30,7 @@ import Video, {
   OnProgressData,
   OnSeekData,
 } from 'react-native-video';
-import {PanResponder, PanResponderStatic, StatusBar} from 'react-native';
+import {PanResponder, PanResponderStatic, StatusBar, View} from 'react-native';
 import {helpers} from '../../utils';
 import {LANDSCAPE, OrientationLocker} from 'react-native-orientation-locker';
 import {MiddleOfScreenLoadingComponent, Player} from '../../components';
@@ -485,7 +485,16 @@ const VideoPlayerScreen: React.FC<Props> = ({route}) => {
   if (!selectedSource) return <MiddleOfScreenLoadingComponent />;
 
   return (
-    <>
+    <View
+      style={{
+        flex: 1,
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        backgroundColor: 'black',
+      }}>
       <OrientationLocker orientation={LANDSCAPE} />
       <StatusBar hidden={true} />
       <Player.PlayerControls
@@ -536,12 +545,16 @@ const VideoPlayerScreen: React.FC<Props> = ({route}) => {
         playInBackground={playInBackground === 'off' ? false : true}
         playWhenInactive={playWhenInactive === 'off' ? false : true}
         style={{
-          width: '100%',
-          height: '100%',
+          flex: 1,
           backgroundColor: 'black',
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
         }}
       />
-    </>
+    </View>
   );
 };
 

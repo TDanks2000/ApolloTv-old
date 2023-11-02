@@ -38,8 +38,8 @@ export const Container = styled.View<Props>`
 
 export const Button = styled.TouchableOpacity`
   background-color: rgba(0, 0, 0, 0.55);
-  width: 55px;
-  height: 55px;
+  width: 45px;
+  height: 45px;
   border-radius: 9999px;
 
   justify-content: center;
@@ -97,7 +97,7 @@ export const Middle = styled.View<HiddenProps>`
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  gap: 50px;
+  gap: 30px;
 
   ${({hidden}) =>
     hidden &&

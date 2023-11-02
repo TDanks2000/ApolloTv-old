@@ -10,7 +10,7 @@ export const Container = styled(Animated.View)`
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
-  margin: 45px 0;
+  margin: 55px 0;
   padding-right: 30px;
   z-index: 20;
 `;

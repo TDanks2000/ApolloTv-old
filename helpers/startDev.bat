@@ -1,1 +1,1 @@
-yarn start 
+cd ../ && yarn start 

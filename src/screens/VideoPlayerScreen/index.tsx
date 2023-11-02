@@ -379,10 +379,10 @@ const VideoPlayerScreen: React.FC<Props> = ({route}): JSX.Element => {
       setSelectedSource(findHighestQuality);
       createAndUpdateDB();
       checkIfWatchedFromDB();
-      setShowNavBar(false);
+      setShowNavBar!(false);
 
       if (isError) {
-        setShowNavBar(true);
+        setShowNavBar!(true);
       }
     }, [data, isError, error, currentTime, duration, episode_info]),
   );
@@ -400,7 +400,7 @@ const VideoPlayerScreen: React.FC<Props> = ({route}): JSX.Element => {
             parseInt(anime_info.id),
             episode_info,
           );
-        setShowNavBar(true);
+        setShowNavBar!(true);
 
         if (watched === true) setWatched(false);
         if (hasSkipedIntro === true) setHasSkippedIntro(false);
@@ -441,7 +441,7 @@ const VideoPlayerScreen: React.FC<Props> = ({route}): JSX.Element => {
   };
 
   return (
-    <View>
+    <View style={{flex: 1}}>
       <OrientationLocker orientation={LANDSCAPE} />
       <StatusBar hidden={true} />
       <Player.PlayerControls
