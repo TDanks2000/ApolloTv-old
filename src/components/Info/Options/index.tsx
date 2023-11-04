@@ -14,7 +14,7 @@ import {
   Wrapper,
 } from './Options.styles';
 import {useBreakpoints} from '../../../hooks';
-import {FullAnimeInfo, MediaListStatus} from '../../../@types';
+import {FullAnimeInfo, MediaListStatus, PointType} from '../../../@types';
 import {Anilist} from '@tdanks2000/anilist-wrapper';
 import {useAccessToken} from '../../../contexts';
 import {useQuery, useQueryClient} from '@tanstack/react-query';
@@ -57,18 +57,20 @@ const Options = ({openEpisodesModal, episodeLegth, anime_info}: Props) => {
 
   const fetchLists = async () => {
     const returnData = await anilist.media.anime(parseInt(anime_info.id));
-    return returnData;
+    // const anilistUser = (await anilist.user.getCurrentUser()) as any;
+
+    return {
+      returnData,
+      // anilistUser,
+    };
   };
 
-  const {
-    isPending,
-    isError,
-    data: anime_data,
-    error,
-  } = useQuery<any>({
+  const {isPending, isError, data, error} = useQuery({
     queryKey: ['get_info_from_anilist', anime_info.id],
     queryFn: fetchLists,
   });
+
+  const anime_data = data?.returnData as any;
 
   const {isMobile} = useBreakpoints();
 
@@ -76,6 +78,8 @@ const Options = ({openEpisodesModal, episodeLegth, anime_info}: Props) => {
     anime_data?.data?.Media?.mediaListEntry?.status?.toLowerCase();
 
   const animeScore = anime_data?.data?.Media?.mediaListEntry?.score;
+  // const scoreFormat = data?.anilistUser?.data?.Viewer?.mediaListOptions
+  //   ?.scoreFormat as PointType | undefined;
   const isFavourite = anime_data?.data?.Media?.isFavourite;
 
   const actualAnimeStatus = collectionOptions.find(

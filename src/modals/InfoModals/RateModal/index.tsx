@@ -52,7 +52,7 @@ const RateModal: React.FC<Props> = ({
   const rate = async () => {
     try {
       await anilist.user.updateMedia({
-        score: rating,
+        scoreRaw: rating,
         mediaId: parseInt(anime_info ? anime_info.id : manga_info!.id),
       });
     } catch (error) {

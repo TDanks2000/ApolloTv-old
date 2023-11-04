@@ -46,7 +46,7 @@ const SyncingSettingScreen = ({navigation}: Props) => {
             type="log_out"
             onPress={() =>
               genericContext!.openAlert(
-                'Logout',
+                'Log out',
                 'Are you sure you want to log out?',
                 'info',
                 {

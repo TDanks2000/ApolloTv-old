@@ -124,8 +124,6 @@ const InfoScreen = ({route}: Props) => {
       return undefined;
     }
 
-    console.log(episodes?.length >= 1);
-
     return (
       episodes.find(episode => episode.number === nextEpisodeNumber) ||
       episodes[0]

@@ -1,4 +1,5 @@
 import React from 'react';
+import {useTranslation} from 'react-i18next';
 import {ScrollView, SharedContainer, Title} from '../../../styles/sharedStyles';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {TextContainer} from '../SettingScreens.styles';
@@ -8,6 +9,7 @@ import {SettingsContext} from '../../../contexts';
 import {Quality} from '../../../@types';
 
 const VideoSettingScreen = () => {
+  const {t} = useTranslation();
   const {
     autoSkipIntro,
     autoSkipOutro,
@@ -39,13 +41,13 @@ const VideoSettingScreen = () => {
       <SharedContainer>
         <TextContainer>
           <BackButtonComponent isModal={false} />
-          <Title>Video Settings</Title>
+          <Title>{t('settings_title_video')}</Title>
         </TextContainer>
 
         <ScrollView style={{paddingTop: 20, marginTop: 10, flex: 1}}>
           <Settings.Setting
-            title="Auto Skip Intro"
-            descriptor="Auto skip the opening intro"
+            title={t('settings_setting_title_auto_skip_intro')}
+            descriptor={t('settings_setting_auto_skip_intro_desc')}
             selectedOption={autoSkipIntro ?? 'off'}
             onPress={() =>
               changeAutoSkip ? changeAutoSkip('auto_skip_intro') : undefined
@@ -53,8 +55,8 @@ const VideoSettingScreen = () => {
           />
           <Seperator />
           <Settings.Setting
-            title="Auto Skip Outro"
-            descriptor="Auto skip the ending outro"
+            title={t('settings_setting_title_auto_skip_outro')}
+            descriptor={t('settings_setting_auto_skip_outro_desc')}
             selectedOption={autoSkipOutro ?? 'off'}
             onPress={() =>
               changeAutoSkip ? changeAutoSkip('auto_skip_outro') : undefined
@@ -64,8 +66,8 @@ const VideoSettingScreen = () => {
           <Seperator />
 
           <Settings.Setting
-            title="Auto Next Episode"
-            descriptor="Auto play the next Episode"
+            title={t('settings_setting_title_auto_next_episode')}
+            descriptor={t('settings_setting_auto_next_episode_desc')}
             selectedOption={autoNextEpisode ?? 'off'}
             onPress={() =>
               changeAutoNextEpisode
@@ -77,8 +79,8 @@ const VideoSettingScreen = () => {
           <Seperator />
 
           <Settings.Setting
-            title="Preferred Quality"
-            descriptor="What Quality would you like to be auto selected"
+            title={t('settings_setting_title_preferred_quality')}
+            descriptor={t('settings_setting_preferred_quality_desc')}
             selectedOption={preferedQuality ?? 'HIGEST'}
             dropdown={true}
             options={qualityOptions}
@@ -88,8 +90,8 @@ const VideoSettingScreen = () => {
           <Seperator />
 
           <Settings.Setting
-            title="Skip Forward Time"
-            descriptor="change the skip forawrd time"
+            title={t('settings_setting_title_skip_forward_time')}
+            descriptor={t('settings_setting_skip_forward_time_desc')}
             selectedOption={skipForwardTime ?? 30}
             typeOfSetting="input"
             changeSetting={(number: number) => {
@@ -102,8 +104,8 @@ const VideoSettingScreen = () => {
           <Seperator />
 
           <Settings.Setting
-            title="Rewind Time"
-            descriptor="change the rewind time"
+            title={t('settings_setting_title_rewind_time')}
+            descriptor={t('settings_setting_rewind_time_desc')}
             selectedOption={skipBehindTime ?? 30}
             typeOfSetting="input"
             onPress={() => {}}
@@ -117,8 +119,8 @@ const VideoSettingScreen = () => {
           <Seperator />
 
           <Settings.Setting
-            title="Play in background"
-            descriptor="Continue playing while the app is in the background."
+            title={t('settings_setting_title_play_in_background')}
+            descriptor={t('settings_setting_play_in_background_desc')}
             selectedOption={playInBackground ?? 'off'}
             onPress={() =>
               changePlayInBackground ? changePlayInBackground() : undefined
@@ -128,8 +130,8 @@ const VideoSettingScreen = () => {
           <Seperator />
 
           <Settings.Setting
-            title="Play when inactive"
-            descriptor="Continue playing when notifications are in front of the video"
+            title={t('settings_setting_title_play_when_inactive')}
+            descriptor={t('settings_setting_play_when_inactive_desc')}
             selectedOption={playWhenInactive ?? 'off'}
             onPress={() =>
               changePlayWhenInactive ? changePlayWhenInactive() : undefined

@@ -20,6 +20,7 @@ import {toastConfig} from './src/styles/toastconfig';
 import {Alert} from './src/components';
 import {UpdaterProvider} from './src/contexts/UpdaterContext';
 import {useCheckForUpdate, useAnalytics} from './src/hooks';
+import './src/i18n';
 
 const queryClient = new QueryClient();
 

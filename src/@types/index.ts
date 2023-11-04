@@ -437,6 +437,43 @@ export enum MediaSeason {
 
 export type UseStateType<T> = ReturnType<typeof React.useState<T>>;
 
+export type Point100 = number;
+// An integer from 0 to 100
+
+export type Point10Decimal = number;
+// A float from 0 to 10 with 1 decimal place
+
+export type Point10 = number;
+// An integer from 0 to 10
+
+export type Point5 = 0 | 1 | 2 | 3 | 4 | 5;
+// An integer from 0 to 5. Should be represented in Stars
+
+export type Point3 = 0 | 1 | 2 | 3;
+// An integer from 0 to 3. Should be represented in Smileys.
+// 0 => No Score, 1 => :(, 2 => :|, 3 => :)
+
+export enum PointValues {
+  // An integer from 0-100
+  Point_100 = 'Point_100',
+  // A float from 0-10 with 1 decimal place
+  Point_100_Decimal = 'Point_100_Decimal',
+  // An integer from 0-10
+  Point_10 = 'Point_10',
+  // An integer from 0-5. Should be represented in Stars
+  Point_5 = 'Point_5',
+  // An integer from 0 to 3. Should be represented in Smileys.
+  // 0 => No Score, 1 => :(, 2 => :|, 3 => :)
+  Point_3 = 'Point_3',
+}
+
+export type PointType =
+  | PointValues.Point_100
+  | PointValues.Point_100_Decimal
+  | PointValues.Point_10
+  | PointValues.Point_5
+  | PointValues.Point_3;
+
 export * from './Services';
 export * from './Reader';
 export * from './Video';
