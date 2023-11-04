@@ -122,3 +122,11 @@ export const formatDate = (date: Date): string => {
 
 export const capitalizeFirstLetter = (text: string) =>
   text?.charAt(0).toUpperCase() + text.slice(1).toLowerCase();
+
+export const parseRating = (rating: number) => {
+  if (rating < 0 || rating > 10) {
+    return rating;
+  }
+  // Round to nearest 0.5
+  return rating;
+};

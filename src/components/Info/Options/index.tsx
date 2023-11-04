@@ -30,7 +30,7 @@ interface Props {
 
 type CollectionOptions = {
   name: string;
-  status: MediaListStatus;
+  status: MediaListStatus | 'remove';
 };
 
 const Options = ({openEpisodesModal, episodeLegth, anime_info}: Props) => {
@@ -46,6 +46,7 @@ const Options = ({openEpisodesModal, episodeLegth, anime_info}: Props) => {
     {name: 'Dropped', status: 'DROPPED'},
     {name: 'Paused', status: 'PAUSED'},
     {name: 'ReWatching', status: 'REPEATING'},
+    {name: 'remove', status: 'remove'},
   ];
 
   const [openCollection, toggleCollectionsDropDown] = React.useReducer(
@@ -95,10 +96,14 @@ const Options = ({openEpisodesModal, episodeLegth, anime_info}: Props) => {
 
   const onCollectionOptionPress = async (option: CollectionOptions) => {
     try {
-      await anilist.user.updateMedia({
-        mediaId: parseInt(anime_info.id),
-        status: option.status,
-      });
+      if (option.status === 'remove') {
+        await anilist.user.deleteShow(parseInt(anime_info.id));
+      } else {
+        await anilist.user.updateMedia({
+          mediaId: parseInt(anime_info.id),
+          status: option.status,
+        });
+      }
 
       await invalidateQuery();
 
@@ -165,6 +170,13 @@ const Options = ({openEpisodesModal, episodeLegth, anime_info}: Props) => {
           <OptionContainer>
             <OptionWrapper
               onPress={toggleCollectionsDropDown}
+              onLongPress={e => {
+                return onCollectionOptionPress({
+                  name: 'remove',
+                  status: 'remove',
+                });
+              }}
+              delayLongPress={1000}
               disabled={!accessToken || isPending}>
               <OptionIconContainer>
                 <OptionIcon name="list-ul" />
