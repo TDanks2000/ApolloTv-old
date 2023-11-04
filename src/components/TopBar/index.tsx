@@ -20,6 +20,7 @@ import {storage} from '../../utils';
 import {ANILIST_ACCESS_TOKEN_STORAGE} from '../../utils/constants';
 import NotificationBell from './NotificationBell';
 import {TopBarSkeleton} from '../Skeletons';
+import {useTranslation} from 'react-i18next';
 
 type Props = {
   hasJustLoggedIn?: boolean;
@@ -32,6 +33,7 @@ const TopBarComponent = ({
   refreshing,
   setRefreshing,
 }: Props) => {
+  const {t} = useTranslation();
   let accessToken = useAccessToken().accessToken;
   const navigation = useNavigation<StackNavigation>();
 
@@ -70,7 +72,7 @@ const TopBarComponent = ({
               }}
             />
             <ProfileTextContainer>
-              <ProfileText>Hello,</ProfileText>
+              <ProfileText>{t('hello')},</ProfileText>
               <ProfileText numberOfLines={1} isProfileName={true}>
                 {data?.Viewer?.name}
               </ProfileText>

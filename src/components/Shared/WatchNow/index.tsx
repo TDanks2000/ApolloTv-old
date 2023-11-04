@@ -1,3 +1,4 @@
+import {useTranslation} from 'react-i18next';
 import {
   WatchNowButton,
   WatchNowButtonText,
@@ -10,12 +11,14 @@ interface Props {
 }
 
 const WatchNowComponent = ({WatchText, onPress}: Props) => {
+  const {t} = useTranslation();
+
   return (
     <WatchNowButton onPress={onPress}>
       {/* @ts-ignore */}
       <WatchNowIcon />
       <WatchNowButtonText>
-        {WatchText ? WatchText : ' Watch now'}
+        {WatchText ? WatchText : t('watch_now')}
       </WatchNowButtonText>
     </WatchNowButton>
   );

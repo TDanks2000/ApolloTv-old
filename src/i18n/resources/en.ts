@@ -1,4 +1,22 @@
 export default {
+  hello: 'hello',
+  news: 'news',
+
+  contuine_watching: 'Contuine Watching',
+  top_rated: 'Top rated',
+  popular: 'Popular',
+  trending: 'Trending',
+  watch_now: 'Watch Now',
+
+  // nav bar
+  home: 'home',
+  search: 'search',
+  lists: 'lists',
+  settings: 'settings',
+
+  anime: 'anime',
+  manga: 'manga',
+
   you_may_also_like: 'You may also like',
   Present: 'Present',
   Chapters: 'Chapters',

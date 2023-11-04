@@ -14,11 +14,12 @@ import {RootStackParamList} from '../../@types';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {GenericContext} from '../../contexts';
 import {episodeSQLHelper} from '../../utils/database';
-import {addToAnalytics} from '../../utils/api';
+import {useTranslation} from 'react-i18next';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Home'>;
 
 const HomeScreen = ({route}: Props) => {
+  const {t} = useTranslation();
   const [refreshing, setRefreshing] = React.useState(false);
   const genericContext = React.useContext(GenericContext);
   const hasJustLoggedIn = route?.params?.hasJustLoggedIn;
@@ -61,22 +62,28 @@ const HomeScreen = ({route}: Props) => {
         </SectionContainer>
         <ContuineWatchingContainer />
         <GenericContainer>
-          <GenericSection sectionTitle="Top Rated" sectionType={'top_rated'} />
+          <GenericSection
+            sectionTitle={t('top_rated')}
+            sectionType={'top_rated'}
+          />
         </GenericContainer>
         <GenericContainer>
           <GenericSection
-            sectionTitle="Top Rated"
+            sectionTitle={t('top_rated')}
             sectionType={'top_rated'}
             type="MANGA"
           />
         </GenericContainer>
         <GenericContainer>
-          <GenericSection sectionTitle="Trending" sectionType={'trending'} />
+          <GenericSection
+            sectionTitle={t('trending')}
+            sectionType={'trending'}
+          />
         </GenericContainer>
 
         <GenericContainer>
           <GenericSection
-            sectionTitle="Popular"
+            sectionTitle={t('popular')}
             sectionType={'popular'}
             type="MANGA"
           />

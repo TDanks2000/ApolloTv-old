@@ -10,6 +10,7 @@ import {Quality} from '../../../@types';
 
 const VideoSettingScreen = () => {
   const {t} = useTranslation();
+
   const {
     autoSkipIntro,
     autoSkipOutro,

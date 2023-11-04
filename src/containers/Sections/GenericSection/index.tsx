@@ -12,6 +12,7 @@ import {api} from '../../../utils';
 import {useQuery} from '@tanstack/react-query';
 import {SectionTypes} from '../../../@types';
 import {GenericSectionSkeleton} from '../../../components/Skeletons';
+import {useTranslation} from 'react-i18next';
 
 interface Props {
   sectionTitle: string;
@@ -21,6 +22,8 @@ interface Props {
 }
 
 const GenericSection = ({sectionTitle, sectionType, type = 'ANIME'}: Props) => {
+  const {t} = useTranslation();
+
   const fetcher = async () => {
     const res = (await api.fetcher(
       api.getSectionUrl(sectionType, type),
@@ -53,7 +56,7 @@ const GenericSection = ({sectionTitle, sectionType, type = 'ANIME'}: Props) => {
     <SectionContainer>
       <SectionTitleContainer>
         <SectionTitle>
-          {sectionTitle} {type}
+          {sectionTitle} {type === 'ANIME' ? t('anime') : t('manga')}
         </SectionTitle>
       </SectionTitleContainer>
       <SectionWrapper>

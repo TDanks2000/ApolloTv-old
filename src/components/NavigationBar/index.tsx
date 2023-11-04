@@ -9,12 +9,15 @@ import {
   NavBarText,
 } from './NavigationBar.styles';
 import {NavigationContext} from '../../contexts';
+import {useTranslation} from 'react-i18next';
 
 interface Props {
   currentRoute: string;
 }
 
 const NavigationBar = ({currentRoute}: Props) => {
+  const {t} = useTranslation();
+
   const {showNavBar}: any = React.useContext(NavigationContext);
   const navigation: any = useNavigation();
 
@@ -34,7 +37,7 @@ const NavigationBar = ({currentRoute}: Props) => {
             name="home"
             isFocused={currentRoute === 'Home' ? true : false}
           />
-          {currentRoute === 'Home' && <NavBarText>Home</NavBarText>}
+          {currentRoute === 'Home' && <NavBarText>{t('home')}</NavBarText>}
         </NavBarItem>
         <NavBarItem
           onPress={() => handleStackChange('Search')}
@@ -43,7 +46,7 @@ const NavigationBar = ({currentRoute}: Props) => {
             name="search"
             isFocused={currentRoute === 'Search' ? true : false}
           />
-          {currentRoute === 'Search' && <NavBarText>Search</NavBarText>}
+          {currentRoute === 'Search' && <NavBarText>{t('search')}</NavBarText>}
         </NavBarItem>
         <NavBarItem
           onPress={() => handleStackChange('Lists')}
@@ -52,7 +55,7 @@ const NavigationBar = ({currentRoute}: Props) => {
             name="list-ul"
             isFocused={currentRoute === 'Lists' ? true : false}
           />
-          {currentRoute === 'Lists' && <NavBarText>Lists</NavBarText>}
+          {currentRoute === 'Lists' && <NavBarText>{t('lists')}</NavBarText>}
         </NavBarItem>
         <NavBarItem
           onPress={() => handleStackChange('Settings')}
@@ -61,7 +64,9 @@ const NavigationBar = ({currentRoute}: Props) => {
             name="cog"
             isFocused={currentRoute === 'Settings' ? true : false}
           />
-          {currentRoute === 'Settings' && <NavBarText>Settings</NavBarText>}
+          {currentRoute === 'Settings' && (
+            <NavBarText>{t('settings')}</NavBarText>
+          )}
         </NavBarItem>
       </NavBarWrapper>
     </NavBarContainer>

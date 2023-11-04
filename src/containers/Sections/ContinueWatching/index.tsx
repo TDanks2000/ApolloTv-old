@@ -16,8 +16,11 @@ import {useAccessToken} from '../../../contexts';
 import {Anilist} from '@tdanks2000/anilist-wrapper';
 import {GenericContainer} from '../../../screens/HomeScreen/HomeScreen.styles';
 import {ContinueWatchingSectionSkeleton} from '../../../components/Skeletons';
+import {useTranslation} from 'react-i18next';
 
 const ContuineWatchingContainer = () => {
+  const {t} = useTranslation();
+
   const {accessToken} = useAccessToken();
   const anilist = new Anilist(accessToken);
 
@@ -100,7 +103,7 @@ const ContuineWatchingContainer = () => {
     <GenericContainer>
       <SectionContainer>
         <SectionTitleContainer>
-          <SectionTitle>Contuine Watching</SectionTitle>
+          <SectionTitle>{t('contuine_watching')}</SectionTitle>
         </SectionTitleContainer>
         <SectionWrapper>
           <FlatList
