@@ -21,6 +21,7 @@ import {Alert} from './src/components';
 import {UpdaterProvider} from './src/contexts/UpdaterContext';
 import {useCheckForUpdate, useAnalytics} from './src/hooks';
 import './src/i18n';
+import {DownloadQueueProvider} from './src/contexts/DownloadQueue';
 
 const queryClient = new QueryClient();
 
@@ -32,7 +33,9 @@ const App = (): JSX.Element => {
       <GenericContextProvider>
         <SettingsProvider>
           <UpdaterProvider>
-            <InnerApp />
+            <DownloadQueueProvider>
+              <InnerApp />
+            </DownloadQueueProvider>
           </UpdaterProvider>
         </SettingsProvider>
       </GenericContextProvider>

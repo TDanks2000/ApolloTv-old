@@ -5,5 +5,6 @@ import * as helpers from './helpers';
 import * as settingsHelper from './settingsManager';
 
 import {storage} from './storage/cleint';
+import DownloadManager from './download/downloadManager';
 
-export {utils, api, storage, helpers, settingsHelper};
+export {DownloadManager, utils, api, storage, helpers, settingsHelper};

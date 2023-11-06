@@ -60,7 +60,9 @@ const Options: React.FC<Props> = ({
   );
 
   const fetchLists = async () => {
-    const returnData = await anilist.media.manga(parseInt(manga_info.id));
+    const returnData = !accessToken
+      ? []
+      : await anilist.media.manga(parseInt(manga_info.id));
     return returnData;
   };
 
@@ -79,8 +81,6 @@ const Options: React.FC<Props> = ({
 
   const mangaScore = manga_data?.data?.Media?.mediaListEntry?.score;
   const isFavourite = manga_data?.data?.Media?.isFavourite;
-
-  console.log(manga_data?.data?.Media?.mediaListEntry);
 
   const actualAnimeStatus = collectionOptions.find(
     option => option.status.toLowerCase() === mangaStatus,
@@ -175,26 +175,31 @@ const Options: React.FC<Props> = ({
                   : 'Collections'}
               </OptionText>
             </OptionWrapper>
-            <OptionDropDown isOpen={openCollection}>
-              {collectionOptions.map((option, index) => {
-                const isSelected = option.status.toLowerCase() === mangaStatus;
-                return (
-                  <OptionDropDownItem
-                    disabled={isSelected}
-                    active={isSelected}
-                    key={`${option.name}-manga-${index}`}
-                    onPress={() => onCollectionOptionPress(option)}>
-                    <OptionDropDownItemText>
-                      {option.name}
-                    </OptionDropDownItemText>
-                  </OptionDropDownItem>
-                );
-              })}
-            </OptionDropDown>
+            {accessToken ? (
+              <OptionDropDown isOpen={openCollection}>
+                {collectionOptions.map((option, index) => {
+                  const isSelected =
+                    option.status.toLowerCase() === mangaStatus;
+                  return (
+                    <OptionDropDownItem
+                      disabled={isSelected}
+                      active={isSelected}
+                      key={`${option.name}-manga-${index}`}
+                      onPress={() => onCollectionOptionPress(option)}>
+                      <OptionDropDownItemText>
+                        {option.name}
+                      </OptionDropDownItemText>
+                    </OptionDropDownItem>
+                  );
+                })}
+              </OptionDropDown>
+            ) : null}
           </OptionContainer>
 
           <OptionContainer>
-            <OptionWrapper onPress={() => setOpenRateModal(true)}>
+            <OptionWrapper
+              onPress={() => setOpenRateModal(true)}
+              disabled={!accessToken || isPending}>
               <OptionIconContainer>
                 <OptionIcon name="star" />
               </OptionIconContainer>
@@ -209,7 +214,9 @@ const Options: React.FC<Props> = ({
           </OptionContainer>
 
           <OptionContainer>
-            <OptionWrapper onPress={onFavoruiteOptionPress}>
+            <OptionWrapper
+              onPress={onFavoruiteOptionPress}
+              disabled={!accessToken || isPending}>
               <OptionIconContainer>
                 <OptionIcon name={isFavourite ? 'heart' : 'heart-o'} />
               </OptionIconContainer>
@@ -218,12 +225,14 @@ const Options: React.FC<Props> = ({
           </OptionContainer>
         </Wrapper>
       </Container>
-      <RateModal
-        visible={openRateModal}
-        closeFunction={() => setOpenRateModal(false)}
-        manga_info={manga_info}
-        score={mangaScore}
-      />
+      {accessToken ? (
+        <RateModal
+          visible={openRateModal}
+          closeFunction={() => setOpenRateModal(false)}
+          manga_info={manga_info}
+          score={mangaScore}
+        />
+      ) : null}
     </>
   );
 };

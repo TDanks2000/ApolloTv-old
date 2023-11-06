@@ -3,6 +3,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {styled} from 'styled-components/native';
 import {Text} from '../../../styles/sharedStyles';
+import {Animated} from 'react-native';
 
 export const EpisodeContainer = styled.TouchableOpacity.attrs({
   activeOpacity: 0.8,
@@ -74,7 +75,7 @@ export const EpisodeTitle = styled.Text`
   font-family: ${({theme}) => theme.text.fonts.NunitoSans};
 `;
 
-export const PercentWatchedContainer = styled.View`
+export const PercentWatchedContainer = styled(Animated.View)`
   width: 100%;
   background-color: ${({theme}) => rgba(theme.base.mainColor, 0.4)};
   height: 4px;
@@ -98,17 +99,41 @@ export const DownloadWrapper = styled.View`
   right: 0;
   top: 0;
   margin: 3px;
+  z-index: 111;
+  background: black;
+  border-radius: 9999px;
+  overflow: hidden;
+  width: 35px;
+  height: 35px;
+`;
+
+export const DownloadContainer = styled.View`
+  position: relative;
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+`;
+
+type Props = {
+  downloadProgress?: number;
+};
+
+export const DownloadBackground = styled(Animated.View)<Props>`
+  width: ${({downloadProgress}) =>
+    downloadProgress ? `${downloadProgress}%` : 0};
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 100%;
+  background-color: ${({theme}) => theme.base.mainColor};
+  /* z-index: 1; */
 `;
 
 export const DownloadButton = styled.TouchableOpacity`
-  background: black;
-  width: 35px;
-  height: 35px;
-  border-radius: 9999px;
-  overflow: hidden;
-  justify-content: center;
-  align-items: center;
-  border-color: red;
+  z-index: 1;
 `;
 
 export const DownloadIcon = styled(Icon)`

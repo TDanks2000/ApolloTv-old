@@ -4,7 +4,7 @@ export default {
 
   contuine_watching: 'Continuar viendo',
   top_rated: 'Más valorado',
-  popular: 'conocido',
+  popular: 'más populares',
   trending: 'Tendencia',
   watch_now: 'Ver Ahora',
 

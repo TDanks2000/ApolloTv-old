@@ -153,3 +153,18 @@ export const areAllNumbersSame = (...numbers: number[]): number | null => {
 
   return firstNumber;
 };
+
+export const normalizeTitle = (title: string): string => {
+  // Remove illegal characters for filenames
+  const illegalCharsRegex = /[<>:"/\\|?*\x00-\x1F]/g;
+  const sanitizedTitle = title.replace(illegalCharsRegex, '');
+
+  // Replace all characters with one space
+  const spaceRegex = /\s+/g;
+  const titleWithSpaces = sanitizedTitle.replace(spaceRegex, ' ');
+
+  // Replace the space with a hyphen
+  const normalizedTitle = titleWithSpaces.trim().replace(/\s/g, '-');
+
+  return normalizedTitle;
+};

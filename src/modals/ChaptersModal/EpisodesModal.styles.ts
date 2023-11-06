@@ -35,6 +35,7 @@ export const BackButtonIcon = styled(Icon)`
 `;
 
 export const Title = styled.Text`
+  flex: 1;
   padding-right: ${({theme}) => theme.spacing.paddingRight};
   color: white;
   font-size: 20px;

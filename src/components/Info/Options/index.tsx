@@ -57,6 +57,10 @@ const Options = ({openEpisodesModal, episodeLegth, anime_info}: Props) => {
   const [openRateModal, setOpenRateModal] = React.useState<boolean>(false);
 
   const fetchLists = async () => {
+    if (!accessToken) {
+      return [];
+    }
+
     const returnData = await anilist.media.anime(parseInt(anime_info.id));
     // const anilistUser = (await anilist.user.getCurrentUser()) as any;
 
@@ -66,7 +70,7 @@ const Options = ({openEpisodesModal, episodeLegth, anime_info}: Props) => {
     };
   };
 
-  const {isPending, isError, data, error} = useQuery({
+  const {isPending, isError, data, error} = useQuery<any>({
     queryKey: ['get_info_from_anilist', anime_info.id],
     queryFn: fetchLists,
   });
@@ -187,26 +191,31 @@ const Options = ({openEpisodesModal, episodeLegth, anime_info}: Props) => {
                   : 'Collections'}
               </OptionText>
             </OptionWrapper>
-            <OptionDropDown isOpen={openCollection}>
-              {collectionOptions.map((option, index) => {
-                const isSelected = option.status.toLowerCase() === animeStatus;
-                return (
-                  <OptionDropDownItem
-                    disabled={isSelected}
-                    active={isSelected}
-                    key={`${option.name}-${index}`}
-                    onPress={() => onCollectionOptionPress(option)}>
-                    <OptionDropDownItemText>
-                      {option.name}
-                    </OptionDropDownItemText>
-                  </OptionDropDownItem>
-                );
-              })}
-            </OptionDropDown>
+            {accessToken ? (
+              <OptionDropDown isOpen={openCollection}>
+                {collectionOptions.map((option, index) => {
+                  const isSelected =
+                    option.status.toLowerCase() === animeStatus;
+                  return (
+                    <OptionDropDownItem
+                      disabled={isSelected}
+                      active={isSelected}
+                      key={`${option.name}-${index}`}
+                      onPress={() => onCollectionOptionPress(option)}>
+                      <OptionDropDownItemText>
+                        {option.name}
+                      </OptionDropDownItemText>
+                    </OptionDropDownItem>
+                  );
+                })}
+              </OptionDropDown>
+            ) : null}
           </OptionContainer>
 
           <OptionContainer>
-            <OptionWrapper onPress={() => setOpenRateModal(true)}>
+            <OptionWrapper
+              onPress={() => setOpenRateModal(true)}
+              disabled={!accessToken}>
               <OptionIconContainer>
                 <OptionIcon name="star" />
               </OptionIconContainer>
@@ -221,39 +230,25 @@ const Options = ({openEpisodesModal, episodeLegth, anime_info}: Props) => {
           </OptionContainer>
 
           <OptionContainer>
-            <OptionWrapper onPress={onFavoruiteOptionPress}>
+            <OptionWrapper
+              onPress={onFavoruiteOptionPress}
+              disabled={!accessToken}>
               <OptionIconContainer>
                 <OptionIcon name={isFavourite ? 'heart' : 'heart-o'} />
               </OptionIconContainer>
               <OptionText>Favourite</OptionText>
             </OptionWrapper>
           </OptionContainer>
-
-          {/* <OptionContainer>
-          <OptionWrapper disabled>
-            <OptionIconContainer>
-              <OptionIcon name="download" />
-            </OptionIconContainer>
-            <OptionText>Download</OptionText>
-          </OptionWrapper>
-        </OptionContainer>
-
-        <OptionContainer>
-          <OptionWrapper disabled>
-            <OptionIconContainer>
-              <OptionIcon name="ellipsis-v" />
-            </OptionIconContainer>
-            <OptionText>Related</OptionText>
-          </OptionWrapper>
-        </OptionContainer> */}
         </Wrapper>
       </Container>
-      <RateModal
-        visible={openRateModal}
-        closeFunction={() => setOpenRateModal(false)}
-        anime_info={anime_info}
-        score={animeScore}
-      />
+      {accessToken ? (
+        <RateModal
+          visible={openRateModal}
+          closeFunction={() => setOpenRateModal(false)}
+          anime_info={anime_info}
+          score={animeScore}
+        />
+      ) : null}
     </>
   );
 };

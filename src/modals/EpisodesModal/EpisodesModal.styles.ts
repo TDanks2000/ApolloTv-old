@@ -8,7 +8,6 @@ export const Container = styled.View`
 `;
 
 export const TopContainer = styled.View`
-  width: 100%;
   margin-bottom: ${({theme}) => theme.spacing.paddingBottom};
   display: flex;
   flex-direction: row;
@@ -35,6 +34,7 @@ export const BackButtonIcon = styled(Icon)`
 `;
 
 export const Title = styled.Text`
+  flex: 1;
   padding-right: ${({theme}) => theme.spacing.paddingRight};
   color: white;
   font-size: 20px;
