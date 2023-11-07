@@ -2831,7 +2831,7 @@ anymatch@^3.0.3:
 
 "apollotv-providers@https://github.com/TDanks2000/apollotv-extensions":
   version "1.0.2"
-  resolved "https://github.com/TDanks2000/apollotv-extensions#7eb08e83b2400582a3bbb19ed36399c1fb64e358"
+  resolved "https://github.com/TDanks2000/apollotv-extensions#e472d31d8f2cf048cf5ee62c3c712b80460a51dc"
   dependencies:
     "@tdanks2000/anilist-wrapper" "^1.0.18"
     ascii-url-encoder "^1.2.0"

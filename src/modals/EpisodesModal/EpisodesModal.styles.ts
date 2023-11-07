@@ -1,7 +1,7 @@
-import Icon from 'react-native-vector-icons/FontAwesome';
 import {rgba} from 'polished';
-import LinearGradient from 'react-native-linear-gradient';
+import Icon from 'react-native-vector-icons/FontAwesome';
 import {styled} from 'styled-components/native';
+import {Text} from '../../styles/sharedStyles';
 
 export const Container = styled.View`
   padding: ${({theme}) => theme.spacing.paddingLeft};
@@ -45,4 +45,35 @@ export const Title = styled.Text`
 
 export const EpisodesWrapper = styled.View`
   gap: 20px;
+`;
+
+export const Options = styled.View`
+  flex: 1;
+  flex-direction: row;
+  justify-content: flex-end;
+  margin-bottom: 20px;
+`;
+
+type Props = {
+  active?: boolean;
+};
+
+export const Option = styled.TouchableOpacity<Props>`
+  overflow: hidden;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+
+  border-radius: 20px;
+  padding: 8px 15px;
+  background: ${({theme}) => rgba(theme.text.offWhite, 0.09)};
+  background: ${({active, theme}) =>
+    active ? rgba(theme.base.mainColor, 0.2) : rgba(theme.text.offWhite, 0.09)};
+`;
+
+export const OptionText = styled(Text)`
+  color: ${({theme}) => theme.text.primary};
+  text-transform: uppercase;
+  font-size: 14px;
 `;

@@ -1,11 +1,11 @@
 import {API_BASE} from '@env';
-import {api} from '../../../utils';
 import {
   AnimeInfo,
   AniskipData,
   EpisodeInfo,
   sourceProviders,
 } from '../../../@types';
+import {api} from '../../../utils';
 
 export const fetcher = async (
   isDownloaded: boolean,

@@ -1,4 +1,11 @@
+import {API_BASE} from '@env';
+import {useNavigation} from '@react-navigation/native';
 import React, {useEffect, useState} from 'react';
+import {EpisodeCardProps, StackNavigation} from '../../../@types';
+import {GenericContext, SettingsContext} from '../../../contexts';
+import {useDownloadQueue} from '../../../contexts/DownloadQueue';
+import {useIsDownloaded} from '../../../hooks';
+import {DownloadManager, api, event, helpers, utils} from '../../../utils';
 import {
   BottomBanner,
   BottomBannerTextContainer,
@@ -17,20 +24,14 @@ import {
   PercentWatchedContainer,
   Wrapper,
 } from './EpisodeCard.styles';
-import {EpisodeCardProps, StackNavigation} from '../../../@types';
-import {useNavigation} from '@react-navigation/native';
-import {SettingsContext} from '../../../contexts';
-import {useIsDownloaded} from '../../../hooks';
-import {DownloadManager, api, event, utils} from '../../../utils';
-import {API_BASE} from '@env';
-import {useDownloadQueue} from '../../../contexts/DownloadQueue';
 
-import BackgroundJob from 'react-native-background-actions';
+import ReactNativeBlobUtil from 'react-native-blob-util';
 import Toast from 'react-native-toast-message';
 
 const EpisodeCard = (props: EpisodeCardProps) => {
   const {addToQueue, removeFromQueue} = useDownloadQueue(); // Access the DownloadQueue
   const {sourceProvider, preferedQuality} = React.useContext(SettingsContext);
+  const genericContext = React.useContext(GenericContext);
 
   const [downloadProgress, setDownloadProgress] = useState<number>(0);
   const [error, setError] = useState<boolean>(false);
@@ -51,10 +52,8 @@ const EpisodeCard = (props: EpisodeCardProps) => {
     number | undefined
   >(watched_percentage);
 
-  // const [downloadProgress, setDownloadProgress] = React.useState<number>(0);
-
   const navigation = useNavigation<StackNavigation>();
-  const isRunning = BackgroundJob.isRunning();
+  // const isRunning = BackgroundJob.isRunning();
 
   const queue_id = `download_${anime_info.id}_${episode_number}`;
   const onPress = () => {
@@ -162,13 +161,60 @@ const EpisodeCard = (props: EpisodeCardProps) => {
 
   const imageAlts = image ? image : anime_info.image;
 
+  const onHold = async () => {
+    // delete
+    const downloadPath = `${
+      ReactNativeBlobUtil.fs.dirs.DocumentDir
+    }/ApolloTv/downloads/${helpers.normalizeTitle(
+      utils.getTitle(anime_info.title)!,
+    )}`;
+    const folderPath = `${downloadPath}/${episode_number}`;
+    const doesExist = await ReactNativeBlobUtil.fs.exists(folderPath);
+
+    if (!doesExist) {
+      return genericContext?.openAlert(
+        'not downloaded',
+        'this file has not been downloaded',
+        'error',
+        {
+          duration: 1500,
+          icon: 'error',
+        },
+      );
+    }
+    genericContext?.openAlert(
+      `Delete ${episode_number} - ${utils.getTitle(anime_info.title)}`,
+      'Are you sure you want to delete this episode?',
+      'warning',
+      {
+        options: [
+          {
+            text: 'Cancel',
+            onPress: () => {
+              // genericContext.closeAlert();
+            },
+            style: 'cacnel',
+          },
+          {
+            text: 'Confirm',
+            onPress: async () => {
+              await ReactNativeBlobUtil.fs.unlink(folderPath).catch(() => {});
+              setDownloadProgress(0);
+            },
+            style: 'confirm',
+          },
+        ],
+      },
+    );
+  };
+
   return (
     <EpisodeContainer onPress={onPress}>
       <EpisodeImageBackground
         source={{
           uri: imageAlts,
         }}>
-        <DownloadWrapper onPress={download} disabled={isDownloaded}>
+        <DownloadWrapper onPress={download} onLongPress={onHold}>
           <DownloadContainer>
             <DownloadBackground
               downloadProgress={isDownloaded ? 100 : downloadProgress}

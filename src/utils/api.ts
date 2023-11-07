@@ -1,6 +1,6 @@
 import {ANALYTICS_URL, API_BASE} from '@env';
 import {Anilist} from '@tdanks2000/anilist-wrapper';
-import {INFO} from 'apollotv-providers/dist';
+import {EXTENSION_LIST, INFO} from 'apollotv-providers';
 import axios from 'axios';
 import {SectionTypes} from '../@types';
 
@@ -175,4 +175,34 @@ export const Search = async (queries: ASearchType) => {
   });
 
   return data;
+};
+
+export const getSources = async (episodeId: string, provider?: string) => {
+  if (!episodeId) return {error: 'ID is required'};
+
+  let anilist = generateAnilistMeta(provider);
+  console.log(anilist);
+
+  try {
+    const res = await new INFO.Anilist().getMediaSources(
+      'one-piece-dub-episode-1',
+    );
+
+    return res;
+  } catch (err) {
+    console.log((err as Error).message);
+    return {error: (err as Error).message};
+  }
+};
+
+const generateAnilistMeta = (provider: string | undefined = undefined) => {
+  if (typeof provider === 'undefined') {
+    return new INFO.Anilist(undefined);
+  }
+
+  let possibleProvider = EXTENSION_LIST.ANIME.find(
+    p => p.metaData.name.toLowerCase() === provider.toLocaleLowerCase(),
+  );
+
+  return new INFO.Anilist(possibleProvider);
 };

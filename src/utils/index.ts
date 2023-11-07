@@ -1,11 +1,20 @@
 // import './download/downloadManager';
-import * as utils from './utils';
 import * as api from './api';
 import * as helpers from './helpers';
 import * as settingsHelper from './settingsManager';
+import * as utils from './utils';
 
 import {event} from './utils';
 
+import {DownloadManager, GetDownloadedEpisodes} from './download';
 import {storage} from './storage/cleint';
-import DownloadManager from './download/downloadManager';
-export {event, DownloadManager, utils, api, storage, helpers, settingsHelper};
+export {
+  DownloadManager,
+  GetDownloadedEpisodes,
+  api,
+  event,
+  helpers,
+  settingsHelper,
+  storage,
+  utils,
+};

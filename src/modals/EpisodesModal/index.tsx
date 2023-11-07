@@ -1,23 +1,25 @@
-import {Modal, ScrollView} from 'react-native';
 import React from 'react';
+import {Modal, ScrollView} from 'react-native';
 import {ModalContainer} from '../../styles/sharedStyles';
 import {
   BackButton,
   BackButtonIcon,
   Container,
   EpisodesWrapper,
+  Options,
   Title,
   TopContainer,
 } from './EpisodesModal.styles';
 
-import {EpisodeCard} from '../../components/Cards';
-import {AnimeInfo, EpisodeInfo} from '../../@types';
-import {utils} from '../../utils';
-import {Paginate} from '../../components';
-import {episodeSQLHelper} from '../../utils/database';
-import {useAccessToken} from '../../contexts';
-import {Anilist} from '@tdanks2000/anilist-wrapper';
 import {useQuery} from '@tanstack/react-query';
+import {Anilist} from '@tdanks2000/anilist-wrapper';
+import {AnimeInfo, EpisodeInfo} from '../../@types';
+import {Paginate} from '../../components';
+import {EpisodeCard} from '../../components/Cards';
+import {useAccessToken} from '../../contexts';
+import {utils} from '../../utils';
+import {episodeSQLHelper} from '../../utils/database';
+import ShowDownloads from './ShowDownloads';
 
 interface Props {
   episodes: EpisodeInfo[];
@@ -36,6 +38,7 @@ const EpisodesModal = ({
   const anilist = new Anilist(accessToken);
 
   const [selectedPage, setSelectedPage] = React.useState<number>(1);
+  const [episodeState, setEpisodes] = React.useState<EpisodeInfo[]>(episodes);
 
   const pageSize = 50;
 
@@ -64,10 +67,11 @@ const EpisodesModal = ({
   });
 
   React.useEffect(() => {
-    if (!episodes || !episodes?.length) return;
+    if (!episodeState || !episodeState?.length) return;
 
-    if (episodes[0].number !== 1) episodes.sort((a, b) => a.number - b.number);
-  }, [episodes]);
+    if (episodeState[0].number !== 1)
+      episodeState.sort((a, b) => a.number - b.number);
+  }, [episodeState]);
 
   if (isPending) return null;
 
@@ -86,14 +90,22 @@ const EpisodesModal = ({
               </BackButton>
               <Title numberOfLines={1}>{animeTitle}</Title>
             </TopContainer>
+            <Options>
+              <ShowDownloads
+                anime_info={anime_info}
+                episodes={episodeState}
+                old_episodes={episodes}
+                setEpisodes={setEpisodes}
+              />
+            </Options>
             <EpisodesWrapper>
               <Paginate
-                results={episodes}
+                results={episodeState}
                 pageSize={pageSize}
                 selectedPage={selectedPage}
                 setSelectedPage={setSelectedPage}
               />
-              {episodes
+              {episodeState
                 .slice(
                   selectedPage === 1 ? 0 : (selectedPage - 1) * pageSize,
                   selectedPage === 1 ? pageSize : pageSize * selectedPage + 1,
