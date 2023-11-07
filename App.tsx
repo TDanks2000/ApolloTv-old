@@ -1,12 +1,14 @@
 import 'react-native-gesture-handler';
 
+import {QueryClient, QueryClientProvider} from '@tanstack/react-query';
 import React from 'react';
 import {LogBox} from 'react-native';
-import AppStack from './src/navigation/AppStack';
 import {ThemeProvider} from 'styled-components/native';
 import {defaultTheme} from './src/assets/theme/default';
-import {QueryClient, QueryClientProvider} from '@tanstack/react-query';
+import AppStack from './src/navigation/AppStack';
 
+import {Toast} from 'react-native-toast-message/lib/src/Toast';
+import {Alert} from './src/components';
 import {
   AccessTokenProvider,
   GenericContext,
@@ -15,15 +17,14 @@ import {
   SettingsProvider,
   useAccessToken,
 } from './src/contexts';
-import {Toast} from 'react-native-toast-message/lib/src/Toast';
-import {toastConfig} from './src/styles/toastconfig';
-import {Alert} from './src/components';
-import {UpdaterProvider} from './src/contexts/UpdaterContext';
-import {useCheckForUpdate, useAnalytics} from './src/hooks';
-import './src/i18n';
 import {DownloadQueueProvider} from './src/contexts/DownloadQueue';
+import {UpdaterProvider} from './src/contexts/UpdaterContext';
+import {useAnalytics, useCheckForUpdate} from './src/hooks';
+import './src/i18n';
+import {toastConfig} from './src/styles/toastconfig';
 
-import {requestMultiple, PERMISSIONS} from 'react-native-permissions';
+import {PERMISSIONS, requestMultiple} from 'react-native-permissions';
+import {ActionBarProvider} from './src/contexts/ActionBarContext';
 const queryClient = new QueryClient();
 
 const App = (): JSX.Element => {
@@ -55,7 +56,9 @@ const InnerApp = () => {
     <ThemeProvider theme={defaultTheme}>
       <QueryClientProvider client={queryClient}>
         <NavigationProvixer>
-          <AppStack />
+          <ActionBarProvider>
+            <AppStack />
+          </ActionBarProvider>
         </NavigationProvixer>
       </QueryClientProvider>
       <Toast autoHide={true} config={toastConfig} />

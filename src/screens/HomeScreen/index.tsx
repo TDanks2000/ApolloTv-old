@@ -1,20 +1,19 @@
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import React from 'react';
-import {useWindowDimensions} from 'react-native';
+import {useTranslation} from 'react-i18next';
 import {SafeAreaView} from 'react-native-safe-area-context';
+import {RootStackParamList} from '../../@types';
 import {
   AiringScheduleComponent,
   BannerComponent,
   TopBarComponent,
 } from '../../components';
-import {GenericContainer, SectionContainer} from './HomeScreen.styles';
 import {ContuineWatchingContainer, GenericSection} from '../../containers';
+import {GenericContext} from '../../contexts';
 import {RefreshControlStyled, ScrollView} from '../../styles/sharedStyles';
 import {helpers} from '../../utils';
-import {RootStackParamList} from '../../@types';
-import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import {GenericContext} from '../../contexts';
 import {episodeSQLHelper} from '../../utils/database';
-import {useTranslation} from 'react-i18next';
+import {GenericContainer, SectionContainer} from './HomeScreen.styles';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Home'>;
 

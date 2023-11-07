@@ -23,6 +23,7 @@ const ShowDownloads: React.FC<PropsWithChildren<Props>> = ({
   const getDownloaded = new GetDownloadedEpisodes(anime_info);
 
   const onPress = async (e: GestureResponderEvent) => {
+    let downloadedEpisodes: EpisodeInfo[] = [];
     if (active === true) {
       setActive(false);
       setEpisodes(old_episodes);
@@ -36,17 +37,10 @@ const ShowDownloads: React.FC<PropsWithChildren<Props>> = ({
           const episodeNumber = episode?.number ?? episode?.episode_number;
           if (downloaded.includes(episodeNumber.toString())) {
             // remove all undownloded items from episodes
-
-            setEpisodes(
-              episodes.filter(
-                episode =>
-                  episode?.number === episodeNumber ||
-                  episode?.episode_number === episodeNumber,
-                // episode?.number !== episodeNumber
-              ),
-            );
+            downloadedEpisodes.push(episode);
           }
         }
+        setEpisodes(downloadedEpisodes);
       }
     }
   };
