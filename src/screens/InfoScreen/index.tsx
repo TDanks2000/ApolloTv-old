@@ -125,8 +125,9 @@ const InfoScreen = ({route}: Props) => {
     }
 
     return (
-      episodes.find(episode => episode.number === nextEpisodeNumber) ||
-      episodes[0]
+      episodes?.find(episode => episode.number === nextEpisodeNumber) ??
+      episodes?.[0] ??
+      undefined
     );
   };
 
@@ -134,14 +135,14 @@ const InfoScreen = ({route}: Props) => {
   let nextNextEpisode = findNextEpisode(data.episodes, 2, false);
 
   const filterRelations = (data: any) => {
-    return data.filter(
+    return data?.filter(
       (relation: any) =>
         !['novel'].includes(relation.type?.toLowerCase() || !relation?.id),
     );
   };
 
   const filterRecommendations = (data: any) => {
-    return data.filter(
+    return data?.filter(
       (recommendation: any) => recommendation?.id?.toString()?.length >= 1,
     );
   };

@@ -1,7 +1,12 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   BottomBanner,
   BottomBannerTextContainer,
+  DownloadBackground,
+  DownloadButton,
+  DownloadContainer,
+  DownloadIcon,
+  DownloadWrapper,
   EpisodeContainer,
   EpisodeImageBackground,
   EpisodeNumber,
@@ -15,9 +20,16 @@ import {
 import {EpisodeCardProps, StackNavigation} from '../../../@types';
 import {useNavigation} from '@react-navigation/native';
 import {SettingsContext} from '../../../contexts';
+import {useIsDownloaded} from '../../../hooks';
+import {DownloadManager, api, event} from '../../../utils';
+import {API_BASE} from '@env';
+import {useDownloadQueue} from '../../../contexts/DownloadQueue';
 
 const EpisodeCard = (props: EpisodeCardProps) => {
+  const {addToQueue, removeFromQueue} = useDownloadQueue(); // Access the DownloadQueue
   const {sourceProvider, preferedQuality} = React.useContext(SettingsContext);
+
+  const [downloadProgress, setDownloadProgress] = useState<number>(0);
 
   let {
     anime_info,
@@ -72,78 +84,50 @@ const EpisodeCard = (props: EpisodeCardProps) => {
     else setActualWatchedPercent(undefined);
   }, []);
 
-  // const {
-  //   download,
-  //   error,
-  //   progress: downloadProgress,
-  // } = useDownload(
-  //   anime_info,
-  //   {
-  //     id: id,
-  //     episode_number: episode_number!,
-  //     title: title ?? `Episode ${episode_number ?? 1}`,
-  //   },
-  //   preferedQuality,
-  //   sourceProvider,
-  //   queue_id,
-  // );
+  const isDownloaded = useIsDownloaded(anime_info, episode_number!);
 
-  // const isDownloaded = useIsDownloaded(anime_info, episode_number!);
+  const download = async () => {
+    try {
+      const data = await api.fetcher(
+        `${API_BASE}/anilist/watch?episodeId=${id}&provider=${sourceProvider}`,
+      );
 
-  // const download = async () => {
-  //   try {
-  //     const data = await api.fetcher(
-  //       `${API_BASE}/anilist/watch?episodeId=${id}&provider=${sourceProvider}`,
-  //     );
+      if (!data) return;
 
-  //     if (!data) return;
+      const downloadManager = new DownloadManager(
+        {
+          data: anime_info,
+          episode_number: episode_number!,
+          episode_title: title ?? `Episode ${episode_number ?? 1}`,
+          headers: data?.headers,
+          sources: data?.sources,
+          title: anime_info.title,
+        },
+        () => {},
+        () => {},
+        '1080p',
+      );
 
-  //     const downloadManager = new DownloadManager(
-  //       {
-  //         data: anime_info,
-  //         episode_number: episode_number!,
-  //         episode_title: title ?? `Episode ${episode_number ?? 1}`,
-  //         headers: data?.headers,
-  //         sources: data?.sources,
-  //         title: anime_info.title,
-  //       },
-  //       () => {},
-  //       () => {},
-  //       '1080p',
-  //     );
+      addToQueue(queue_id, downloadManager);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
-  //     let interval: NodeJS.Timeout;
+  const updateProgress = (progress: number) => {
+    setDownloadProgress(progress);
+  };
 
-  //     interval = setInterval(() => {
-  //       const progress = downloadManager.progress;
-  //       setDownloadProgress(progress);
-  //       if (progress >= 100) {
-  //         clearInterval(interval);
-  //         setTimeout(() => {
-  //           setDownloadProgress(0);
-  //         }, 1500);
-  //       } else if (
-  //         downloadManager.hasFinished ||
-  //         downloadManager.hasStarted !== true
-  //       ) {
-  //         clearInterval(interval);
-  //         setTimeout(() => {
-  //           setDownloadProgress(0);
-  //         }, 1500);
-  //       }
+  useEffect(() => {
+    event.on(`progress_${queue_id}`, (data: {id: string; progress: number}) => {
+      console.log('event recived!');
+      updateProgress(data.progress);
+    });
 
-  //       console.log(progress);
-
-  //       setDownloadProgress(progress);
-
-  //       return progress;
-  //     }, 500);
-
-  //     await downloadManager.downloadFile();
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
+    return () => {
+      event.off(`progress_${queue_id}`);
+    };
+  }, [updateProgress]);
 
   const imageAlts = image ? image : anime_info.image;
 
@@ -153,7 +137,7 @@ const EpisodeCard = (props: EpisodeCardProps) => {
         source={{
           uri: imageAlts,
         }}>
-        {/* <DownloadWrapper>
+        <DownloadWrapper>
           <DownloadContainer>
             <DownloadBackground
               downloadProgress={isDownloaded ? 100 : downloadProgress}
@@ -162,7 +146,7 @@ const EpisodeCard = (props: EpisodeCardProps) => {
               <DownloadIcon name="download" />
             </DownloadButton>
           </DownloadContainer>
-        </DownloadWrapper> */}
+        </DownloadWrapper>
         {isFiller ? (
           <FillerContainer>
             <FillerText>Filler</FillerText>

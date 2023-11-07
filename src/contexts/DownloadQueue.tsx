@@ -4,30 +4,25 @@ import React, {
   useState,
   useEffect,
   PropsWithChildren,
+  useRef,
 } from 'react';
 import DownloadManager, {VideoData} from '../utils/download/downloadManager'; // Update the path to your DownloadManager file
 import {Quality} from '../@types';
+import {useMap} from '../hooks';
+import {event} from '../utils';
 
 interface DownloadVideoData extends VideoData {
   queue_id: string;
 }
 
 interface DownloadQueueContextProps {
-  queue: DownloadVideoData[];
-  addToQueue: (video: DownloadVideoData, preferedQuality: Quality) => void;
-  cancelDownload: () => void;
-  isDownloading: boolean;
-  currentQueueId?: string;
-  progress: number;
+  addToQueue: (queue_id: string, downloadManager: DownloadManager) => void;
+  removeFromQueue: (queue_id: string) => void;
 }
 
 const DownloadQueueContext = createContext<DownloadQueueContextProps>({
-  queue: [],
   addToQueue: () => {},
-  cancelDownload: () => {},
-  isDownloading: false,
-  currentQueueId: undefined,
-  progress: 0,
+  removeFromQueue: () => {},
 });
 
 export const useDownloadQueue = () => useContext(DownloadQueueContext);
@@ -35,63 +30,84 @@ export const useDownloadQueue = () => useContext(DownloadQueueContext);
 export const DownloadQueueProvider: React.FC<PropsWithChildren> = ({
   children,
 }) => {
-  const [quality, setQuality] = React.useState<Quality>();
-  const [queue, setQueue] = useState<DownloadVideoData[]>([]);
-  const [currentQueueId, setCurrentQueueId] = useState<string>();
-  const [isDownloading, setIsDownloading] = useState(false);
-  const [progress, setProgress] = useState(0);
+  const [queue, queueActions] = useMap<string, DownloadManager>();
+  const [isProcessing, setIsProcessing] = useState(false);
+
+  const addToQueue = (queue_id: string, downloadManager: DownloadManager) => {
+    queueActions.add(queue_id, downloadManager);
+  };
+
+  const removeFromQueue = (queue_id: string) => {
+    queueActions.remove(queue_id);
+  };
+
+  const emitProgress = (id: string, progress: number) => {
+    event.emit(`progress_${id}`, {
+      id: id,
+      progress: progress,
+    });
+  };
+
+  const handleNextItem = () => {
+    return new Promise(async (resolve, reject) => {
+      if (queue.size > 0 && !isProcessing) {
+        const [nextId, nextDownload]: [string, DownloadManager] = queue
+          .entries()
+          .next().value;
+
+        if (nextDownload) {
+          try {
+            setIsProcessing(true);
+
+            let interval: NodeJS.Timeout;
+            interval = setInterval(() => {
+              const progress = nextDownload.progress;
+              emitProgress(nextId, progress);
+              if (progress === 100) {
+                clearInterval(interval);
+              }
+              return progress;
+            }, 500);
+
+            await new Promise((resolveTask, rejectTask) => {
+              nextDownload
+                .downloadFile()
+                .then(value => {
+                  resolveTask(value);
+                })
+                .catch(error => {
+                  rejectTask(error);
+                });
+            });
+
+            queueActions.remove(nextId);
+            setIsProcessing(false);
+            resolve('Download completed successfully');
+          } catch (error) {
+            console.error(error);
+            setIsProcessing(false);
+            queueActions.remove(nextId);
+            reject('Error processing the download');
+          }
+        } else {
+          setIsProcessing(false);
+          resolve('No item to process');
+        }
+      } else {
+        resolve('No items in the queue or already processing');
+      }
+    });
+  };
 
   useEffect(() => {
-    if (queue.length > 0 && !isDownloading) {
-      handleNextDownload();
+    if (queue.size > 0 && !isProcessing) {
+      handleNextItem();
     }
-  }, [queue, isDownloading]);
-
-  let downloadManager: DownloadManager | null = null;
-  const handleNextDownload = async () => {
-    if (queue.length > 0) {
-      const nextVideo = queue[0];
-      const newQueue = [...queue];
-      newQueue.shift(); // Remove the first element (which will be processed)
-      setQueue(newQueue);
-      setCurrentQueueId(nextVideo.queue_id);
-
-      setIsDownloading(true);
-
-      downloadManager = new DownloadManager(
-        nextVideo,
-        () => {
-          setIsDownloading(false);
-        },
-        () => {
-          setIsDownloading(false);
-        },
-        quality ?? '1080p',
-      );
-
-      await downloadManager.downloadFile();
-    }
-  };
-
-  const addToQueue = (video: DownloadVideoData, preferedQuality: Quality) => {
-    setQueue(prevQueue => [...prevQueue, video]);
-    setQuality(preferedQuality);
-  };
-
-  const cancelDownload = async () => {
-    await downloadManager?.cancel();
-    setIsDownloading(false);
-    setQueue([]);
-    return 'Download canceled';
-  };
+  }, [queue, isProcessing]);
 
   const contextValue: DownloadQueueContextProps = {
-    queue,
     addToQueue,
-    cancelDownload,
-    isDownloading,
-    currentQueueId,
-    progress,
+    removeFromQueue,
   };
 
   return (

@@ -5,6 +5,7 @@ import {
   TitleLanguageOptions,
 } from '../@types';
 import sanitizer from 'sanitize-html';
+import {EventEmitter} from 'eventemitter3';
 import SystemNavigationBar from 'react-native-system-navigation-bar';
 
 export const getTitle = (
@@ -130,3 +131,5 @@ export const parseRating = (rating: number) => {
   // Round to nearest 0.5
   return rating;
 };
+
+export const event = new EventEmitter();

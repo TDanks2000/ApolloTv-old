@@ -4,10 +4,10 @@ import useAnalytics from './useAnalytics';
 import useCheckForUpdate from './useCheckForUpdate';
 import useDebounce from './useDebounce';
 import useIsDownloaded from './useIsDownloaded';
-import useDownload from './useDownload';
+import {useMap} from './useMap';
 
 export {
-  useDownload,
+  useMap,
   useIsDownloaded,
   useDebounceSearch,
   useBreakpoints,
