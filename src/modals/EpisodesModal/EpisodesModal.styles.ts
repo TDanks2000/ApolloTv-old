@@ -25,6 +25,7 @@ export const BackButton = styled.TouchableOpacity`
   display: flex;
   flex-direction: column;
   justify-content: center;
+
   align-items: center;
 `;
 
@@ -50,8 +51,10 @@ export const EpisodesWrapper = styled.View`
 export const Options = styled.View`
   flex: 1;
   flex-direction: row;
-  justify-content: flex-end;
+  justify-content: flex-start;
+  align-items: center;
   margin-bottom: 20px;
+  margin-top: -5px;
 `;
 
 type Props = {
