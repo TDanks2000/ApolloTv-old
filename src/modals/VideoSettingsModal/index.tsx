@@ -27,6 +27,8 @@ type Props = {
   options: SettingsOptionsGroup[];
 
   closeFunction: () => void;
+
+  isDownloaded: boolean;
 };
 
 const VideoSettingsModal = ({
@@ -36,6 +38,7 @@ const VideoSettingsModal = ({
   closeFunction,
   resizeMode,
   setResizeMode,
+  isDownloaded,
 }: Props) => {
   const {
     autoSkipOutro,
@@ -50,17 +53,17 @@ const VideoSettingsModal = ({
   >();
   const [brightness, setBrightness] = React.useState<number>(0);
 
-  const getBrightness = async () => {
-    const value = await DeviceBrightness.getSystemBrightnessLevel();
-    setBrightness(value);
-  };
+  // const getBrightness = async () => {
+  //   const value = await DeviceBrightness.getSystemBrightnessLevel();
+  //   setBrightness(value);
+  // };
 
-  React.useEffect(() => {
-    getBrightness();
-  }, []);
-  React.useEffect(() => {
-    console.log(resizeMode);
-  }, [resizeMode]);
+  // React.useEffect(() => {
+  //   getBrightness();
+  // }, []);
+  // React.useEffect(() => {
+  //   console.log(resizeMode);
+  // }, [resizeMode]);
 
   const findSelectedSetting = (): SettingsOptionsGroup => {
     const selectedSection = options.find(
@@ -86,7 +89,7 @@ const VideoSettingsModal = ({
     }
   };
 
-  const sections: SettingsSectionsType[] = [
+  let sections: SettingsSectionsType[] = [
     {
       name: 'Quality',
       value: 'quality',
@@ -187,6 +190,13 @@ const VideoSettingsModal = ({
     //   selectedOption: '',
     // },
   ];
+
+  const filterSections = () => {
+    if (!isDownloaded) return;
+    sections = sections.filter(item => item.value.toLowerCase() !== 'quality');
+  };
+
+  filterSections();
 
   return (
     <Modal

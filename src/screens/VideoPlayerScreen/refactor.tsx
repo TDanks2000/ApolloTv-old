@@ -24,11 +24,13 @@ import {
   useState,
 } from 'react';
 import Video, {
-  LoadError,
   OnBufferData,
   OnLoadData,
   OnProgressData,
   OnSeekData,
+  OnVideoErrorData,
+  ResizeMode,
+  VideoRef,
 } from 'react-native-video';
 import {PanResponder, PanResponderStatic, StatusBar, View} from 'react-native';
 import {helpers} from '../../utils';
@@ -43,6 +45,7 @@ import {
   watchTimeBeforeSync,
 } from './helpers';
 import {episodeSQLHelper} from '../../utils/database';
+import {useIsDownloaded} from '../../hooks';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'VideoPlayer'>;
 
@@ -52,7 +55,7 @@ interface IPlayer {
   tapActionTimeout: NodeJS.Timeout | null;
   volumePanResponder: React.MutableRefObject<PanResponderStatic>;
   seekPanResponder: React.MutableRefObject<PanResponderStatic>;
-  ref: React.RefObject<Video>;
+  ref: React.RefObject<VideoRef>;
   sources: SourceVideoOptions[];
   [x: string]: any;
 }
@@ -92,6 +95,12 @@ const VideoPlayerScreen: React.FC<Props> = ({route}) => {
     episodes,
   } = route.params;
 
+  // check if video is downloaded
+  const {isDownloaded, folderPath} = useIsDownloaded(
+    anime_info,
+    episode_info.episode_number!,
+  );
+
   // set episode id to a state so i can update it forcing the next episode sources to be refetched
   const [episodeId, setEpisodeId] = useState<string>(episode_id);
 
@@ -105,7 +114,13 @@ const VideoPlayerScreen: React.FC<Props> = ({route}) => {
   } = useQuery({
     queryKey: ['VideoPlayer', episodeId, sourceProvider],
     queryFn: () =>
-      fetcher(episodeId, sourceProvider ?? 'gogoanime', preferedVoice ?? 'sub'),
+      fetcher(
+        isDownloaded,
+        folderPath,
+        episodeId,
+        sourceProvider ?? 'gogoanime',
+        preferedVoice ?? 'sub',
+      ),
   });
 
   // skip Data
@@ -114,6 +129,7 @@ const VideoPlayerScreen: React.FC<Props> = ({route}) => {
 
   useFocusEffect(
     useCallback(() => {
+      if (isDownloaded) return;
       fetchAniskip(anime_info, episodeInfo, setSkipData, setSkipDataPending);
     }, [episodeId, anime_info]),
   );
@@ -162,7 +178,7 @@ const VideoPlayerScreen: React.FC<Props> = ({route}) => {
     controlTimeout: null,
     controlTimeoutTime: 7000,
     tapActionTimeout: null,
-    ref: useRef<Video>(null),
+    ref: useRef<VideoRef>(null),
     scrubbingTimeStep: scrubbing,
     sources: data?.sources ?? [],
   };
@@ -284,10 +300,10 @@ const VideoPlayerScreen: React.FC<Props> = ({route}) => {
   };
 
   // error event
-  const onError = (err: LoadError) => {
+  const onError = (err: OnVideoErrorData) => {
     if (setShowNavBar) setShowNavBar(true);
 
-    const errorString = err.error.errorString;
+    const errorString = err.errorString;
 
     Toast.show({
       type: 'error',
@@ -437,7 +453,8 @@ const VideoPlayerScreen: React.FC<Props> = ({route}) => {
     useCallback(() => {
       if (setShowNavBar) setShowNavBar(false);
       if (!data) return;
-      setSelectedSource(findHighestQuality);
+      if (isDownloaded) setSelectedSource(data);
+      else setSelectedSource(findHighestQuality);
 
       if (isError && setShowNavBar) {
         setShowNavBar(true);
@@ -498,6 +515,7 @@ const VideoPlayerScreen: React.FC<Props> = ({route}) => {
       <OrientationLocker orientation={LANDSCAPE} />
       <StatusBar hidden={true} />
       <Player.PlayerControls
+        isDownloaded={isDownloaded}
         anime_info={anime_info}
         episode_info={episodeInfo}
         episodes={episodes}
@@ -522,7 +540,7 @@ const VideoPlayerScreen: React.FC<Props> = ({route}) => {
       />
       <Video
         ref={player.ref}
-        resizeMode={resizeMode}
+        resizeMode={resizeMode as ResizeMode}
         volume={volume}
         paused={paused}
         muted={muted}
@@ -536,7 +554,7 @@ const VideoPlayerScreen: React.FC<Props> = ({route}) => {
         onBuffer={onBuffer}
         onAudioBecomingNoisy={onAudioBecomingNoisy}
         source={{
-          uri: selectedSource.url,
+          uri: isDownloaded ? folderPath : selectedSource.url,
           headers: {
             'User-Agent': USER_AGENT,
             Referer: referer,

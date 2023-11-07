@@ -74,7 +74,11 @@ const AppStack = () => {
         }
       }}>
       <OrientationLocker orientation={Platform.isTV ? LANDSCAPE : PORTRAIT} />
-      <StatusBar hidden={false} showHideTransition={'slide'} />
+      <StatusBar
+        hidden={false}
+        showHideTransition={'slide'}
+        barStyle={'light-content'}
+      />
       <Stack.Navigator
         initialRouteName="Home"
         screenOptions={{

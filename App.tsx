@@ -23,6 +23,7 @@ import {useCheckForUpdate, useAnalytics} from './src/hooks';
 import './src/i18n';
 import {DownloadQueueProvider} from './src/contexts/DownloadQueue';
 
+import {requestMultiple, PERMISSIONS} from 'react-native-permissions';
 const queryClient = new QueryClient();
 
 const App = (): JSX.Element => {
@@ -48,6 +49,7 @@ const InnerApp = () => {
   const genericContext = React.useContext(GenericContext);
   useCheckForUpdate();
   useAnalytics();
+  requestMultiple([PERMISSIONS.ANDROID.POST_NOTIFICATIONS]);
 
   return (
     <ThemeProvider theme={defaultTheme}>

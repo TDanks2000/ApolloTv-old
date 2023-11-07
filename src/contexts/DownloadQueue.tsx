@@ -48,53 +48,64 @@ export const DownloadQueueProvider: React.FC<PropsWithChildren> = ({
     });
   };
 
+  let interval: NodeJS.Timeout;
   const handleNextItem = () => {
     return new Promise(async (resolve, reject) => {
-      if (queue.size > 0 && !isProcessing) {
-        const [nextId, nextDownload]: [string, DownloadManager] = queue
-          .entries()
-          .next().value;
+      try {
+        if (queue.size > 0 && !isProcessing) {
+          const [nextId, nextDownload]: [string, DownloadManager] = queue
+            .entries()
+            .next().value;
 
-        if (nextDownload) {
-          try {
-            setIsProcessing(true);
+          if (nextDownload) {
+            try {
+              setIsProcessing(true);
 
-            let interval: NodeJS.Timeout;
-            interval = setInterval(() => {
-              const progress = nextDownload.progress;
-              emitProgress(nextId, progress);
-              if (progress === 100) {
-                clearInterval(interval);
-              }
-              return progress;
-            }, 500);
+              interval = setInterval(() => {
+                const progress = nextDownload.progress;
+                emitProgress(nextId, progress);
+                if (progress === 100) {
+                  clearInterval(interval);
+                }
+                return progress;
+              }, 500);
 
-            await new Promise((resolveTask, rejectTask) => {
-              nextDownload
-                .downloadFile()
-                .then(value => {
-                  resolveTask(value);
-                })
-                .catch(error => {
-                  rejectTask(error);
-                });
-            });
+              await new Promise((resolveTask, rejectTask) => {
+                nextDownload
+                  .downloadFile()
+                  .then(value => {
+                    resolveTask(value);
+                    clearInterval(interval);
+                  })
+                  .catch(error => {
+                    rejectTask(error);
+                    clearInterval(interval);
+                  });
+              });
 
-            queueActions.remove(nextId);
+              queueActions.remove(nextId);
+              setIsProcessing(false);
+              resolve('Download completed successfully');
+            } catch (error) {
+              console.error(error);
+              setIsProcessing(false);
+              queueActions.remove(nextId);
+              reject('Error processing the download');
+              clearInterval(interval);
+            }
+          } else {
             setIsProcessing(false);
-            resolve('Download completed successfully');
-          } catch (error) {
-            console.error(error);
-            setIsProcessing(false);
-            queueActions.remove(nextId);
-            reject('Error processing the download');
+            resolve('No item to process');
+            clearInterval(interval);
           }
         } else {
-          setIsProcessing(false);
-          resolve('No item to process');
+          resolve('No items in the queue or already processing');
+          clearInterval(interval);
         }
-      } else {
-        resolve('No items in the queue or already processing');
+      } catch (error) {
+        console.log(error);
+        clearInterval(interval);
+        reject(error);
       }
     });
   };

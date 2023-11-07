@@ -94,17 +94,16 @@ export const PercentWatched = styled.View<PercentWatchedProps>`
   background-color: ${({theme}) => theme.base.mainColor};
 `;
 
-export const DownloadWrapper = styled.View`
+export const DownloadWrapper = styled.TouchableOpacity`
   position: absolute;
-  right: 0;
+  left: 0;
   top: 0;
-  margin: 3px;
+  margin: 8px;
   z-index: 111;
-  background: black;
   border-radius: 9999px;
-  overflow: hidden;
   width: 35px;
   height: 35px;
+  overflow: hidden;
 `;
 
 export const DownloadContainer = styled.View`
@@ -113,26 +112,32 @@ export const DownloadContainer = styled.View`
   height: 100%;
   justify-content: center;
   align-items: center;
+  overflow: hidden;
+  background: black;
 `;
 
 type Props = {
   downloadProgress?: number;
+  error?: boolean;
 };
 
 export const DownloadBackground = styled(Animated.View)<Props>`
-  width: ${({downloadProgress}) =>
-    downloadProgress ? `${downloadProgress}%` : 0};
+  width: ${({downloadProgress, error}) => {
+    if (error) return '100%';
+    else return downloadProgress ? `${downloadProgress}%` : 0;
+  }};
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
   height: 100%;
-  background-color: ${({theme}) => theme.base.mainColor};
+  background-color: ${({theme, error}) =>
+    error ? theme.text.danger : theme.base.mainColor};
   /* z-index: 1; */
 `;
 
-export const DownloadButton = styled.TouchableOpacity`
+export const DownloadButton = styled.View`
   z-index: 1;
 `;
 

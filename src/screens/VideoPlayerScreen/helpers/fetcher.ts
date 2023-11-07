@@ -8,10 +8,13 @@ import {
 } from '../../../@types';
 
 export const fetcher = async (
+  isDownloaded: boolean,
+  folderPath: string,
   episode_id: string,
   sourceProvider: sourceProviders,
   preferedVoice: 'sub' | 'dub',
 ) => {
+  if (isDownloaded) return folderPath;
   try {
     const data = await api.fetcher(
       `${API_BASE}/anilist/watch?episodeId=${episode_id}&provider=${sourceProvider}`,

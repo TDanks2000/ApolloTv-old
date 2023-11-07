@@ -15,7 +15,9 @@ export const BaseToastComponent = styled(BaseToast).attrs(({theme}) => ({
   },
   text1NumberOfLines: 1,
   text2NumberOfLines: 1,
-  contentContainerStyle: {},
+  contentContainerStyle: {
+    zIndex: 11111111111,
+  },
 }))`
   background: ${({theme}) => theme.base.offDarkBg};
   border-radius: 8px;
@@ -25,6 +27,7 @@ export const BaseToastComponent = styled(BaseToast).attrs(({theme}) => ({
   padding: 10px 5px;
 
   margin: -10px;
+  z-index: 1111111111111111;
 `;
 
 export const ErrorToast = styled(BaseToastComponent)`

@@ -86,6 +86,9 @@ interface Props {
   skipPart: (part: 'opening' | 'ending', wantToUpdate?: boolean) => void;
 
   skipTimes: {opening?: Aniskip; ending?: Aniskip} | undefined;
+
+  //isDownloaded
+  isDownloaded: boolean;
 }
 
 const PlayerControls = ({
@@ -110,6 +113,7 @@ const PlayerControls = ({
   setScrubbing,
   skipPart,
   skipTimes,
+  isDownloaded,
 }: Props) => {
   const actualTitle = utils.getTitle(anime_info.title);
 
@@ -299,19 +303,23 @@ const PlayerControls = ({
           </TopTextContainer>
           <TopRight>
             <View>
-              <TouchableOpacity onPress={startBounceAnimation}>
-                <Animated.View style={animatedBounceStyles}>
-                  <IconBase6 name="card-multiple-outline" />
-                </Animated.View>
-              </TouchableOpacity>
-              <VideoEpisodesModal
-                episodes={episodes}
-                anime_info={anime_info}
-                visible={openEpisodes}
-                onClose={() => {}}
-                closeFunction={startBounceAnimation}
-                currentEpisode={episode_info.episode_number ?? 1}
-              />
+              {isDownloaded ? null : (
+                <>
+                  <TouchableOpacity onPress={startBounceAnimation}>
+                    <Animated.View style={animatedBounceStyles}>
+                      <IconBase6 name="card-multiple-outline" />
+                    </Animated.View>
+                  </TouchableOpacity>
+                  <VideoEpisodesModal
+                    episodes={episodes}
+                    anime_info={anime_info}
+                    visible={openEpisodes}
+                    onClose={() => {}}
+                    closeFunction={startBounceAnimation}
+                    currentEpisode={episode_info.episode_number ?? 1}
+                  />
+                </>
+              )}
             </View>
             <View>
               <TouchableOpacity onPress={startSpinAnimation}>
@@ -320,6 +328,7 @@ const PlayerControls = ({
                 </Animated.View>
               </TouchableOpacity>
               <VideoSettingsModal
+                isDownloaded={isDownloaded}
                 shouldOpen={openSettings}
                 closeFunction={startSpinAnimation}
                 selectedQuality={selectedQuality}

@@ -10,12 +10,12 @@ const useIsDownloaded = (anime_info: AnimeInfo, episode_number: number) => {
   const downloadPath = `${
     ReactNativeBlobUtil.fs.dirs.DocumentDir
   }/ApolloTv/downloads/${helpers.normalizeTitle(title)}`;
-  const folderPath = `${downloadPath}/${episode_number}`;
+  const folderPath = `${downloadPath}/${episode_number}/master.m3u8`;
 
   useEffect(() => {
     const checkFolderExists = async () => {
       try {
-        const exists = await ReactNativeBlobUtil.fs.isDir(folderPath);
+        const exists = await ReactNativeBlobUtil.fs.exists(folderPath);
         setIsDownloaded(exists);
       } catch (error) {
         console.error(error);
@@ -26,7 +26,7 @@ const useIsDownloaded = (anime_info: AnimeInfo, episode_number: number) => {
     checkFolderExists();
   }, [anime_info, episode_number]);
 
-  return isDownloaded;
+  return {isDownloaded, folderPath};
 };
 
 export default useIsDownloaded;

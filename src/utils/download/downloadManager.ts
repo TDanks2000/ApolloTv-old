@@ -7,6 +7,7 @@ import {M3uParser} from 'm3u-parser-generator';
 
 import {
   AnimeInfo,
+  EpisodeInfo,
   FullAnimeInfo,
   Quality,
   SourceVideoOptions,
@@ -22,6 +23,7 @@ import BackgroundService, {
 
 export type VideoData = {
   data: AnimeInfo;
+  episode_data: EpisodeInfo;
   title: TitleType;
   episode_number: number;
   episode_title: string | undefined;
@@ -84,6 +86,46 @@ class DownloadManager {
     this.url = findHighestQuality.url;
   }
 
+  private fetchDataAndImage = async (imageURL: string, folderPath: string) => {
+    try {
+      // Fetch the image from the provided URL
+      const response = await ReactNativeBlobUtil.config({
+        fileCache: true,
+      }).fetch('GET', imageURL);
+
+      // Get the image data after downloading
+      const imageData = await response.readFile('base64');
+
+      // Write the image data to a file named 'image.png' in the specified folder
+      await ReactNativeBlobUtil.fs.writeFile(
+        `${folderPath}/image.png`,
+        imageData,
+        'base64',
+      );
+
+      // Prepare data object
+      const data = {
+        title: this.videoTitle,
+        episode_number: this.episodeNumber,
+        episode_title: this?.episodeTitle ?? `Episode ${this.episodeNumber}`,
+        anime_info: this.videoData.data,
+        image_path: `${folderPath}/image.png`, // Store the image path in the data
+      };
+
+      // Write the data object to a JSON file
+      await ReactNativeBlobUtil.fs.writeFile(
+        `${folderPath}/data.json`,
+        JSON.stringify(data),
+        'utf8',
+      );
+
+      response.flush();
+      return 'Data and image saved successfully!';
+    } catch (error) {
+      return 'Error while fetching image and saving data: ' + error;
+    }
+  };
+
   // TODO: notifications
   download = async () => {
     return new Promise(async (resolve, reject) => {
@@ -109,7 +151,7 @@ class DownloadManager {
 
         const m3u8Master = await m3u8MasterRes.text();
 
-        const m3u8FilePath = `${folderPath}/${this.url.split('/').pop()}`;
+        const m3u8FilePath = `${folderPath}/master.m3u8`;
 
         const readM3U8Master = await ReactNativeBlobUtil.fs
           .readFile(m3u8FilePath, 'utf8')
@@ -129,7 +171,7 @@ class DownloadManager {
 
           // save m3u8master to folder
           ReactNativeBlobUtil.fs.writeFile(
-            `${folderPath}/${this.url.split('/').pop()}`,
+            `${folderPath}/master.m3u8`,
             m3u8Master,
             'utf8',
           );
@@ -183,24 +225,22 @@ class DownloadManager {
               .catch(err => {
                 this.hasFinished = false;
                 this.hasStarted = false;
-                reject();
                 this.error();
                 reject(err);
               });
           });
           this.files.push(filePath);
-          // Emit progress event
+
           completedCount++;
           const progress = (completedCount / totalCount) * 100;
           this.progress = progress;
-
-          // Logging the progress (for demonstration purposes)
-          // console.log(`Progress: ${progress}%`);
-          // console.log('downloaded', fileName);
         }
 
         // TODO: Implement logic to convert to mp4
-        // TODO: Store anime info data and image with video file
+        await this.fetchDataAndImage(
+          this.videoData.episode_data.image!,
+          folderPath,
+        );
 
         this.hasFinished = true;
         this.success();
@@ -245,15 +285,15 @@ class DownloadManager {
           await new Promise(async resolveTask => {
             await this.download().then(value => {
               resolveTask(value);
+              resolve('Download file completed successfully');
             });
           });
         };
 
         await BackgroundService.start(task, options);
-        await BackgroundService.stop();
+        // await BackgroundService.stop();
 
         // Upon successful completion of the function, resolve the promise
-        resolve('Download file completed successfully');
       } catch (error) {
         console.error(error);
         reject('Download file failed');
