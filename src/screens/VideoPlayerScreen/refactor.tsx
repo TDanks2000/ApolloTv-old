@@ -1,28 +1,10 @@
-import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import {
-  EpisodeInfo,
-  ResizeOptions,
-  RootStackParamList,
-  SourceVideoOptions,
-  StackNavigation,
-} from '../../@types';
 import {useFocusEffect, useNavigation} from '@react-navigation/native';
-import {
-  NavigationContext,
-  SettingsContext,
-  useAccessToken,
-} from '../../contexts';
-import {Anilist} from '@tdanks2000/anilist-wrapper';
-import {fetchAniskip, fetcher} from './helpers/fetcher';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {useQuery} from '@tanstack/react-query';
-import {
-  useCallback,
-  useContext,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from 'react';
+import {useCallback, useContext, useMemo, useRef, useState} from 'react';
+import {PanResponder, PanResponderStatic, StatusBar, View} from 'react-native';
+import {LANDSCAPE, OrientationLocker} from 'react-native-orientation-locker';
+import Toast from 'react-native-toast-message';
 import Video, {
   OnBufferData,
   OnLoadData,
@@ -32,11 +14,22 @@ import Video, {
   ResizeMode,
   VideoRef,
 } from 'react-native-video';
-import {PanResponder, PanResponderStatic, StatusBar, View} from 'react-native';
-import {helpers} from '../../utils';
-import {LANDSCAPE, OrientationLocker} from 'react-native-orientation-locker';
+import {
+  EpisodeInfo,
+  ResizeOptions,
+  RootStackParamList,
+  SourceVideoOptions,
+  StackNavigation,
+} from '../../@types';
 import {MiddleOfScreenLoadingComponent, Player} from '../../components';
-import Toast from 'react-native-toast-message';
+import {
+  NavigationContext,
+  SettingsContext,
+  useAccessToken,
+} from '../../contexts';
+import {useIsDownloaded} from '../../hooks';
+import {helpers} from '../../utils';
+import {episodeSQLHelper} from '../../utils/database';
 import {
   checkIfWatchedFromDB,
   createAndUpdateDB,
@@ -44,8 +37,7 @@ import {
   updateDB,
   watchTimeBeforeSync,
 } from './helpers';
-import {episodeSQLHelper} from '../../utils/database';
-import {useIsDownloaded} from '../../hooks';
+import {fetchAniskip, fetcher} from './helpers/fetcher';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'VideoPlayer'>;
 

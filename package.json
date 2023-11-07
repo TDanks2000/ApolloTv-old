@@ -30,6 +30,7 @@
     "@tanstack/react-query": "^5.7.2",
     "@tdanks2000/anilist-wrapper": "^1.0.23",
     "add": "^2.0.6",
+    "apollotv-providers": "https://github.com/TDanks2000/apollotv-extensions",
     "axios": "^1.6.0",
     "dayjs": "^1.11.10",
     "eventemitter3": "^5.0.1",

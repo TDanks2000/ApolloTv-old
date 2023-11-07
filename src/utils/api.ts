@@ -1,42 +1,67 @@
-import {API_BASE, ANALYTICS_URL} from '@env';
-import {SectionTypes} from '../@types';
+import {ANALYTICS_URL, API_BASE} from '@env';
 import {Anilist} from '@tdanks2000/anilist-wrapper';
+import {INFO} from 'apollotv-providers/dist';
 import axios from 'axios';
+import {SectionTypes} from '../@types';
 
-export const getSectionUrl = (
+export const getSection = (
   type: SectionTypes,
   mediaType: 'ANIME' | 'MANGA' = 'ANIME',
+  page: number = 1,
 ) => {
   const apiUrl = `${API_BASE}/anilist`;
   const apiUrlManga = `${API_BASE}/anilist-manga`;
 
+  const anilist = new INFO.Anilist();
+  let anilistD = new Anilist().search;
+
   if (mediaType === 'ANIME') {
     switch (type) {
       case 'trending':
-        return apiUrl + '/trending';
+        return anilist.getTrendingAnime(page);
       case 'popular':
-        return apiUrl + '/popular';
+        return anilist.getPopularAnime(page);
       case 'top_rated':
-        return apiUrl + '/top-rated';
+        return anilist.advancedSearch({
+          type: 'ANIME',
+          format: 'TV',
+          sort: ['SCORE_DESC'],
+          page,
+          perPage: 20,
+        });
       default:
-        return apiUrl + '/trending';
+        return anilist.getTrendingAnime(page);
     }
   }
 
   if (mediaType === 'MANGA') {
     switch (type) {
       case 'trending':
-        return apiUrlManga + '/trending';
+        return anilistD.advanced_manga({
+          page,
+          size: 50,
+          sort: ['TRENDING_DESC'],
+        });
       case 'popular':
-        return apiUrlManga + '/popular';
+        return anilistD.advanced_manga({
+          page,
+          size: 50,
+          sort: ['POPULARITY_DESC'],
+        });
       case 'top_rated':
-        return apiUrlManga + '/top-rated';
+        return anilistD.advanced_manga({
+          page,
+          size: 50,
+          sort: ['SCORE_DESC'],
+        });
       default:
-        return apiUrlManga + '/trending';
+        return anilistD.advanced_manga({
+          page,
+          size: 50,
+          sort: ['TRENDING_DESC'],
+        });
     }
   }
-
-  return apiUrl + '/trending';
 };
 
 export const fetcher = async <T = any>(url: string): Promise<T> => {
@@ -134,29 +159,20 @@ export interface ASearchType {
 }
 
 export const Search = async (queries: ASearchType) => {
-  const url =
-    queries.type === 'MANGA'
-      ? new URL(`${API_BASE}/anilist-manga/search`)
-      : new URL(`${API_BASE}/anilist/advanced-search`);
+  const anilist = new INFO.Anilist();
 
-  if (queries.type === 'MANGA') {
-    const data = await fetcher<any>(`${url.href}${queries.query!}`);
-    return data;
-  }
-
-  queries = {type: 'ANIME', ...queries};
-
-  Object.entries(queries).forEach(([key, value]) => {
-    if (!value || value.length < 1) return;
-    if (key === 'genres' && value.length >= 1) {
-      value = `[${value.map((v: string) => `"${v}"`)}]`;
-    }
-    url.searchParams.append(key, value);
+  const data = await anilist.advancedSearch({
+    page: 1,
+    perPage: 20,
+    type: queries.type ?? 'ANIME',
+    format: queries?.format,
+    genres: queries?.genres?.length! <= 0 ? undefined : [],
+    season: queries?.season,
+    sort: queries?.sort,
+    query: queries?.query?.length! <= 0 ? undefined : queries?.query,
+    status: queries?.status,
+    year: queries?.year ? parseInt(queries.year) : undefined,
   });
-
-  const data = await fetcher<any>(
-    url.href.replace('advanced-search/', 'advanced-search'),
-  );
 
   return data;
 };

@@ -1,24 +1,25 @@
+import {useFocusEffect, useNavigation} from '@react-navigation/native';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import {useQuery} from '@tanstack/react-query';
 import React, {
-  useState,
-  useEffect,
-  useRef,
   useCallback,
   useContext,
+  useEffect,
   useMemo,
+  useRef,
+  useState,
 } from 'react';
-import {View, StatusBar, TVEventHandler} from 'react-native';
+import {StatusBar, TVEventHandler, View} from 'react-native';
+import {LANDSCAPE, OrientationLocker} from 'react-native-orientation-locker';
+import Toast from 'react-native-toast-message';
 import Video, {
   OnLoadData,
   OnProgressData,
   OnSeekData,
 } from 'react-native-video';
-import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import {useQuery} from '@tanstack/react-query';
-import {OrientationLocker, LANDSCAPE} from 'react-native-orientation-locker';
-import {useFocusEffect, useNavigation} from '@react-navigation/native';
-import Toast from 'react-native-toast-message';
 
-import {MiddleOfScreenLoadingComponent, Player} from '../../components';
+import {API_BASE} from '@env';
+import {Anilist} from '@tdanks2000/anilist-wrapper';
 import {
   AniskipData,
   ResizeOptions,
@@ -26,15 +27,14 @@ import {
   SourceVideoOptions,
   StackNavigation,
 } from '../../@types';
-import {api, helpers} from '../../utils';
-import {API_BASE} from '@env';
+import {MiddleOfScreenLoadingComponent, Player} from '../../components';
 import {
   NavigationContext,
   SettingsContext,
   useAccessToken,
 } from '../../contexts';
+import {api, helpers} from '../../utils';
 import {episodeSQLHelper} from '../../utils/database';
-import {Anilist} from '@tdanks2000/anilist-wrapper';
 import {updateDB, watchTimeBeforeSync} from './helpers';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'VideoPlayer'>;

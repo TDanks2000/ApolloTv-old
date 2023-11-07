@@ -1,19 +1,19 @@
+import {useQuery} from '@tanstack/react-query';
 import {View} from 'react-native';
+import {useBreakpoints} from '../../hooks';
+import {api} from '../../utils';
+import {BannerSkeleton} from '../Skeletons';
 import {Container, Wrapper} from './Banner.styles';
 import BannerCard from './BannerItem';
-import {api} from '../../utils';
-import {useQuery} from '@tanstack/react-query';
-import {useBreakpoints} from '../../hooks';
-import {BannerSkeleton} from '../Skeletons';
 
 const BannerComponent = () => {
   const {isMobile} = useBreakpoints();
 
   const fetcher = async () => {
-    return await api.fetcher(api.getSectionUrl('trending'));
+    return await api.getSection('trending', 'ANIME');
   };
 
-  const {isPending, isError, data, error} = useQuery({
+  const {isPending, isError, data, error} = useQuery<any>({
     queryKey: ['Banner', 'trending'],
     queryFn: fetcher,
   });

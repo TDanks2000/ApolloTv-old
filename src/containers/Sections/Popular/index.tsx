@@ -1,22 +1,21 @@
-import {View, FlatList} from 'react-native';
+import {useQuery} from '@tanstack/react-query';
 import React from 'react';
+import {FlatList, View} from 'react-native';
+import {RectangleCard} from '../../../components';
+import {api} from '../../../utils';
 import {
   SectionContainer,
   SectionTitle,
   SectionTitleContainer,
   SectionWrapper,
 } from '../Sections.shared.styles';
-import {AnimeTrending} from '../../../utils/TestData';
-import {RectangleCard} from '../../../components';
-import {useQuery} from '@tanstack/react-query';
-import {api} from '../../../utils';
 
 const PopularContainer = () => {
   const getPopularAnime = async () => {
-    return await api.fetcher(api.getSectionUrl('popular'));
+    return await api.getSection('popular');
   };
 
-  const {isPending, isError, data, error} = useQuery({
+  const {isPending, isError, data, error} = useQuery<any>({
     queryKey: ['popularAnime'],
     queryFn: getPopularAnime,
   });

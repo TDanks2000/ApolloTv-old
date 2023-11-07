@@ -1,18 +1,17 @@
-import {View, FlatList} from 'react-native';
+import {useQuery} from '@tanstack/react-query';
 import React from 'react';
+import {useTranslation} from 'react-i18next';
+import {FlatList, View} from 'react-native';
+import {SectionTypes} from '../../../@types';
+import {RectangleCard} from '../../../components';
+import {GenericSectionSkeleton} from '../../../components/Skeletons';
+import {api, helpers} from '../../../utils';
 import {
   SectionContainer,
   SectionTitle,
   SectionTitleContainer,
   SectionWrapper,
 } from '../Sections.shared.styles';
-import {AnimeTrending} from '../../../utils/TestData';
-import {RectangleCard} from '../../../components';
-import {api} from '../../../utils';
-import {useQuery} from '@tanstack/react-query';
-import {SectionTypes} from '../../../@types';
-import {GenericSectionSkeleton} from '../../../components/Skeletons';
-import {useTranslation} from 'react-i18next';
 
 interface Props {
   sectionTitle: string;
@@ -25,13 +24,13 @@ const GenericSection = ({sectionTitle, sectionType, type = 'ANIME'}: Props) => {
   const {t} = useTranslation();
 
   const fetcher = async () => {
-    const res = (await api.fetcher(
-      api.getSectionUrl(sectionType, type),
-    )) as any;
+    const res = await api.getSection(sectionType, type);
+
+    if (type === 'MANGA') return helpers.convert_result(res);
     return res;
   };
 
-  const {isPending, isError, data, error} = useQuery({
+  const {isPending, isError, data, error} = useQuery<any>({
     queryKey: ['section', sectionType, type],
     queryFn: fetcher,
   });

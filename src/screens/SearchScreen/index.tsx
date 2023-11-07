@@ -1,11 +1,11 @@
+import {useQuery} from '@tanstack/react-query';
 import React from 'react';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import {SharedContainer} from '../../styles/sharedStyles';
 import {MiddleOfScreenLoadingComponent, Search} from '../../components';
 import {useDebounceSearch} from '../../hooks';
-import {api} from '../../utils';
-import {useQuery} from '@tanstack/react-query';
 import {SearchFilterOptions} from '../../modals';
+import {SharedContainer} from '../../styles/sharedStyles';
+import {api} from '../../utils';
 
 const SearchScreen = () => {
   const [searchForManga, setSearchForManga] = React.useState<boolean>(false);
@@ -29,7 +29,7 @@ const SearchScreen = () => {
     setData(undefined);
     toggleLoading();
 
-    const getData = await api.Search({
+    const getData = (await api.Search({
       query: debouncedSearchTerm,
       format,
       genres,
@@ -37,7 +37,7 @@ const SearchScreen = () => {
       status,
       year,
       type: searchForManga ? 'MANGA' : 'ANIME',
-    });
+    })) as any;
 
     toggleLoading();
     setData(getData?.results);

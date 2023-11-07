@@ -1,4 +1,5 @@
-import {AnimeByDate, RecentSearch, RecentSearchs, SubOrDub} from '../../@types';
+import {IReadableResult, MediaStatus} from 'apollotv-providers/dist/types';
+import {AnimeByDate, SubOrDub} from '../../@types';
 import {storage} from '../storage/cleint';
 
 export const setSubOrDub = (value: SubOrDub): void => {
@@ -167,4 +168,52 @@ export const normalizeTitle = (title: string): string => {
   const normalizedTitle = titleWithSpaces.trim().replace(/\s/g, '-');
 
   return normalizedTitle;
+};
+
+export const convert_result = (data: any) => {
+  const res = {
+    currentPage: data.data.Page.pageInfo.currentPage,
+    hasNextPage: data.data.Page.pageInfo.hasNextPage,
+    results: data.data.Page.media.map(
+      (item: any): IReadableResult => ({
+        id: item.id.toString(),
+        malId: item.idMal,
+        title:
+          {
+            romaji: item.title.romaji,
+            english: item.title.english,
+            native: item.title.native,
+            userPreferred: item.title.userPreferred,
+          } || item.title.romaji,
+        status:
+          item.status == 'RELEASING'
+            ? MediaStatus.ONGOING
+            : item.status == 'FINISHED'
+            ? MediaStatus.COMPLETED
+            : item.status == 'NOT_YET_RELEASED'
+            ? MediaStatus.NOT_YET_AIRED
+            : item.status == 'CANCELLED'
+            ? MediaStatus.CANCELLED
+            : item.status == 'HIATUS'
+            ? MediaStatus.HIATUS
+            : MediaStatus.UNKNOWN,
+        image:
+          item.coverImage?.extraLarge ??
+          item.coverImage?.large ??
+          item.coverImage?.medium,
+        cover: item.bannerImage,
+        popularity: item.popularity,
+        description: item.description,
+        rating: item.averageScore,
+        genres: item.genres,
+        color: item.coverImage?.color,
+        totalChapters: item.chapters,
+        volumes: item.volumes,
+        type: item.format,
+        releaseDate: item.seasonYear,
+      }),
+    ),
+  };
+
+  return res;
 };
