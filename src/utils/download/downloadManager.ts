@@ -291,6 +291,7 @@ class DownloadManager {
         };
 
         await BackgroundService.start(task, options);
+
         // await BackgroundService.stop();
 
         // Upon successful completion of the function, resolve the promise
