@@ -1,9 +1,9 @@
 import {rgba} from 'polished';
+import {Animated} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {styled} from 'styled-components/native';
 import {Text} from '../../../styles/sharedStyles';
-import {Animated} from 'react-native';
 
 export const EpisodeContainer = styled.TouchableOpacity.attrs({
   activeOpacity: 0.8,
@@ -13,7 +13,7 @@ export const EpisodeContainer = styled.TouchableOpacity.attrs({
   height: 130px;
   border-radius: 8px;
   overflow: hidden;
-  background: ${({theme}) => theme.base.mainColor};
+  /* background: ${({theme}) => theme.base.mainColor}; */
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
